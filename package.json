@@ -6,7 +6,9 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "dev": "npm run serve"
+    "dev": "npm run serve",
+    "postinstall": "npm run build",
+    "start": "node server.js"
   },
   "dependencies": {
     "@auth0/auth0-spa-js": "^1.21.0",
@@ -19,12 +21,14 @@
     "apollo-link-context": "^1.0.20",
     "apollo-link-http": "^1.5.17",
     "echarts": "^4.8.0",
+    "express": "^4.17.3",
     "flag-icon-css": "^3.4.6",
     "graphql": "^16.3.0",
     "graphql-tag": "^2.12.6",
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "moment-timezone": "^0.5.31",
+    "serve-static": "^1.15.0",
     "tiptap": "^1.27.1",
     "tiptap-extensions": "^1.29.1",
     "vue": "^2.6.11",
