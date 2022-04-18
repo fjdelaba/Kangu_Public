@@ -1,8 +1,10 @@
 const express = require('express')
 const serveStatic = require('serve-static')
+const connectHistory = require('connect-history-api-fallback')
 const path = require('path')
 
 app = express()
+app.use(connectHistory())
 app.use(serveStatic(path.join(__dirname, 'dist')))
 const port = process.env.PORT || 3000
 

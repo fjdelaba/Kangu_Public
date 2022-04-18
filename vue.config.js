@@ -21,11 +21,6 @@ module.exports = {
     config.plugins.delete('preload')
     config.plugins.delete('prefetch')
   },
-  configureWebpack: {
-    devServer: {
-      historyApiFallback: true
-    }
-  },
 
   // https://cli.vuejs.org/config/#transpiledependencies
   transpileDependencies: [
