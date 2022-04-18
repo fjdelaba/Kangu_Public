@@ -1,12 +1,17 @@
 <template>
   <div>
     <h2>Crear Cotizacion</h2>
+    <crear-documento></crear-documento>
   </div>
 </template>
 
 <script>
-export default {
 
+import CrearDocumento from '../../../components/adquisiciones/crear-documento/CrearDocumento.vue'
+export default {
+  components: {
+    CrearDocumento
+  }
 }
 </script>
 
