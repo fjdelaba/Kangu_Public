@@ -14,18 +14,6 @@ import configuracionRoutes from './configuracion.routes'
 
 Vue.use(Router)
 
-const array = [2,3,4,5]
-
-const uno = { 'a':1, 'b':2 }
-const dos = { 'c':3, 'd':4 }
-const tres = 1
-const cuatro = 'hola'
-
-const merge = [
-  uno,
-  dos
-]
-
 export const routes = [{
   path: '/',
   // redirect: '/dashboard/analytics'
