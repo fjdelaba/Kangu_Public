@@ -71,7 +71,8 @@ export const useAuth0 = ({
         client_id: pluginOptions.clientId,
         audience: pluginOptions.audience,
         //redirect_uri: redirectUri
-        redirect_uri: 'http://localhost:8080/dashboard/analytics'
+        // redirect_uri: 'http://localhost:8080/dashboard/analytics'
+        redirect_uri: 'https://kangu-2p3qt.ondigitalocean.app/dashboards/crm, '
       })
 
       try {

@@ -17,7 +17,7 @@
       <div class="d-flex flex-column flex-grow-1">
         <div class="pa-2">
           <div class="text-h4">
-            {{ datos }}
+            {{ kangusoft_cg_unidad }}
             {{ 26358.49 | formatCurrency }}
           </div>
           <div class="primary--text text--lighten-1 mt-1">
@@ -84,9 +84,17 @@ const GETUNODADES = gql`
 `
 
 export default {
+  // apollo: {
+  //   kangusoft_cg_unidad: {
+  //     query: GETUNODADES
+  //   }
+  // },
   apollo: {
-    datos: {
-      query: GETUNODADES
+    kangusoft_cg_unidad: {
+      query() {
+        return GETUNODADES
+      },
+      update: (data) => data.kangusoft_cg_unidad
     }
   },
   components: {
