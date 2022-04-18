@@ -21,8 +21,8 @@ export const routes = [{
 }, {
   path: '/dashboard/analytics',
   name: 'dashboard-analytics',
-  component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/dashboard/DashboardPage.vue'),
-  beforeEnter: authenticationGuard
+  component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/dashboard/DashboardPage.vue')
+  // beforeEnter: authenticationGuard
 },
 ...AppsRoutes,
 ...UIRoutes,
