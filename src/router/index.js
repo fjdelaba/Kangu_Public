@@ -14,6 +14,18 @@ import configuracionRoutes from './configuracion.routes'
 
 Vue.use(Router)
 
+const array = [2,3,4,5]
+
+const uno = { 'a':1, 'b':2 }
+const dos = { 'c':3, 'd':4 }
+const tres = 1
+const cuatro = 'hola'
+
+const merge = [
+  uno,
+  dos
+]
+
 export const routes = [{
   path: '/',
   // redirect: '/dashboard/analytics'
@@ -21,15 +33,15 @@ export const routes = [{
 }, {
   path: '/dashboard/analytics',
   name: 'dashboard-analytics',
-  component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/dashboard/DashboardPage.vue')
-  // beforeEnter: authenticationGuard
+  component: () => import(/* webpackChunkName: "dashboard" */ '@/pages/dashboard/DashboardPage.vue'),
+  beforeEnter: authenticationGuard
 },
-...AppsRoutes,
-...UIRoutes,
-...PagesRoutes,
+// ...AppsRoutes,
+// ...UIRoutes,
+// ...PagesRoutes,
 ...UsersRoutes,
-...EcommerceRoutes,
-...LandingRoutes,
+// ...EcommerceRoutes,
+...LandingRoutes, 
 ...adquisicionesRoutes,
 ...configuracionRoutes,
 {

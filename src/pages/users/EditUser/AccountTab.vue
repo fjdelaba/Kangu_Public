@@ -12,7 +12,7 @@
       </v-card>
 
       <v-card>
-        <v-card-title>Basic Information</v-card-title>
+        <v-card-title>Informacion del usuario</v-card-title>
         <v-card-text>
           <div class="d-flex flex-column flex-sm-row">
             <div>
