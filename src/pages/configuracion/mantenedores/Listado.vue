@@ -1,6 +1,6 @@
 <template>
   <h2>
-    Listado Mantenedores A
+    Listado Mantenedores A B
   </h2>
 </template>
 
