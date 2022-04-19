@@ -23,34 +23,39 @@
                 max-width="90"
                 max-height="90"
               ></v-img>
-              <v-btn class="mt-1" small>Edit Avatar</v-btn>
+              <v-btn class="mt-1" small>Editar Avatar</v-btn>
             </div>
             <div class="flex-grow-1 pt-2 pa-sm-2">
-              <v-text-field v-model="user.name" label="Display name" placeholder="name"></v-text-field>
-              <v-text-field v-model="user.email" label="Email" hide-details></v-text-field>
-
+            
+              <v-text-field v-model="user.name" label="Nombre" placeholder="Nombre" disabled ></v-text-field>
+              <v-text-field v-model="user.lastname" label="Apellido" placeholder="Apellido Paterno" disabled ></v-text-field>
+              <v-text-field v-model="user.rut" label="Rut" placeholder="12.345.678-9" disabled></v-text-field>
+              <v-text-field v-model="user.role" label="Cargo" disabled></v-text-field>
+              <v-text-field v-model="user.email" label="Email" disabled ></v-text-field>
+              <v-text-field v-model="user.clave" type="password" label="Clave" disabled ></v-text-field>
+              <v-text-field v-model="user.clave2" type="password" label="Confirmar clave" disabled ></v-text-field>
+            
               <div class="d-flex flex-column">
                 <v-checkbox v-model="user.verified" dense label="Email Verified"></v-checkbox>
                 <div>
-                  <v-btn
-                    v-if="!user.verified"
-                  >
-                    <v-icon left small>mdi-email</v-icon>Send Verification Email
+                  <v-btn 
+                    v-if= 'false' >
+                    <v-icon  left small>mdi-email</v-icon>Send Verification Email
                   </v-btn>
                 </div>
               </div>
 
               <div class="mt-2">
-                <v-btn color="primary" @click>Save</v-btn>
+                <v-btn color="primary" @click>Guardar</v-btn>
               </div>
-            </div>
+            </div>git 
           </div>
         </v-card-text>
       </v-card>
 
       <v-expansion-panels v-model="panel" multiple class="mt-3">
         <v-expansion-panel>
-          <v-expansion-panel-header class="title">Actions</v-expansion-panel-header>
+          <v-expansion-panel-header class="title">Permisos</v-expansion-panel-header>
           <v-expansion-panel-content>
             <div class="mb-2">
               <div class="title">Reset User Password</div>
@@ -123,7 +128,7 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
         <v-expansion-panel>
-          <v-expansion-panel-header class="title">Metadata</v-expansion-panel-header>
+          <v-expansion-panel-header class="title">Proyectos</v-expansion-panel-header>
           <v-expansion-panel-content class="body-2">
             <span class="font-weight-bold">Created</span>
             {{ user.created | formatDate('lll') }}
@@ -132,8 +137,8 @@
             {{ user.lastSignIn | formatDate('lll') }}
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header class="title">Raw Data</v-expansion-panel-header>
+        <v-expansion-panel v-if= 'false' >
+          <v-expansion-panel-header class="title" >Raw Data</v-expansion-panel-header>
           <v-expansion-panel-content>
             <pre class="body-2">{{ user }}</pre>
           </v-expansion-panel-content>

@@ -26,6 +26,7 @@
           <copy-label :text="user.email" />
         </span>
       </div>
+
       <div class="d-flex">
         <span class="font-weight-bold">ID</span>
         <span class="mx-1">
@@ -66,8 +67,10 @@ export default {
     return {
       user: {
         'id':32,
+        'rut':123456789,
         'email':'bfitchew0@ezinearticles.com',
-        'name':'Bartel Fitchew',
+        'name':'Bartel ',
+        'lastname':' Fitchew',
         'verified':false,
         'created':'2019-08-09T03:14:12Z',
         'lastSignIn':'2019-08-14T20:00:53Z',
