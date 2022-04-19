@@ -6,15 +6,14 @@
 </template>
 
 <script>
-
 import CrearDocumento from '../../../components/adquisiciones/crear-documento/CrearDocumento.vue'
+import CrearDocumentoUno from '../../../components/adquisiciones/crear-documento-uno/CrearDocumentoUno.vue'
 export default {
   components: {
     CrearDocumento
+    // CrearDocumentoUno
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

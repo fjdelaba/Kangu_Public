@@ -184,7 +184,7 @@ export default {
   },
   data() {
     return {
-      panel: [1],
+      panel: [-1],
       deleteDialog: false,
       disableDialog: false
     }
