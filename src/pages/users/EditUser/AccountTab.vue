@@ -1,7 +1,7 @@
 <template>
   <div class="my-2">
     <div>
-      <v-card v-if="user.disabled" class="warning mb-4" light>
+      <v-card v-if="false" class="warning mb-4" light>
         <v-card-title>User Disabled</v-card-title>
         <v-card-subtitle>This user has been disabled! Login accesss has been revoked.</v-card-subtitle>
         <v-card-text>
@@ -137,6 +137,7 @@
             {{ user.lastSignIn | formatDate('lll') }}
           </v-expansion-panel-content>
         </v-expansion-panel>
+        <!-- disable  -->
         <v-expansion-panel v-if= 'false' >
           <v-expansion-panel-header class="title" >Raw Data</v-expansion-panel-header>
           <v-expansion-panel-content>
