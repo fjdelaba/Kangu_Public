@@ -1,6 +1,7 @@
 <template>
   <div class="my-2">
     <div>
+
       <v-card v-if="false" class="warning mb-4" light>
         <v-card-title>User Disabled</v-card-title>
         <v-card-subtitle>This user has been disabled! Login accesss has been revoked.</v-card-subtitle>
@@ -48,7 +49,7 @@
               <div class="mt-2">
                 <v-btn color="primary" @click>Guardar</v-btn>
               </div>
-            </div>git 
+            </div>
           </div>
         </v-card-text>
       </v-card>
@@ -127,9 +128,10 @@
             </div>
           </v-expansion-panel-content>
         </v-expansion-panel>
-        <v-expansion-panel>
-          <v-expansion-panel-header class="title">Proyectos</v-expansion-panel-header>
-          <v-expansion-panel-content class="body-2">
+
+        <v-expansion-panel v-model="panel"  multiple class="mt-3">
+          <v-expansion-panel-header  class="title">Proyectos</v-expansion-panel-header>
+          <v-expansion-panel-content  class="body-2" >
             <span class="font-weight-bold">Created</span>
             {{ user.created | formatDate('lll') }}
             <br />
@@ -137,6 +139,7 @@
             {{ user.lastSignIn | formatDate('lll') }}
           </v-expansion-panel-content>
         </v-expansion-panel>
+
         <!-- disable  -->
         <v-expansion-panel v-if= 'false' >
           <v-expansion-panel-header class="title" >Raw Data</v-expansion-panel-header>
@@ -185,7 +188,7 @@ export default {
   },
   data() {
     return {
-      panel: [1],
+      panel: [-1],
       deleteDialog: false,
       disableDialog: false
     }
