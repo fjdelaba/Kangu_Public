@@ -67,13 +67,13 @@ export const useAuth0 = ({
     async created() {
       this.auth0Client = await createAuth0Client({
         ...pluginOptions,
-        domain: pluginOptions.domain,
-        client_id: pluginOptions.clientId,
+        domain: process.env.AUTH_DOMAIN || 'kangusoft.us.auth0.com',//pluginOptions.domain,
+        client_id: process.env.AUTH_CLIENT_ID || 'vrEYoiels6SlT3fgKo1NWso3f9JMU5Z8',//pluginOptions.clientId,
         audience: pluginOptions.audience,
         //redirect_uri: redirectUri
         // redirect_uri: 'http://localhost:8080/dashboard/analytics'
-        // redirect_uri: process.env.URL_POST_LOGIN || 'http://localhost:8080/dashboard/analytics'
-        redirect_uri: 'https://kangu.cl/dashboard/analytics'
+        redirect_uri: process.env.URL_POST_LOGIN || 'http://localhost:8080/dashboard/analytics'
+        // redirect_uri: 'https://kangu.cl/dashboard/analytics'
       })
 
       try {
