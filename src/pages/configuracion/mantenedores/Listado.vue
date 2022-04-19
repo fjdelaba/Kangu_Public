@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>Listado Mantenedores</h2>
-    <boton-mantenedor></boton-mantenedor>
+    <h2>Listado Mantenedores </h2>
+    <boton-mantenedor :botones="kangusoft_mantendores"></boton-mantenedor>
   
   </div>
 </template>

@@ -1,47 +1,23 @@
 <template>
   <div>
-    <v-row no-gutters>
-       <v-col order="12">
-        <div class="div2">
-          <v-btn  color="success" fab x-large dark>
-            <v-icon>mdi-currency-usd</v-icon>
-          </v-btn>
-          <p>Moneda</p>
-        </div>
-     </v-col>
-       <v-col order="12">
-        <div class="div2">
-          <v-btn color="success" fab x-large dark>
-            <v-icon>mdi-account-hard-hat</v-icon>
-          </v-btn>
-          <p>Estado Centro de Gestión</p>
-        </div>
-          </v-col>
-       <v-col order="12">
-        <div class="div2">
-          <v-btn color="success" fab x-large dark>
-            <v-icon>mdi-briefcase-search</v-icon>
-          </v-btn>
-          <p>Unidades</p>
-        </div>
-          </v-col>
-       <v-col>
-        <div class="div2">
-          <v-btn color="success" fab x-large dark>
-            <v-icon>mdi-cash-multiple</v-icon>
-          </v-btn>
-          <p>Forma de Pago</p>
-        </div>
-          </v-col>
-       <v-col>
-        <div class="div2">
-          <v-btn color="success" fab x-large dark>
-            <v-icon>mdi-truck-check</v-icon>
-          </v-btn>
-          <p>Tipo de Despacho</p>
-        </div>
-      </v-col>
-    </v-row>
+    <v-container class="md-5">
+      <v-row>
+        <v-col v-for="n in 1" :key="n" class="d-flex child-flex" cols="4">
+          <div v-for="item in botones" :key="item" class="div2">
+            <v-btn
+              color="success"
+              fab
+              x-large
+              dark
+              @click="mostrarMantenedor"
+            >
+              <v-icon>{{ item.icono }}</v-icon>
+            </v-btn>
+            <p>{{ item.nombre }}</p>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 <style scoped src="./Boton.css"></style>
