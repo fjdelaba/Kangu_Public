@@ -45,6 +45,10 @@ export default {
     Feature1,
     Feature2,
     CallToAction
+  },
+  created() {
+    console.log(process.env.NODE_ENV.URL_POST_LOGIN)
+    console.log(process.env.URL_POST_LOGIN)
   }
 }
 </script>
