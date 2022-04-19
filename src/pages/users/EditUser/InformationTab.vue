@@ -1,8 +1,8 @@
 <template>
-  <v-card class="my-2">
-    <v-card-title>User Information</v-card-title>
+  <v-card class="my-2" >
+    <v-card-title >User Information</v-card-title>
     <v-card-text>
-      <v-form>
+      <v-form> 
         <v-row>
           <v-col cols="12" md="6">
             <v-text-field value="First and two on el street" label="Address Line 1"></v-text-field>

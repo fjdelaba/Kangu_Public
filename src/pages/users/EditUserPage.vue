@@ -10,8 +10,10 @@
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
     </div>
-
-    <div
+     <!-- disable  v-card -->
+    <v-card  v-if= 'false'>
+  
+    <div 
       v-if="user.role === 'ADMIN'"
       class="d-flex align-center font-weight-bold primary--text my-2"
     >
@@ -26,6 +28,7 @@
           <copy-label :text="user.email" />
         </span>
       </div>
+
       <div class="d-flex">
         <span class="font-weight-bold">ID</span>
         <span class="mx-1">
@@ -33,10 +36,11 @@
         </span>
       </div>
     </div>
+    </v-card>
 
     <v-tabs v-model="tab" :show-arrows="false" background-color="transparent">
       <v-tab to="#tabs-account">Account</v-tab>
-      <v-tab to="#tabs-information">Information</v-tab>
+      <v-tab to="#tabs-information" v-if= 'false'>Information</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab">
@@ -66,8 +70,10 @@ export default {
     return {
       user: {
         'id':32,
+        'rut':123456789,
         'email':'bfitchew0@ezinearticles.com',
-        'name':'Bartel Fitchew',
+        'name':'Bartel ',
+        'lastname':' Fitchew',
         'verified':false,
         'created':'2019-08-09T03:14:12Z',
         'lastSignIn':'2019-08-14T20:00:53Z',
