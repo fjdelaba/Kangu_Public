@@ -1,22 +1,10 @@
 <template>
-  <h2>
-    Listado Mantenedores A B C
-    <li>
-      
-    </li>
-
-  </h2>
+  <div>
+    <h2>Listado Mantenedores</h2>
+    <boton-mantenedor></boton-mantenedor>
+  
+  </div>
 </template>
 
-import 
-<script>
-export default {
-  components: {
-
-  }
-}
-</script>
-
-<style>
-
-</style>
+<style src="./Listado/Listado.css"></style>
+<script src="./Listado/Listado.js"></script>
