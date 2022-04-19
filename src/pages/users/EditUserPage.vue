@@ -10,8 +10,10 @@
         <v-icon>mdi-refresh</v-icon>
       </v-btn>
     </div>
-
-    <div
+     <!-- disable  v-card -->
+    <v-card  v-if= 'false'>
+  
+    <div 
       v-if="user.role === 'ADMIN'"
       class="d-flex align-center font-weight-bold primary--text my-2"
     >
@@ -34,10 +36,11 @@
         </span>
       </div>
     </div>
+    </v-card>
 
     <v-tabs v-model="tab" :show-arrows="false" background-color="transparent">
       <v-tab to="#tabs-account">Account</v-tab>
-      <v-tab to="#tabs-information">Information</v-tab>
+      <v-tab to="#tabs-information" v-if= 'false'>Information</v-tab>
     </v-tabs>
 
     <v-tabs-items v-model="tab">
