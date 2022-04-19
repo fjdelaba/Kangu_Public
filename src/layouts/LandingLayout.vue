@@ -3,7 +3,8 @@
     <v-app-bar flat height="80">
       <v-container class="py-0 px-0 px-sm-2 fill-height">
         <router-link to="/dashboard/analytics" class="d-flex align-center text-decoration-none mr-2">
-          <img :src="require('@/assets/images/logo.png')" height="36" />
+          <!-- <img :src="require('@/assets/images/logo.png')" height="36" /> -->
+          <img src="https://kangufiles.nyc3.digitaloceanspaces.com/kangu/logoNuevoKangu.png" height="36" />
         </router-link>
 
         <v-spacer></v-spacer>

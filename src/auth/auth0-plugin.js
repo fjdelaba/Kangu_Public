@@ -74,7 +74,8 @@ export const useAuth0 = ({
         audience: pluginOptions.audience,
         //redirect_uri: redirectUri
         // redirect_uri: 'http://localhost:8080/dashboard/analytics'
-        redirect_uri: process.env.VUE_APP_URL_POST_LOGIN || 'http://localhost:8080/dashboard/analytics'
+        redirect_uri: process.env.VUE_APP_URL_POST_LOGIN || 'http://localhost:8080/dashboard/analytics',
+        ui_locales: 'es'
         // redirect_uri: 'https://kangu.cl/dashboard/analytics'
 
       })
