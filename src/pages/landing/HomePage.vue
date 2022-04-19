@@ -49,6 +49,7 @@ export default {
   created() {
     console.log(process.env.NODE_ENV.URL_POST_LOGIN)
     console.log(process.env.URL_POST_LOGIN)
+    console.log(URL_POST_LOGIN)
   }
 }
 </script>
