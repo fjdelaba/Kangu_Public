@@ -48,7 +48,8 @@ export default {
   },
   created() {
     console.log(process.env.URL_POST_LOGIN)
-    console.dir(process)
+    console.log(process.env.REDIRECT_LOGIN)
+    console.dir(process.env)
   }
 }
 </script>
