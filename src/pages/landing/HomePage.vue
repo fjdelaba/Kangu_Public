@@ -6,7 +6,7 @@
         <h2 class="text-h6 text-sm-h5 mt-4 w-full w-md-8-12 w-xl-half mx-auto">Da un paso adelante en la gestion de los procesos en tu empresa y optimiza tus tiempos dar atención a lo que realmente importa</h2>
         <div class="mt-8">
           <v-btn x-large class="my-1 mx-sm-1 w-full w-sm-auto" color="primary">Prueba Kangu</v-btn>
-          <v-btn x-large class="my-1 mx-sm-1 w-full w-sm-auto">Quiero saber mas {{ process.env && process.env.VUE_APP_AUTH_CLIENT_ID }}</v-btn>
+          <v-btn x-large class="my-1 mx-sm-1 w-full w-sm-auto">Quiero saber mas {{ process && process.env.VUE_APP_AUTH_CLIENT_ID }}</v-btn>
         </div>
       </v-container>
     </v-sheet>
