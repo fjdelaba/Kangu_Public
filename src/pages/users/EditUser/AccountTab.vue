@@ -136,7 +136,7 @@
              <v-card
                :loading="loading"
                class=" my-2"
-                max-width="215">
+                max-width="200">
     <template slot="progress">
       <v-progress-linear
         color="deep-gray"
@@ -157,9 +157,9 @@
       <div>Mejoras de veredas y áreas exteriores</div>
     </v-card-text>
 
-    <v-divider class="mx-4"></v-divider>
+    <v-divider class="mx-2"></v-divider>
 
-    <v-card-title>Roles(Accesos)</v-card-title>
+    <v-card-subtitle class="font-weight-black"> Roles (Accesos)</v-card-subtitle>
 
     <v-card-text>
       <v-chip-group
@@ -168,10 +168,11 @@
         column
       >
       <center>
-        <v-chip>
+        <v-chip >
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
                 <v-icon
+              
                   color="green darken-1"
                   dark
                   v-bind="attrs"
