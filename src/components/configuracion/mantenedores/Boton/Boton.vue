@@ -1,21 +1,28 @@
 <template>
   <div>
-    <v-container class="md-5">
-      <v-row>
-        <v-col v-for="n in 1" :key="n" class="d-flex child-flex" cols="4">
-          <div v-for="item in botones" :key="item" class="div2">
-            <v-btn
-              color="success"
-              fab
-              x-large
-              dark
-              @click="mostrarMantenedor"
-            >
-              <v-icon>{{ item.icono }}</v-icon>
-            </v-btn>
-            <p>{{ item.nombre }}</p>
-          </div>
-        </v-col>
+    <v-container>
+      <v-row justify="center">
+        <v-row v-if="mostrarBotones == true" justify="center">
+          <v-col v-for="n in 1" :key="n" class="d-flex child-flex" cols="4">
+            <div v-for="item in botones" :key="item">
+              <v-btn
+                color="success"
+                fab
+                x-large
+                dark
+                @click="mostrarMantenedor(item)"
+              >
+                <v-icon>{{ item.icono }}</v-icon>
+              </v-btn>
+              <p>{{ item.nombre }}{{ item.id }}</p>
+            </div>
+          </v-col>
+        </v-row>
+        <div v-if="mostrarBotones == false">
+          <v-btn text color="primary" @click="mostrarBotones = true">
+            <v-icon left> mdi-arrow-left </v-icon> Volver al Listado
+          </v-btn>
+        </div>
       </v-row>
     </v-container>
   </div>
