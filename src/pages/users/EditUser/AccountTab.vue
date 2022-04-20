@@ -135,23 +135,24 @@
           
              <v-card
                :loading="loading"
-               class="mx-auto my-12"
-                max-width="374">
+               class=" my-2"
+                max-width="187">
     <template slot="progress">
       <v-progress-linear
         color="deep-purple"
-        height="10"
+        height="5"
         indeterminate
       ></v-progress-linear>
     </template>
 
     <v-img
-      height="250"
+      height="140"
       src="https://cache.enlaceinmobiliario.cl/Blog/noticianorteparquebrasilantofagasta_5bd7267aaf69c0.png"
       
     ></v-img>
 
-    <v-card-title>Remodelación Parque Arauco</v-card-title>
+    <v-card-title>Remodelación
+    <br>Parque Arauco</v-card-title> 
     <v-card-text>
       <div>Mejoras de veredas y áreas exteriores</div>
     </v-card-text>
