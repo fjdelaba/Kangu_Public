@@ -1,22 +1,19 @@
 <template>
-  <div>
-    <h2>Tabla Mantenedores</h2>
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">Name</th>
-            <th class="text-left">Calories</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in desserts" :key="item.name">
-            <td>{{ item.name }}</td>
-            <td>{{ item.calories }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
+  <div v-if="!this.$parent.$refs.botonMantenedor.mostrarBotones">
+    <h2>Tabla Mantenedor</h2>
+    <v-col
+      cols="12"
+      style="min-width: 600px"
+      class="flex-grow-0 flex-shrink-1 w-full"
+    >
+      <v-data-table
+        :headers="headers"
+        :items="lista"
+        :items-per-page="5"
+        class="elevation-1"
+        style="min-width: 1550px"
+      ></v-data-table>
+    </v-col>
   </div>
 </template>
 <style src="./Tabla.css"></style>
