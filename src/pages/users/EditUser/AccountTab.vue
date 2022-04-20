@@ -13,7 +13,7 @@
       </v-card>
 
       <v-card>
-        <v-card-title>Informacion del usuario</v-card-title>
+        <v-card-title>Información del usuario</v-card-title>
         <v-card-text>
           <div class="d-flex flex-column flex-sm-row">
             <div>
@@ -28,13 +28,13 @@
             </div>
             <div class="flex-grow-1 pt-2 pa-sm-2">
             
-              <v-text-field v-model="user.name" label="Nombre" placeholder="Nombre" disabled ></v-text-field>
-              <v-text-field v-model="user.lastname" label="Apellido" placeholder="Apellido Paterno" disabled ></v-text-field>
-              <v-text-field v-model="user.rut" label="Rut" placeholder="12.345.678-9" disabled></v-text-field>
-              <v-text-field v-model="user.role" label="Cargo" disabled></v-text-field>
-              <v-text-field v-model="user.email" label="Email" disabled ></v-text-field>
-              <v-text-field v-model="user.clave" type="password" label="Clave" disabled ></v-text-field>
-              <v-text-field v-model="user.clave2" type="password" label="Confirmar clave" disabled ></v-text-field>
+              <v-text-field v-model="user.name" label="Nombre" placeholder="Nombre" readonly ></v-text-field>
+              <v-text-field v-model="user.lastname" label="Apellido" placeholder="Apellido Paterno" readonly ></v-text-field>
+              <v-text-field v-model="user.rut" label="Rut" placeholder="12.345.678-9" readonly></v-text-field>
+              <v-text-field v-model="user.role" label="Cargo" readonly></v-text-field>
+              <v-text-field v-model="user.email" label="Email" readonly ></v-text-field>
+              <v-text-field v-model="user.clave" type="password" label="Clave" readonly ></v-text-field>
+              <v-text-field v-model="user.clave2" type="password" label="Confirmar clave" readonly ></v-text-field>
             
               <div class="d-flex flex-column">
                 <v-checkbox v-model="user.verified" dense label="Email Verified"></v-checkbox>
@@ -147,35 +147,13 @@
 
     <v-img
       height="250"
-      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+      src="https://cache.enlaceinmobiliario.cl/Blog/noticianorteparquebrasilantofagasta_5bd7267aaf69c0.png"
+      
     ></v-img>
 
     <v-card-title>Remodelación Parque Arauco</v-card-title>
-
     <v-card-text>
-      <v-row
-        align="center"
-        class="mx-0"
-      >
-        <v-rating
-          :value="4.5"
-          color="amber"
-          dense
-          half-increments
-          readonly
-          size="14"
-        ></v-rating>
-
-        <div class="grey--text ms-4">
-          4.5 (413)
-        </div>
-      </v-row>
-
-      <div class="my-4 text-subtitle-1">
-        $ • Italian, Cafe
-      </div>
-
-      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+      <div>Mejoras de veredas y áreas exteriores</div>
     </v-card-text>
 
     <v-divider class="mx-4"></v-divider>
