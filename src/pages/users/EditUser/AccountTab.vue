@@ -132,11 +132,76 @@
         <v-expansion-panel v-model="panel"  multiple class="mt-3">
           <v-expansion-panel-header  class="title">Proyectos</v-expansion-panel-header>
           <v-expansion-panel-content  class="body-2" >
-            <span class="font-weight-bold">Created</span>
+          
+             <v-card
+               :loading="loading"
+               class="mx-auto my-12"
+                max-width="374">
+    <template slot="progress">
+      <v-progress-linear
+        color="deep-purple"
+        height="10"
+        indeterminate
+      ></v-progress-linear>
+    </template>
+
+    <v-img
+      height="250"
+      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+    ></v-img>
+
+    <v-card-title>Remodelación Parque Arauco</v-card-title>
+
+    <v-card-text>
+      <v-row
+        align="center"
+        class="mx-0"
+      >
+        <v-rating
+          :value="4.5"
+          color="amber"
+          dense
+          half-increments
+          readonly
+          size="14"
+        ></v-rating>
+
+        <div class="grey--text ms-4">
+          4.5 (413)
+        </div>
+      </v-row>
+
+      <div class="my-4 text-subtitle-1">
+        $ • Italian, Cafe
+      </div>
+
+      <div>Small plates, salads & sandwiches - an intimate setting with 12 indoor seats plus patio seating.</div>
+    </v-card-text>
+
+    <v-divider class="mx-4"></v-divider>
+
+    <v-card-title>Roles(Accesos)</v-card-title>
+
+    <v-card-text>
+      <v-chip-group
+        v-model="selection"
+        active-class="deep-purple accent-4 white--text"
+        column
+      >
+        <v-chip>Comprador</v-chip>
+
+        <v-chip>Aprobador</v-chip>
+
+        <v-chip>Solicitante</v-chip>
+
+      </v-chip-group>
+    </v-card-text>
+  </v-card>
+<!--<span class="font-weight-bold">Created</span>
             {{ user.created | formatDate('lll') }}
             <br />
             <span class="font-weight-bold">Last Sign In</span>
-            {{ user.lastSignIn | formatDate('lll') }}
+            {{ user.lastSignIn | formatDate('lll') }}-->
           </v-expansion-panel-content>
         </v-expansion-panel>
 
