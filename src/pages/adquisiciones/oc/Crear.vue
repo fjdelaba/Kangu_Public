@@ -1,9 +1,9 @@
 <template>
   <div>
     <h2>Crear OC</h2>
-    <div class="py-3 min-w-0 w-full">
+    <!-- <div class="py-3 min-w-0 w-full">
       asdadassaasd
-    </div>
+    </div> -->
     <crear-documento></crear-documento>
     <crear-documento-dos></crear-documento-dos>
   </div>
