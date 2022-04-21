@@ -58,7 +58,7 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="title">Permisos</v-expansion-panel-header>
           <v-expansion-panel-content>
-            <div class="mb-2">
+            <!--<div class="mb-2">
               <div class="title">Reset User Password</div>
               <div class="subtitle mb-2">Sends a reset password email to the user.</div>
               <v-btn
@@ -125,7 +125,7 @@
               <v-btn color="error" @click="deleteDialog = true">
                 <v-icon left small>mdi-delete</v-icon>Delete User
               </v-btn>
-            </div>
+            </div>-->
           </v-expansion-panel-content>
         </v-expansion-panel>
 
@@ -136,7 +136,7 @@
              <v-card
                :loading="loading"
                class=" my-2"
-                max-width="200">
+                max-width="200git">
     <template slot="progress">
       <v-progress-linear
         color="deep-gray"
