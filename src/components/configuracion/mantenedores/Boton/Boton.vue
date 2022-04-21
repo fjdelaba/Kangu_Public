@@ -3,8 +3,14 @@
     <v-container>
       <v-row justify="center">
         <v-row v-if="mostrarBotones == true" justify="center">
-          <v-col v-for="n in 1" :key="n" class="d-flex child-flex" cols="4">
-            <div v-for="item in botones" :key="item">
+          <v-col
+            v-for="n in 1"
+            :key="n"
+            class="d-flex child-flex"
+            cols="4"
+            style="min-width: 600px"
+          > 
+            <div v-for="item in botones" :key="item" style="min-width: 100px">
               <v-btn
                 color="success"
                 fab
@@ -14,7 +20,7 @@
               >
                 <v-icon>{{ item.icono }}</v-icon>
               </v-btn>
-              <p>{{ item.nombre }}{{ item.id }}</p>
+              <p>{{ item.nombre }}</p>
             </div>
           </v-col>
         </v-row>
