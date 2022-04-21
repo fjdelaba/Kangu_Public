@@ -13,6 +13,7 @@
         <v-stepper-header>
           <!-- -->
           <v-stepper-step
+          
             :complete="e1 > 1"
             step="1"
           >Datos Generales</v-stepper-step>
@@ -35,14 +36,14 @@
           <v-divider></v-divider>
 
           <v-stepper-step step="4">
-            Previsualozacion
+            Previsualizacion
           </v-stepper-step>
 
         </v-stepper-header>
 
-        <v-stepper-items>
+        <v-stepper-items >
           <v-stepper-content step="1">
-            <v-btn-toggle
+            <!-- <v-btn-toggle
               v-model="text"
               tile
               color="deep-purple accent-3"
@@ -59,14 +60,14 @@
               <v-btn value="cotizacion">
                 Desde Cotizacion
               </v-btn>
-            </v-btn-toggle>
+            </v-btn-toggle> -->
 
             <v-form v-model="valid">
-              <v-container >
-                <p>Informacion General</p> 
+              <v-container class="ma-0 pa-0">
+                <p class="ma-0">Informacion General</p> 
                 <v-divider></v-divider>
-                <v-row>
-                  <v-col
+                <v-row >
+                  <v-col 
                     cols="12"
                     md="3"
                   >
@@ -125,8 +126,8 @@
                     ></v-combobox>
                   </v-col>
                 </v-row>
-                <p>Proveedor</p>
-                <v-divider
+                <p class="ma-0">Proveedor</p>
+                <v-divider  
                   :key="index"
                 ></v-divider>
                 <v-row>
@@ -166,7 +167,7 @@
                   </v-col>
            
                 </v-row>
-                <p>Condiciones</p>
+                <p class="ma-0">Condiciones</p>
                 <v-divider
                   :key="index"
                 ></v-divider>
