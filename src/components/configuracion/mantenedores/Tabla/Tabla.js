@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   mounted() {
-   
+   this.lista = []
   },
   props: {
     mantenedores: Array,
@@ -10,12 +10,14 @@ export default {
   data() {
     return {
       nombreMantenedor: "",
+      search: '',
       headers: [
         { text: "ID", value: "id" },
         { text: "Nombre", value: "nombre" },
         { text: "Activo", value: "activo" },
         { text: "Accion", value: "actions", sortable: false },
       ],
+      checkbox1: true,
       dialog: false,
       dialogDelete: false,
 
@@ -54,8 +56,6 @@ export default {
       this.editedIndex = this.lista.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
-      console.log("item:", item)
-      console.log("dialog:", this.dialog)
     },
   
     close() {

@@ -24,11 +24,13 @@
             </div>
           </v-col>
         </v-row>
-        <div v-if="mostrarBotones == false">
-          <v-btn text color="primary" @click="mostrarBotones = true">
-            <v-icon left> mdi-arrow-left </v-icon> Volver al Listado
-          </v-btn>
-        </div>
+        <v-row v-if="mostrarBotones == false">
+          <div >
+            <v-btn text color="primary" @click="mostrarBotones = true">
+              <v-icon left> mdi-arrow-left </v-icon> Volver al Listado
+            </v-btn>
+          </div>
+        </v-row>
       </v-row>
     </v-container>
   </div>
