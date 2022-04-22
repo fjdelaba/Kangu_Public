@@ -58,6 +58,99 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="title">Permisos</v-expansion-panel-header>
           <v-expansion-panel-content>
+      <v-row
+        v-for="n in 1 "
+        :key="n"
+        :class="n === 1 ? 'my-4' : ''"
+        no-gutters
+        >
+      >  
+      <v-col md="2">     
+     <v-card
+      :loading="loading"
+      class=" my-4"
+      max-width="230"
+    >
+      <template slot="progress">
+        <v-progress-linear
+          color="deep-purple"
+          height="10"
+          indeterminate
+        ></v-progress-linear>
+      </template>
+  
+      <v-img
+        height="140"
+        src="https://cdn.icon-icons.com/icons2/560/PNG/512/API_icon-icons.com_53706.png"
+      ></v-img>
+  
+      <v-card-title>Panel de configuración</v-card-title>
+  
+       <v-checkbox
+      v-model="checkbox"
+      label="Centro de Gestión "
+      ></v-checkbox>
+      <v-divider class="mx-4"></v-divider>
+  
+       <v-checkbox
+      v-model="checkbox"
+      label="Maestro de Recursos "
+      ></v-checkbox>
+      <v-divider class="mx-4"></v-divider>
+  
+      <v-checkbox
+      v-model="checkbox"
+      label="Entidad Externa "
+      ></v-checkbox>
+  
+      <v-divider class="mx-4"></v-divider>
+  
+    <v-checkbox
+      v-model="checkbox"
+      label="Usuarios "
+      ></v-checkbox>
+    </v-card>
+     </v-col>
+    <v-col md="2"> 
+     <v-card
+      :loading="loading"
+      class="my-4"
+      max-width="230"
+    >
+      <template slot="progress">
+        <v-progress-linear
+          color="deep-purple"
+          height="10"
+          indeterminate
+        ></v-progress-linear>
+      </template>
+  
+      <v-img
+        height="140"
+        src="https://www.mascontainer.com/wp-content/uploads/2020/03/Nuestros-clientes-han-cambiado-y-nuestras-cadenas-de-suministro-deben-transformarse-dice-DSCI.png"
+      ></v-img>
+  
+      <v-card-title>Adquisiciones</v-card-title>
+     
+          <v-checkbox
+      v-model="checkbox"
+      label="Pedidos "
+      ></v-checkbox>
+
+      <v-divider class="mx-4"></v-divider>
+    <v-checkbox
+      v-model="checkbox"
+      label="Orden de compra "
+      ></v-checkbox>
+      <v-divider class="mx-4"></v-divider>
+       <v-checkbox
+      v-model="checkbox"
+      label="Cancelar/Disminuir OC "
+      ></v-checkbox>
+    </v-card>
+     </v-col>
+    </v-row>
+
             <!--<div class="mb-2">
               <div class="title">Reset User Password</div>
               <div class="subtitle mb-2">Sends a reset password email to the user.</div>
@@ -136,7 +229,7 @@
              <v-card
                :loading="loading"
                class=" my-2"
-                max-width="200git">
+                max-width="200">
     <template slot="progress">
       <v-progress-linear
         color="deep-gray"
@@ -272,8 +365,10 @@ export default {
   data() {
     return {
       panel: [-1],
+      checkbox: true,
       deleteDialog: false,
       disableDialog: false
+     
     }
   }
 }
