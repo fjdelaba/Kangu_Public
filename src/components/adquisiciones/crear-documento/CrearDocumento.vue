@@ -9,19 +9,19 @@
       class="flex-grow-0 flex-shrink-1 w-full"
     >
 
-      <v-stepper v-model="e1" class="flex-grow-1">
+      <v-stepper v-model="pasoStep" class="flex-grow-1">
         <v-stepper-header>
           <!-- -->
           <v-stepper-step
-          
-            :complete="e1 > 1"
+            :rules="[() => validarPasoUno]"
+            :complete="pasoStep > 1"
             step="1"
           >Datos Generales</v-stepper-step>
           <!-- -->
           <v-divider></v-divider>
 
           <v-stepper-step
-            :complete="e1 > 2"
+            :complete="pasoStep > 2"
             step="2"
           >
             Seleccion de Lineas
@@ -29,7 +29,7 @@
 
           <v-divider></v-divider>
 
-          <v-stepper-step :complete="e1 > 3" step="3">
+          <v-stepper-step :complete="pasoStep > 3" step="3">
             Materiales
           </v-stepper-step>
 
@@ -61,17 +61,27 @@
                 Desde Cotizacion
               </v-btn>
             </v-btn-toggle> -->
-
-            <v-form v-model="valid">
+            <v-form ref="formPaso1" v-model="valid" lazy-validation>
               <v-container class="ma-0 pa-0">
                 <p class="ma-0">Informacion General</p> 
                 <v-divider></v-divider>
                 <v-row >
                   <v-col 
                     cols="12"
-                    md="3"
+                    md="4"
                   >
-                    <v-autocomplete
+                    <v-combobox
+                      v-model="proyecto"
+                      :rules="proyectoRules"
+                      outlined
+                      label="Proyectos"
+                      :items="listaProyectos"
+                      item-text="nombre"
+                      item-value="id"
+                      hint="Selecciona el proyecto al que asignaras esta OC"
+                      dense
+                    ></v-combobox>
+                    <!-- <v-autocomplete
                       v-model="model"
                       :items="items"
                       :loading="isLoading"
@@ -85,16 +95,18 @@
                       outlined
                       dense
                       hint="Selecciona el proyecto al que asignaras esta OC"
-                    ></v-autocomplete>
+                    ></v-autocomplete>-->
                   </v-col>
 
                   <v-col
                     cols="12"
-                    md="3"
+                    md="4"
                   >
                     <v-text-field
+                      v-model="nombreOC"
                       label="Nombre de OC"
                       value=""
+                      :rules="nombreOCRules"
                       hint="Ingresa un nombre descriptivo a esta OC"
                       outlined
                       dense
@@ -103,27 +115,68 @@
 
                   <v-col
                     cols="12"
-                    md="3"
+                    md="4"
                   >
                     <v-combobox
+                      v-model="moneda"
+                      :rules="monedaRules"
                       clearable
                       outlined
                       label="Moneda"
+                      :items="listaMonedas"
+                      item-text="nombre"
+                      item-value="id"
                       hint="¿En que moneda generaras esta OC?"
                       dense
                     ></v-combobox>
+                  </v-col>
+                </v-row>
+                <v-row >
+                  <v-col 
+                    cols="12"
+                    md="6"
+                  >
+                    <v-combobox
+                      v-model="tipoDocumento"
+                      :rules="tipoDocumentoRules"
+                      clearable
+                      outlined
+                      :items="listaTipoDocumento"
+                      item-text="nombre"
+                      item-value="id"
+                      label="Tipo Documento"
+                      hint="¿Que documento contable generará esta OC?"
+                      dense
+                    ></v-combobox>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    md="6"
+                  >
+                    <v-combobox
+                      v-model="tipoOC"
+                      :rules="tipoOCRules"
+                      clearable
+                      outlined
+                      :items="listaTipoOC"
+                      item-text="nombre"
+                      item-value="id"
+                      label="Tipo Documento"
+                      hint="¿Que documento contable generará esta OC?"
+                      dense
+                    ></v-combobox>
+                  </v-col>
+
+                  <v-col
+                    cols="12"
+                    md="3"
+                  >
                   </v-col>
                   <v-col
                     cols="12"
                     md="3"
                   >
-                    <v-combobox
-                      clearable
-                      outlined
-                      label="Tipo Documento"
-                      hint="¿Que documento contable generará esta OC?"
-                      dense
-                    ></v-combobox>
                   </v-col>
                 </v-row>
                 <p class="ma-0">Proveedor</p>
@@ -136,8 +189,10 @@
                     cols="12"
                     md="6"
                   >
+                    <!-- valor: {{ proveedor.id }} -->
                     <v-autocomplete
-                      v-model="model"
+                      v-model="proveedor"
+                      :rules="proveedorRules"
                       :items="items"
                       :loading="isLoading"
                       :search-input.sync="search"
@@ -158,9 +213,11 @@
                     md="6"
                   >
                     <v-combobox
+                      v-model="vendedor"
+                      :rules="vendedorRules"
                       clearable
                       outlined
-                      label="Contacto"
+                      label="Vendedor"
                       hint="Indicanos a que vendedor debe llegar esta OC"
                       dense
                     ></v-combobox>
@@ -176,21 +233,18 @@
                     cols="12"
                     md="6"
                   >
-                    <v-autocomplete
-                      v-model="model"
-                      :items="items"
-                      :loading="isLoading"
-                      :search-input.sync="search"
-                      hide-no-data
-                      hide-selected
-                      item-text="Description"
-                      item-value="API"
-                      label="Forma de pago"
-                      return-object
+                    <v-combobox
+                      v-model="pago"
+                      :rules="pagoRules"
+                      clearable
                       outlined
+                      :items="listaFormaPago"
+                      item-text="nombre"
+                      item-value="id"
+                      label="Forma de pago"
                       hint="Selecciona como pagarás esta OC"
                       dense
-                    ></v-autocomplete>
+                    ></v-combobox>
                   </v-col>
 
                   <v-col
@@ -198,8 +252,13 @@
                     md="6"
                   >
                     <v-combobox
+                      v-model="despacho"
+                      :rules="despachoRules"
                       clearable
                       outlined
+                      :items="listaDespacho"
+                      item-text="nombre"
+                      item-value="id"
                       label="Despacho/Retiro"
                       hint="¿Como llegarán los materiales a tu proyecto?"
                       dense
@@ -209,17 +268,36 @@
                 </v-row>
               </v-container>
             </v-form>
-
-            <v-btn
-              color="primary"
-              @click="e1 = 2"
+            <v-row
+              align="start"
+              justify="space-around"
             >
-              Continue
-            </v-btn>
+              <v-col cols="12" md="4">
+                <v-btn
+                  color="primary"
+                  @click="atras()"
+                >
+                  Atras
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn
+                  color="primary"
+                  @click="siguiente()"
+                >
+                  Siguiente
+                </v-btn>
+              </v-col>
+              <v-col cols="12" md="4">
 
-            <v-btn text>
+              </v-col>
+              <v-col cols="12" md="4">
+
+              </v-col>
+            </v-row>
+
+            <!-- <v-btn text>
               Cancel
-            </v-btn>
+            </v-btn> -->
           </v-stepper-content>
 
           <v-stepper-content step="2">
@@ -231,14 +309,14 @@
 
             <v-btn
               color="primary"
-              @click="e1 = 3"
+              @click="pasoStep = 3"
             >
-              Continue
+              Siguiente
             </v-btn>
 
-            <v-btn text>
+            <!-- <v-btn text>
               Cancel
-            </v-btn>
+            </v-btn> -->
           </v-stepper-content>
 
           <v-stepper-content step="3">
@@ -250,14 +328,14 @@
 
             <v-btn
               color="primary"
-              @click="e1 = 4"
+              @click="pasoStep = 4"
             >
-              Continue
+              Siguiente
             </v-btn>
 
-            <v-btn text>
+            <!-- <v-btn text>
               Cancel
-            </v-btn>
+            </v-btn> -->
           </v-stepper-content>
           <v-stepper-content step="4">
             <v-card
@@ -268,14 +346,14 @@
 
             <v-btn
               color="primary"
-              @click="e1 = 1"
+              @click="pasoStep = 1"
             >
-              Continue
+              Siguiente
             </v-btn>
 
-            <v-btn text>
+            <!-- <v-btn text>
               Cancel
-            </v-btn>
+            </v-btn> -->
           </v-stepper-content>
         </v-stepper-items>
       </v-stepper>
