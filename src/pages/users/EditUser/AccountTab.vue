@@ -61,14 +61,14 @@
       <v-row
         v-for="n in 1 "
         :key="n"
-        :class="n === 1 ? 'my-4' : ''"
+        :class="n === 1 ? 'my-1' : ''"
         no-gutters
         >
-      >  
+       
       <v-col md="2">     
      <v-card
       :loading="loading"
-      class=" my-4"
+      class=" my-2"
       max-width="230"
     >
       <template slot="progress">
@@ -79,42 +79,37 @@
         ></v-progress-linear>
       </template>
   
-      <v-img
-        height="140"
-        src="https://cdn.icon-icons.com/icons2/560/PNG/512/API_icon-icons.com_53706.png"
-      ></v-img>
-  
       <v-card-title>Panel de configuración</v-card-title>
   
-       <v-checkbox
-      v-model="checkbox"
-      label="Centro de Gestión "
-      ></v-checkbox>
+       <v-switch
+        v-model="switch1"
+        :label="`Centro de Gestión`"
+      ></v-switch>
       <v-divider class="mx-4"></v-divider>
   
-       <v-checkbox
-      v-model="checkbox"
-      label="Maestro de Recursos "
-      ></v-checkbox>
+       <v-switch
+        v-model="switch2"
+        :label="`Maestro de recursos`"
+      ></v-switch>
+  
+     <v-switch
+        v-model="switch3"
+        :label="`Entidad Externa`"
+      ></v-switch>
+  
       <v-divider class="mx-4"></v-divider>
   
-      <v-checkbox
-      v-model="checkbox"
-      label="Entidad Externa "
-      ></v-checkbox>
-  
-      <v-divider class="mx-4"></v-divider>
-  
-    <v-checkbox
-      v-model="checkbox"
-      label="Usuarios "
-      ></v-checkbox>
+    <v-switch
+        v-model="switch4"
+        :label="`Usuarios`"
+      ></v-switch>
+     
     </v-card>
      </v-col>
     <v-col md="2"> 
      <v-card
       :loading="loading"
-      class="my-4"
+      class="my-2"
       max-width="230"
     >
       <template slot="progress">
@@ -125,28 +120,23 @@
         ></v-progress-linear>
       </template>
   
-      <v-img
-        height="140"
-        src="https://www.mascontainer.com/wp-content/uploads/2020/03/Nuestros-clientes-han-cambiado-y-nuestras-cadenas-de-suministro-deben-transformarse-dice-DSCI.png"
-      ></v-img>
-  
       <v-card-title>Adquisiciones</v-card-title>
      
-          <v-checkbox
-      v-model="checkbox"
-      label="Pedidos "
-      ></v-checkbox>
+         <v-switch
+        v-model="switch5"
+        :label="`Pedidos`"
+      ></v-switch>
 
       <v-divider class="mx-4"></v-divider>
-    <v-checkbox
-      v-model="checkbox"
-      label="Orden de compra "
-      ></v-checkbox>
+    <v-switch
+        v-model="switch6"
+        :label="`Orden de compra`"
+      ></v-switch>
       <v-divider class="mx-4"></v-divider>
-       <v-checkbox
-      v-model="checkbox"
+       <v-switch
+      v-model="switch7"
       label="Cancelar/Disminuir OC "
-      ></v-checkbox>
+      ></v-switch>
     </v-card>
      </v-col>
     </v-row>
@@ -365,7 +355,13 @@ export default {
   data() {
     return {
       panel: [-1],
-      checkbox: true,
+      switch1: true,
+      switch2: true,
+      switch3: true,
+      switch4: true,
+      switch5: true,
+      switch6: true,
+      switch7: true,
       deleteDialog: false,
       disableDialog: false
      
