@@ -1,7 +1,15 @@
 /* eslint-disable */
 export default {
+  created(){
+    console.log("CREATED");
+  },
   mounted() {
-
+    console.log("this.lista.length: ", this.lista.length);
+    console.log("MOUNTED");
+    // if(this.lista.length > 0){
+    //   this.lista = []
+    // }
+    
   },
   props: {
     mantenedores: Array,

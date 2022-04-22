@@ -75,6 +75,7 @@ export default {
     return {
       listaMantenedores: "",
       listaMantenedor: "",
+      mostrarTablaMantendedor:true
     };
   },
   methods: {
@@ -86,6 +87,7 @@ export default {
       console.log(this.listaMantenedores);
     },
     async cargarMantenedor(mantenedor) {
+      this.mostrarTablaMantendedor = false
       console.log("ESTOY EN MANTENEDOR", mantenedor);
       switch (mantenedor.id) {
         case 1:
@@ -120,16 +122,24 @@ export default {
         default:
           break;
       }
-      
+      this.mostrarTablaMantendedor = true
     },
   },
   computed:{
     cpxMostrarMantenedor(){
-      return this.listaMantenedor.length > 0
+      return this.listaMantenedor.length > 0 && this.mostrarTablaMantendedor
     }
   },
   components: {
     BotonMantenedor,
     TablaMantenedor,
+  },
+  watch: {
+    // whenever question changes, this function will run
+    question(newQuestion, oldQuestion) {
+      if (newQuestion.indexOf('?') > -1) {
+        this.getAnswer()
+      }
+    }
   },
 };
