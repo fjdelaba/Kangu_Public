@@ -6,8 +6,9 @@
       @cargarMantenedor="cargarMantenedor"
     ></boton-mantenedor>
     <tabla-mantenedor
+      v-if="cpxMostrarMantenedor"
       ref="tablaMantenedor"
-      :lista="listaMantenedor"
+      :lista="listaMantenedor.length > 0 && listaMantenedor"
     ></tabla-mantenedor>
   </div>
 </template>

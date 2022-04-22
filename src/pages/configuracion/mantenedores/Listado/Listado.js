@@ -124,7 +124,11 @@ export default {
       
     },
   },
-
+  computed:{
+    cpxMostrarMantenedor(){
+      return this.listaMantenedor.length > 0
+    }
+  },
   components: {
     BotonMantenedor,
     TablaMantenedor,

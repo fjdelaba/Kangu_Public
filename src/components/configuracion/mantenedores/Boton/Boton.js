@@ -61,6 +61,10 @@ export default {
      this.mostrarBotones = false
     this.$emit('cargarMantenedor',mantenedor)
     }
-  }
- 
+  },
+  computed: {
+    cambioBoton() {
+      return this.mostrarBotones = true
+    },
+  },
 }
