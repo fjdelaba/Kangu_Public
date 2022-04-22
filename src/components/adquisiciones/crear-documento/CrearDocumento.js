@@ -122,7 +122,8 @@ export default {
   },
   computed: {
     validarPasoUno() {
-      return this.$refs.formPaso1.validate()
+    //   return this.$refs.formPaso1.validate()
+      return true
     },
     fields () {
       if (!this.proveedor) return []
