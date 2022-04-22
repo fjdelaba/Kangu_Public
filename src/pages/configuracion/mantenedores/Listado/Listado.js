@@ -9,7 +9,6 @@ const GETPAGO = gql`
       nombre
       id
       editable
-      activo
     }
   }
 `;
