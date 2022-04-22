@@ -105,6 +105,8 @@ export default {
         (v) => !!v || 'Selecciona un tipo de Despacho'
       ],
       descriptionLimit: 60,
+      
+      //comentario
       isLoading: false,
       search: null,
       listaMonedas:[],
