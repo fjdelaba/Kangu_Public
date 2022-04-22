@@ -28,20 +28,33 @@
             </div>
             <div class="flex-grow-1 pt-2 pa-sm-2">
             
-              <v-text-field v-model="user.name" label="Nombre" placeholder="Nombre" readonly ></v-text-field>
-              <v-text-field v-model="user.lastname" label="Apellido" placeholder="Apellido Paterno" readonly ></v-text-field>
+              <v-text-field v-model="user.nombre" label="Nombre" placeholder="Nombre" readonly ></v-text-field>
+              <v-text-field v-model="user.apellidos" label="Apellido" placeholder="Apellido Paterno" readonly ></v-text-field>
               <v-text-field v-model="user.rut" label="Rut" placeholder="12.345.678-9" readonly></v-text-field>
-              <v-text-field v-model="user.role" label="Cargo" readonly></v-text-field>
+              <v-text-field v-model="user.cargo" label="Cargo" readonly></v-text-field>
               <v-text-field v-model="user.email" label="Email" readonly ></v-text-field>
-              <v-text-field v-model="user.clave" type="password" label="Clave" readonly ></v-text-field>
-              <v-text-field v-model="user.clave2" type="password" label="Confirmar clave" readonly ></v-text-field>
+              <v-text-field
+                v-if="false"
+                v-model="user.clave"
+                type="password"
+                label="Clave"
+                readonly
+              ></v-text-field>
+              <v-text-field
+                v-if="false"
+                v-model="user.clave2"
+                type="password"
+                label="Confirmar clave"
+                readonly
+              ></v-text-field>
             
               <div class="d-flex flex-column">
                 <v-checkbox v-model="user.verified" dense label="Email Verified"></v-checkbox>
                 <div>
                   <v-btn 
-                    v-if= 'false' >
-                    <v-icon  left small>mdi-email</v-icon>Send Verification Email
+                    v-if="false"
+                  >
+                    <v-icon left small>mdi-email</v-icon>Send Verification Email
                   </v-btn>
                 </div>
               </div>
@@ -58,88 +71,88 @@
         <v-expansion-panel>
           <v-expansion-panel-header class="title">Permisos</v-expansion-panel-header>
           <v-expansion-panel-content>
-      <v-row
-        v-for="n in 1 "
-        :key="n"
-        :class="n === 1 ? 'my-1' : ''"
-        no-gutters
-        >
+            <v-row
+              v-for="n in 1 "
+              :key="n"
+              :class="n === 1 ? 'my-1' : ''"
+              no-gutters
+            >
        
-      <v-col md="2">     
-     <v-card
-      :loading="loading"
-      class=" my-2"
-      max-width="230"
-    >
-      <template slot="progress">
-        <v-progress-linear
-          color="deep-purple"
-          height="10"
-          indeterminate
-        ></v-progress-linear>
-      </template>
+              <v-col md="2">     
+                <v-card
+                  :loading="loading"
+                  class=" my-2"
+                  max-width="230"
+                >
+                  <template slot="progress">
+                    <v-progress-linear
+                      color="deep-purple"
+                      height="10"
+                      indeterminate
+                    ></v-progress-linear>
+                  </template>
   
-      <v-card-title>Panel de configuración</v-card-title>
+                  <v-card-title>Panel de configuración</v-card-title>
   
-       <v-switch
-        v-model="switch1"
-        :label="`Centro de Gestión`"
-      ></v-switch>
-      <v-divider class="mx-4"></v-divider>
+                  <v-switch
+                    v-model="switch1"
+                    :label="`Centro de Gestión`"
+                  ></v-switch>
+                  <v-divider class="mx-4"></v-divider>
   
-       <v-switch
-        v-model="switch2"
-        :label="`Maestro de recursos`"
-      ></v-switch>
+                  <v-switch
+                    v-model="switch2"
+                    :label="`Maestro de recursos`"
+                  ></v-switch>
   
-     <v-switch
-        v-model="switch3"
-        :label="`Entidad Externa`"
-      ></v-switch>
+                  <v-switch
+                    v-model="switch3"
+                    :label="`Entidad Externa`"
+                  ></v-switch>
   
-      <v-divider class="mx-4"></v-divider>
+                  <v-divider class="mx-4"></v-divider>
   
-    <v-switch
-        v-model="switch4"
-        :label="`Usuarios`"
-      ></v-switch>
+                  <v-switch
+                    v-model="switch4"
+                    :label="`Usuarios`"
+                  ></v-switch>
      
-    </v-card>
-     </v-col>
-    <v-col md="2"> 
-     <v-card
-      :loading="loading"
-      class="my-2"
-      max-width="230"
-    >
-      <template slot="progress">
-        <v-progress-linear
-          color="deep-purple"
-          height="10"
-          indeterminate
-        ></v-progress-linear>
-      </template>
+                </v-card>
+              </v-col>
+              <v-col md="2"> 
+                <v-card
+                  :loading="loading"
+                  class="my-2"
+                  max-width="230"
+                >
+                  <template slot="progress">
+                    <v-progress-linear
+                      color="deep-purple"
+                      height="10"
+                      indeterminate
+                    ></v-progress-linear>
+                  </template>
   
-      <v-card-title>Adquisiciones</v-card-title>
+                  <v-card-title>Adquisiciones</v-card-title>
      
-         <v-switch
-        v-model="switch5"
-        :label="`Pedidos`"
-      ></v-switch>
+                  <v-switch
+                    v-model="switch5"
+                    :label="`Pedidos`"
+                  ></v-switch>
 
-      <v-divider class="mx-4"></v-divider>
-    <v-switch
-        v-model="switch6"
-        :label="`Orden de compra`"
-      ></v-switch>
-      <v-divider class="mx-4"></v-divider>
-       <v-switch
-      v-model="switch7"
-      label="Cancelar/Disminuir OC "
-      ></v-switch>
-    </v-card>
-     </v-col>
-    </v-row>
+                  <v-divider class="mx-4"></v-divider>
+                  <v-switch
+                    v-model="switch6"
+                    :label="`Orden de compra`"
+                  ></v-switch>
+                  <v-divider class="mx-4"></v-divider>
+                  <v-switch
+                    v-model="switch7"
+                    label="Cancelar/Disminuir OC "
+                  ></v-switch>
+                </v-card>
+              </v-col>
+            </v-row>
 
             <!--<div class="mb-2">
               <div class="title">Reset User Password</div>
@@ -212,93 +225,96 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
 
-        <v-expansion-panel v-model="panel"  multiple class="mt-3">
-          <v-expansion-panel-header  class="title">Proyectos</v-expansion-panel-header>
-          <v-expansion-panel-content  class="body-2" >
-          
-             <v-card
-               :loading="loading"
-               class=" my-2"
-                max-width="200">
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-gray"
-        height="5"
-        indeterminate
-      ></v-progress-linear>
-    </template>
+        <v-expansion-panel v-model="panel" multiple class="mt-3">
+          <v-expansion-panel-header class="title">Proyectos</v-expansion-panel-header>
+          <v-expansion-panel-content class="body-2" >
+            <CardProyecto></CardProyecto>
+            <!-- <v-card
+              :loading="loading"
+              class=" my-2"
+              max-width="200"
+            >
+              <template slot="progress">
+                <v-progress-linear
+                  color="deep-gray"
+                  height="5"
+                  indeterminate
+                ></v-progress-linear>
+              </template>
 
-    <v-img
-      height="140"
-      src="https://cache.enlaceinmobiliario.cl/Blog/noticianorteparquebrasilantofagasta_5bd7267aaf69c0.png"
-      
-    ></v-img>
+              <v-img
+                height="140"
+                src="https://cache.enlaceinmobiliario.cl/Blog/noticianorteparquebrasilantofagasta_5bd7267aaf69c0.png"
+              ></v-img>
 
-    <v-card-title>Remodelación
-    <br>Parque Arauco</v-card-title> 
-    <v-card-text>
-      <div>Mejoras de veredas y áreas exteriores</div>
-    </v-card-text>
+              <v-card-title>Remodelación
+                <br>Parque Arauco</v-card-title> 
+              <v-card-text>
+                <div>Mejoras de veredas y áreas exteriores</div>
+              </v-card-text>
 
-    <v-divider class="mx-2"></v-divider>
+              <v-divider class="mx-2"></v-divider>
 
-    <v-card-subtitle class="font-weight-black"> Roles (Accesos)</v-card-subtitle>
+              <v-card-subtitle class="font-weight-black"> Roles (Accesos)</v-card-subtitle>
 
-    <v-card-text>
-      <v-chip-group
-        v-model="selection"
-        active-class="deep-gray accent-4 white--text"
-        column
-      >
-      <center>
-        <v-chip >
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-                <v-icon
+              <v-card-text>
+                <v-chip-group
+                  v-model="selection"
+                  active-class="deep-gray accent-4 white--text"
+                  column
+                >
+                  <center>
+                    <v-chip >
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
               
-                  color="green darken-1"
-                  dark
-                  v-bind="attrs"
-                   v-on="on">
-                    mdi-cash
-                 </v-icon>
-             </template>
-             <span>Comprador</span>
-            </v-tooltip></v-chip>
+                            color="green darken-1"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            mdi-cash
+                          </v-icon>
+                        </template>
+                        <span>Comprador</span>
+                      </v-tooltip></v-chip>
 
-        <v-chip>
-          <v-tooltip bottom>
-             <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  color="blue darken-4"
-                  dark
-                  v-bind="attrs"
-                   v-on="on">
-                    mdi-check-circle
-                 </v-icon>
-             </template>
-              <span>Aprobador</span>
-            </v-tooltip></v-chip>
+                    <v-chip>
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            color="blue darken-4"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            mdi-check-circle
+                          </v-icon>
+                        </template>
+                        <span>Aprobador</span>
+                      </v-tooltip></v-chip>
 
-        <v-chip>
-          <v-tooltip bottom>
-            <template v-slot:activator="{ on, attrs }">
-                <v-icon
-                  color="black darken-1"
-                  dark
-                  v-bind="attrs"
-                   v-on="on">
-                    mdi-account
-                 </v-icon>
-            </template>
-             <span>Solicitante</span>
-            </v-tooltip></v-chip>
-        </center>
+                    <v-chip>
+                      <v-tooltip bottom>
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-icon
+                            color="black darken-1"
+                            dark
+                            v-bind="attrs"
+                            v-on="on"
+                          >
+                            mdi-account
+                          </v-icon>
+                        </template>
+                        <span>Solicitante</span>
+                      </v-tooltip></v-chip>
+                  </center>
 
-      </v-chip-group>
-    </v-card-text>
-  </v-card>
-<!--<span class="font-weight-bold">Created</span>
+                </v-chip-group>
+              </v-card-text>
+            </v-card> -->
+            <!--<span class="font-weight-bold">Created</span>
             {{ user.created | formatDate('lll') }}
             <br />
             <span class="font-weight-bold">Last Sign In</span>
@@ -307,7 +323,7 @@
         </v-expansion-panel>
 
         <!-- disable  -->
-        <v-expansion-panel v-if= 'false' >
+        <v-expansion-panel v-if="false" >
           <v-expansion-panel-header class="title" >Raw Data</v-expansion-panel-header>
           <v-expansion-panel-content>
             <pre class="body-2">{{ user }}</pre>
@@ -345,7 +361,13 @@
 </template>
 
 <script>
+
+import CardProyecto from '../../../components/configuracion/usuario/CardProyecto.vue'
+
 export default {
+  components: {
+    CardProyecto
+  },
   props: {
     user: {
       type: Object,
