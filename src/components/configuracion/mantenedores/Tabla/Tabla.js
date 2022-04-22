@@ -1,7 +1,7 @@
 /* eslint-disable */
 export default {
   mounted() {
-   this.lista = []
+
   },
   props: {
     mantenedores: Array,
