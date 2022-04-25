@@ -112,13 +112,6 @@
       :loading="loading"
       class="my-2"
       max-width="230"
-      <div class="card border-primary">
-        <img class="card-img-top" src="holder.js/100px180/" alt="">
-        <div class="card-body">
-          <h4 class="card-title">Title</h4>
-          <p class="card-text">Text</p>
-        </div>
-      </div>
       
     >
       <template slot="progress">
@@ -130,16 +123,15 @@
       </template>
   
       <v-card-title>Adquisiciones</v-card-title>
-     
-         <v-switch
+      <div>  <v-text>Pedidos</v-text>  <v-switch
         v-model="switch5"
-        :label="`Pedidos`"
-      ></v-switch>
+      ></v-switch></div>
 
       <v-divider class="mx-4"></v-divider>
     <v-switch
-        v-model="switch6"
         :label="`Orden de compra`"
+        v-model="switch6"
+        
       ></v-switch>
       <v-divider class="mx-4"></v-divider>
        <v-switch
