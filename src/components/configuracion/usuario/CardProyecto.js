@@ -1,3 +1,6 @@
 export default {
-  name: 'card-proyectos'
+  name: 'card-proyectos',
+  props:{
+    proyectos:[]
+  }
 }

@@ -194,6 +194,9 @@ export default {
         ...this.options
       }
     }
+  },
+  mounted() {
+    console.log('this.$auth: ', this.$auth)
   }
 }
 </script>

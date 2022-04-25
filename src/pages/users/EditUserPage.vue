@@ -2,6 +2,7 @@
   <div class="flex-grow-1">
     <div class="d-flex align-center py-3">
       <div>
+        {{ usuario }}
         <div class="display-1">Edit User {{ `${ usuario && usuario.nombre}  ${ usuario && usuario.apellidos}` }}</div> <!-- {{ user.name && `- ${user.name}` }} -->
         <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
       </div>
@@ -74,7 +75,9 @@ query MyQuery($id_usuario: bigint!) {
     rut
     cgs(where: {estado_fk: {_eq: 1}}) {
       nombre
-      id
+      id,
+      descripcion,
+      imagen
     }
   }
 }
@@ -118,7 +121,7 @@ export default {
     }
   },
   mounted() {
-    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    this.usu_id = 1//this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
     this.cargarDatosUsuario(this.usu_id)
   },
   methods: {

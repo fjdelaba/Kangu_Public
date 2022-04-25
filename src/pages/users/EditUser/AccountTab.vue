@@ -60,7 +60,7 @@
               </div>
 
               <div class="mt-2">
-                <v-btn color="primary" @click>Guardar</v-btn>
+                <v-btn color="primary">Guardar</v-btn>
               </div>
             </div>
           </div>
@@ -228,7 +228,7 @@
         <v-expansion-panel v-model="panel" multiple class="mt-3">
           <v-expansion-panel-header class="title">Proyectos</v-expansion-panel-header>
           <v-expansion-panel-content class="body-2" >
-            <CardProyecto></CardProyecto>
+            <card-proyecto :proyectos="user.cgs"></card-proyecto>
             <!-- <v-card
               :loading="loading"
               class=" my-2"
