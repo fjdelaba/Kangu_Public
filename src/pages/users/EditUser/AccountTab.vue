@@ -28,13 +28,25 @@
             </div>
             <div class="flex-grow-1 pt-2 pa-sm-2">
             
-              <v-text-field v-model="user.name" label="Nombre" placeholder="Nombre" readonly ></v-text-field>
-              <v-text-field v-model="user.lastname" label="Apellido" placeholder="Apellido Paterno" readonly ></v-text-field>
+              <v-text-field v-model="user.nombre" label="Nombre" placeholder="Nombre" readonly ></v-text-field>
+              <v-text-field v-model="user.apellidos" label="Apellido" placeholder="Apellido Paterno" readonly ></v-text-field>
               <v-text-field v-model="user.rut" label="Rut" placeholder="12.345.678-9" readonly></v-text-field>
-              <v-text-field v-model="user.role" label="Cargo" readonly></v-text-field>
+              <v-text-field v-model="user.cargo" label="Cargo" readonly></v-text-field>
               <v-text-field v-model="user.email" label="Email" readonly ></v-text-field>
-              <v-text-field v-model="user.clave" type="password" label="Clave" readonly ></v-text-field>
-              <v-text-field v-model="user.clave2" type="password" label="Confirmar clave" readonly ></v-text-field>
+              <v-text-field
+                v-if="false"
+                v-model="user.clave"
+                type="password"
+                label="Clave"
+                readonly
+              ></v-text-field>
+              <v-text-field
+                v-if="false"
+                v-model="user.clave2"
+                type="password"
+                label="Confirmar clave"
+                readonly
+              ></v-text-field>
             
               <div class="d-flex flex-column">
                 <v-checkbox v-model="user.verified" dense label="Email Verified"></v-checkbox>
@@ -360,9 +372,6 @@ export default {
     user: {
       type: Object,
       default: () => ({})
-    },
-    cgs:{
-      type: Array
     }
   },
   data() {
