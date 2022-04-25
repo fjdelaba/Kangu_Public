@@ -135,7 +135,7 @@ export default {
       })
 
       this.usuario = data.kangusoft_usu[0]
-      //console.log('data data: ', data.kangusoft_usu[0])
+      console.log('data data: ', data.kangusoft_usu[0])
     }
   }
 }
