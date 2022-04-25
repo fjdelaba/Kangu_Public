@@ -121,11 +121,11 @@ export default {
     }
   },
   mounted() {
-    this.usu_id = 1//this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
     this.cargarDatosUsuario(this.usu_id)
   },
   methods: {
-    async cargarDatosUsuario(usu_id) {
+    async cargarDatosUsuario(usu_id) {  
       console.log('usu_id: ', usu_id)
       const { data }  = await this.$apollo.query({
         query: QUERY_USER,
