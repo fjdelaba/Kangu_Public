@@ -1,6 +1,7 @@
 <template>
   <div v-if="!this.$parent.$refs.botonMantenedor.mostrarBotones">
     <h2>Mantenedor {{ tituloMantenedor }}</h2>
+    <h2>Mantenedor {{ lista[editedIndex] }}</h2>
     <v-col
       cols="12"
       style="min-width: 600px"
@@ -41,6 +42,12 @@
             v-model="item.editable"
           ></v-simple-checkbox> -->
             <v-simple-checkbox
+              v-if="item.id === editedItem.id"
+              v-model="editedItem.activo"
+              :disabled="item.id != editedItem.id"
+            ></v-simple-checkbox>
+            <v-simple-checkbox
+              v-else
               v-model="item.activo"
               :disabled="item.id != editedItem.id"
             ></v-simple-checkbox>
