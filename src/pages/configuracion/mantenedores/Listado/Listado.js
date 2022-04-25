@@ -75,7 +75,8 @@ export default {
     return {
       listaMantenedores: "",
       listaMantenedor: "",
-      mostrarTablaMantendedor:true
+      mostrarTablaMantendedor:true,
+      idMantenedor:0
     };
   },
   methods: {
@@ -87,6 +88,7 @@ export default {
       console.log(this.listaMantenedores);
     },
     async cargarMantenedor(mantenedor) {
+      this.idMantenedor = mantenedor.id
       this.mostrarTablaMantendedor = false
       console.log("ESTOY EN MANTENEDOR", mantenedor);
       switch (mantenedor.id) {
@@ -112,7 +114,7 @@ export default {
           this.listaMantenedor = data2.data.kangusoft_moneda;
           console.log(this.listaMantenedor);
           break;
-        case 4:
+        case 5:
           let data3 = await this.$apollo.query({
             query: GETCELULAS,
           });
