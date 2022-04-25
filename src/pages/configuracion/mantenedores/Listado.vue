@@ -8,6 +8,7 @@
     <tabla-mantenedor
       v-if="cpxMostrarMantenedor"
       ref="tablaMantenedor"
+      :id-mantenedor="idMantenedor"
       :lista="listaMantenedor.length > 0 && listaMantenedor"
     ></tabla-mantenedor>
   </div>
