@@ -78,53 +78,58 @@
               no-gutters
             >
        
-              <v-col md="2">     
+              <v-col md="4">     
                 <v-card
                   :loading="loading"
-                  class=" my-2"
-                  max-width="230"
+                  class=" my-1"
+                  max-width="500"
                 >
                   <template slot="progress">
                     <v-progress-linear
                       color="deep-purple"
-                      height="10"
+                      height="100"
                       indeterminate
                     ></v-progress-linear>
                   </template>
   
-                  <v-card-title>Panel de configuración</v-card-title>
+                  <v-card-title class="grey lighten-3">Panel de configuración</v-card-title>
+                   <v-container class="grey lighten-4">
   
                   <v-switch
                     v-model="switch1"
                     :label="`Centro de Gestión`"
+                    inset
                   ></v-switch>
                   <v-divider class="mx-4"></v-divider>
   
                   <v-switch
                     v-model="switch2"
                     :label="`Maestro de recursos`"
+                    inset
                   ></v-switch>
+                   <v-divider class="mx-4"></v-divider>
   
                   <v-switch
                     v-model="switch3"
                     :label="`Entidad Externa`"
+                    inset
                   ></v-switch>
   
                   <v-divider class="mx-4"></v-divider>
   
                   <v-switch
                     v-model="switch4"
+                    inset
                     :label="`Usuarios`"
                   ></v-switch>
-     
+                   </v-container>
                 </v-card>
               </v-col>
-              <v-col md="2"> 
+              <v-col md="4"> 
                 <v-card
                   :loading="loading"
-                  class="my-2"
-                  max-width="230"
-                >
+                  class="my-1"
+                  max-width="300">
                   <template slot="progress">
                     <v-progress-linear
                       color="deep-purple"
@@ -132,28 +137,29 @@
                       indeterminate
                     ></v-progress-linear>
                   </template>
-  
-                  <v-card-title>Adquisiciones</v-card-title>
-     
+                  <v-card-title  class= "grey lighten-3" >Adquisiciones</v-card-title>
+                   <v-container class="grey lighten-4">
                   <v-switch
                     v-model="switch5"
-                    :label="`Pedidos`"
+                     label="Pedidos"
+                    inset
                   ></v-switch>
-
                   <v-divider class="mx-4"></v-divider>
                   <v-switch
                     v-model="switch6"
                     :label="`Orden de compra`"
+                    inset
                   ></v-switch>
                   <v-divider class="mx-4"></v-divider>
                   <v-switch
                     v-model="switch7"
                     label="Cancelar/Disminuir OC "
+                    inset
                   ></v-switch>
+                   </v-container>
                 </v-card>
               </v-col>
             </v-row>
-
             <!--<div class="mb-2">
               <div class="title">Reset User Password</div>
               <div class="subtitle mb-2">Sends a reset password email to the user.</div>
