@@ -1,24 +1,21 @@
 <template>
   <div>
     {{ proyectos }}
-    <v-card
+   <v-row>
+     <v-col
       v-for="proyecto in proyectos"
-      :key="proyecto.id"
+       :key="proyecto.id"
+        class="d-flex child-flex"
+        cols="2">
+      <v-card
+      
       :loading="loading"
       class=" my-2"
       max-width="200"
-    >
-      <template slot="progress">
-        <v-progress-linear
-          color="deep-gray"
-          height="5"
-          indeterminate
-        ></v-progress-linear>
-      </template>
-
+      >
       <v-img
         height="140"
-        :src="proyecto.imagen"
+        :src="proyecto.imagen ? proyecto.imagen : cpxImagenAleatoria"
       ></v-img>
 
       <v-card-title> {{ proyecto.nombre }} </v-card-title> 
@@ -87,6 +84,8 @@
         </v-chip-group>
       </v-card-text>
     </v-card>
+    </v-col>
+    </v-row>
   </div>
 </template>
 <style scoped src="./CardProyecto.css"></style>
