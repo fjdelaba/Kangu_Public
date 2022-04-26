@@ -41,6 +41,13 @@ const GETCELULAS = gql`
   }
 }
 `;
+const GETCGESTADO = gql`
+query {
+  kangusoft_cg_estado {
+    id
+    nombre
+  }
+}`
 const GETBOTONES = gql`
   query {
     kangusoft_mantendores {
@@ -112,9 +119,17 @@ export default {
             query: GETMONEDA,
           });
           this.listaMantenedor = data2.data.kangusoft_moneda;
-          console.log(this.listaMantenedor);
+          console.log("aaa",this.listaMantenedor);
+          break;
+          case 4:
+          let data4 = await this.$apollo.query({
+            query:  GETCGESTADO,
+          });
+          this.listaMantenedor = data4.data.kangusoft_cg_estado;
+          console.log("aaa",this.listaMantenedor);
           break;
         case 5:
+         
           let data3 = await this.$apollo.query({
             query: GETCELULAS,
           });

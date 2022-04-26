@@ -70,6 +70,7 @@
       <v-expansion-panels v-model="panel" multiple class="mt-3">
         <v-expansion-panel>
           <v-expansion-panel-header class="title">Permisos</v-expansion-panel-header>
+          
           <v-expansion-panel-content>
             <v-row
               v-for="n in 1 "
@@ -77,21 +78,14 @@
               :class="n === 1 ? 'my-1' : ''"
               no-gutters
             >
-       
               <v-col md="4">     
                 <v-card
                   :loading="loading"
                   class=" my-1"
-                  max-width="500"
+                  max-width="400"
+                   outlined
+                   tile
                 >
-                  <template slot="progress">
-                    <v-progress-linear
-                      color="deep-purple"
-                      height="100"
-                      indeterminate
-                    ></v-progress-linear>
-                  </template>
-  
                   <v-card-title class="grey lighten-3">Panel de configuración</v-card-title>
                    <v-container class="grey lighten-4">
   
@@ -122,6 +116,13 @@
                     inset
                     :label="`Usuarios`"
                   ></v-switch>
+                   <v-divider class="mx-4"></v-divider>
+  
+                  <v-switch
+                    v-model="switch4"
+                    inset
+                    :label="`Mantenedores`"
+                  ></v-switch>
                    </v-container>
                 </v-card>
               </v-col>
@@ -129,7 +130,11 @@
                 <v-card
                   :loading="loading"
                   class="my-1"
-                  max-width="300">
+                  max-width="250"
+                   outlined=
+                   tile
+                  
+                  >
                   <template slot="progress">
                     <v-progress-linear
                       color="deep-purple"
@@ -146,16 +151,29 @@
                   ></v-switch>
                   <v-divider class="mx-4"></v-divider>
                   <v-switch
-                    v-model="switch6"
-                    :label="`Orden de compra`"
+                    v-model="switch7"
+                    label="Cotización "
                     inset
                   ></v-switch>
                   <v-divider class="mx-4"></v-divider>
                   <v-switch
                     v-model="switch7"
-                    label="Cancelar/Disminuir OC "
+                    label="Orden de compras"
                     inset
                   ></v-switch>
+                  <v-divider class="mx-4"></v-divider>
+                  <v-switch
+                    v-model="switch7"
+                    label=" Despacho"
+                    inset
+                  ></v-switch>
+                  <v-divider class="mx-4"></v-divider>
+                  <v-switch
+                    v-model="switch7"
+                    label=" Recepcion"
+                    inset
+                  ></v-switch>
+                  
                    </v-container>
                 </v-card>
               </v-col>
@@ -228,7 +246,9 @@
                 <v-icon left small>mdi-delete</v-icon>Delete User
               </v-btn>
             </div>-->
+            
           </v-expansion-panel-content>
+         
         </v-expansion-panel>
 
         <v-expansion-panel v-model="panel" multiple class="mt-3">

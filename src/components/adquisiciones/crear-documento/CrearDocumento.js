@@ -18,7 +18,7 @@ query MyQuery{
     id
     nombre
   }
-  kangusoft_moneda {
+  kangusoft_moneda(where: {activo: {_eq: true}}) {
     editable
     activo
     id

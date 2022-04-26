@@ -1,17 +1,25 @@
 /* eslint-disable */
 import gql from "graphql-tag";
 const UPDATE_MONEDA = gql`
- mutation update_moneda($id_moneda: bigint!, $nombre: String!, $activo: Boolean!) {
-  update_kangusoft_moneda(where: {id: {_eq: $id_moneda}}, _set: {nombre: $nombre, activo: $activo}) {
+ mutation update_moneda($id_moneda: bigint!, $activo: Boolean!) {
+  update_kangusoft_moneda(where: {id: {_eq: $id_moneda}}, _set: {activo: $activo}) {
     affected_rows
     returning {
-      nombre
       activo
     }
   }
 }`;
-
-const UPDATE_TDESPACHO = gql `
+const UPDATE_CGESTADO = gql`
+mutation update_cgestado($id_cgestado: bigint!, $activo: Boolean!) {
+  update_kangusoft_cg_estado(where: {id: {_eq: $id_cgestado}}, _set: {activo: $activo}) {
+    affected_rows
+    returning {
+      id
+      activo
+    }
+  }
+}`
+const UPDATE_TDESPACHO = gql`
 mutation update_tdespacho($id_tdespacho: bigint!, $nombre: String!, $activo: Boolean!){
   update_kangusoft_desp_tipo(where: {id: {_eq: $id_tdespacho}}, _set: {nombre: $nombre, activo: $activo}) {
     affected_rows
@@ -33,13 +41,51 @@ mutation update_fpago($id_fpago: bigint!, $nombre: String!, $activo: Boolean!){
     }
   }
 }`
-
+const INSERT_FPAGO = gql`
+mutation insert_fpago($id_emp: bigint!, $nombre: String!, $activo: Boolean!) {
+  insert_kangusoft_forma_pago(objects: {nombre:  $nombre, emp_fk: $id_emp, activo: $activo}){
+    affected_rows
+    returning {
+      id
+      nombre
+      activo
+    }
+  }
+}
+`
+const INSERT_TDESPACHO = gql`
+mutation insert_tdespacho($id_emp: bigint!, $nombre: String!, $activo: Boolean!) {
+  insert_kangusoft_desp_tipo(objects: {nombre: $nombre, emp_fk: $id_emp, activo: $activo}){
+    affected_rows
+    returning {
+      id
+      nombre
+      activo
+    }
+  }
+}
+`
+const INSERT_CGUNIDAD = gql`
+mutation insert_cgunidad($id_emp: bigint!, $nombre: String!, $activo: Boolean!,$activa: bpchar!,$usu_creacion_fk: bigint!,$fec_creacion: timestamp!) {
+  insert_kangusoft_cg_unidad(objects: {activo: $activo, emp_fk: $id_emp, nombre: $nombre, activa:$activa, usu_creacion_fk: $usu_creacion_fk, fec_creacion:$fec_creacion}){
+    affected_rows
+    returning {
+      id
+      nombre
+      activo
+    }
+  }
+}
+`
 export default {
   created() {
     console.log("CREATED");
   },
   mounted() {
-    console.log(this.idMantenedor)
+    this.aut0 = this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_tenant
+    this.usuLogin = this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    this.fecha = this.$moment(new Date()).format()
+    console.log(this.fecha)
   },
   props: {
     mantenedores: Array,
@@ -48,14 +94,17 @@ export default {
   },
   data() {
     return {
-
+      fecha:"",
+      aut0:"",
+      usuLogin:"",
       nombreMantenedor: "",
       search: "",
       headers: [
-        { text: "ID", value: "id" },
-        { text: "Nombre", value: "nombre" },
-        { text: "Activo", value: "activo" },
-        { text: "Accion", value: "actions", sortable: false },
+        
+        { text: "ID", value: "id", idx: 1 },
+        { text: "Nombre", value: "nombre", idx: 2  },
+        { text: "Activo", value: "activo", idx: 3  },
+        { text: "Accion", value: "actions", sortable: false, idx: 4 },
       ],
       checkbox1: true,
       dialog: false,
@@ -64,8 +113,10 @@ export default {
       editedIndex: -1,
       editedItem: {
         nombre: "",
+        activo: false
       },
       aux:"",
+      habilitar:false,
 
     };
   },
@@ -75,6 +126,14 @@ export default {
         this.$parent.$refs.botonMantenedor.mantenedorSelec.nombre;
       return this.nombreMantenedor;
     },
+    cpxRetornarCabecera(){
+      if(this.idMantenedor == 3 || this.idMantenedor == 4){
+        return this.headers.filter(header => header.idx < 4)
+      }else{
+        return this.headers.filter(header => header.idx < 5)
+      }
+    }
+  
   },
 
   watch: {
@@ -95,6 +154,43 @@ export default {
       // this.dialog = true;
     },
 
+    async saveMoneda(objeto){
+      console.log("id", objeto)
+      let activo = objeto.activo == null || objeto.activo == false || objeto.activo == 'null'? false : true
+      console.log("ids", activo)
+      if(this.idMantenedor == 3){
+        console.log("MONEDA")
+       const { data }  = await this.$apollo.mutate({
+         mutation: UPDATE_MONEDA,
+         variables:{
+           'id_moneda': objeto.id,
+           'activo':  activo
+         },
+         update: (data) => {console.log("aa",data)} 
+       })
+       this.aux = data
+       console.log("data", data)
+      }else{
+       console.log("no entre")
+      }
+      //
+      if(this.idMantenedor == 4){
+        console.log("ESTADO PROYECYO")
+       const { data }  = await this.$apollo.mutate({
+         mutation: UPDATE_CGESTADO,
+         variables:{
+          'id_cgestado': objeto.id,
+          'activo':  activo
+          },
+         update: (data) => {console.log("aa",data)} 
+       })
+       this.aux = data
+       console.log("data", data)
+      }else{
+       console.log("no entre")
+      }
+    },
+
     close() {
       this.dialog = false;
       this.$nextTick(() => {
@@ -102,8 +198,72 @@ export default {
         this.editedIndex = -1;
       });
     },
+    async guardarNuevoItem() {
+      if(this.idMantenedor == 1){
+        console.log("FORMA DE PAGO")
+        this.habilitar = true
+       const { data }  = await this.$apollo.mutate({
+         mutation: INSERT_FPAGO,
+         variables:{
+           'id_emp':  this.aut0,
+           'nombre':  this.editedItem.nombre,
+           'activo':  this.editedItem.activo
+         },
+         update: (data) => {console.log("aa",data)} 
+       })
+       this.aux = data
+       console.log("data", data)
+        this.close();
+       
+        this.$parent.cargarMantenedor(this.idMantenedor)
+      }else{
+       console.log("no entre")
+      }
+      if(this.idMantenedor == 2){
+        this.habilitar = true
+        console.log("TIPO DE DESPACHO")
+       const { data }  = await this.$apollo.mutate({
+         mutation: INSERT_TDESPACHO,
+         variables:{
+          'id_emp':  this.aut0,
+          'nombre':  this.editedItem.nombre,
+          'activo':  this.editedItem.activo
+         },
+         update: (data) => {console.log("aa",data)} 
+       })
+       this.aux = data
+       console.log("data", data)
+       this.close();
+      }else{
+       console.log("no entre")
+      }
+      if(this.idMantenedor == 5){
+        this.habilitar = true
+        console.log("TIPO DE DESPACHO")
+       const { data }  = await this.$apollo.mutate({
+         mutation: INSERT_CGUNIDAD,
+         variables:{
+          'id_emp':  this.aut0,
+          'nombre':  this.editedItem.nombre,
+          'activo':  this.editedItem.activo,
+          'activa':   'S',
+          'usu_creacion_fk': this.usuLogin,
+          'fec_creacion': this.fecha
+         },
+         update: (data) => {console.log("aa",data)} 
+       })
+       this.aux = data
+       console.log("data", data)
+       this.close();
+      }else{
+       console.log("no entre")
+      }
+    },
+
 
     async save() {
+
+
       if(this.idMantenedor == 1){
         console.log("FORMA DE PAGO")
        const { data }  = await this.$apollo.mutate({
@@ -143,25 +303,7 @@ export default {
       }else{
        console.log("no entre")
       }
-     if(this.idMantenedor == 3){
-       console.log("MONEDA")
-      const { data }  = await this.$apollo.mutate({
-        mutation: UPDATE_MONEDA,
-        variables:{
-          'id_moneda':this.editedItem.id,
-          'nombre':  this.editedItem.nombre,
-          'activo':  this.editedItem.activo
-        },
-        update: (data) => {console.log("aa",data)} 
-      })
-      this.aux = data
-      console.log("data", data)
-      
-       this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_moneda.returning[0].nombre);
-       this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_moneda.returning[0].activo);
-     }else{
-      console.log("no entre")
-     }
+    
      if(this.idMantenedor == 4){
       console.log("ESTADO PROYECTO")
      const { data }  = await this.$apollo.mutate({
