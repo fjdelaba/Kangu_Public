@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const QUERY_FORMA_PAGO = gql`
+const QUERY_FORMA_PAGO = gql`
   query {
     kangusoft_forma_pago {
       nombre
@@ -9,3 +9,5 @@ export const QUERY_FORMA_PAGO = gql`
     }
   }
 `
+
+export { QUERY_FORMA_PAGO }
