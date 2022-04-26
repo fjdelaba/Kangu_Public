@@ -22,14 +22,14 @@ export default {
       searchQuery: '',
       selectedUsers: [],
       headers: [
-        { text: 'Id', align: 'left', value: 'id' },
+        { text: 'Rut', align: 'left', value: 'id' },
         { text: 'Email', value: 'email' },
-        { text: 'Verified', value: 'verified' },
-        { text: 'Name', align: 'left', value: 'name' },
-        { text: 'Role', value: 'role' },
-        { text: 'Created', value: 'created' },
-        { text: 'Last SignIn', value: 'lastSignIn' },
-        { text: 'Disabled', value: 'disabled' },
+        { text: 'Email verificado', value: 'verified' },
+        { text: 'Nombre', align: 'left', value: 'name' },
+        { text: 'Apellido', align: 'left', value: 'name' },
+        { text: 'Cargo', value: 'role' },
+        { text: 'FechaCreacion', value: 'created' },
+        { text: 'Estado', value: 'disabled' },
         { text: '', sortable: false, align: 'right', value: 'action' }
       ],
 

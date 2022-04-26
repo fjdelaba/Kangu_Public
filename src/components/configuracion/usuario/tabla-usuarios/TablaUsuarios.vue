@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      {{ usuarios }}
+     <!-- {{ usuarios }}-->
     </div>
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center py-3">
