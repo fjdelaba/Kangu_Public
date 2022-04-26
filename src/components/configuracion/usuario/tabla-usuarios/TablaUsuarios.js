@@ -22,14 +22,13 @@ export default {
       searchQuery: '',
       selectedUsers: [],
       headers: [
-        { text: 'Rut', align: 'left', value: 'id' },
+        { text: 'Rut', align: 'left', value: 'rut' },
         { text: 'Email', value: 'email' },
-        { text: 'Email verificado', value: 'verified' },
-        { text: 'Nombre', align: 'left', value: 'name' },
-        { text: 'Apellido', align: 'left', value: 'name' },
-        { text: 'Cargo', value: 'role' },
-        { text: 'FechaCreacion', value: 'created' },
-        { text: 'Estado', value: 'disabled' },
+        { text: 'Nombre', align: 'left', value: 'nombre' },
+        { text: 'Apellido', align: 'left', value: 'apellidos' },
+        { text: 'Cargo', value: 'cargo' },
+        { text: 'FechaCreacion', value: 'fec_creacion' },
+        { text: 'activo', value: 'activo' },
         { text: '', sortable: false, align: 'right', value: 'action' }
       ],
 
@@ -44,6 +43,9 @@ export default {
   },
   methods: {
     searchUser() {},
-    open() {}
+    open() {},
+    getEstado(estado) {
+      return estado === 'S' ? true : false
+    }
   }
 }

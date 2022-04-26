@@ -26,6 +26,7 @@ const GET_USUARIOS = gql`
       imagen
       nombre
       rut
+      fec_creacion
     }
   }
 `
