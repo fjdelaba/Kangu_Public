@@ -10,4 +10,12 @@ const QUERY_FORMA_PAGO = gql`
   }
 `
 
-export { QUERY_FORMA_PAGO }
+const getFormaPago = async () => {
+  const data  = await this.$apollo.query({
+    query: QUERY_FORMA_PAGO
+  })
+
+  return data.data.kangusoft_forma_pago
+}
+
+export { getFormaPago }
