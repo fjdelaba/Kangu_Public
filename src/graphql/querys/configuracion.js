@@ -10,7 +10,7 @@ const QUERY_FORMA_PAGO = gql`
   }
 `
 
-const getFormaPago = async () => {
+async function getFormaPago() {
   const data  = await this.$apollo.query({
     query: QUERY_FORMA_PAGO
   })
