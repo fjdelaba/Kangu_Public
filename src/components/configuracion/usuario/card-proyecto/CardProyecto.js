@@ -15,6 +15,12 @@ export default {
   },
   computed:{
     cpxImagenAleatoria() {
+      // return this.proyectoSinImagen[Math.floor(Math.random() * this.proyectoSinImagen.length)]
+      return Math.floor(Math.random() * this.proyectoSinImagen.length)
+    }
+  },
+  methods: {
+    randomImage () {
       return this.proyectoSinImagen[Math.floor(Math.random() * this.proyectoSinImagen.length)]
     }
   }

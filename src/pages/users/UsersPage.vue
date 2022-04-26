@@ -72,7 +72,7 @@
         class="flex-grow-1"
       >
         <template v-slot:item.id="{ item }">
-          <div class="font-weight-bold"># <copy-label :text="item.id + ''" /></div>
+          <div class="font-weight-bold"># <copy-label :text="item.id + 'asdfghjkl'" /></div>
         </template>
 
         <template v-slot:item.email="{ item }">
@@ -81,7 +81,7 @@
               <v-img :src="item.avatar" />
             </v-avatar>
             <div class="ml-1 caption font-weight-bold">
-              <copy-label :text="item.email" />
+              <copy-label :text="item.email + 'poiuytr'" />
             </div>
           </div>
         </template>

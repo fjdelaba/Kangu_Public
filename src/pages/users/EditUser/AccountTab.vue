@@ -388,7 +388,7 @@
 
 <script>
 
-import CardProyecto from '../../../components/configuracion/usuario/CardProyecto.vue'
+import CardProyecto from '../../../components/configuracion/usuario/card-proyecto/CardProyecto.vue'
 
 export default {
   components: {

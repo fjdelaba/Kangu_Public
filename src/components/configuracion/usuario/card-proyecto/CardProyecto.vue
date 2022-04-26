@@ -16,7 +16,7 @@
         >
           <v-img
             height="140"
-            :src="proyecto.imagen ? proyecto.imagen : cpxImagenAleatoria"
+            :src="proyecto.imagen ? proyecto.imagen : randomImage()"
           ></v-img>
 
           <v-card-title> {{ proyecto.nombre }} </v-card-title> 
