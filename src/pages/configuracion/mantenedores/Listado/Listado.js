@@ -1,82 +1,13 @@
 /* eslint-disable */
 import BotonMantenedor from "../../../../components/configuracion/mantenedores/Boton/Boton.vue";
 import TablaMantenedor from "../../../../components/configuracion/mantenedores/Tabla/Tabla.vue";
+import  {QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO,getFormaPago}  from "../../../../components/graphql/querys/configuracion.js"
 import gql from "graphql-tag";
 
-const GETPAGO = gql`
-  query {
-    kangusoft_forma_pago {
-      nombre
-      id
-      editable
-    }
-  }
-`;
-const GETDESPACHO = gql`
- query MyQuery {
-  
-  kangusoft_desp_tipo {
-    nombre
-    id
-  }
-}
-`;
-const GETMONEDA = gql`
- query {
-  kangusoft_moneda {
-    activo
-    id
-    nombre
-  }
-}
-`;
-const GETCELULAS = gql`
-  query {
-  kangusoft_cg_unidad {
-    activa
-    fec_creacion
-    id
-    nombre
-    usu_creacion_fk
-  }
-}
-`;
-const GETCGESTADO = gql`
-query {
-  kangusoft_cg_estado {
-    id
-    nombre
-  }
-}`
-const GETBOTONES = gql`
-  query {
-    kangusoft_mantendores {
-      icono
-      id
-      link
-      nombre
-    }
-  }
-`;
 export default {
   mounted() {
     this.cargarBotones();
     // alert('COMPONENTE')
-  },
-  apollo: {
-    // Simple query that will update the 'hello' vue property
-    // kangusoft_mantendores2: {
-    //   query() {
-    //     return GETPAGO;
-    //   },
-    //   update: (data) => data.kangusoft_mantendores,
-    // },
-    // kangusoft_mantendores: {
-    //   query() {
-    //     return GETBOTONES;
-    //   },
-    //   update: (data) => data.kangusoft_mantendores,
-    // },
   },
   data() {
     return {
@@ -100,8 +31,9 @@ export default {
       console.log("ESTOY EN MANTENEDOR", mantenedor);
       switch (mantenedor.id) {
         case 1:
+          console.log( this.listaMantenedor);
           let data  = await this.$apollo.query({
-            query: GETPAGO,
+            query: QUERY_FORMA_PAGO,
           });
           this.listaMantenedor = data.data.kangusoft_forma_pago;
           console.log(data);

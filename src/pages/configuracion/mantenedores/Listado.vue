@@ -1,5 +1,6 @@
 <template>
   <div>
+    
     <boton-mantenedor
       ref="botonMantenedor"
       :botones="listaMantenedores"

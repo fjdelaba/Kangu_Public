@@ -1,4 +1,5 @@
 /* eslint-disable */
+import  {QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO,getFormaPago}  from "../../../../components/graphql/querys/configuracion.js"
 import gql from "graphql-tag";
 const UPDATE_MONEDA = gql`
  mutation update_moneda($id_moneda: bigint!, $activo: Boolean!) {
@@ -41,6 +42,18 @@ mutation update_fpago($id_fpago: bigint!, $nombre: String!, $activo: Boolean!){
     }
   }
 }`
+const UPDATE_CGUNIDAD = gql`
+mutation update_cgunidad($id_cgunidad: bigint!, $nombre: String!, $activo: Boolean!){
+  update_kangusoft_cg_unidad(where: {id: {_eq: $id_cgunidad}}, _set: {activo: $activo, nombre: $nombre}) {
+    affected_rows
+    returning {
+      id
+      nombre
+      activo
+    }
+  }
+}`
+//TODO INSERTS
 const INSERT_FPAGO = gql`
 mutation insert_fpago($id_emp: bigint!, $nombre: String!, $activo: Boolean!) {
   insert_kangusoft_forma_pago(objects: {nombre:  $nombre, emp_fk: $id_emp, activo: $activo}){
@@ -77,6 +90,38 @@ mutation insert_cgunidad($id_emp: bigint!, $nombre: String!, $activo: Boolean!,$
   }
 }
 `
+//TODO DELETE
+const DELETE_CGUNIDAD = gql`
+mutation delete_cgunidad($id_cgunidad: bigint!) {
+  delete_kangusoft_cg_unidad(where: {id: {_eq: $id_cgunidad}}) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+`
+const DELETE_TDESPACHO = gql`
+mutation delete_tdespacho($id_tdespacho: bigint!) {
+  delete_kangusoft_desp_tipo(where: {id: {_eq: $id_tdespacho}}) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+`
+const DELETE_FPAGO = gql`
+mutation delete_cgunidad($id_fpago: bigint!) {
+  delete_kangusoft_forma_pago(where: {id: {_eq: $id_fpago}}) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
+`
+
 export default {
   created() {
     console.log("CREATED");
@@ -148,6 +193,56 @@ export default {
   created() { },
 
   methods: {
+    closeDelete () {
+      this.dialogDelete = false
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      })
+    },
+   async deleteItemConfirm () {
+    if(this.idMantenedor == 1){
+      console.log("FORMA DE PAGO")
+     const { data }  = await this.$apollo.mutate({
+       mutation: DELETE_FPAGO,
+       variables:{
+        'id_fpago': this.editedItem.id,
+      },
+     })
+     this.aux = data
+     console.log("data", data)
+    }
+   
+    if(this.idMantenedor == 2){
+      console.log("TIPO DE DESPACHO")
+     const { data }  = await this.$apollo.mutate({
+       mutation: DELETE_TDESPACHO,
+       variables:{
+        'id_tdespacho': this.editedItem.id,
+      },
+     })
+     this.aux = data
+     console.log("data", data)
+    }
+      if(this.idMantenedor == 5){
+        console.log("FORMA DE PAGO")
+       const { data }  = await this.$apollo.mutate({
+         mutation: DELETE_CGUNIDAD,
+         variables:{
+           'id_cgunidad': this.editedItem.id,
+         },
+       })
+       this.aux = data
+       console.log("data", data)
+    }
+      this.lista.splice(this.editedIndex, 1)
+      this.closeDelete()
+    },
+    deleteItem (item) {
+      this.editedIndex = this.lista.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialogDelete = true
+    },
     editItem(item) {
       this.editedIndex = this.lista.indexOf(item);
       this.editedItem = Object.assign({}, item);
@@ -207,18 +302,18 @@ export default {
          variables:{
            'id_emp':  this.aut0,
            'nombre':  this.editedItem.nombre,
-           'activo':  this.editedItem.activo
+           'activo':  true
          },
-         update: (data) => {console.log("aa",data)} 
        })
        this.aux = data
        console.log("data", data)
         this.close();
-       
-        this.$parent.cargarMantenedor(this.idMantenedor)
+        this.lista.push(data.insert_kangusoft_forma_pago.returning[0])
+        this.habilitar = false
       }else{
        console.log("no entre")
       }
+     
       if(this.idMantenedor == 2){
         this.habilitar = true
         console.log("TIPO DE DESPACHO")
@@ -227,34 +322,36 @@ export default {
          variables:{
           'id_emp':  this.aut0,
           'nombre':  this.editedItem.nombre,
-          'activo':  this.editedItem.activo
+          'activo':  true
          },
-         update: (data) => {console.log("aa",data)} 
        })
        this.aux = data
        console.log("data", data)
        this.close();
+       this.lista.push(data.insert_kangusoft_desp_tipo.returning[0])
+        this.habilitar = false
       }else{
        console.log("no entre")
       }
       if(this.idMantenedor == 5){
         this.habilitar = true
-        console.log("TIPO DE DESPACHO")
+        console.log("ESTADO PROYECTO")
        const { data }  = await this.$apollo.mutate({
          mutation: INSERT_CGUNIDAD,
          variables:{
           'id_emp':  this.aut0,
           'nombre':  this.editedItem.nombre,
-          'activo':  this.editedItem.activo,
+          'activo': true,
           'activa':   'S',
           'usu_creacion_fk': this.usuLogin,
           'fec_creacion': this.fecha
          },
-         update: (data) => {console.log("aa",data)} 
        })
        this.aux = data
        console.log("data", data)
        this.close();
+       this.lista.push(data.insert_kangusoft_cg_unidad.returning[0])
+       this.habilitar = false
       }else{
        console.log("no entre")
       }
@@ -304,22 +401,22 @@ export default {
        console.log("no entre")
       }
     
-     if(this.idMantenedor == 4){
+     if(this.idMantenedor == 5){
       console.log("ESTADO PROYECTO")
      const { data }  = await this.$apollo.mutate({
-       mutation: UPDATE_MONEDA,
+       mutation: UPDATE_CGUNIDAD,
        variables:{
-         'id_moneda': 4,
+         'id_cgunidad': this.editedItem.id,
          'nombre':  this.editedItem.nombre,
-         'activo':  this.editedItem.activo
+         'activo':  true
        },
        update: (data) => {console.log("aa",data)} 
      })
      this.aux = data
      console.log("data", data)
      
-      this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_moneda.returning[0].nombre);
-      this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_moneda.returning[0].activo);
+      this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_cg_unidad.returning[0].nombre);
+      this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_cg_unidad.returning[0].activo);
     }else{
      console.log("no entre")
     }
