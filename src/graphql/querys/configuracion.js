@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 
-export const QUERY_FORMA_PAGO = gql`
+const QUERY_FORMA_PAGO = gql`
   query {
     kangusoft_forma_pago {
       nombre
@@ -9,3 +9,13 @@ export const QUERY_FORMA_PAGO = gql`
     }
   }
 `
+
+async function getFormaPago() {
+  const data  = await this.$apollo.query({
+    query: QUERY_FORMA_PAGO
+  })
+
+  return data.data.kangusoft_forma_pago
+}
+
+export { getFormaPago }
