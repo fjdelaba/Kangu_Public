@@ -11,7 +11,7 @@
         </div>
         <v-spacer></v-spacer>
         <v-btn color="primary">
-          Create User
+          Crear usuario
         </v-btn>
       </div>
 
