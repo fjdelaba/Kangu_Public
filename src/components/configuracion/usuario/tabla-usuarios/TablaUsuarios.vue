@@ -10,7 +10,7 @@
           <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
         </div>
         <v-spacer></v-spacer>
-        <v-btn color="primary">
+        <v-btn @click="drawer=true" color="primary">
           Crear usuario
         </v-btn>
       </div>
@@ -137,6 +137,75 @@
         </v-data-table>
       </v-card>
     </div>
+    
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+      right
+    >
+     <v-container>
+    <v-form
+    ref="form"
+    v-model="valid"
+    lazy-validation
+  >   <v-card-title>Crear usuario</v-card-title>
+  <br>
+
+    <v-text-field
+      v-model="Nombre"
+      :counter="100"
+      :rules="nameRules"
+      label="Nombre"
+      required
+    ></v-text-field>
+    <v-text-field
+      v-model="apellidos"
+      :counter="100"
+      :rules="nameRules"
+      label="Apellidos"
+      required
+    ></v-text-field>
+
+    <v-text-field
+      v-model="email"
+      :rules="emailRules"
+      label="E-mail"
+      required
+    ></v-text-field>
+
+    <v-text-field
+      v-model="cargo"
+      :rules="emailRules"
+      label="Cargo"
+      required
+       :counter="50"
+    ></v-text-field>
+     <v-file-input
+    label="Subir imagen"
+    filled
+    prepend-icon="mdi-camera"
+    
+  ></v-file-input>
+
+    <v-btn
+      :disabled="!valid"
+      color="primary"
+      class="mr-10"
+      @click="validate"
+    >
+      Crear 
+    </v-btn> 
+    
+  </v-form>
+      <v-list
+        nav
+        dense
+      >
+      </v-list>
+      </v-container>
+    </v-navigation-drawer>
+    
   </div>
 </template>
 

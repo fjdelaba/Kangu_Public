@@ -6,7 +6,10 @@ export default {
     CopyLabel
   },
   data() {
+    
     return {
+      drawer:false, 
+
       isLoading: false,
       breadcrumbs: [
         {
@@ -47,5 +50,6 @@ export default {
     getEstado(estado) {
       return estado === 'S' ? true : false
     }
+    
   }
 }
