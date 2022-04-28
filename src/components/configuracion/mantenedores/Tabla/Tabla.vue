@@ -12,7 +12,7 @@
           <v-card-actions>
             <v-spacer></v-spacer>
             <v-btn color="red" text @click="closeDelete">Cancelar</v-btn>
-            <v-btn color="success" text @click="deleteItemConfirm">Si, estoy seguro</v-btn>
+            <v-btn :disabled="habilitar != false" color="success" text @click="deleteItemConfirm">Si, estoy seguro</v-btn>
             <v-spacer></v-spacer>
           </v-card-actions>
         </v-card>
@@ -68,7 +68,6 @@
                   <span class="text-h6">Nombre</span>
                   <v-text-field
                     v-model="editedItem.nombre"
-                    label="Nombre"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" sm="6" md="4"> </v-col>

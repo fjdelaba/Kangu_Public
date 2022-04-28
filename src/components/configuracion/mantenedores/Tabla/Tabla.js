@@ -202,6 +202,7 @@ export default {
     },
    async deleteItemConfirm () {
     if(this.idMantenedor == 1){
+      this.habilitar = true
       console.log("FORMA DE PAGO")
      const { data }  = await this.$apollo.mutate({
        mutation: DELETE_FPAGO,
@@ -212,6 +213,7 @@ export default {
      this.aux = data
      console.log("data", data)
     }
+
    
     if(this.idMantenedor == 2){
       console.log("TIPO DE DESPACHO")
@@ -235,6 +237,7 @@ export default {
        this.aux = data
        console.log("data", data)
     }
+      this.habilitar = false
       this.lista.splice(this.editedIndex, 1)
       this.closeDelete()
     },
