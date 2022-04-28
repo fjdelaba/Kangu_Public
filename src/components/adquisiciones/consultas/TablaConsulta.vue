@@ -63,68 +63,25 @@
         <v-data-table
           v-model="selectedUsers"
           :headers="headers"
-          :items="usuarios"
+          :items="ocs"
           :search="searchQuery"
           class="flex-grow-1"
         >
-          <template v-slot:item.rut="{ item }">
-            <div class="font-weight-bold"> <div>{{ item.rut }}8r </div></div>
-          </template>
 
           <template v-slot:item.nombre="{ item }">
             <div class="font-weight-bold"> <div>{{ item.nombre }}</div></div>
           </template>
-          <template v-slot:item.apellidos="{ item }">
-            <div class="font-weight-bold"><div>{{ item.apellidos }}</div> </div>
-          </template>
-          <template v-slot:item.email="{ item }">
-            <div class="d-flex align-center py-1">
-              <v-avatar size="32" class="elevation-1 grey lighten-3">
-                <v-img :src="item.avatar" />
-              </v-avatar>
-              <div class="ml-1 caption font-weight-bold">
-                <copy-label :text="item.email" />
-              </div>
+
+          <template v-slot:item.actions="{ item }">
+            <div><v-btn
+              v-model="item.actions" 
+            > Abrir </v-btn>
             </div>
+          </template> 
+          <template v-slot:item.fec_creacion="{ item }">
+            <div class="font-weight-bold">{{ item.fec_creacion | formatDate('ll') }}</div>
           </template>
         </v-data-table>
-        <!-- <template v-slot:item.verified="{ item }">
-            <v-icon v-if="item.verified" small color="success">
-              mdi-check-circle
-            </v-icon>
-            <v-icon v-else small>
-              mdi-circle-outline
-            </v-icon>
-          </template> -->
-
-        <template v-slot:item.activo="{ item }">
-          <div> <v-checkbox
-            v-model="item.activo" 
-            :disabled="true"
-          ></v-checkbox>
-          </div>
-        </template> 
-
-        <template v-slot:item.cargo="{ item }">
-          <v-chip
-            label
-            small
-            class="font-weight-bold"
-            color="primary"
-          >{{ item.cargo | capitalize }}</v-chip>
-        </template>
-
-        <template v-slot:item.fec_creacion="{ item }">
-          <div>{{ item.fec_creacion | formatDate('ll') }}</div>
-        </template>
-
-        <template v-slot:item.action="{ }">
-          <div class="actions">
-            <v-btn icon to="/users/edit">
-              <v-icon>mdi-open-in-new</v-icon>
-            </v-btn>
-          </div>
-        </template>
       </v-card>
       
     </div>
