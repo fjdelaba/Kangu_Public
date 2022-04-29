@@ -10,9 +10,95 @@
           <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
         </div>
         <v-spacer></v-spacer>
-        <v-btn @click="drawer=true" color="primary">
-          Crear usuario
-        </v-btn>
+        
+        <v-row justify="space-around">
+    
+    <v-col cols="auto">
+      <v-dialog
+        transition="dialog-top-transition"
+        max-width="600"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            color="primary"
+            v-bind="attrs"
+            v-on="on"
+          >Crear Usuario</v-btn>
+        </template>
+        <template v-slot:default="dialog">
+          <v-card>
+            <v-toolbar
+              color="primary"
+              dark
+            >Creación de Usuario</v-toolbar>
+            <v-card-text>
+              <div><form>
+              <v-row justify="space-around">
+               <v-avatar  size="100" color="indigo">
+      <v-icon dark>
+        mdi-account-circle
+      </v-icon>
+    </v-avatar>
+     </v-row>
+    <v-text-field
+      v-model="rut"
+      :error-messages="emailErrors"
+      label="Rut"
+      required
+      @input="$v.rut.$touch()"
+      @blur="$v.rut.$touch()"
+    ></v-text-field>       
+     <v-text-field
+      v-model="email"
+      :error-messages="emailErrors"
+      label="E-mail"
+      required
+      @input="$v.email.$touch()"
+      @blur="$v.email.$touch()"
+    ></v-text-field>            
+    <v-text-field
+      v-model="nombre"
+      :error-messages="nombreErrors"
+      label="Nombre"
+      required
+      @input="$v.name.$touch()"
+      @blur="$v.name.$touch()"
+    ></v-text-field>
+    <v-text-field
+      v-model="apellidos"
+      :error-messages="apellidosErrors"
+      label="Apellidos"
+      required
+      @input="$v.apellidos.$touch()"
+      @blur="$v.apellidos.$touch()"
+    ></v-text-field>
+    <v-text-field
+      v-model="cargo"
+      :error-messages="cargoErrors"
+      label="Cargo"
+      required
+      @input="$v.cargo.$touch()"
+      @blur="$v.cargo.$touch()"
+    ></v-text-field> 
+  </form></div>
+            </v-card-text>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                @click="dialog.value = false"
+              >Cerrar</v-btn>
+              <v-btn
+              color="primary"
+                text
+                @click="dialog.value = true"
+              >Crear</v-btn>
+            </v-card-actions>
+          </v-card>
+        </template>
+      </v-dialog>
+    </v-col>
+  </v-row>
+        
       </div>
 
       <v-card>
@@ -137,75 +223,7 @@
         </v-data-table>
       </v-card>
     </div>
-    
-    <v-navigation-drawer
-      v-model="drawer"
-      absolute
-      temporary
-      right
-    >
-     <v-container>
-    <v-form
-    ref="form"
-    v-model="valid"
-    lazy-validation
-  >   <v-card-title>Crear usuario</v-card-title>
-  <br>
-
-    <v-text-field
-      v-model="Nombre"
-      :counter="100"
-      :rules="nameRules"
-      label="Nombre"
-      required
-    ></v-text-field>
-    <v-text-field
-      v-model="apellidos"
-      :counter="100"
-      :rules="nameRules"
-      label="Apellidos"
-      required
-    ></v-text-field>
-
-    <v-text-field
-      v-model="email"
-      :rules="emailRules"
-      label="E-mail"
-      required
-    ></v-text-field>
-
-    <v-text-field
-      v-model="cargo"
-      :rules="emailRules"
-      label="Cargo"
-      required
-       :counter="50"
-    ></v-text-field>
-     <v-file-input
-    label="Subir imagen"
-    filled
-    prepend-icon="mdi-camera"
-    
-  ></v-file-input>
-
-    <v-btn
-      :disabled="!valid"
-      color="primary"
-      class="mr-10"
-      @click="validate"
-    >
-      Crear 
-    </v-btn> 
-    
-  </v-form>
-      <v-list
-        nav
-        dense
-      >
-      </v-list>
-      </v-container>
-    </v-navigation-drawer>
-    
+  
   </div>
 </template>
 
