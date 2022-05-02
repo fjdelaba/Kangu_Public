@@ -9,8 +9,7 @@
           <div class="display-1">Usuarios</div>
           <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
         </div>
-        <v-spacer></v-spacer>
-        <v-row justify="space-around">
+        
           <v-col cols="auto">
             <v-dialog transition="dialog-top-transition" max-width="600">
               <template v-slot:activator="{ on, attrs }">
@@ -155,7 +154,7 @@
               </template>
             </v-dialog>
           </v-col>
-        </v-row>
+        
       </div>
 
       <v-card>
