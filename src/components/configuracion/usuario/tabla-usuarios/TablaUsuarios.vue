@@ -10,7 +10,6 @@
           <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
         </div>
         <v-spacer></v-spacer>
-
         <v-row justify="space-around">
           <v-col cols="auto">
             <v-dialog transition="dialog-top-transition" max-width="600">
@@ -28,72 +27,130 @@
                     dark
                   >Creación de Usuario</v-toolbar>
                   <v-card-text>
-                    <div>
-                      <form>
-                        <v-row justify="space-around"> </v-row>
-                        <v-text-field
-                          v-model="rut"
+                    <v-card>
+          <v-card-text>
+            <v-container>
+              <v-row >
+                
+                <v-col
+                  cols="10"
+                >
+                <v-row    no-gutters>
+                  <v-text-field 
+                          dense
+                          hint="Por Ejemplo, 19728579-6"
+                          outlined
+                          v-model="usuario.rut"
                           :error-messages="emailErrors"
                           label="Rut"
                           required
                           @input="$v.rut.$touch()"
                           @blur="$v.rut.$touch()"
                         ></v-text-field>
-                        <v-text-field
-                          v-model="email"
-                          :error-messages="emailErrors"
-                          label="E-mail"
-                          required
-                          @input="$v.email.$touch()"
-                          @blur="$v.email.$touch()"
-                        ></v-text-field>
-                        <v-text-field
-                          v-model="nombre"
+                        </v-row >
+                </v-col>
+                <v-col
+                  cols="12"
+                 
+                >
+                   <v-text-field
+                          hint="For example, flowers or used cars"
+                           dense
+                          outlined
+                          v-model="usuario.nombres"
                           :error-messages="nombreErrors"
-                          label="Nombre"
+                          label="Nombres"
                           required
                           @input="$v.name.$touch()"
                           @blur="$v.name.$touch()"
                         ></v-text-field>
-                        <v-text-field
-                          v-model="apellidos"
+                </v-col>
+                <v-col
+                  cols="12"
+                >
+                  <v-text-field
+                          hint="For example, flowers or used cars"
+                           dense
+                          outlined
+                          v-model="usuario.apellidos"
                           :error-messages="apellidosErrors"
                           label="Apellidos"
                           required
                           @input="$v.apellidos.$touch()"
                           @blur="$v.apellidos.$touch()"
                         ></v-text-field>
-                        <v-text-field
-                          v-model="cargo"
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                          hint="For example, flowers or used cars"
+                           dense
+                          outlined
+                          v-model="usuario.email"
+                          :error-messages="cargoErrors"
+                          label="Email"
+                          required
+                          @input="$v.email.$touch()"
+                          @blur="$v.email.$touch()"
+                        ></v-text-field>
+                </v-col>
+                <v-col cols="12"  sm="6" md="6" >
+                   <v-text-field
+                          hint="Por Ejemplo, Supervisor"
+                           dense
+                          outlined
+                          v-model="usuario.cargo"
                           :error-messages="cargoErrors"
                           label="Cargo"
                           required
                           @input="$v.cargo.$touch()"
                           @blur="$v.cargo.$touch()"
                         ></v-text-field>
-                        <v-select
-                          v-model="select"
+                </v-col>
+                <v-col
+                  cols="12"
+                   sm="6" >
+                 <v-select
+                          hint="For example, flowers or used cars"
+                           dense
+                          outlined
+                          v-model="usuario.perfil"
                           :items="items"
                           :error-messages="errors"
                           label="Perfil"
                           data-vv-name="select"
                           required
                         ></v-select>
-                        {{ url }}
-                        <v-file-input v-model="image" @change="previewImage">
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="6"
+                ><v-file-input @click:clear="eliminarImagen" v-model="usuario.imagen" @change="previewImagen" prepend-icon="mdi-camera" >
                         </v-file-input>
                         <v-img :src="url"></v-img>
-                      </form>
-                    </div>
-                  </v-card-text>
-                  <v-card-actions class="justify-end">
-                    <v-btn text @click="dialog.value = false">Cerrar</v-btn>
+                         </v-col>
+                          <v-col
+                  cols="12"
+                  sm="6"
+                  md="6"
+                ><v-file-input @click:clear="eliminarFirma" v-model="usuario.firma" @change="previewFirma">
+                        </v-file-input>
+                        <v-img :src="url2"></v-img>
+                         </v-col>
+              </v-row>
+            </v-container>
+            <small>*Rellene los campos requeridos</small>
+          </v-card-text>
+          <v-card-actions>
+            <v-btn text @click="dialog.value = false">Cerrar</v-btn>
                     <v-btn
                       color="primary"
                       text
                       @click="dialog.value = true"
                     >Crear</v-btn>
-                  </v-card-actions>
+          </v-card-actions>
+        </v-card>
+                  </v-card-text>
                 </v-card>
               </template>
             </v-dialog>
@@ -135,7 +192,7 @@
               class="flex-grow-1 mr-md-2"
               solo
               hide-details
-              dense
+              dense---
               clearable
               placeholder="p.ej. filtrar por rut, correo electrónico, nombre, etc."
               @keyup.enter="searchUser(searchQuery)"
