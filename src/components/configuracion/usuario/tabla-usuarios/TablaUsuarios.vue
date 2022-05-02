@@ -26,129 +26,104 @@
                     dark
                   >Creación de Usuario</v-toolbar>
                   <v-card-text>
-                    <v-card>
-          <v-card-text>
-            <v-container>
-              <v-row >
-                
-                <v-col
-                  cols="10"
-                >
-                <v-row    no-gutters>
-                  <v-text-field 
+                    <v-row >
+                      <v-col
+                        cols="12"
+                      >
+                        <v-text-field 
+                          v-model="usuario.rut"
                           dense
                           hint="Por Ejemplo, 19728579-6"
                           outlined
-                          v-model="usuario.rut"
                           :error-messages="emailErrors"
                           label="Rut"
                           required
+                          class="ma-0 pa-0"
                           @input="$v.rut.$touch()"
                           @blur="$v.rut.$touch()"
                         ></v-text-field>
-                        </v-row >
-                </v-col>
-                <v-col
-                  cols="12"
-                 
-                >
-                   <v-text-field
-                          hint="For example, flowers or used cars"
-                           dense
-                          outlined
+                        <v-text-field
                           v-model="usuario.nombres"
+                          hint="For example, flowers or used cars"
+                          dense
+                          outlined
                           :error-messages="nombreErrors"
                           label="Nombres"
                           required
+                          class="ma-0 pa-0"
                           @input="$v.name.$touch()"
                           @blur="$v.name.$touch()"
                         ></v-text-field>
-                </v-col>
-                <v-col
-                  cols="12"
-                >
-                  <v-text-field
-                          hint="For example, flowers or used cars"
-                           dense
-                          outlined
+                        <v-text-field
                           v-model="usuario.apellidos"
+                          hint="For example, flowers or used cars"
+                          dense
+                          outlined
                           :error-messages="apellidosErrors"
                           label="Apellidos"
                           required
                           @input="$v.apellidos.$touch()"
                           @blur="$v.apellidos.$touch()"
                         ></v-text-field>
-                </v-col>
-                <v-col cols="12">
-                  <v-text-field
-                          hint="For example, flowers or used cars"
-                           dense
-                          outlined
+                        <v-text-field
                           v-model="usuario.email"
+                          hint="For example, flowers or used cars"
+                          dense
+                          outlined
                           :error-messages="cargoErrors"
                           label="Email"
                           required
                           @input="$v.email.$touch()"
                           @blur="$v.email.$touch()"
                         ></v-text-field>
-                </v-col>
-                <v-col cols="12"  sm="6" md="6" >
-                   <v-text-field
-                          hint="Por Ejemplo, Supervisor"
-                           dense
-                          outlined
+                        <v-text-field
                           v-model="usuario.cargo"
+                          hint="Por Ejemplo, Supervisor"
+                          dense
+                          outlined
                           :error-messages="cargoErrors"
                           label="Cargo"
                           required
                           @input="$v.cargo.$touch()"
                           @blur="$v.cargo.$touch()"
                         ></v-text-field>
-                </v-col>
-                <v-col
-                  cols="12"
-                   sm="6" >
-                 <v-select
-                          hint="For example, flowers or used cars"
-                           dense
-                          outlined
+                        <v-select
                           v-model="usuario.perfil"
+                          hint="For example, flowers or used cars"
+                          dense
+                          outlined
                           :items="items"
                           :error-messages="errors"
                           label="Perfil"
                           data-vv-name="select"
                           required
                         ></v-select>
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="6"
-                ><v-file-input @click:clear="eliminarImagen" v-model="usuario.imagen" @change="previewImagen" prepend-icon="mdi-camera" >
-                        </v-file-input>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                      ><v-file-input v-model="usuario.imagen" prepend-icon="mdi-camera" @click:clear="eliminarImagen" @change="previewImagen" >
+                       </v-file-input>
                         <v-img :src="url"></v-img>
-                         </v-col>
-                          <v-col
-                  cols="12"
-                  sm="6"
-                  md="6"
-                ><v-file-input @click:clear="eliminarFirma" v-model="usuario.firma" @change="previewFirma">
-                        </v-file-input>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                      ><v-file-input v-model="usuario.firma" @click:clear="eliminarFirma" @change="previewFirma">
+                       </v-file-input>
                         <v-img :src="url2"></v-img>
-                         </v-col>
-              </v-row>
-            </v-container>
-            <small>*Rellene los campos requeridos</small>
-          </v-card-text>
-          <v-card-actions>
-            <v-btn text @click="dialog.value = false">Cerrar</v-btn>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="dialog.value = true"
-                    >Crear</v-btn>
-          </v-card-actions>
-        </v-card>
+                      </v-col></v-row>
+                    <small>*Rellene los campos requeridos</small>
+                    <v-card-actions>
+                      <v-btn text @click="dialog.value = false">Cerrar</v-btn>
+                      <v-btn
+                        color="primary"
+                        text
+                        @click="dialog.value = true"
+                      >Crear</v-btn>
+                    </v-card-actions>
                   </v-card-text>
                 </v-card>
               </template>
