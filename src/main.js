@@ -41,6 +41,9 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { setContext } from 'apollo-link-context'
 import { createHttpLink } from 'apollo-link-http'
+import { WebSocketLink } from 'apollo-link-ws'
+import { getMainDefinition } from 'apollo-utilities'
+
 import VueApollo from 'vue-apollo'
 const authLink = setContext((_, { headers }) => {
   // get the authentication token from ApplicationSettings if it exists
@@ -58,6 +61,14 @@ const authLink = setContext((_, { headers }) => {
     }
   }
 })
+
+// // Create the subscription websocket link
+// const wsLink = new WebSocketLink({
+//   uri: 'https://darling-glider-87.hasura.app/v1/graphql',
+//   options: {  
+//     reconnect: true
+//   }
+// })
 
 // HTTP connection to the API
 const httpLink = createHttpLink({

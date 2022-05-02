@@ -8,9 +8,8 @@ export default {
   data() {
     
     return {
-      image: undefined,
-      // to save image url
-      imageUrl: '',
+      url: null,
+      image: null,
       drawer:false, 
       isLoading: false,
       breadcrumbs: [
@@ -53,19 +52,8 @@ export default {
     getEstado(estado) {
       return estado === 'S' ? true : false
     },
-    createImage(file) {
-      const reader = new FileReader()
-  
-      reader.onload = (e) => {
-        this.imageUrl = e.target.result
-      }
-      reader.readAsDataURL(file)
-    },
-    onFileChange(file) {
-      if (!file) {
-        return
-      }
-      this.createImage(file)
+    previewImage() {
+      this.url = URL.createObjectURL(this.image)
     }
   }
 }

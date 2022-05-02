@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-     <!-- {{ usuarios }}-->
+      <!-- {{ usuarios }}-->
     </div>
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center py-3">
@@ -10,101 +10,95 @@
           <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
         </div>
         <v-spacer></v-spacer>
-        
+
         <v-row justify="space-around">
-    
-    <v-col cols="auto">
-      <v-dialog
-        transition="dialog-top-transition"
-        max-width="600"
-      >
-        <template v-slot:activator="{ on, attrs }">
-          <v-btn
-            color="primary"
-            v-bind="attrs"
-            v-on="on"
-          >Crear Usuario</v-btn>
-        </template>
-        <template v-slot:default="dialog">
-          <v-card>
-            <v-toolbar
-              color="primary"
-              dark
-            >Creación de Usuario</v-toolbar>
-            <v-card-text>
-              <div><form>
-              <v-row justify="space-around">
-     </v-row>
-    <v-text-field
-      v-model="rut"
-      :error-messages="emailErrors"
-      label="Rut"
-      required
-      @input="$v.rut.$touch()"
-      @blur="$v.rut.$touch()"
-    ></v-text-field>       
-     <v-text-field
-      v-model="email"
-      :error-messages="emailErrors"
-      label="E-mail"
-      required
-      @input="$v.email.$touch()"
-      @blur="$v.email.$touch()"
-    ></v-text-field>            
-    <v-text-field
-      v-model="nombre"
-      :error-messages="nombreErrors"
-      label="Nombre"
-      required
-      @input="$v.name.$touch()"
-      @blur="$v.name.$touch()"
-    ></v-text-field>
-    <v-text-field
-      v-model="apellidos"
-      :error-messages="apellidosErrors"
-      label="Apellidos"
-      required
-      @input="$v.apellidos.$touch()"
-      @blur="$v.apellidos.$touch()"
-    ></v-text-field>
-    <v-text-field
-      v-model="cargo"
-      :error-messages="cargoErrors"
-      label="Cargo"
-      required
-      @input="$v.cargo.$touch()"
-      @blur="$v.cargo.$touch()"
-    ></v-text-field>  
-    <v-select
-          v-model="select"
-          :items="items"
-          :error-messages="errors"
-          label="Perfil"
-          data-vv-name="select"
-          required
-        ></v-select>
-        {{ url }}
- <v-file-input v-model="image" outlined dense @change="onFileChange" />
-<v-img :src="imageUrl" />
-  </form></div>
-            </v-card-text>
-            <v-card-actions class="justify-end">
-              <v-btn
-                text
-                @click="dialog.value = false"
-              >Cerrar</v-btn>
-              <v-btn
-              color="primary"
-                text
-                @click="dialog.value = true"
-              >Crear</v-btn>
-            </v-card-actions>
-          </v-card>
-        </template>
-      </v-dialog>
-    </v-col>
-  </v-row>
-        
+          <v-col cols="auto">
+            <v-dialog transition="dialog-top-transition" max-width="600">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  v-bind="attrs"
+                  v-on="on"
+                >Crear Usuario</v-btn>
+              </template>
+              <template v-slot:default="dialog">
+                <v-card>
+                  <v-toolbar
+                    color="primary"
+                    dark
+                  >Creación de Usuario</v-toolbar>
+                  <v-card-text>
+                    <div>
+                      <form>
+                        <v-row justify="space-around"> </v-row>
+                        <v-text-field
+                          v-model="rut"
+                          :error-messages="emailErrors"
+                          label="Rut"
+                          required
+                          @input="$v.rut.$touch()"
+                          @blur="$v.rut.$touch()"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="email"
+                          :error-messages="emailErrors"
+                          label="E-mail"
+                          required
+                          @input="$v.email.$touch()"
+                          @blur="$v.email.$touch()"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="nombre"
+                          :error-messages="nombreErrors"
+                          label="Nombre"
+                          required
+                          @input="$v.name.$touch()"
+                          @blur="$v.name.$touch()"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="apellidos"
+                          :error-messages="apellidosErrors"
+                          label="Apellidos"
+                          required
+                          @input="$v.apellidos.$touch()"
+                          @blur="$v.apellidos.$touch()"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="cargo"
+                          :error-messages="cargoErrors"
+                          label="Cargo"
+                          required
+                          @input="$v.cargo.$touch()"
+                          @blur="$v.cargo.$touch()"
+                        ></v-text-field>
+                        <v-select
+                          v-model="select"
+                          :items="items"
+                          :error-messages="errors"
+                          label="Perfil"
+                          data-vv-name="select"
+                          required
+                        ></v-select>
+                        {{ url }}
+                        <v-file-input v-model="image" @change="previewImage">
+                        </v-file-input>
+                        <v-img :src="url"></v-img>
+                      </form>
+                    </div>
+                  </v-card-text>
+                  <v-card-actions class="justify-end">
+                    <v-btn text @click="dialog.value = false">Cerrar</v-btn>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="dialog.value = true"
+                    >Crear</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </template>
+            </v-dialog>
+          </v-col>
+        </v-row>
       </div>
 
       <v-card>
@@ -133,7 +127,6 @@
                 </v-list-item>
               </v-list>
             </v-menu>
-
           </v-col>
           <v-col cols="6" class="d-flex text-right align-center">
             <v-text-field
@@ -168,15 +161,21 @@
           class="flex-grow-1"
         >
           <template v-slot:item.rut="{ item }">
-            <div class="font-weight-bold"> <div>{{ item.rut }}8r </div></div>
+            <div class="font-weight-bold">
+              <div>{{ item.rut }}8r</div>
+            </div>
           </template>
 
-            <template v-slot:item.nombre="{ item }">
-            <div class="font-weight-bold"> <div>{{ item.nombre }}</div></div>
+          <template v-slot:item.nombre="{ item }">
+            <div class="font-weight-bold">
+              <div>{{ item.nombre }}</div>
+            </div>
           </template>
           <template v-slot:item.apellidos="{ item }">
-            <div class="font-weight-bold"><div>{{ item.apellidos }}</div> </div>
-           </template>
+            <div class="font-weight-bold">
+              <div>{{ item.apellidos }}</div>
+            </div>
+          </template>
           <template v-slot:item.email="{ item }">
             <div class="d-flex align-center py-1">
               <v-avatar size="32" class="elevation-1 grey lighten-3">
@@ -198,28 +197,22 @@
           </template> -->
 
           <template v-slot:item.activo="{ item }">
-            <div> <v-checkbox
-            v-model="item.activo" 
-           :disabled="true"
-          
-               ></v-checkbox>
+            <div>
+              <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
             </div>
-          </template> 
+          </template>
 
           <template v-slot:item.cargo="{ item }">
-            <v-chip
-              label
-              small
-              class="font-weight-bold"
-              color="primary"
-            >{{ item.cargo | capitalize }}</v-chip>
+            <v-chip label small class="font-weight-bold" color="primary">{{
+              item.cargo | capitalize
+            }}</v-chip>
           </template>
 
           <template v-slot:item.fec_creacion="{ item }">
-            <div>{{ item.fec_creacion | formatDate('ll') }}</div>
+            <div>{{ item.fec_creacion | formatDate("ll") }}</div>
           </template>
 
-          <template v-slot:item.action="{ }">
+          <template v-slot:item.action="{}">
             <div class="actions">
               <v-btn icon to="/users/edit">
                 <v-icon>mdi-open-in-new</v-icon>
@@ -229,7 +222,6 @@
         </v-data-table>
       </v-card>
     </div>
-  
   </div>
 </template>
 
