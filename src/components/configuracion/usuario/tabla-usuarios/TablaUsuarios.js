@@ -8,8 +8,10 @@ export default {
   data() {
     
     return {
+      image: undefined,
+      // to save image url
+      imageUrl: '',
       drawer:false, 
-
       isLoading: false,
       breadcrumbs: [
         {
@@ -21,7 +23,7 @@ export default {
           text: 'List'
         }
       ],
-
+     
       searchQuery: '',
       selectedUsers: [],
       headers: [
@@ -37,6 +39,7 @@ export default {
 
       users
     }
+    
   },
   props: {
     usuarios:[]
@@ -49,7 +52,20 @@ export default {
     open() {},
     getEstado(estado) {
       return estado === 'S' ? true : false
+    },
+    createImage(file) {
+      const reader = new FileReader()
+  
+      reader.onload = (e) => {
+        this.imageUrl = e.target.result
+      }
+      reader.readAsDataURL(file)
+    },
+    onFileChange(file) {
+      if (!file) {
+        return
+      }
+      this.createImage(file)
     }
-    
   }
 }

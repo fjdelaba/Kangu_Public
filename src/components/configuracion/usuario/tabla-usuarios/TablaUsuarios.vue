@@ -34,11 +34,6 @@
             <v-card-text>
               <div><form>
               <v-row justify="space-around">
-               <v-avatar  size="100" color="indigo">
-      <v-icon dark>
-        mdi-account-circle
-      </v-icon>
-    </v-avatar>
      </v-row>
     <v-text-field
       v-model="rut"
@@ -79,7 +74,18 @@
       required
       @input="$v.cargo.$touch()"
       @blur="$v.cargo.$touch()"
-    ></v-text-field> 
+    ></v-text-field>  
+    <v-select
+          v-model="select"
+          :items="items"
+          :error-messages="errors"
+          label="Perfil"
+          data-vv-name="select"
+          required
+        ></v-select>
+        {{ url }}
+ <v-file-input v-model="image" outlined dense @change="onFileChange" />
+<v-img :src="imageUrl" />
   </form></div>
             </v-card-text>
             <v-card-actions class="justify-end">
