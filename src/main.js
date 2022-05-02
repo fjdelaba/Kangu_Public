@@ -41,58 +41,60 @@ import { InMemoryCache } from 'apollo-cache-inmemory'
 import { ApolloClient } from 'apollo-client'
 import { setContext } from 'apollo-link-context'
 import { createHttpLink } from 'apollo-link-http'
+
+import { split } from 'apollo-link'
 import { WebSocketLink } from 'apollo-link-ws'
 import { getMainDefinition } from 'apollo-utilities'
 
 import VueApollo from 'vue-apollo'
 const authLink = setContext((_, { headers }) => {
-  // get the authentication token from ApplicationSettings if it exists
   const token = localStorage.getItem('tokenxjwt_id')
 
-  console.log('token main: ', token)
-
-  // return the headers to the context so HTTP link can read them
   return {
     headers: {
       ...headers,
-
-      // authorization: token ? `Bearer ${token}` : null,
       authorization: token || null
     }
   }
 })
 
-// // Create the subscription websocket link
-// const wsLink = new WebSocketLink({
-//   uri: 'https://darling-glider-87.hasura.app/v1/graphql',
-//   options: {  
-//     reconnect: true
-//   }
-// })
+const httpLink = createHttpLink({ uri: 'https://darling-glider-87.hasura.app/v1/graphql' })
+const wsLink = new WebSocketLink(
+  { 
+    uri: 'wss://darling-glider-87.hasura.app/v1/graphql',
+    options: {
+      connectionParams: {
+        headers: {
+          Authorization: localStorage.getItem('tokenxjwt_id') ? localStorage.getItem('tokenxjwt_id') : null
+        }
+      },
+      reconnect: true
+    }
+  }
+)
 
-// HTTP connection to the API
-const httpLink = createHttpLink({
-  // You should use an absolute URL here
-  uri: 'https://darling-glider-87.hasura.app/v1/graphql'
-
-  // headers: {
-  //   'x-hasura-admin-secret': 'gKfb394Es6Bb2JjhhGM49h18Qmkj7FhSt5mz94ZUZSmeYUlO8gopF1BGqyM7Hygm',
-  // },
-})
-
-// Cache implementation
 const cache = new InMemoryCache()
+const link = split(
+  // split based on operation type
+  ({ query }) => {
+    const definition = getMainDefinition(query)
+
+    return definition.kind === 'OperationDefinition' &&
+      definition.operation === 'subscription'
+  },
+  wsLink,
+  httpLink
+)
 
 // Create the apollo client
 const apolloClient = new ApolloClient({
   // link: httpLink,
-  link: authLink.concat(httpLink),
+  // link: authLink.concat(httpLink),
+  link: authLink.concat(link),
   cache
 })
 
-const apolloProvider = new VueApollo({
-  defaultClient: apolloClient
-})
+const apolloProvider = new VueApollo({ defaultClient: apolloClient })
 
 Vue.use(VueApollo)
 

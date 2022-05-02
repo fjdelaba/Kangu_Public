@@ -17,7 +17,7 @@
       <div class="d-flex flex-column flex-grow-1">
         <div class="pa-2">
           <div class="text-h4">
-            {{ kangusoft_cg_unidad }}
+            {{ unidades }}
             {{ 26358.49 | formatCurrency }}
           </div>
           <div class="primary--text text--lighten-1 mt-1">
@@ -83,20 +83,16 @@ const GETUNODADES = gql`
   }
 `
 
-export default {
-  // apollo: {
-  //   kangusoft_cg_unidad: {
-  //     query: GETUNODADES
-  //   }
-  // },
-  apollo: {
-    kangusoft_cg_unidad: {
-      query() {
-        return GETUNODADES
-      },
-      update: (data) => data.kangusoft_cg_unidad
+const SUBSUNIDADES = gql`
+   subscription {
+    kangusoft_cg_unidad {
+      nombre
+      emp_fk
     }
-  },
+  }
+`
+
+export default {
   components: {
     TrendPercent
   },
@@ -148,6 +144,36 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    }
+  },
+  data() {
+    return {
+      unidades: []
+    }
+  },
+  // apollo: {
+  //   kangusoft_cg_unidad: {
+  //     query: GETUNODADES
+  //   }
+  // },
+  apollo: {
+    // kangusoft_cg_unidad: {
+    //   query() {
+    //     return GETUNODADES
+    //   },
+    //   update: (data) => data.kangusoft_cg_unidad
+    // },
+    $subscribe: {
+    // When a tag is added
+      kangusoft_cg_unidad: {
+        query: SUBSUNIDADES,
+        // Result hook
+        // Don't forget to destructure `data`
+        result ({ data }) {
+          console.log(data.kangusoft_cg_unidad)
+          this.unidades = data.kangusoft_cg_unidad
+        }
+      }
     }
   },
   computed: {
