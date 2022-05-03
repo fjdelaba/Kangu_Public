@@ -16,7 +16,7 @@
                 Informacion General
               </v-tab>
               <v-tab-item value="search">
-                <cuenta-costo></cuenta-costo>
+                <informacion-general></informacion-general>
               </v-tab-item>
               <v-tab href="#searcha">
                 Adquisiciones
