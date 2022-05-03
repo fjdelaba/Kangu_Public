@@ -1,9 +1,6 @@
 <template>
   
   <v-container class="grey lighten-5">
-    <h2>
-      Creacion del  Proyecto
-    </h2>
     <v-row class="mb-6" no-gutters>
       <v-col>   
         <v-card class="pa-2" outlined tile>
@@ -47,6 +44,3 @@
     </v-row>
   </v-container>
 </template>
-
-<style src="./Listado/Listado.css"></style>
-<script src="./Listado/Listado.js"></script>

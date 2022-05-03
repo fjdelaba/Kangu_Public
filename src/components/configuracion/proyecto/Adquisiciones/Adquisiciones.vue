@@ -1,9 +1,5 @@
 <template>
-  
   <v-container class="grey lighten-5">
-    <h2>
-      Creacion del  Proyecto
-    </h2>
     <v-row class="mb-6" no-gutters>
       <v-col>   
         <v-card class="pa-2" outlined tile>
@@ -107,24 +103,63 @@
               <h4>Listado de aprobadores, montos y tiempos</h4>
             </v-col>
           </v-row>
-    
+
           <v-data-table
             :headers="headers"
             :items="desserts"
             :items-per-page="5"
             class="elevation-1"
             style="min-width: 890px"
-          >
-            <v-btn
-              v-if="idMantenedor == 1"
-              color="primary"
-              dark
-              class="mb-2"
-              v-bind="attrs"
-              v-on="on"
+          ><template v-slot:top>
+            <v-toolbar
+              flat
             >
-              Nueva Forma de Pago
-            </v-btn></v-data-table>
+              <v-divider
+                class="mx-4"
+                inset
+                vertical
+              ></v-divider>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                dark
+              >
+                Agregar Aprobador
+              </v-btn>
+            </v-toolbar></template>
+          </v-data-table>
+          <v-row>
+            <v-col>
+              <h4>Listado de Compradores asignados
+
+              </h4>
+            </v-col>
+          </v-row>
+
+          <v-data-table
+            :headers="headers"
+            :items="desserts"
+            :items-per-page="5"
+            class="elevation-1"
+            style="min-width: 890px"
+          ><template v-slot:top>
+            <v-toolbar
+              flat
+            >
+              <v-divider
+                class="mx-4"
+                inset
+                vertical
+              ></v-divider>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                dark
+              >
+                Agregar Comprador
+              </v-btn>
+            </v-toolbar></template>
+          </v-data-table>
           <v-row class="mb-6" no-gutters>
             <v-col cols="2" align-self="center">
               <h4>Usuarios Observadores</h4>
@@ -161,4 +196,6 @@
       </v-col>
     </v-row>
   </v-container>
-</template>
+</template> 
+
+<script src="./Adquisiciones.js"></script>
