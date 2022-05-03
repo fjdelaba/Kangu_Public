@@ -9,8 +9,8 @@
         <v-card class="pa-2" outlined tile>
           <v-row class="mb-6" no-gutters>
             <v-col>     
-              <h3>MATERIALES A CONTROLAR</h3>
-              <h5> Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
+              <h3>Cuentas De Costo</h3>
+              <h5> Ingrese la información para su control presupuestario. Para poder operar en ese centro de gestión es necesario contar con al menos 1 cuenta de costo.</h5>
             </v-col>
           </v-row>
           <v-row class="mb-6" no-gutters>
@@ -36,7 +36,7 @@
                         color="primary"
                         dark
                       >
-                        Agregar Material a Controlar
+                        Agregar Cuenta de Costo
                       </v-btn>
                     </v-toolbar></template></v-data-table>
               </template>
@@ -47,6 +47,3 @@
     </v-row>
   </v-container>
 </template>
-
-<style src="./Listado/Listado.css"></style>
-<script src="./Listado/Listado.js"></script>
