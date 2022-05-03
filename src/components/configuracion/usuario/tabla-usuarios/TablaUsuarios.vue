@@ -44,7 +44,7 @@
                         ></v-text-field>
                         <v-text-field
                           v-model="usuario.nombres"
-                          hint="For example, flowers or used cars"
+                          hint="Por Ejemplo, Felipe."
                           dense
                           outlined
                           :error-messages="nombreErrors"
@@ -56,7 +56,7 @@
                         ></v-text-field>
                         <v-text-field
                           v-model="usuario.apellidos"
-                          hint="For example, flowers or used cars"
+                          hint="Por Ejemplo, De la Barra."
                           dense
                           outlined
                           :error-messages="apellidosErrors"
@@ -67,7 +67,7 @@
                         ></v-text-field>
                         <v-text-field
                           v-model="usuario.email"
-                          hint="For example, flowers or used cars"
+                          hint="Por Ejemplo, FelipedelaBarra@gmail.com"
                           dense
                           outlined
                           :error-messages="cargoErrors"
@@ -78,7 +78,7 @@
                         ></v-text-field>
                         <v-text-field
                           v-model="usuario.cargo"
-                          hint="Por Ejemplo, Supervisor"
+                          hint="Por Ejemplo, Supervisor,"
                           dense
                           outlined
                           :error-messages="cargoErrors"
@@ -89,7 +89,6 @@
                         ></v-text-field>
                         <v-select
                           v-model="usuario.perfil"
-                          hint="For example, flowers or used cars"
                           dense
                           outlined
                           :items="items"
@@ -103,17 +102,26 @@
                         cols="12"
                         sm="6"
                         md="6"
-                      ><v-file-input v-model="usuario.imagen" prepend-icon="mdi-camera" @click:clear="eliminarImagen" @change="previewImagen" >
+                      ><v-file-input
+                       v-model="usuario.imagen"
+                        prepend-icon="mdi-camera"
+                        label="Ingrese Imagen de Perfil" 
+                        @click:clear="eliminarImagen"
+                         @change="previewImagen" >
                        </v-file-input>
-                        <v-img :src="url"></v-img>
+                        <v-row justify="center" > <v-avatar size="120"> <v-img :src="url"  max-width="auto" max-height="auto" rounded></v-img></v-avatar></v-row>
                       </v-col>
                       <v-col
                         cols="12"
                         sm="6"
                         md="6"
-                      ><v-file-input v-model="usuario.firma" @click:clear="eliminarFirma" @change="previewFirma">
+                      ><v-file-input 
+                      v-model="usuario.firma" 
+                      @click:clear="eliminarFirma"
+                      label="Ingrese Firma"
+                       @change="previewFirma" >
                        </v-file-input>
-                        <v-img :src="url2"></v-img>
+                        <v-row justify="center" ><v-img :src="url2" max-height="123" max-width="178" contain></v-img></v-row>
                       </v-col></v-row>
                     <small>*Rellene los campos requeridos</small>
                     <v-card-actions>
