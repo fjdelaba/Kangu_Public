@@ -1,204 +1,237 @@
 <template>
   <v-container class="grey lighten-5">
     <v-row class="mb-6" no-gutters>
-      <v-col>
-        <v-card class="pa-2" outlined tile>
-          <v-container>
-            <v-row>
-              <v-col
-                cols="2"
-              >
-                <p>Nombre</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Código</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Unidades de Negocio</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Valor Neto del Contrato</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Presupuesto Obra</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Estado</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-            </v-row>
-            
-            <v-row>
-              <v-col
-                cols="4"
-              >
-                <p>Mandante</p>
-                <v-combobox
-                  v-model="select"
-                  outlined
-                  :items="items"
-                  :multiple="false"
-                  chips
-                >
-                <!-- <template v-slot:selection="data">
-                  <v-chip
-                    :key="JSON.stringify(data.item)"
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    :disabled="data.disabled"
-                    @click:close="data.parent.selectItem(data.item)"
-                  >
-                    <v-avatar
-                      class="accent white--text"
-                      left
-                      v-text="data.item.slice(0, 1).toUpperCase()"
-                    ></v-avatar>
-                    {{ data.item }}
-                  </v-chip>
-                </template> -->
-                </v-combobox>
-              </v-col>
-              <v-col>
-                <v-data-table
-                  :headers="headers"
-                  :items="desserts"
-                  :items-per-page="5"
-                  class="elevation-1"
-                ></v-data-table>
-              </v-col>
-            </v-row>
-          <v-row>
-              <v-col
-                cols="2"
-              >
-                <p>Región</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Comuna</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>sDirección</p>
-                <v-text-field
-                  v-model="first"
-                  label="First Name"
-                  outlined
-                ></v-text-field>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Moneda</p>
-                <v-combobox
-                  v-model="select"
-                  outlined
-                  :items="items"
-                  :multiple="false"
-                  chips
-                >
-                <!-- <template v-slot:selection="data">
-                  <v-chip
-                    :key="JSON.stringify(data.item)"
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    :disabled="data.disabled"
-                    @click:close="data.parent.selectItem(data.item)"
-                  >
-                    <v-avatar
-                      class="accent white--text"
-                      left
-                      v-text="data.item.slice(0, 1).toUpperCase()"
-                    ></v-avatar>
-                    {{ data.item }}
-                  </v-chip>
-                </template> -->
-                </v-combobox>
-              </v-col>
-              <v-col
-                cols="2"
-              >
-                <p>Flags</p>
-                 <v-combobox
-                  v-model="select"
-                  outlined
-                  :items="items"
-                  :multiple="false"
-                  chips
-                >
-                <!-- <template v-slot:selection="data">
-                  <v-chip
-                    :key="JSON.stringify(data.item)"
-                    v-bind="data.attrs"
-                    :input-value="data.selected"
-                    :disabled="data.disabled"
-                    @click:close="data.parent.selectItem(data.item)"
-                  >
-                    <v-avatar
-                      class="accent white--text"
-                      left
-                      v-text="data.item.slice(0, 1).toUpperCase()"
-                    ></v-avatar>
-                    {{ data.item }}
-                  </v-chip>
-                </template> -->
-                </v-combobox>
-              </v-col>
-            </v-row>
-          </v-container>
-        </v-card>
+      <v-col>         
+        <h3>GENERAL</h3>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col
+            cols="2"
+            class="pb-0"
+          >
+            <v-text-field
+              v-model="first1"
+              label="Nombre"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="2"
+            class="pb-0"
+          >
+            <v-text-field
+              v-model="first2"
+              label="Código"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="2"
+            class="pb-0"
+          >
+            <v-select
+              v-model="e7"
+              :items="items"
+              label="Celulas"
+              multiple
+              persistent-hint
+              outlined
+              dense
+            ></v-select>
+          </v-col>
+          <v-col
+            cols="2"
+            class="pb-0"
+          >
+            <v-text-field
+              v-model="first3"
+              label="Valor Contrato"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="2"
+            class="pb-0"
+          >
+            <v-text-field
+              v-model="first4"
+              label="Presupuesto de Obra"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="2"
+            class="pb-0"
+          >
+            <v-text-field
+              v-model="first5"
+              label="Estado"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+             
+        </v-row>
+        <v-row>
+          <v-col
+            cols="2"
+            class="pt-0"
+          >
+            <v-select
+              :items="items"
+              label="Moneda"
+              dense
+              outlined
+            ></v-select>
+          </v-col>
+          <v-col
+            class="pt-0"
+            cols="2"
+          >
+            <v-select
+              v-model="e76"
+              :items="items"
+              label="Etiquetas"
+              multiple
+              persistent-hint
+              outlined
+              dense
+            ></v-select>
+         
+          </v-col>
+          <v-col
+            class="pt-0"
+            cols="2"
+          >
+            <v-select
+              v-model="e75"
+              :items="states"
+              label="Monedas Permitidas"
+              multiple
+              chips
+              persistent-hint
+              outlined
+              dense
+            ></v-select>
+          </v-col>
+          <v-col
+            class="pt-0"
+            cols="2"
+          >
+            <v-text-field
+              label="OC inicial"
+              outlined
+              dense
+              value="0"
+            ></v-text-field>
+          </v-col>
+          <v-col
+            class="pt-0"
+            cols="4"
+          >
+            <v-textarea
+              label="Descripción"
+              auto-grow
+              outlined
+              rows="1"
+              row-height="15"
+              dense
+            ></v-textarea>
+          </v-col>
+          <v-col
+            cols="3"
+          >
+            <v-file-input
+              v-model="usuario.firma" 
+              label="Imagen"
+              outlined
+              dense
+              :prepend-icon="false"
+              append-icon="mdi-camera"
+              @change="previewFirma"
+              @click:clear="eliminarFirma"
+            ></v-file-input>
+          </v-col>
+          <v-col
+            cols="2"
+          >
+            <v-img :src="url2" max-height="1000" max-width="2000" contain></v-img>
+          </v-col>
+        </v-row>
+        <h3>DIRECCIÓN</h3>
+        <v-divider></v-divider>
+        <v-row>
+             
+          <v-col
+            cols="2"
+          >
+            <v-text-field
+              v-model="first"
+              label="Región"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="2"
+          >
+            <v-text-field
+              v-model="first"
+              label="Comuna"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="2"
+          >
+            <v-text-field
+              v-model="first"
+              label="Dirección"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+             
+        </v-row>
+        <h3>MANDANTE</h3>
+        <v-divider></v-divider>
+        <v-row>
+          <v-col
+            cols="4"
+          >
+            <v-autocomplete
+              v-model="values"
+              :items="items"
+              outlined
+              dense
+              chips
+              small-chips
+              label="Mandante"
+              multiple
+            ></v-autocomplete>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col
+            cols="12"
+          >
+            <v-btn
+              color="success"
+              dark
+              large
+            ><v-icon>mdi-content-save-all</v-icon> 
+              GUARDAR
+            </v-btn> 
+         
+          </v-col></v-row>
+
       </v-col>
     </v-row>
   </v-container>
 </template>
+<script src="./InformacionGeneral.js"></script>

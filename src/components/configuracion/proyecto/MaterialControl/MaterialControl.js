@@ -22,28 +22,37 @@ export default {
         { text: 'Valor Total', value: 't' },
         { text: '% del Presupuesto', value: 'carbs' }
       ],
-      desserts: [
-        {
-          name: 'Casco Rojo',
-          n: 4132,
-          fat: '145',
-          carbs: '55%',
-          u:'UNIDAD',
-          f:'$890',
-          t:'$19202'
-        }],
+      desserts: [],
       editedIndex: -1,
-      usuario: {
-        firma:''
+      editedItem: {
+        name: '',
+        n: '',
+        fat: '',
+        carbs: '',
+        u:'',
+        f:'',
+        t:''
+      },
+      editedItem1: {
+        name: '',
+        n: '',
+        fat: '',
+        carbs: '',
+        u:'',
+        f:'',
+        t:''
       }
     }
   },
   methods: {
-    previewFirma() {
-      this.url2 = URL.createObjectURL(this.usuario.firma)
-    },
-    eliminarFirma() {
-      this.url2 = null 
+    guardarNuevoItem () {
+      this.editedItem1.name = this.editedItem.name
+      this.editedItem1.fat = this.editedItem.fat
+      this.editedItem1.f = this.editedItem.f
+      this.editedItem1.t = this.editedItem.fat * this.editedItem.f
+      this.editedItem1.carbs = '%' + this.editedItem1.t / 1000000 * 100
+      this.desserts.push(this.editedItem1)
+     
     }
   }
 }

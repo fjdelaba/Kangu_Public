@@ -13,7 +13,7 @@
             <v-tabs>
 
               <v-tab href="#search">
-                Informacion General
+                Informacion
               </v-tab>
               <v-tab-item value="search">
                 <informacion-general></informacion-general>
@@ -31,7 +31,7 @@
                 <cuenta-costo></cuenta-costo>
               </v-tab-item>
               <v-tab href="#searchass">
-                Materiales a Controlar
+                Materiales
               </v-tab>
               <v-tab-item value="searchass">
                 <material-control></material-control>

@@ -3,44 +3,84 @@
   <v-container class="grey lighten-5">
     <v-row class="mb-6" no-gutters>
       <v-col>   
-        <v-card class="pa-2" outlined tile>
-          <v-row class="mb-6" no-gutters>
-            <v-col>     
-              <h3>MATERIALES A CONTROLAR</h3>
-              <h5> Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
-            </v-col>
-          </v-row>
-          <v-row class="mb-6" no-gutters>
-            <v-col>     
-              <template>
-                <v-data-table
-                  :headers="headers"
-                  :items="desserts"
-                  :items-per-page="5"
-                  class="elevation-1"
-                >
-                  <template v-slot:top>
-                    <v-toolbar
-                      flat
-                    >
-                      <v-divider
-                        class="mx-4"
-                        inset
-                        vertical
-                      ></v-divider>
-                      <v-spacer></v-spacer>
-                      <v-btn
-                        color="primary"
-                        dark
-                      >
-                        Agregar Material a Controlar
-                      </v-btn>
-                    </v-toolbar></template></v-data-table>
-              </template>
-            </v-col>
-          </v-row>
-        </v-card>
+        
+        <v-row class="mb-6" no-gutters>
+          <v-col>     
+            <h3>MATERIALES A CONTROLAR</h3>
+            <h5> Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col
+            cols="3"
+          >
+            <v-text-field
+              v-model="editedItem.name"
+              label="Nombre"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="3"
+          >
+            <v-text-field
+              v-model="editedItem.fat"
+              label="Cantidad"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="3"
+          >
+            <v-text-field
+              v-model="editedItem.f"
+              label="Valor Unitario"
+              outlined
+              dense
+            ></v-text-field>
+          </v-col>
+          <v-col
+            cols="3"
+          >
+            <v-btn
+              color="primary"
+              dark
+              @click="guardarNuevoItem()"
+            >
+              Agregar Material
+            </v-btn>
+          </v-col>
+        </v-row>
+        <v-row class="mb-6" no-gutters>
+          <v-col>     
+            <template>
+              <v-data-table
+                :headers="headers"
+                :items="desserts"
+                :items-per-page="5"
+                class="elevation-1"
+                :hide-default-footer="true"
+              ></v-data-table>
+            </template>
+          </v-col>
+        </v-row>
+ <v-row>
+          <v-col
+            cols="12"
+          >
+            <v-btn
+              color="success"
+              dark
+              large
+            ><v-icon>mdi-content-save-all</v-icon> 
+              GUARDAR
+            </v-btn> 
+         
+          </v-col></v-row>
       </v-col>
     </v-row>
   </v-container>
 </template>
+<script src="./MaterialControl.js"></script>
