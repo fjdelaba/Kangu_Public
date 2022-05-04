@@ -89,7 +89,7 @@
           </v-col>
         </v-row>
         <v-row> </v-row>
-        
+
         <v-data-table
           :headers="headers"
           :items="desserts"
@@ -98,56 +98,80 @@
           style="min-width: 890px"
           :hide-default-footer="true"
         ><template v-slot:top>
-          <v-toolbar flat>
-            <v-divider class="mx-4" inset vertical></v-divider>
-            <v-spacer></v-spacer>
-            <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on, attrs }">
-                <v-btn color="primary" dark v-bind="attrs" v-on="on">
-                  Agregar Aprobador
-                </v-btn>
-              </template>
-              <v-card>
-                <v-card-title>
-                  <span class="text-h5">Nuevo Aprobador</span>
-                </v-card-title>
+           <v-toolbar flat>
+             <v-divider class="mx-4" inset vertical></v-divider>
+             <v-spacer></v-spacer>
+             <v-dialog v-model="dialog" max-width="500px">
+               <template v-slot:activator="{ on, attrs }">
+                 <v-btn color="primary" dark v-bind="attrs" v-on="on">
+                   Agregar Aprobador
+                 </v-btn>
+               </template>
+               <v-card>
+                 <v-card-title>
+                   <span class="text-h5">Nuevo Aprobador</span>
+                 </v-card-title>
 
-                <v-card-text>
-                  <v-container>
-                    <v-row>
-                      <v-col cols="12" sm="6" md="12" xl="12">
-                        <span class="text-h6">Nombre</span>
-                        <v-text-field v-model="editedItem.name"></v-text-field>
-                        <span class="text-h6">Hasta que Monto Aprobara</span>
-                        <v-text-field v-model="editedItem.fat"></v-text-field>
-                        <span class="text-h6">Tiempo de Aprobación</span>
-                        <v-text-field v-model="editedItem.carbs"></v-text-field>
-                      </v-col>
-                      <v-col cols="12" sm="6" md="4"> </v-col>
-                    </v-row>
-                  </v-container>
-                </v-card-text>
+                 <v-card-text>
+                   <v-container>
+                     <v-row>
+                       <v-col cols="12" sm="6" md="12" xl="12">
+                         <span class="text-h6">Nombre</span>
+                         <v-text-field
+                           v-model="editedItem.name"
+                           outlined
+                           dense
+                         ></v-text-field>
+                         <span class="text-h6">Hasta que Monto Aprobara</span>
+                         <v-text-field
+                           v-model="editedItem.fat"
+                           outlined
+                           dense
+                         ></v-text-field>
+                         <span class="text-h6">Tiempo de Aprobación</span>
+                         <v-select
+                           v-model="editedItem.carbs"
+                           :items="items2"
+                           label="HORAS"
+                           outlined
+                           dense
+                         ></v-select>
+                       </v-col>
+                       <v-col cols="12" sm="6" md="4"> </v-col>
+                     </v-row>
+                   </v-container>
+                 </v-card-text>
 
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="red" text @click="close"> Cancelar </v-btn>
-                  <v-btn
-                    color="success"
-                    text
-                    :disabled="habilitar != false"
-                    @click="guardarNuevoItem()"
-                  >
-                    Guardar
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-          </v-toolbar></template>
+                 <v-card-actions>
+                   <v-spacer></v-spacer>
+                   <v-btn color="red" text @click="close"> Cancelar </v-btn>
+                   <v-btn
+                     color="success"
+                     text
+                     :disabled="habilitar != false"
+                     @click="guardarNuevoItem()"
+                   >
+                     Guardar
+                   </v-btn>
+                 </v-card-actions>
+               </v-card>
+             </v-dialog>
+           </v-toolbar>
+         </template>
+          <template
+            v-slot:item.actions="{ item }"
+          >
+            <v-icon
+              color="red"
+              
+              @click="deleteItem(item)"
+            >
+              mdi-delete
+            </v-icon>
+          </template>
         </v-data-table>
         <v-row>
-          <v-col>
-
-          </v-col>
+          <v-col> </v-col>
         </v-row>
         <v-row>
           <v-col>
@@ -182,9 +206,17 @@
                     <v-row>
                       <v-col cols="12" sm="6" md="12" xl="12">
                         <span class="text-h6">Nombre</span>
-                        <v-text-field v-model="editedItem.name"></v-text-field>
+                        <v-text-field
+                          v-model="editedItem.name"
+                          outlined
+                          dense
+                        ></v-text-field>
                         <span class="text-h6">Monto máximo de compra</span>
-                        <v-text-field v-model="editedItem.fat"></v-text-field>
+                        <v-text-field
+                          v-model="editedItem.fat"
+                          outlined
+                          dense
+                        ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4"> </v-col>
                     </v-row>
@@ -244,17 +276,14 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-col
-                cols="12"
-              >
+              <v-col cols="12">
                 <v-btn
                   color="success"
                   dark
                   large
-                ><v-icon>mdi-content-save-all</v-icon> 
+                ><v-icon>mdi-content-save-all</v-icon>
                   GUARDAR
-                </v-btn> 
-         
+                </v-btn>
               </v-col></v-row>
           </v-col>
         </v-row>
