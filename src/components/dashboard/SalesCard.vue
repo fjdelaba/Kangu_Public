@@ -76,7 +76,7 @@ function formatDate(date) {
 
 const GETUNODADES = gql`
   query {
-    kangusoft_cg_unidad {
+    kangusoft_pro_uni {
       nombre
       emp_fk
     }
@@ -84,12 +84,12 @@ const GETUNODADES = gql`
 `
 
 const SUBSUNIDADES = gql`
-   subscription {
-    kangusoft_cg_unidad {
-      nombre
-      emp_fk
-    }
+  subscription {
+  kangusoft_pro_uni {
+    emp_fk
+    nombre
   }
+}
 `
 
 export default {
@@ -165,13 +165,13 @@ export default {
     // },
     $subscribe: {
     // When a tag is added
-      kangusoft_cg_unidad: {
+      kangusoft_pro_uni: {
         query: SUBSUNIDADES,
         // Result hook
         // Don't forget to destructure `data`
         result ({ data }) {
-          console.log(data.kangusoft_cg_unidad)
-          this.unidades = data.kangusoft_cg_unidad
+          console.log(data.kangusoft_pro_uni)
+          this.unidades = data.kangusoft_pro_uni
         }
       }
     }
