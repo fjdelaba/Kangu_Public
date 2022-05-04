@@ -71,7 +71,21 @@
                       class="pb-0 pt-0 mb-0 mt-0"
                     >
                       <v-text-field
-                        v-model="editedItem.calories"
+                        v-model="editedItem.protein"
+                        label="Partida"
+                        outlined
+                        dense
+                      ></v-text-field>
+                    </v-col>
+                    <!-- CARGA DINAMICA DE PARTIDAS -->
+                    <v-col
+                      cols="12"
+                      sm="6"
+                      md="4"
+                      class="pb-0 pt-0 mb-0 mt-0"
+                    >
+                      <v-text-field
+                        v-model="editedItem.protein"
                         label="Cantidad"
                         outlined
                         dense
@@ -80,29 +94,50 @@
                     <v-col
                       cols="12"
                       sm="6"
+                      md="2"
+                      class="pb-0 pt-0 mb-0 mt-0"
+                    >
+                      <v-btn
+                        fab
+                        dark
+                        small
+                        color="primary"
+                      >
+                        <v-icon dark>
+                          mdi-plus
+                        </v-icon>
+                      </v-btn>
+                    </v-col>
+                    <!-- FIN CARGA DINAMICA DE PARTIDAS -->
+                    <v-col
+                      cols="12"
+                      sm="6"
                       md="6"
                       class="pb-0 pt-0 mb-0 mt-0"
                     >
                       <v-text-field
-                        v-model="editedItem.fat"
+                        v-model="editedItem.protein"
                         label="Precio Unitario"
                         outlined
                         dense
                       ></v-text-field>
                     </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="12"
-                      class="pb-0 pt-0 mb-0 mt-0"
-                    >
-                      <v-text-field
+                    <v-row class="pl-3" align="center">
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                        class="pb-0 pt-0 mb-0 mt-0"
+                      >
+                        <!-- <v-text-field
                         v-model="editedItem.protein"
-                        label="Partida"
+                        label="Cantidad"
                         outlined
                         dense
-                      ></v-text-field>
-                    </v-col>
+                      ></v-text-field> -->
+                        <p class="font-weight-black">Total: {{ 1000 }}</p>
+                      </v-col>
+                    </v-row>
                   </v-row>
                 </v-container>
               </v-card-text>
