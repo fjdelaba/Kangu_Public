@@ -10,7 +10,7 @@
             class="pb-0"
           >
             <v-text-field
-              v-model="first1"
+              v-model="infoGeneralProyecto.nombre"
               label="Nombre"
               outlined
               dense
@@ -21,7 +21,7 @@
             class="pb-0"
           >
             <v-text-field
-              v-model="first2"
+              v-model="infoGeneralProyecto.codigo"
               label="Código"
               outlined
               dense
@@ -32,13 +32,14 @@
             class="pb-0"
           >
             <v-select
-              v-model="e7"
-              :items="items"
+              v-model="infoGeneralProyecto.celulas"
+              :items="celulas"
               label="Celulas"
               multiple
               persistent-hint
               outlined
               dense
+              item-text="nombre"
             ></v-select>
           </v-col>
           <v-col
@@ -46,7 +47,7 @@
             class="pb-0"
           >
             <v-text-field
-              v-model="first3"
+              v-model="infoGeneralProyecto.valorC"
               label="Valor Contrato"
               outlined
               dense
@@ -57,7 +58,7 @@
             class="pb-0"
           >
             <v-text-field
-              v-model="first4"
+              v-model="infoGeneralProyecto.presupuestoObra"
               label="Presupuesto de Obra"
               outlined
               dense
@@ -67,12 +68,14 @@
             cols="2"
             class="pb-0"
           >
-            <v-text-field
-              v-model="first5"
+            <v-select
+              v-model="infoGeneralProyecto.estado"
+              :items="estado"
               label="Estado"
               outlined
               dense
-            ></v-text-field>
+              item-text="nombre"
+            ></v-select>
           </v-col>
              
         </v-row>
@@ -82,10 +85,11 @@
             class="pt-0"
           >
             <v-select
-              :items="items"
+              :items="monedero"
               label="Moneda"
               dense
               outlined
+              item-text="mon.nombre"
             ></v-select>
           </v-col>
           <v-col
@@ -93,13 +97,14 @@
             cols="2"
           >
             <v-select
-              v-model="e76"
-              :items="items"
+              v-model="infoGeneralProyecto.flag"
+              :items="flags"
               label="Etiquetas"
               multiple
               persistent-hint
               outlined
               dense
+              item-text="nombre"
             ></v-select>
          
           </v-col>
@@ -108,14 +113,14 @@
             cols="2"
           >
             <v-select
-              v-model="e75"
-              :items="states"
+              v-model="infoGeneralProyecto.monedaGeneral"
+              :items="monedero"
               label="Monedas Permitidas"
               multiple
-              chips
               persistent-hint
               outlined
               dense
+              item-text="mon.nombre"
             ></v-select>
           </v-col>
           <v-col
@@ -123,6 +128,7 @@
             cols="2"
           >
             <v-text-field
+              v-model="infoGeneralProyecto.ocInicial"
               label="OC inicial"
               outlined
               dense
@@ -134,6 +140,7 @@
             cols="4"
           >
             <v-textarea
+              v-model="infoGeneralProyecto.descripcion"
               label="Descripción"
               auto-grow
               outlined
@@ -165,32 +172,37 @@
         <h3>DIRECCIÓN</h3>
         <v-divider></v-divider>
         <v-row>
-             
           <v-col
             cols="2"
           >
-            <v-text-field
-              v-model="first"
-              label="Región"
+            <v-select
+              v-model="infoDireccionProyecto.region"
+              :items="region"
+              label="Region"
               outlined
               dense
-            ></v-text-field>
+              item-text="nombre"
+              item-value="id"
+              @blur="cargarComunas(infoDireccionProyecto.region)"
+            ></v-select>
           </v-col>
           <v-col
             cols="2"
           >
-            <v-text-field
-              v-model="first"
+            <v-select
+              v-model="infoDireccionProyecto.comuna"
+              :items="comuna && comuna"
               label="Comuna"
               outlined
               dense
-            ></v-text-field>
+              item-text="nombre"
+            ></v-select>
           </v-col>
           <v-col
             cols="2"
           >
             <v-text-field
-              v-model="first"
+              v-model="infoDireccionProyecto.direccion"
               label="Dirección"
               outlined
               dense
