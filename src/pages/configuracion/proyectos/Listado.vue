@@ -23,14 +23,14 @@
               </v-tab>
               <v-tab-item value="searcha">
                 <adquisiciones></adquisiciones>
-              </v-tab-item>
-              <v-tab href="#searchas">
+              </v-tab-item >
+              <v-tab  href="#searchas">
                 Cuentas de Costo
               </v-tab>
               <v-tab-item value="searchas">
                 <cuenta-costo></cuenta-costo>
               </v-tab-item>
-              <v-tab href="#searchass">
+              <v-tab  href="#searchass">
                 Materiales
               </v-tab>
               <v-tab-item value="searchass">

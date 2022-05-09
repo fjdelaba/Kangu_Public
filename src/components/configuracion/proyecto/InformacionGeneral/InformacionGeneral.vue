@@ -40,6 +40,7 @@
               outlined
               dense
               item-text="nombre"
+              item-value="id"
             ></v-select>
           </v-col>
           <v-col
@@ -75,6 +76,7 @@
               outlined
               dense
               item-text="nombre"
+              item-value="id"
             ></v-select>
           </v-col>
              
@@ -85,11 +87,13 @@
             class="pt-0"
           >
             <v-select
+              v-model="infoGeneralProyecto.monedaGeneral"
               :items="monedero"
               label="Moneda"
               dense
               outlined
               item-text="mon.nombre"
+              item-value="id"
             ></v-select>
           </v-col>
           <v-col
@@ -105,6 +109,7 @@
               outlined
               dense
               item-text="nombre"
+              item-value="id"
             ></v-select>
          
           </v-col>
@@ -113,7 +118,7 @@
             cols="2"
           >
             <v-select
-              v-model="infoGeneralProyecto.monedaGeneral"
+              v-model="infoGeneralProyecto.monedaPersonalizada"
               :items="monedero"
               label="Monedas Permitidas"
               multiple
@@ -196,6 +201,7 @@
               outlined
               dense
               item-text="nombre"
+              item-value="id"
             ></v-select>
           </v-col>
           <v-col
@@ -221,10 +227,7 @@
               :items="items"
               outlined
               dense
-              chips
-              small-chips
               label="Mandante"
-              multiple
             ></v-autocomplete>
           </v-col>
         </v-row>
@@ -236,6 +239,7 @@
               color="success"
               dark
               large
+              @click="guardarInformacion()"
             ><v-icon>mdi-content-save-all</v-icon> 
               GUARDAR
             </v-btn> 
