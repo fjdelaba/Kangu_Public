@@ -1,5 +1,5 @@
 import { GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
-  GET_PROVEEDORES, GET_CONTACTOS } from './querys/general'
+  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS } from './querys/general'
 import { apolloClient } from '../client'
 
 export const getFormasPago = async () => {
@@ -62,6 +62,16 @@ export const getContactos = async (idproveedor) => {
     query: GET_CONTACTOS,
     variables: {
       idproveedor
+    }
+  })
+}
+export const getComunas = async (idRegion) => {
+  console.log('idRegion: ', idRegion)
+
+  return await apolloClient.query({
+    query: GET_COMUNAS,
+    variables: {
+      idRegion
     }
   })
 }

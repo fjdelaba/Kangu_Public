@@ -1,124 +1,19 @@
 /* eslint-disable */
-import gql from "graphql-tag";
-
-const GETMONEDA = gql`
-  query {
-    kangusoft_emp_mon(where: { activo: { _eq: true }, mon: {} }) {
-      id
-      emp_fk
-      mon {
-        nombre
-      }
-    }
-  }
-`;
-const GETCELULAS = gql`
-  query {
-    kangusoft_pro_uni(where: { activo: { _eq: true } }) {
-      id
-      nombre
-      activo
-    }
-  }
-`;
-const GETESTADO = gql`
-  query {
-    kangusoft_pro_est {
-      nombre
-      id
-    }
-  }
-`;
-
-const GETFLAGS = gql`
-  query {
-    kangusoft_fla(where: { activo: { _eq: true } }) {
-      id
-      nombre
-    }
-  }
-`;
-const GETREGION = gql`
-  query {
-    kangusoft_reg {
-      nombre
-      id
-    }
-  }
-`;
-const GETCOMUNAS = gql`
-  query ($id: bigint!) {
-    kangusoft_prov(where: { reg_fk: { _eq: $id } }) {
-      coms {
-        nombre
-        id
-      }
-    }
-  }
-`;
-const INSERTFLAGS = gql`
-  mutation insertflags($flags: [kangusoft_pro_fla_insert_input!]!) {
-    insert_kangusoft_pro_fla(objects: $flags) {
-      returning {
-        pro_fk
-        fla_fk
-      }
-    }
-  }
-`;
-const INSERTCELULAS = gql`
-  mutation insertcelulas($celulas: [kangusoft_pro_prouni_insert_input!]!) {
-    insert_kangusoft_pro_prouni(objects: $celulas) {
-      affected_rows
-    }
-  }
-`;
-const INSERTPROYECTO = gql`
-  mutation insertProyecto(
-    $nombre: String!
-    $pro_est_fk: bigint!
-    $valor_contractual: numeric!
-    $com_fk: bigint!
-    $direccion: String!
-    $ent_fk: bigint!
-    $usu_fk: bigint!
-    $fec_creacion: timestamp!
-    $inicio_oc: bigint!
-    $emp_fk: bigint!
-    $emp_mon_fk: bigint!
-    $codigo: String!
-    $descripcion: String!
-    $presupuesto: numeric!
-  ) {
-    insert_kangusoft_pro(
-      objects: {
-        nombre: $nombre
-        pro_est_fk: $pro_est_fk
-        valor_contractual: $valor_contractual
-        com_fk: $com_fk
-        direccion: $direccion
-        ent_fk: $ent_fk
-        fec_creacion: $fec_creacion
-        usu_fk: $usu_fk
-        inicio_oc: $inicio_oc
-        emp_fk: $emp_fk
-        emp_mon_fk: $emp_mon_fk
-        codigo: $codigo
-        descripcion: $descripcion
-        presupuesto: $presupuesto
-      }
-    ) {
-      returning {
-        id
-        nombre
-      }
-    }
-  }
-`;
+import {getComunas,getProveedores} from "../../../../graphql/general.js"
+import {getDatosGenerales}  from "../../../../graphql/configuracion.js"
+import { postProyectoInformacion } from '../../../../graphql/configuracion.js'
 
 export default {
   data() {
-    return {
+    return { 
+      isLoading: false,
+      search: null,
+      proyectoRules: [
+        (v) => !!v || 'Este Campo es Obligatorio'
+      ],
+      celulasRules: [
+        (v) => !!v || 'Selecciona 1 Unidad como minimo'
+      ],
       select: ["Vuetify", "Programming"],
       items: ["Programming", "Design", "Vue", "Vuetify"],
       headers: [
@@ -150,24 +45,7 @@ export default {
       usuario: {
         firma: "",
       },
-      defaultSelected: {
-        name: "John",
-        last: "Doe",
-      },
-      people: [
-        {
-          name: "John",
-          last: "Doe",
-        },
-        {
-          name: "Harry",
-          last: "Potter",
-        },
-        {
-          name: "George",
-          last: "Bush",
-        },
-      ],
+      
       infoGeneralProyecto: {
         nombre: "",
         codigo: "",
@@ -190,142 +68,119 @@ export default {
       infoMandanteProyecto: {
         mandante: "",
       },
-      monedero: {},
-      celulas: {},
-      estado: {},
-      flags: {},
-      region: {},
-      comuna: [],
+      listaMonedas: [],
+      listaCelulas: [],
+      listaEstados: [],
+      listaFlags: [],
+      listaRegion: [],
+      listaComunas: [],
+      listaUsuarios:[],
+      listaMandante:[],
       a: [],
       usuLogin: "",
       fecha: "",
       aut0: "",
-      finalFlag: [],
-      finalCelulas:[]
+      usuarioAdministrador:'',
     };
   },
   mounted() {
-    this.cargarMonedas();
-    this.cargarCelulas();
-    this.cargarEstado();
-    this.cargarFlags();
-    this.cargarRegiones();
+    this.cargarInformacionGeneral()
     this.aut0 = this.$auth.user["https://kangusoft.cl/jwt/hasura"].user_tenant;
     this.usuLogin = this.$auth.user["https://kangusoft.cl/jwt/hasura"].user_id;
     this.fecha = this.$moment(new Date()).format();
+ 
   },
   methods: {
+    fetchEntriesDebounced() {
+      clearTimeout(this._timerId)
+    
+      this._timerId = setTimeout(() => {
+        this.buscarProveedor()
+      }, 1000)
+    },
+    async buscarProveedor() {
+      const { data } = await getProveedores(`%${this.search}%`)
+
+      this.isLoading = false
+      this.listaMandante = data.kangusoft_ent
+      console.log('search data: ', data)
+    },
+     
+    unirNombreApellido(item){
+     return item.nombre +' '+ item.apellidos
+    },
+
     previewFirma() {
       this.url2 = URL.createObjectURL(this.usuario.firma);
     },
     eliminarFirma() {
       this.url2 = null;
     },
-    async cargarMonedas() {
-      const data = await this.$apollo.query({
-        query: GETMONEDA,
-      });
-      this.monedero = data.data.kangusoft_emp_mon;
-
-      console.log("USUARIO:", this.usuLogin, "aut0:", this.aut0);
-      console.log("moneda:", this.monedero);
-    },
-    async cargarCelulas() {
-      const data = await this.$apollo.query({
-        query: GETCELULAS,
-      });
-      this.celulas = data.data.kangusoft_pro_uni;
-      console.log("celulas:", this.celulas);
-    },
-    async cargarEstado() {
-      const data = await this.$apollo.query({
-        query: GETESTADO,
-      });
-      this.estado = data.data.kangusoft_pro_est;
-      console.log("celulas:", this.celulas);
-    },
-    async cargarFlags() {
-      const data = await this.$apollo.query({
-        query: GETFLAGS,
-      });
-      this.flags = data.data.kangusoft_fla;
-      console.log("celulas:", this.flags);
-    },
-    async cargarRegiones() {
-      const data = await this.$apollo.query({
-        query: GETREGION,
-      });
-      this.region = data.data.kangusoft_reg;
-      console.log("region:", this.region);
-    },
-    async cargarComunas(id) {
-      this.comuna = [];
-      const data = await this.$apollo.query({
-        query: GETCOMUNAS,
-        variables: {
-          id: id,
-        },
-      });
-      this.a = data.data.kangusoft_prov;
-      for (let a of this.a) {
-        for (let b of a.coms) {
-          console.log("final", b);
-          this.comuna.push(b);
+    async cargarComunas(){
+      const { data : {kangusoft_prov}} = await getComunas(this.infoDireccionProyecto.region)
+      for(let prov of kangusoft_prov){
+        for(let com of prov.coms){
+          console.log("coms",com)
+          this.listaComunas.push({id:com.id,nombre:com.nombre})
         }
       }
 
-      console.log("comuna:", this.comuna);
     },
+    async cargarInformacionGeneral() {
+      const { data: {kangusoft_emp_mon,kangusoft_fla,kangusoft_pro_est,kangusoft_pro_uni,kangusoft_reg,kangusoft_usu} } = await getDatosGenerales()
+      for(let mon of kangusoft_emp_mon){
+        this.listaMonedas.push({id:mon.mon.id,nombre:mon.mon.nombre})
+      }
+      for(let flag of kangusoft_fla){
+        this.listaFlags.push({id:flag.id,nombre:flag.nombre})
+      }
+      for(let estado of kangusoft_pro_est){
+        this.listaEstados.push({id:estado.id,nombre:estado.nombre})
+      }
+      for(let uni of kangusoft_pro_uni ){
+         this.listaCelulas.push({id:uni.id,nombre:uni.nombre})
+      }
+      for(let region of kangusoft_reg){
+        this.listaRegion.push({id:region.id,nombre:region.nombre})
+      }
+      for(let usu of kangusoft_usu){
+        this.listaUsuarios.push({id:usu.id,nombre:usu.nombre, apellidos:usu.apellidos})
+      }
+    }, 
+
     async guardarInformacion() {
-      console.log("INFO GENERAL");
-      const { data } = await this.$apollo.mutate({
-        mutation: INSERTPROYECTO,
-        variables: {
+      let finalCelulas =[]
+      let finalFlag = []
+      let inf = {
           emp_fk: this.aut0,
           nombre: this.infoGeneralProyecto.nombre,
           pro_est_fk: this.infoGeneralProyecto.estado,
           valor_contractual: this.infoGeneralProyecto.valorC,
           com_fk: this.infoDireccionProyecto.comuna,
           direccion: this.infoDireccionProyecto.direccion,
-          ent_fk: 350,
-          fec_creacion: this.fecha,
+          ent_fk: this.infoMandanteProyecto.mandante.id,
           usu_fk: this.usuLogin,
           inicio_oc: this.infoGeneralProyecto.ocInicial,
           codigo: this.infoGeneralProyecto.codigo,
-          emp_mon_fk: this.infoGeneralProyecto.monedaGeneral,
+          mon_fk: this.infoGeneralProyecto.monedaGeneral,
           descripcion: this.infoGeneralProyecto.descripcion,
           presupuesto: this.infoGeneralProyecto.presupuestoObra,
-        },
-      });
-      console.log("INSERT PROYECTO", data);
-      console.log("ID PROYECTO", data.insert_kangusoft_pro.returning[0].id);
-      console.log("FLAG", this.infoGeneralProyecto.flag);
-      for (let a of this.infoGeneralProyecto.flag) {
-        console.log("a", a)
-        console.log("FLAG", data.insert_kangusoft_pro.returning[0].id)
-        this.finalFlag.push({pro_fk: data.insert_kangusoft_pro.returning[0].id,fla_fk: a});
-      }
+          adm_obra_fk: this.usuarioAdministrador.id
+        }
       for (let b of this.infoGeneralProyecto.celulas) {
-        console.log("b", b)
-        console.log("FLAG", data.insert_kangusoft_pro.returning[0].id)
-        this.finalCelulas.push({pro_fk: data.insert_kangusoft_pro.returning[0].id,pro_uni_fk: b});
+        finalCelulas.push({pro_uni_fk:b})}
+      for (let a of this.infoGeneralProyecto.flag) {
+        finalFlag.push({fla_fk:a});
       }
-      console.log("VA",this.finalFlag)
-
-      const data2 = await this.$apollo.mutate({
-        mutation: INSERTFLAGS,
-        variables: {
-          flags: this.finalFlag,
-        },
-      });
-      const data3 = await this.$apollo.mutate({
-        mutation: INSERTCELULAS,
-        variables: {
-          celulas: this.finalCelulas,
-        },
-      });
-      console.log("INSERT flags", data2);
-      console.log("INSERT CELULAS", data3);
+      const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
+      console.log(data)
     },
   },
+  watch: {
+    async search (val) {
+      if (this.isLoading) return
+      this.isLoading = true
+      this.fetchEntriesDebounced()
+    }
+  }
 };

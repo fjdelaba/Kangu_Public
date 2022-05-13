@@ -83,6 +83,16 @@ query Q_GET_CONTACTOS($idproveedor: bigint) {
   }
 }
 `
+const GET_COMUNAS = gql`
+query Q_GET_COMUNA($idRegion: bigint) {
+  kangusoft_prov(where: {reg_fk: {_eq: $idRegion}}) {
+    coms {
+      id
+      nombre
+    }
+  }
+}
+`
 
 export {
   GET_FORMAS_PAGO,
@@ -93,5 +103,6 @@ export {
   GET_TIEMPO_APROBACION,
   GET_FLAGS,
   GET_PROVEEDORES,
-  GET_CONTACTOS
+  GET_CONTACTOS,
+  GET_COMUNAS
 }

@@ -11,6 +11,7 @@
           >
             <v-text-field
               v-model="infoGeneralProyecto.nombre"
+              :rules="proyectoRules"
               label="Nombre"
               outlined
               dense
@@ -22,6 +23,7 @@
           >
             <v-text-field
               v-model="infoGeneralProyecto.codigo"
+              :rules="proyectoRules"
               label="Código"
               outlined
               dense
@@ -33,7 +35,8 @@
           >
             <v-select
               v-model="infoGeneralProyecto.celulas"
-              :items="celulas"
+              :rules="celulasRules" 
+              :items="listaCelulas"
               label="Celulas"
               multiple
               persistent-hint
@@ -49,9 +52,11 @@
           >
             <v-text-field
               v-model="infoGeneralProyecto.valorC"
+              :rules="proyectoRules"
               label="Valor Contrato"
               outlined
               dense
+              type="number"
             ></v-text-field>
           </v-col>
           <v-col
@@ -60,6 +65,7 @@
           >
             <v-text-field
               v-model="infoGeneralProyecto.presupuestoObra"
+              :rules="proyectoRules"
               label="Presupuesto de Obra"
               outlined
               dense
@@ -71,12 +77,13 @@
           >
             <v-select
               v-model="infoGeneralProyecto.estado"
-              :items="estado"
+              :items="listaEstados"
               label="Estado"
               outlined
               dense
               item-text="nombre"
               item-value="id"
+              value="1"
             ></v-select>
           </v-col>
              
@@ -88,11 +95,12 @@
           >
             <v-select
               v-model="infoGeneralProyecto.monedaGeneral"
-              :items="monedero"
+              :rules="proyectoRules"
+              :items="listaMonedas"
               label="Moneda"
               dense
               outlined
-              item-text="mon.nombre"
+              item-text="nombre"
               item-value="id"
             ></v-select>
           </v-col>
@@ -102,7 +110,7 @@
           >
             <v-select
               v-model="infoGeneralProyecto.flag"
-              :items="flags"
+              :items="listaFlags"
               label="Etiquetas"
               multiple
               persistent-hint
@@ -113,7 +121,7 @@
             ></v-select>
          
           </v-col>
-          <v-col
+          <!-- <v-col
             class="pt-0"
             cols="2"
           >
@@ -127,7 +135,7 @@
               dense
               item-text="mon.nombre"
             ></v-select>
-          </v-col>
+          </v-col> -->
           <v-col
             class="pt-0"
             cols="2"
@@ -155,7 +163,21 @@
             ></v-textarea>
           </v-col>
           <v-col
-            cols="3"
+            cols="4"
+          >
+            <v-combobox
+              v-model="usuarioAdministrador"
+              :rules="proyectoRules"
+              :items="listaUsuarios"
+              label="Administrador de Obra"
+              dense
+              outlined
+              solo
+              :item-text="unirNombreApellido"
+            ></v-combobox>
+          </v-col>
+          <v-col
+            cols=""
           >
             <v-file-input
               v-model="usuario.firma" 
@@ -173,81 +195,87 @@
           >
             <v-img :src="url2" max-height="1000" max-width="2000" contain></v-img>
           </v-col>
-        </v-row>
-        <h3>DIRECCIÓN</h3>
-        <v-divider></v-divider>
-        <v-row>
-          <v-col
-            cols="2"
-          >
-            <v-select
-              v-model="infoDireccionProyecto.region"
-              :items="region"
-              label="Region"
-              outlined
-              dense
-              item-text="nombre"
-              item-value="id"
-              @blur="cargarComunas(infoDireccionProyecto.region)"
-            ></v-select>
-          </v-col>
-          <v-col
-            cols="2"
-          >
-            <v-select
-              v-model="infoDireccionProyecto.comuna"
-              :items="comuna && comuna"
-              label="Comuna"
-              outlined
-              dense
-              item-text="nombre"
-              item-value="id"
-            ></v-select>
-          </v-col>
-          <v-col
-            cols="2"
-          >
-            <v-text-field
-              v-model="infoDireccionProyecto.direccion"
-              label="Dirección"
-              outlined
-              dense
-            ></v-text-field>
-          </v-col>
+        </v-row></v-col></v-row>
+    <h3>DIRECCIÓN</h3>
+    <v-divider></v-divider>
+    <v-row>
+      <v-col
+        cols="2"
+      >
+        <v-select
+          v-model="infoDireccionProyecto.region"
+          :items="listaRegion"
+          label="Region"
+          outlined
+          dense
+          item-text="nombre"
+          item-value="id"
+          @blur="cargarComunas()"
+        ></v-select>
+      </v-col>
+      <v-col
+        cols="2"
+      > 
+        <v-select
+          v-model="infoDireccionProyecto.comuna"
+          :items="listaComunas && listaComunas"
+          label="Comuna"
+          outlined
+          dense
+          item-text="nombre"
+          item-value="id"
+        ></v-select>
+      </v-col>
+      <v-col
+        cols="2"
+      >
+        <v-text-field
+          v-model="infoDireccionProyecto.direccion"
+          label="Dirección"
+          outlined
+          dense
+        ></v-text-field>
+      </v-col>
              
-        </v-row>
-        <h3>MANDANTE</h3>
-        <v-divider></v-divider>
-        <v-row>
-          <v-col
-            cols="4"
-          >
-            <v-autocomplete
-              v-model="values"
-              :items="items"
-              outlined
-              dense
-              label="Mandante"
-            ></v-autocomplete>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col
-            cols="12"
-          >
-            <v-btn
-              color="success"
-              dark
-              large
-              @click="guardarInformacion()"
-            ><v-icon>mdi-content-save-all</v-icon> 
-              GUARDAR
-            </v-btn> 
-         
-          </v-col></v-row>
-
+    </v-row>
+    <h3>MANDANTE</h3>
+    <v-divider></v-divider>
+    <v-row>
+      <v-col
+        cols="4"
+      >
+        {{ listaMandante }}
+        <v-autocomplete
+          v-model="infoMandanteProyecto.mandante"
+          :items="listaMandante"
+          :loading="isLoading"
+          :search-input.sync="search"
+          item-text="razon_social"
+          item-value="id"
+          label="Proveedor"
+          hide-no-data
+          hint="Puedes buscar por nombre o por rut"
+          return-object
+          outlined
+          dense
+        ></v-autocomplete>
       </v-col>
     </v-row>
+    <v-row>
+      <v-col
+        cols="12"
+      >
+        <v-btn
+          color="success"
+          dark
+          large
+          @click="guardarInformacion()"
+        ><v-icon>mdi-content-save-all</v-icon> 
+          GUARDAR
+        </v-btn> 
+         
+      </v-col></v-row>
+
   </v-container>
 </template>
 <script src="./InformacionGeneral.js"></script>

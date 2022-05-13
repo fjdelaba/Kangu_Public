@@ -16,25 +16,25 @@
                 Informacion
               </v-tab>
               <v-tab-item value="search">
-                <informacion-general></informacion-general>
+                <informacion-general ref="infoGeneral"></informacion-general>
               </v-tab-item>
               <v-tab href="#searcha">
                 Adquisiciones
               </v-tab>
               <v-tab-item value="searcha">
-                <adquisiciones></adquisiciones>
+                <adquisiciones ref="adquisiciones"></adquisiciones>
               </v-tab-item >
-              <v-tab  href="#searchas">
+              <v-tab href="#searchas">
                 Cuentas de Costo
               </v-tab>
               <v-tab-item value="searchas">
-                <cuenta-costo></cuenta-costo>
+                <cuenta-costo ref="cuentaCosto"></cuenta-costo>
               </v-tab-item>
-              <v-tab  href="#searchass">
+              <v-tab href="#searchass">
                 Materiales
               </v-tab>
               <v-tab-item value="searchass">
-                <material-control></material-control>
+                <material-control ref="mateControl"></material-control>
               </v-tab-item>
             </v-tabs>
           </v-col>
