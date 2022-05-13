@@ -26,6 +26,10 @@ const GET_DATOS_GENERALES = gql`
       nombre
       id
     }
+    kangusoft_reg {
+      nombre
+      id
+    }
   }
 `
 
