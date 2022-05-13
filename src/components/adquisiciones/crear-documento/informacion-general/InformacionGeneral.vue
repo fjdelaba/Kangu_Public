@@ -28,7 +28,7 @@
           class="pb-0"
         >
           <v-text-field
-            v-model="nombreOC"
+            v-model="nombre"
             label="Nombre de OC"
             value=""
             :rules="nombreOCRules"
@@ -67,7 +67,7 @@
             :rules="tipoDocumentoRules"
             clearable
             outlined
-            :items="listaTipoDocumento"
+            :items="listaTiposDocumento"
             item-text="nombre"
             item-value="id"
             label="Tipo Documento"
@@ -81,7 +81,7 @@
           md="6"
           class="pt-0"
         >
-          <v-combobox
+          <!-- <v-combobox
             v-model="tipoOC"
             :rules="tipoOCRules"
             clearable
@@ -91,6 +91,14 @@
             item-value="id"
             label="Tipo Documento"
             hint="¿Que documento contable generará esta OC?"
+            dense
+          ></v-combobox> -->
+          <v-combobox
+            v-model="select"
+            :items="items"
+            label="Combobox"
+            multiple
+            outlined
             dense
           ></v-combobox>
         </v-col>
@@ -106,7 +114,7 @@
           md="6"
         >
           <!-- valor: {{ proveedor.id }} -->
-          <v-autocomplete
+          <!-- <v-autocomplete
             v-model="proveedor"
             :rules="proveedorRules"
             :items="items"
@@ -121,6 +129,21 @@
             outlined
             hint="Puedes buscar por nombre o por rut"
             dense
+          ></v-autocomplete> -->
+          <v-autocomplete
+            v-model="proveedor"
+            :items="listaProveedores"
+            :loading="isLoading"
+            :search-input.sync="search"
+            item-text="razon_social"
+            item-value="id"
+            label="Proveedor"
+            hide-no-data
+            hint="Puedes buscar por nombre o por rut"
+            return-object
+            outlined
+            dense
+            @input="cargarContactos()"
           ></v-autocomplete>
         </v-col>
 
@@ -129,12 +152,15 @@
           md="6"
         >
           <v-combobox
-            v-model="vendedor"
+            v-model="contacto"
             :rules="vendedorRules"
             clearable
             outlined
-            label="Vendedor"
-            hint="Indicanos a que vendedor debe llegar esta OC"
+            :items="listaContactos"
+            item-text="nombre"
+            item-value="id"
+            label="Contacto"
+            hint="Indicanos a quien enviarás esta OC"
             dense
           ></v-combobox>
         </v-col>
@@ -150,11 +176,11 @@
           md="6"
         >
           <v-combobox
-            v-model="pago"
+            v-model="formaPago"
             :rules="pagoRules"
             clearable
             outlined
-            :items="listaFormaPago"
+            :items="listaFormasPago"
             item-text="nombre"
             item-value="id"
             label="Forma de pago"
@@ -168,11 +194,11 @@
           md="6"
         >
           <v-combobox
-            v-model="despacho"
+            v-model="tipoDespacho"
             :rules="despachoRules"
             clearable
             outlined
-            :items="listaDespacho"
+            :items="listaTiposDespacho"
             item-text="nombre"
             item-value="id"
             label="Despacho/Retiro"

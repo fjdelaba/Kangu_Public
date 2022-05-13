@@ -37,65 +37,67 @@ import 'animate.css/animate.min.css'
 // Import the Auth0 configuration and plugin
 import { domain, clientId, audience } from '../auth_config.json'
 import { Auth0Plugin } from '@/auth/auth0-plugin'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { ApolloClient } from 'apollo-client'
-import { setContext } from 'apollo-link-context'
-import { createHttpLink } from 'apollo-link-http'
+import { apolloClient } from './client'
+// import { InMemoryCache } from 'apollo-cache-inmemory'
+// import { ApolloClient } from 'apollo-client'
+// import { setContext } from 'apollo-link-context'
+// import { createHttpLink } from 'apollo-link-http'
 
-import { split } from 'apollo-link'
-import { WebSocketLink } from 'apollo-link-ws'
-import { getMainDefinition } from 'apollo-utilities'
+// import { split } from 'apollo-link'
+// import { WebSocketLink } from 'apollo-link-ws'
+// import { getMainDefinition } from 'apollo-utilities'
 
 import VueApollo from 'vue-apollo'
-const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('tokenxjwt_id')
+// const authLink = setContext((_, { headers }) => {
+//   const token = localStorage.getItem('tokenxjwt_id')
 
-  return {
-    headers: {
-      ...headers,
-      authorization: token || null
-    }
-  }
-})
+//   return {
+//     headers: {
+//       ...headers,
+//       authorization: token || null
+//     }
+//   }
+// })
 
-// const httpLink = createHttpLink({ uri: 'https://darling-glider-87.hasura.app/v1/graphql' })
-const httpLink = createHttpLink({ uri: 'https://rapid-reptile-58.hasura.app/v1/graphql' })
-const wsLink = new WebSocketLink(
-  { 
-    // uri: 'wss://darling-glider-87.hasura.app/v1/graphql',
-    uri: 'wss://rapid-reptile-58.hasura.app/v1/graphql',
-    options: {
-      connectionParams: {
-        headers: {
-          Authorization: localStorage.getItem('tokenxjwt_id') ? localStorage.getItem('tokenxjwt_id') : null
-        }
-      },
-      reconnect: true
-    }
-  }
-)
+// // const httpLink = createHttpLink({ uri: 'https://darling-glider-87.hasura.app/v1/graphql' })
+// const httpLink = createHttpLink({ uri: 'https://rapid-reptile-58.hasura.app/v1/graphql' })
+// const wsLink = new WebSocketLink(
+//   { 
+//     // uri: 'wss://darling-glider-87.hasura.app/v1/graphql',
+//     uri: 'wss://rapid-reptile-58.hasura.app/v1/graphql',
+//     options: {
+//       connectionParams: {
+//         headers: {
+//           Authorization: localStorage.getItem('tokenxjwt_id') ? localStorage.getItem('tokenxjwt_id') : null
+//         }
+//       },
+//       reconnect: true
+//     }
+//   }
+// )
 
-const cache = new InMemoryCache()
-const link = split(
-  // split based on operation type
-  ({ query }) => {
-    const definition = getMainDefinition(query)
+// const cache = new InMemoryCache()
+// const link = split(
+//   // split based on operation type
+//   ({ query }) => {
+//     const definition = getMainDefinition(query)
 
-    return definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-  },
-  wsLink,
-  httpLink
-)
+//     return definition.kind === 'OperationDefinition' &&
+//       definition.operation === 'subscription'
+//   },
+//   wsLink,
+//   httpLink
+// )
 
-// Create the apollo client
-const apolloClient = new ApolloClient({
-  // link: httpLink,
-  // link: authLink.concat(httpLink),
-  link: authLink.concat(link),
-  cache
-})
+// // Create the apollo client
+// const apolloClient = new ApolloClient({
+//   // link: httpLink,
+//   // link: authLink.concat(httpLink),
+//   link: authLink.concat(link),
+//   cache
+// })
 
+// const apolloProvider = new VueApollo({ defaultClient: apolloClient })
 const apolloProvider = new VueApollo({ defaultClient: apolloClient })
 
 Vue.use(VueApollo)

@@ -1,31 +1,5 @@
+import { getDatosFormularioCabecera } from '../../../graphql/adquisiciones'
 import gql from 'graphql-tag'
-
-const GET_VALORES_GENERALES = gql`
-query MyQuery{
-  kangusoft_desp_tipo {
-    activo
-    nombre
-    id
-    editable
-  }
-  kangusoft_doc_tipo {
-    id
-    nombre
-  }
-  kangusoft_forma_pago {
-    activo
-    editable
-    id
-    nombre
-  }
-  kangusoft_moneda(where: {activo: {_eq: true}}) {
-    editable
-    activo
-    id
-    nombre
-  }
-}
-`
 
 const GET_PROYECTOS = gql`
 query MyQuery($id_usuario: bigint!, $id_flujo_apro: Int!) {
@@ -37,21 +11,6 @@ query MyQuery($id_usuario: bigint!, $id_flujo_apro: Int!) {
   }
 }
 `
-const GET_PROVEEDORES = gql`
-query MyQuery($nombrerut: String) {
-  kangusoft_ee(where: {_or: [{razon_social: {_ilike: $nombrerut}}, {rut: {_ilike: $nombrerut}}] }) {
-    email_dte
-    fec_creacion
-    fec_movimiento
-    id
-    razon_social
-    rut
-    activo
-    usu_creacion_fk
-    usu_movimiento_fk
-  }
-}
-`
 
 export default {
   created() {
@@ -59,7 +18,8 @@ export default {
   },
   mounted() {
     this.cargarValoresGenerales()
-    this.cargarProyectos()
+    //this.cargarProyectos()
+    // getDatosFormularioCabecera()
   },
   data() {
     return {
@@ -150,16 +110,16 @@ export default {
   },
   methods: {
     async cargarProyectos() {    
-      const { data }  = await this.$apollo.query({
-        query: GET_PROYECTOS,
-        variables:{
-          'id_usuario': 1,
-          'id_flujo_apro': 3
-        }
-      })
+      // const { data }  = await this.$apollo.query({
+      //   query: GET_PROYECTOS,
+      //   variables:{
+      //     'id_usuario': 1,
+      //     'id_flujo_apro': 3
+      //   }
+      // })
 
-      console.log('data data: ', data.kangusoft_func_proyectosbyuser)
-      this.listaProyectos = data.kangusoft_func_proyectosbyuser
+      // console.log('data data: ', data.kangusoft_func_proyectosbyuser)
+      // this.listaProyectos = data.kangusoft_func_proyectosbyuser
     },
     async cargarProveedores(val) {    
       console.log('cargar proveedor ---- ', `%${this.proveedor}%`)
@@ -178,16 +138,20 @@ export default {
       //   this.listaProyectos = data.kangusoft_func_proyectosbyuser
     },
     async cargarValoresGenerales() {
-      const { data }  = await this.$apollo.query({
-        query: GET_VALORES_GENERALES
-      })
+      console.log('Cargar datos generales')
+      const datos = getDatosFormularioCabecera()
 
-      this.listaMonedas = data.kangusoft_moneda
-      this.listaDespacho = data.kangusoft_desp_tipo
-      this.listaFormaPago = data.kangusoft_forma_pago
-      this.listaTipoDocumento = data.kangusoft_doc_tipo
+      console.log('datos: ', datos)
+      // const { data }  = await this.$apollo.query({
+      //   query: GET_VALORES_GENERALES
+      // })
+
+      // this.listaMonedas = data.kangusoft_moneda
+      // this.listaDespacho = data.kangusoft_desp_tipo
+      // this.listaFormaPago = data.kangusoft_forma_pago
+      // this.listaTipoDocumento = data.kangusoft_doc_tipo
       
-      console.log(data)
+      // console.log(data)
     },
     siguiente() {
       this.pasoStep++

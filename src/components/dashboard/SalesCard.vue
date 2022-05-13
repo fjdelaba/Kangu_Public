@@ -1,6 +1,5 @@
 <template>
   <v-card class="d-flex flex-grow-1 primary darken-4" dark>
-
     <!-- loading spinner -->
     <div v-if="loading" class="d-flex flex-grow-1 align-center justify-center">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
@@ -10,8 +9,11 @@
     <div v-else class="d-flex flex-column flex-grow-1">
       <v-card-title>
         <div>{{ $t(label) }}</div>
+        <div>{{ $t(kangusoft_mon) }}</div>
         <v-spacer></v-spacer>
-        <v-btn text color="primary" @click="$emit('action-clicked')">{{ actionLabel }}</v-btn>
+        <v-btn text color="primary" @click="$emit('action-clicked')">{{
+          actionLabel
+        }}</v-btn>
       </v-card-title>
 
       <div class="d-flex flex-column flex-grow-1">
@@ -21,14 +23,14 @@
             {{ 26358.49 | formatCurrency }}
           </div>
           <div class="primary--text text--lighten-1 mt-1">
-            {{ 7123.21 | formatCurrency }} {{ $t('dashboard.lastweek') }}
+            {{ 7123.21 | formatCurrency }} {{ $t("dashboard.lastweek") }}
           </div>
         </div>
 
         <v-spacer></v-spacer>
 
         <div class="px-2 pb-2">
-          <div class="title mb-1">{{ $t('dashboard.weeklySales') }}</div>
+          <div class="title mb-1">{{ $t("dashboard.weeklySales") }}</div>
           <div class="d-flex align-center">
             <div class="text-h4">
               {{ value | formatCurrency }}
@@ -85,11 +87,19 @@ const GETUNODADES = gql`
 
 const SUBSUNIDADES = gql`
   subscription {
-  kangusoft_pro_uni {
-    emp_fk
-    nombre
+    kangusoft_pro_uni {
+      emp_fk
+      nombre
+    }
   }
+`
+
+const GETMONEDAS = gql`
+query MyQuery {
+kangusoft_mon {
+nombre
 }
+} 
 `
 
 export default {
@@ -111,10 +121,12 @@ export default {
     },
     series: {
       type: Array,
-      default: () => [{
-        name: 'Sales',
-        data: [11, 32, 45, 13]
-      }]
+      default: () => [
+        {
+          name: 'Sales',
+          data: [11, 32, 45, 13]
+        }
+      ]
     },
     xaxis: {
       type: Object,
@@ -157,19 +169,19 @@ export default {
   //   }
   // },
   apollo: {
-    // kangusoft_cg_unidad: {
-    //   query() {
-    //     return GETUNODADES
-    //   },
-    //   update: (data) => data.kangusoft_cg_unidad
-    // },
+    kangusoft_mon: {
+      query() {
+        return GETMONEDAS
+      },
+      update: (data) => console.log(data)
+    },
     $subscribe: {
-    // When a tag is added
+      // When a tag is added
       kangusoft_pro_uni: {
         query: SUBSUNIDADES,
         // Result hook
         // Don't forget to destructure `data`
-        result ({ data }) {
+        result({ data }) {
           console.log(data.kangusoft_pro_uni)
           this.unidades = data.kangusoft_pro_uni
         }
@@ -208,11 +220,13 @@ export default {
         tooltip: {
           followCursor: true,
           theme: 'dark',
-          custom: function({ ctx, series, seriesIndex, dataPointIndex, w }) {
+          custom: function ({ ctx, series, seriesIndex, dataPointIndex, w }) {
             const seriesName = w.config.series[seriesIndex].name
 
             return `<div class="rounded-lg pa-1 caption">
-              <div class="font-weight-bold">${formatDate(w.globals.categoryLabels[dataPointIndex])}</div>
+              <div class="font-weight-bold">${formatDate(
+    w.globals.categoryLabels[dataPointIndex]
+  )}</div>
               <div>${series[seriesIndex][dataPointIndex]} ${seriesName}</div>
             </div>`
           }

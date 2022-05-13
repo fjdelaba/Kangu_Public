@@ -1,5 +1,30 @@
+// import { VCascader } from '@tookit/vma'
+import gql from 'graphql-tag'
+import { getPrueba } from '../../../../graphql/adquisiciones'
+
+const GET_PARTIDAS = gql`
+mutation MUT_GET_PARTIDAS($pro_fk: bigint!) {
+  getPartidas(pro_fk: $pro_fk) {
+    nombre
+    id
+    path
+  }
+}
+`
+
 export default {
+  components:{
+    // VCascader
+  },
   data: () => ({
+    val: '',
+    val1: '',
+    items: [
+      'Programming',
+      'Design',
+      'Vue',
+      'Vuetify'
+    ],
     dialog: false,
     dialogDelete: false,
     headers: [
@@ -31,7 +56,8 @@ export default {
       fat: 0,
       carbs: 0,
       protein: 0
-    }
+    },
+    listaPartidas: []
   }),
 
   computed: {
@@ -107,6 +133,52 @@ export default {
         this.desserts.push(this.editedItem)
       }
       this.close()
+    },
+    async getPartidas() {
+
+      console.log('getPartidas')
+
+      const { data }  = await this.$apollo.mutate({
+        mutation: GET_PARTIDAS,
+        variables:{
+          'pro_fk': 1
+        },
+        update: (data) => {console.log('update data getPartidas: ',data)} 
+      })
+
+      this.listaPartidas = data.getPartidas
+      console.log('data getPartidas: ', data.getPartidas)
+      for (const partida of this.listaPartidas) {
+        console.log('partida.path: ', partida.path)
+        if (partida.path.indexOf('/') > 0) {
+          const pathArray = partida.path.split('/')
+
+          console.log('pathArray: ', pathArray)
+          pathArray.shift()
+          pathArray.reverse()
+          console.log('pathArray: ', pathArray)
+          partida.path = pathArray
+        } else {
+          delete partida.path
+        }
+      }
+
+    },
+    async getMateriales() {
+      // console.log('Cargando Datos getMateriales')
+      // const { data }  = await this.$apollo.query({
+      //   query: GET_OTRO
+      // })
+
+      // console.log('DATA', data)
+      //this.ocs = data.kangusoft_oc
     }
+  },
+  async mounted() {
+    //this.getPartidas()
+    //this.getMateriales()
+    //getPrueba()
+    //this.val = await getMateriales()
+    // this.val1 = await getOtros()
   }
 }

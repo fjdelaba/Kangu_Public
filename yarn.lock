@@ -1074,6 +1074,15 @@
   resolved "https://registry.yarnpkg.com/@soda/get-current-script/-/get-current-script-1.0.2.tgz#a53515db25d8038374381b73af20bb4f2e508d87"
   integrity sha512-T7VNNlYVM1SgQ+VsMYhnDkcGmWhQdL0bDyGm5TlQ3GBXnJscEClUUOKduWTmm2zCnvNLC1hc3JpuXjs/nFOc5w==
 
+"@tookit/vma@^0.6.9":
+  version "0.6.9"
+  resolved "https://registry.yarnpkg.com/@tookit/vma/-/vma-0.6.9.tgz#81526d219107e43e2e4767c52593f44e9e8616bd"
+  integrity sha512-ajSjz1nIVKgPM0K7lMt6gT116nnAqAerDf8GZG1DZ/ZDIOjLcX7YZKLRbnnaFUkbNpakFVVUR5CVFXEvVsI7Ag==
+  dependencies:
+    n-ary-tree "^0.4.0"
+    sortablejs "^1.13.0"
+    vuetify "2.5.0"
+
 "@types/body-parser@*":
   version "1.19.2"
   resolved "https://registry.yarnpkg.com/@types/body-parser/-/body-parser-1.19.2.tgz#aea2059e28b7658639081347ac4fab3de166e6f0"
@@ -6019,6 +6028,13 @@ mz@^2.4.0:
     object-assign "^4.0.1"
     thenify-all "^1.0.0"
 
+n-ary-tree@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/n-ary-tree/-/n-ary-tree-0.4.0.tgz#6905f7934a05d2ce6dc765cfb3e5a959cf5e38df"
+  integrity sha512-RrEPDPma14owpE5/9gQpAky1ahfKWKyuZE8hkRvnArsnqXwW8WgGUf0qf7cd+sC0+njFCjCpy7XO8cv79d2HrQ==
+  dependencies:
+    tslang-utils "^0.1.0"
+
 nan@^2.12.1:
   version "2.15.0"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.15.0.tgz#3f34a473ff18e15c1b5626b62903b5ad6e665fee"
@@ -8020,6 +8036,11 @@ sortablejs@1.10.2:
   resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.10.2.tgz#6e40364d913f98b85a14f6678f92b5c1221f5290"
   integrity sha512-YkPGufevysvfwn5rfdlGyrGjt7/CRHwvRPogD/lC+TnvcN29jDpCifKP+rBqf+LRldfXSTh+0CGLcSg0VIxq3A==
 
+sortablejs@^1.13.0:
+  version "1.15.0"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.15.0.tgz#53230b8aa3502bb77a29e2005808ffdb4a5f7e2a"
+  integrity sha512-bv9qgVMjUMf89wAvM6AxVvS/4MX3sPeN0+agqShejLU5z5GX4C75ow1O2e5k4L6XItUyAK3gH6AxSbXrOM5e8w==
+
 source-list-map@^2.0.0:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/source-list-map/-/source-list-map-2.0.1.tgz#3993bd873bfc48479cca9ea3a547835c7c154b34"
@@ -8679,6 +8700,11 @@ ts-pnp@^1.1.6:
   resolved "https://registry.yarnpkg.com/ts-pnp/-/ts-pnp-1.2.0.tgz#a500ad084b0798f1c3071af391e65912c86bca92"
   integrity sha512-csd+vJOb/gkzvcCHgTGSChYpy5f1/XKNsmvBGO4JXS+z1v2HobugDz4s1IeFXM3wZB44uczs+eazB5Q/ccdhQw==
 
+tslang-utils@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/tslang-utils/-/tslang-utils-0.1.0.tgz#a0365f23d208cbb649fff01d15a8e309e1c5e442"
+  integrity sha512-xv9t8AEJHuri405nx3w4UTCHYGWEesIIJZHMsjYylB/e+xDJZAQbR71IAtuNb/jDH2LK705Rd+MPnkjjxhKneA==
+
 tslib@^1.10.0, tslib@^1.8.1, tslib@^1.9.0, tslib@^1.9.3:
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
@@ -9154,6 +9180,11 @@ vuetify-loader@^1.7.1:
     decache "^4.6.0"
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
+
+vuetify@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/vuetify/-/vuetify-2.5.0.tgz#5e510ed288c268c74fb791facadc7c899e286212"
+  integrity sha512-Lpnwm64xYVEXb5BXdadSRaH0QHjXLFhPPjuVU9VuqWp3Nzr+WP5vA9nMPkJAfUj8vKIJGTRXqyGTGVa4VwrO3A==
 
 vuetify@^2.4.3:
   version "2.6.4"

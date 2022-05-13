@@ -1,5 +1,8 @@
 <template>
   <v-card min-width="1000" min-height="500" >
+    val: {{ val }}
+    otros: {{ val1 }}
+    {{ $auth.user }}
     <v-data-table
       :headers="headers"
       :items="desserts"
@@ -64,20 +67,73 @@
                         dense
                       ></v-textarea>
                     </v-col>
+                    <!-- CARGA DINAMICA DE PARTIDAS -->
                     <v-col
                       cols="12"
                       sm="6"
                       md="6"
                       class="pb-0 pt-0 mb-0 mt-0"
                     >
-                      <v-text-field
-                        v-model="editedItem.protein"
-                        label="Partida"
+                      <!-- <v-autocomplete
+                        v-model="values"
+                        :items="items"
+                        solo
+                        clearable
+                        multiple
+                      >
+                        <template #item="data">
+                          <v-tooltip bottom>
+                            <template #activator="{ on, attrs }">
+                              <v-layout wrap v-bind="attrs" v-on="on">
+                                <v-list-item-action>
+                                  <v-checkbox v-model="data.attrs.inputValue"/>
+                                </v-list-item-action>
+                                <v-list-item-content>
+                                  <v-list-item-title>{{ data.item }}</v-list-item-title>
+                                </v-list-item-content>
+                              </v-layout>
+                            </template>
+                            <span>{{ `${data.item} tooltip` }}</span>
+                          </v-tooltip>
+                        </template>
+                      </v-autocomplete> -->
+
+                      <v-combobox
+                        bottom
+                        chips
+                        :items="listaPartidas"
+                        label="Selecciona la partida"
+                        v-bind="attrs"
+                        item-text="nombre"
+                        item-value="id"
                         outlined
                         dense
-                      ></v-text-field>
+                        :return-object="true"
+                      >
+                        <template #item="data">
+                          <v-tooltip bottom>
+                            <template #activator="{ on, attrs }">
+                              <v-layout wrap v-bind="attrs" v-on="on">
+                                <v-list-item-content>
+                                  <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                                </v-list-item-content>
+                              </v-layout>
+                            </template>
+                            <span>{{ `${data.item.path}` }}</span>
+                          </v-tooltip>
+                        </template>
+                      </v-combobox>
+                      <!-- <v-cascader
+                        v-model="selectedItem"
+                        label="Select Product"
+                        item-value="value"
+                        item-text="text"
+                        :items="items"
+                        :outlined="option.outlined"
+                        :dense="option.dense"
+                        :clearable="option.clearable"
+                      /> -->
                     </v-col>
-                    <!-- CARGA DINAMICA DE PARTIDAS -->
                     <v-col
                       cols="12"
                       sm="6"
