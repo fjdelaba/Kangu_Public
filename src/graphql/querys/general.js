@@ -93,6 +93,17 @@ query Q_GET_COMUNA($idRegion: bigint) {
   }
 }
 `
+const GET_PROYECTOS_POR_USUARIO = gql`
+query Q_GET_PROYECTOS_POR_USUARIO($id_usuario: bigint!) {
+  kangusoft_apr(where: {usu_apro_fk: {_eq: $id_usuario}}) {
+    pro {
+      id
+      nombre
+      codigo
+    }
+  }
+}
+`
 
 export {
   GET_FORMAS_PAGO,
@@ -104,5 +115,6 @@ export {
   GET_FLAGS,
   GET_PROVEEDORES,
   GET_CONTACTOS,
-  GET_COMUNAS
+  GET_COMUNAS,
+  GET_PROYECTOS_POR_USUARIO
 }

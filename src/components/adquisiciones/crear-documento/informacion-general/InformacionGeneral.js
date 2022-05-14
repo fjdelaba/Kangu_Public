@@ -1,20 +1,51 @@
 import { getDatosFormularioCabecera } from '../../../../graphql/adquisiciones'
-import { getProveedores, getContactos } from '../../../../graphql/general'
+import { getProveedores, getContactos, getProyectosPorUsuario } from '../../../../graphql/general'
+import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
 export default {
-
+  components: {
+    ModalEntidad
+  },
+  props: {
+    origen:''
+  },
   data() {
     return {
       // vmodels
-      proyecto: '',
-      nombre: '',
-      moneda: '',
-      tipoDocumento: '',
-      //flags
-      proveedor: '',
-      contacto: '',
-      formaPago: '',
-      tipoDespacho: '', 
-
+      oc_cab:{
+        proyecto: '',
+        nombre: '',
+        moneda: '',
+        tipoDocumento: '',
+        proveedor: '',
+        contacto: '',
+        formaPago: '',
+        tipoDespacho: ''
+      },
+      rules:{
+        oc_cab:{
+          proyecto: [
+            (v) => !!v || 'Debes seleccionar un proyecto'
+          ],
+          moneda: [
+            (v) => !!v || 'Debes seleccionar una moneda'
+          ],
+          tipoDocumento: [
+            (v) => !!v || 'Debes seleccionar el tipo de documento'
+          ],
+          proveedor: [
+            (v) => !!v || 'Seleccionar un proveedor'
+          ],
+          contacto: [
+            (v) => !!v || 'Debes ingresar un nombre para este proveedor'
+          ],
+          formaPago: [
+            (v) => !!v || 'Seleccionar una forma de pago'
+          ],
+          tipoDespacho: [
+            (v) => !!v || 'Ingresa este valor'
+          ]
+        }
+      },
       //campos para autocomplete de proveedor
       descriptionLimit: 60,
       entries: [],
@@ -30,13 +61,34 @@ export default {
       listaFormasPago:[],
       listaUnidadesProyecto:[],
       listaProveedores:[],
-      listaContactos:[]
+      listaContactos:[],
+      listaProyectos:[],
+
+      //otros valores
+      usu_id:'',
+      dialog: false,
+      mostrarNoData:false,
+      mostrarDialogCrearEntidad: false,
+      valid: true
     }
   },
-  mounted() {
+  created() {
+    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+  },
+  mounted() {    
+    setTimeout(() => {
+      this.cargarProyectosPorUsuarios()      
+    }, 4000)
     this.cargarDatosFormulario()
+    
   },
   methods: {
+    mostrarDialog() {
+      this.mostrarDialogCrearEntidad = true
+    },
+    cerrarDialog() {
+      this.mostrarDialogCrearEntidad = false
+    },
     async cargarDatosFormulario() {
       console.log('cargarDatosFormulario')
       const { data:{ kangusoft_emp_imp, kangusoft_emp_doctip, kangusoft_des_tip, kangusoft_emp_mon, kangusoft_fla, kangusoft_for_pag } } = await getDatosFormularioCabecera()
@@ -54,7 +106,19 @@ export default {
       //this.listaFlags = kangusoft_fla,
       
     },
+    async cargarProyectosPorUsuarios() {
+      const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id && this.usu_id)
+
+      for (const pro of kangusoft_apr) {
+        console.log('pro: ', pro)
+        // this.listaProyectos.push({ id:pro.pro.id, nombre:`${pro.pro.nombre} (${pro.pro.codigo})` })
+        this.listaProyectos.push({ id:pro.pro.id, nombre:pro.pro.nombre, codigo:pro.pro.codigo })
+      }
+      console.log('this.listaProyectos: ', this.listaProyectos)
+    },
     fetchEntriesDebounced() {
+      console.log('PASO POR ACÁ !!!!')
+      this.mostrarNoData = false
       // cancel pending call
       clearTimeout(this._timerId)
     
@@ -68,14 +132,26 @@ export default {
 
       this.isLoading = false
       this.listaProveedores = data.kangusoft_ent
+
+      if (this.listaProveedores.length === 0) {
+        this.mostrarNoData = true
+      }
       console.log('search data: ', data)
     },
     async cargarContactos() {
       console.log('this.proveedor: ', this.proveedor)
       const { data } = await getContactos(this.proveedor.id)
-      
+
       this.listaContactos = data.kangusoft_ent_con
       console.log('cargarContactos', data)
+    },
+    limpiarAutocompleate() {
+      setTimeout(() => {
+        console.log('PASO POR AQUÍ !!!!')
+        this.mostrarNoData = false
+        this.search = ''        
+      }, 500)
+
     }
   },
   watch: {
@@ -85,11 +161,19 @@ export default {
 
       // Items have already been requested
       if (this.isLoading) return
-
+      if (!val) return
       this.isLoading = true
 
       // Lazily load input items
       this.fetchEntriesDebounced()
+    }
+  },
+  computed: {
+    auth() {
+      return this.$auth.user['https://kangusoft.cl/jwt/hasura']
+    },
+    cpxMostarNoData() {
+      return this.mostrarNoData
     }
   }
 

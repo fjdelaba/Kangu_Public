@@ -11,8 +11,8 @@
           class="pb-0"
         >
           <v-combobox
-            v-model="proyecto"
-            :rules="proyectoRules"
+            v-model="oc_cab.proyecto"
+            :rules="rules.oc_cab.proyecto"
             outlined
             label="Proyectos"
             :items="listaProyectos"
@@ -20,7 +20,14 @@
             item-value="id"
             hint="Selecciona el proyecto al que asignaras esta OC"
             dense
-          ></v-combobox>
+          >
+            <template v-slot:item="{ item }">
+              <v-list-item-content>
+                <v-list-item-title v-text="item.nombre"></v-list-item-title>
+                <v-list-item-subtitle v-text="`codigo: ${item.codigo}`"></v-list-item-subtitle>
+              </v-list-item-content>
+            </template>
+          </v-combobox>
         </v-col>
         <v-col
           cols="12"
@@ -28,10 +35,10 @@
           class="pb-0"
         >
           <v-text-field
-            v-model="nombre"
+            v-model="oc_cab.nombre"
             label="Nombre de OC"
             value=""
-            :rules="nombreOCRules"
+            :rules="rules.oc_cab.nombre"
             hint="Ingresa un nombre descriptivo a esta OC"
             outlined
             dense
@@ -43,8 +50,8 @@
           class="pb-0"
         >
           <v-combobox
-            v-model="moneda"
-            :rules="monedaRules"
+            v-model="oc_cab.moneda"
+            :rules="rules.oc_cab.moneda"
             clearable
             outlined
             label="Moneda"
@@ -63,8 +70,8 @@
           class="pt-0"
         >
           <v-combobox
-            v-model="tipoDocumento"
-            :rules="tipoDocumentoRules"
+            v-model="oc_cab.tipoDocumento"
+            :rules="rules.oc_cab.tipoDocumento"
             clearable
             outlined
             :items="listaTiposDocumento"
@@ -93,20 +100,19 @@
             hint="¿Que documento contable generará esta OC?"
             dense
           ></v-combobox> -->
-          <v-combobox
+          <!-- <v-combobox
             v-model="select"
             :items="items"
+            
             label="Combobox"
             multiple
             outlined
             dense
-          ></v-combobox>
+          ></v-combobox> -->
         </v-col>
       </v-row>
       <p class="ma-0">Proveedor</p>
-      <v-divider  
-        :key="index"
-      ></v-divider>
+      <v-divider></v-divider>
       <v-row>
                     
         <v-col
@@ -131,20 +137,41 @@
             dense
           ></v-autocomplete> -->
           <v-autocomplete
-            v-model="proveedor"
+            v-model="oc_cab.proveedor"
+            :rules="rules.oc_cab.proveedor"
             :items="listaProveedores"
             :loading="isLoading"
             :search-input.sync="search"
             item-text="razon_social"
             item-value="id"
             label="Proveedor"
-            hide-no-data
             hint="Puedes buscar por nombre o por rut"
             return-object
+            :hide-no-data="!mostrarNoData"
             outlined
             dense
             @input="cargarContactos()"
-          ></v-autocomplete>
+            @focusout="limpiarAutocompleate()"
+          >
+            <template v-slot:item="{ item }">
+              <v-list-item-content>
+                <v-list-item-title v-text="`${item.razon_social}`"></v-list-item-title>
+                <!-- <v-list-item-subtitle v-text="`codigo: ${item.codigo}`"></v-list-item-subtitle>  -->
+              </v-list-item-content>
+            </template> 
+            <template v-slot:no-data >
+              
+              <v-btn
+                class="ma-2"
+                outlined
+                color="indigo"
+                @click="mostrarDialog()"
+              >
+                No existe el proveedor, crealo acá
+              </v-btn>
+                
+            </template>
+          </v-autocomplete>
         </v-col>
 
         <v-col
@@ -152,8 +179,8 @@
           md="6"
         >
           <v-combobox
-            v-model="contacto"
-            :rules="vendedorRules"
+            v-model="oc_cab.contacto"
+            :rules="rules.oc_cab.contacto"
             clearable
             outlined
             :items="listaContactos"
@@ -167,17 +194,15 @@
            
       </v-row>
       <p class="ma-0">Condiciones</p>
-      <v-divider
-        :key="index"
-      ></v-divider>
+      <v-divider></v-divider>
       <v-row>
         <v-col
           cols="12"
           md="6"
         >
           <v-combobox
-            v-model="formaPago"
-            :rules="pagoRules"
+            v-model="oc_cab.formaPago"
+            :rules="rules.oc_cab.formaPago"
             clearable
             outlined
             :items="listaFormasPago"
@@ -194,8 +219,8 @@
           md="6"
         >
           <v-combobox
-            v-model="tipoDespacho"
-            :rules="despachoRules"
+            v-model="oc_cab.tipoDespacho"
+            :rules="rules.oc_cab.tipoDespacho"
             clearable
             outlined
             :items="listaTiposDespacho"
@@ -208,8 +233,16 @@
         </v-col>
            
       </v-row>
-      <!-- </v-container> -->
     </v-form>
+    <v-row justify="center">
+      <v-dialog
+        v-model="mostrarDialogCrearEntidad"
+        persistent
+        max-width="600px"
+      >
+        <modal-entidad :cerrarDialog="cerrarDialog"></modal-entidad>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
