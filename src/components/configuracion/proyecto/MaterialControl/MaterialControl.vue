@@ -14,18 +14,28 @@
           <v-col
             cols="2"
           >
-            <v-text-field
-              v-model="editedItem.name"
-              label="Nombre"
+            <v-autocomplete 
+              v-model="material"
+              :rules="rules.material.nombre"
+              :items="listaMaterial"
+              :loading="isLoading"
+              :search-input.sync="search"
+              item-text="nombre"
+              item-value="id"
+              label="Material"
+              hint="Busca por su nombre "
+              return-object
+              :hide-no-data="!mostrarNoData"
               outlined
               dense
-            ></v-text-field>
-          </v-col>
+              solo
+            >
+            </v-autocomplete></v-col>
           <v-col
             cols="2"
           >
             <v-text-field
-              v-model="editedItem.fat"
+              v-model="materialSeleccionado.cantidad"
               label="Cantidad"
               outlined
               dense
@@ -35,7 +45,7 @@
             cols="2"
           >
             <v-text-field
-              v-model="editedItem.f"
+              v-model="materialSeleccionado.unitario"
               label="Valor Unitario"
               outlined
               dense
@@ -45,7 +55,7 @@
             cols="2"
           >
             <v-select
-  
+              :items="listaMonedas"
               label="Moneda"
               dense
               outlined

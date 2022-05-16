@@ -20,11 +20,11 @@ const GET_TIPOS_DESPACHO = gql`
 
 const GET_MONEDAS = gql`
   query Q_GET_MONEDAS {
-    kangusoft_fla {
-      nombre
-      id
-    }
+    kangusoft_mon {
+    id
+    nombre
   }
+}
 `
 
 const GET_ESTADOS_PROYECTO = gql`
