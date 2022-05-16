@@ -17,12 +17,6 @@ export default {
         }
       },
       headers: [
-        {
-          text: 'Codigo',
-          align: 'start',
-          sortable: false,
-          value: 'n'
-        },
         { text: 'Nombre', value: 'nombre' },
         { text: 'Cantidad', value: 'cantidad' },
         { text: 'Unidad Formato', value: 'formato' },
