@@ -2,7 +2,7 @@
   <v-container class="grey lighten-5">
     <v-row class="mb-6" no-gutters>
       <v-col>
-        <h3>PEDIDOS</h3>
+        <h3>PEDIDOS </h3>
         <v-divider></v-divider>
        
         <v-row>
@@ -347,6 +347,7 @@
                   color="success"
                   dark
                   large
+                  @click="guardarAdquisiciones()"
                 ><v-icon>mdi-content-save-all</v-icon>
                   GUARDAR
                 </v-btn>

@@ -85,8 +85,8 @@ export default {
   },
   mounted() {
     this.cargarInformacionGeneral()
-    this.aut0 = this.$auth.user["https://kangusoft.cl/jwt/hasura"].user_tenant;
-    this.usuLogin = this.$auth.user["https://kangusoft.cl/jwt/hasura"].user_id;
+    this.aut0 = 1;
+    this.usuLogin = 2;
     this.fecha = this.$moment(new Date()).format();
  
   },
@@ -155,23 +155,26 @@ export default {
           emp_fk: this.aut0,
           nombre: this.infoGeneralProyecto.nombre,
           pro_est_fk: this.infoGeneralProyecto.estado,
-          valor_contractual: this.infoGeneralProyecto.valorC,
+          valor_contractual: Number(this.infoGeneralProyecto.valorC),
           com_fk: this.infoDireccionProyecto.comuna,
           direccion: this.infoDireccionProyecto.direccion,
           ent_fk: this.infoMandanteProyecto.mandante.id,
           usu_fk: this.usuLogin,
-          inicio_oc: this.infoGeneralProyecto.ocInicial,
+          inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
           codigo: this.infoGeneralProyecto.codigo,
           mon_fk: this.infoGeneralProyecto.monedaGeneral,
           descripcion: this.infoGeneralProyecto.descripcion,
-          presupuesto: this.infoGeneralProyecto.presupuestoObra,
+          presupuesto: Number(this.infoGeneralProyecto.presupuestoObra),
           adm_obra_fk: this.usuarioAdministrador.id
         }
+        console.log("inf:",inf)
       for (let b of this.infoGeneralProyecto.celulas) {
         finalCelulas.push({pro_uni_fk:b})}
       for (let a of this.infoGeneralProyecto.flag) {
         finalFlag.push({fla_fk:a});
       }
+      console.log("cel",finalCelulas)
+      console.log("flag:",finalFlag)
       const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
       console.log(data)
     },

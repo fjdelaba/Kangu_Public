@@ -269,14 +269,32 @@ export default {
     
     },
 
-  //   async guardarAdquisiciones(){
-  //     const { data } = await this.$apollo.mutate({
-  //       mutation: INSERTINFORMACIONGENERAL ,
-  //       variables: {
-  //       aprobador:this.tablaAprobador,
-  //       comprador:this.tablaCompradores
-  //       }
-  //      })
-  // },
+    async guardarAdquisiciones(){
+      console.log("aprobador:",this.tablaAprobador)
+      let aprobadores = []
+      let compradores = []
+      for(let a of this.tablaAprobador){
+        console.log("a",a)
+      aprobadores.push({apr_tip_fk:3,monto:a.monto,tiempo:a.tiempo,usu_fk:this.usuarioLogin,pro_fk:'',flujo:a.flujo,mon_fk:'',usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
+      console.log("apro:", aprobadores)  
+    }
+    for(let b of this.tablaCompradores){
+      compradores.push({apr_tip_fk:3,usu_fk:this.usuarioLogin,pro_fk:'',usu_apro_fk:b.usu_apro_fk,monto:b.monto})
+      console.log("b",b)
+    }
+      // const aproPed = {
+      //   usu_apro_fk:this.usuariosPedido.usuAprobador.id,
+      //   usu_fk:this.usuarioLogin,
+      //   apr_tip_fk: 1,
+      //   tiempo:''
+      // }
+      // const { data } = await this.$apollo.mutate({
+      //   mutation: INSERTINFORMACIONGENERAL ,
+      //   variables: {
+      //   aprobador:this.tablaAprobador,
+      //   comprador:this.tablaCompradores
+      //   }
+      //  })
+  },
 }
 };

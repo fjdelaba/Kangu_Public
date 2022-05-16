@@ -12,7 +12,7 @@
         </v-row>
         <v-row>
           <v-col
-            cols="3"
+            cols="2"
           >
             <v-text-field
               v-model="editedItem.name"
@@ -22,7 +22,7 @@
             ></v-text-field>
           </v-col>
           <v-col
-            cols="3"
+            cols="2"
           >
             <v-text-field
               v-model="editedItem.fat"
@@ -32,7 +32,7 @@
             ></v-text-field>
           </v-col>
           <v-col
-            cols="3"
+            cols="2"
           >
             <v-text-field
               v-model="editedItem.f"
@@ -40,6 +40,18 @@
               outlined
               dense
             ></v-text-field>
+          </v-col>
+          <v-col
+            cols="2"
+          >
+            <v-select
+  
+              label="Moneda"
+              dense
+              outlined
+              item-text="nombre"
+              item-value="id"
+            ></v-select>
           </v-col>
           <v-col
             cols="3"
@@ -66,7 +78,7 @@
             </template>
           </v-col>
         </v-row>
- <v-row>
+        <v-row>
           <v-col
             cols="12"
           >
