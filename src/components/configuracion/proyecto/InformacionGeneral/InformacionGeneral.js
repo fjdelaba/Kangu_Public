@@ -86,7 +86,7 @@ export default {
   mounted() {
     this.cargarInformacionGeneral()
     this.aut0 = 1;
-    this.usuLogin = 2;
+    this.usuLogin = 1;
     this.fecha = this.$moment(new Date()).format();
  
   },

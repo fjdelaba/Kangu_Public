@@ -7,6 +7,7 @@ mutation M_INSERT_PROYECTO_INFORMACION($inf: ProInfoGeneraL!, $fla: [ProInfoFlag
     error_
     mensaje_
     totalreg_
+    id_proyecto_
   }
 }
 `
