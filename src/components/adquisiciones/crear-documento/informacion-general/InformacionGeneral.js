@@ -1,9 +1,11 @@
 import { getDatosFormularioCabecera } from '../../../../graphql/adquisiciones'
 import { getProveedores, getContactos, getProyectosPorUsuario } from '../../../../graphql/general'
 import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
+import ModalContacto from '../../../general/modal-contacto/ModalContacto'
 export default {
   components: {
-    ModalEntidad
+    ModalEntidad,
+    ModalContacto
   },
   props: {
     origen:''
@@ -47,8 +49,6 @@ export default {
         }
       },
       //campos para autocomplete de proveedor
-      descriptionLimit: 60,
-      entries: [],
       isLoading: false,
       search: null,
 
@@ -69,7 +69,9 @@ export default {
       dialog: false,
       mostrarNoData:false,
       mostrarDialogCrearEntidad: false,
-      valid: true
+      valid: true,
+
+      mostrarEdicionContacto: false
     }
   },
   created() {
@@ -136,11 +138,10 @@ export default {
       if (this.listaProveedores.length === 0) {
         this.mostrarNoData = true
       }
-      console.log('search data: ', data)
     },
     async cargarContactos() {
-      console.log('this.proveedor: ', this.proveedor)
-      const { data } = await getContactos(this.proveedor.id)
+      console.log('this.proveedor: ', this.oc_cab.proveedor)
+      const { data } = await getContactos(this.oc_cab.proveedor.id)
 
       this.listaContactos = data.kangusoft_ent_con
       console.log('cargarContactos', data)
@@ -152,6 +153,13 @@ export default {
         this.search = ''        
       }, 500)
 
+    },
+    validarInformacionGeneral() {
+      return this.$refs.formPaso1.validate()
+    },
+    async editarContacto(item) {
+      console.log('editar Contacto: ', item)
+      this.mostrarEdicionContacto = true
     }
   },
   watch: {
@@ -171,9 +179,6 @@ export default {
   computed: {
     auth() {
       return this.$auth.user['https://kangusoft.cl/jwt/hasura']
-    },
-    cpxMostarNoData() {
-      return this.mostrarNoData
     }
   }
 

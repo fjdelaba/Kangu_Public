@@ -1,235 +1,29 @@
 <template>
   <v-card min-width="1000" min-height="500" >
-    val: {{ val }}
-    otros: {{ val1 }}
-    {{ $auth.user }}
+    <v-btn
+      color="primary"
+      dark
+      class="mb-2"
+      @click="abrirDialogMaterial()"
+    >
+      Agregar Material
+    </v-btn>
+    <v-btn
+      color="primary"
+      dark
+      class="mb-2"
+      @click="abrirDialogMaterialMasivo()"
+    >
+      Agregar Materiales
+    </v-btn>
+
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="materiales"
       sort-by="calories"
       class="elevation-1"
       :hide-default-footer="true"
     >
-      <template v-slot:top>
-        <v-toolbar
-          flat
-        >
-          <v-dialog
-            v-model="dialog"
-            max-width="500px"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="primary"
-                dark
-                class="mb-2"
-                v-bind="attrs"
-                v-on="on"
-              >
-                Agregar Material
-              </v-btn>
-            </template>
-            <v-card>
-              <v-card-title>
-                <span class="text-h5">{{ formTitle }}</span>
-              </v-card-title>
-
-              <v-card-text>
-                <v-container>
-                  <v-row>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="12"
-                      class="pb-0 mb-0"
-                    >
-                      <v-text-field
-                        v-model="editedItem.name"
-                        label="Material"
-                        outlined
-                        dense
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="12"
-                      class="pb-0 pt-0 mb-0 mt-0"
-                    >
-                      <v-textarea
-                        v-model="editedItem.name"
-                        label="Obserbacion"
-                        auto-grow
-                        outlined
-                        rows="3"
-                        row-height="25"
-                        shaped
-                        dense
-                      ></v-textarea>
-                    </v-col>
-                    <!-- CARGA DINAMICA DE PARTIDAS -->
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="6"
-                      class="pb-0 pt-0 mb-0 mt-0"
-                    >
-                      <!-- <v-autocomplete
-                        v-model="values"
-                        :items="items"
-                        solo
-                        clearable
-                        multiple
-                      >
-                        <template #item="data">
-                          <v-tooltip bottom>
-                            <template #activator="{ on, attrs }">
-                              <v-layout wrap v-bind="attrs" v-on="on">
-                                <v-list-item-action>
-                                  <v-checkbox v-model="data.attrs.inputValue"/>
-                                </v-list-item-action>
-                                <v-list-item-content>
-                                  <v-list-item-title>{{ data.item }}</v-list-item-title>
-                                </v-list-item-content>
-                              </v-layout>
-                            </template>
-                            <span>{{ `${data.item} tooltip` }}</span>
-                          </v-tooltip>
-                        </template>
-                      </v-autocomplete> -->
-
-                      <v-combobox
-                        bottom
-                        chips
-                        :items="listaPartidas"
-                        label="Selecciona la partida"
-                        v-bind="attrs"
-                        item-text="nombre"
-                        item-value="id"
-                        outlined
-                        dense
-                        :return-object="true"
-                      >
-                        <template #item="data">
-                          <v-tooltip bottom>
-                            <template #activator="{ on, attrs }">
-                              <v-layout wrap v-bind="attrs" v-on="on">
-                                <v-list-item-content>
-                                  <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
-                                </v-list-item-content>
-                              </v-layout>
-                            </template>
-                            <span>{{ `${data.item.path}` }}</span>
-                          </v-tooltip>
-                        </template>
-                      </v-combobox>
-                      <!-- <v-cascader
-                        v-model="selectedItem"
-                        label="Select Product"
-                        item-value="value"
-                        item-text="text"
-                        :items="items"
-                        :outlined="option.outlined"
-                        :dense="option.dense"
-                        :clearable="option.clearable"
-                      /> -->
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="4"
-                      class="pb-0 pt-0 mb-0 mt-0"
-                    >
-                      <v-text-field
-                        v-model="editedItem.protein"
-                        label="Cantidad"
-                        outlined
-                        dense
-                      ></v-text-field>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="2"
-                      class="pb-0 pt-0 mb-0 mt-0"
-                    >
-                      <v-btn
-                        fab
-                        dark
-                        small
-                        color="primary"
-                      >
-                        <v-icon dark>
-                          mdi-plus
-                        </v-icon>
-                      </v-btn>
-                    </v-col>
-                    <!-- FIN CARGA DINAMICA DE PARTIDAS -->
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="6"
-                      class="pb-0 pt-0 mb-0 mt-0"
-                    >
-                      <v-text-field
-                        v-model="editedItem.protein"
-                        label="Precio Unitario"
-                        outlined
-                        dense
-                      ></v-text-field>
-                    </v-col>
-                    <v-row class="pl-3" align="center">
-                      <v-col
-                        cols="12"
-                        sm="6"
-                        md="6"
-                        class="pb-0 pt-0 mb-0 mt-0"
-                      >
-                        <!-- <v-text-field
-                        v-model="editedItem.protein"
-                        label="Cantidad"
-                        outlined
-                        dense
-                      ></v-text-field> -->
-                        <p class="font-weight-black">Total: {{ 1000 }}</p>
-                      </v-col>
-                    </v-row>
-                  </v-row>
-                </v-container>
-              </v-card-text>
-
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="close"
-                >
-                  Cancelar
-                </v-btn>
-                <v-btn
-                  color="blue darken-1"
-                  text
-                  @click="save"
-                >
-                  Agregar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog v-model="dialogDelete" max-width="500px">
-            <v-card>
-              <v-card-title class="text-h5">Are you sure you want to delete this item?</v-card-title>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="closeDelete">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="deleteItemConfirm">OK</v-btn>
-                <v-spacer></v-spacer>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-toolbar>
-      </template>
       <template v-slot:item.name="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:200px">
           <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
@@ -240,15 +34,13 @@
         <v-icon
           small
           class="mr-2"
-          @click="editItem(item)"
         >
           mdi-pencil
         </v-icon>
         <v-icon
           small
-          @click="deleteItem(item)"
         >
-          mdi-delete
+          mdi-delete {{ item }}
         </v-icon>
       </template>
       <template v-slot:no-data>
@@ -261,6 +53,12 @@
         Sin datos
       </template>
     </v-data-table>
+    <v-dialog
+      v-model="dialogMaterial"
+      persistent
+      max-width="600px"
+    >
+      <modal-agregar-material></modal-agregar-material></v-dialog>
   </v-card>
 </template>
 

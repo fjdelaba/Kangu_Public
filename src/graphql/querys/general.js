@@ -80,6 +80,7 @@ query Q_GET_CONTACTOS($idproveedor: bigint) {
   kangusoft_ent_con(where: {ent_fk: {_eq: $idproveedor}}) {
     nombre
     id
+    email
   }
 }
 `
@@ -104,7 +105,39 @@ query Q_GET_PROYECTOS_POR_USUARIO($id_usuario: bigint!) {
   }
 }
 `
+const GET_PARTIDAS = gql`
+mutation M_GET_PARTIDAS($pro_fk: bigint!) {
+  getPartidas(pro_fk: $pro_fk) {
+    nombre
+    id
+    path
+  }
+}
+`
+const GET_MATERIAL = gql`
+query Q_GET_MATERIAL($material: String!) {
+  kangusoft_mat(where: {activo: {_eq: true}, nombre: {_ilike: $material}}) {
+    id
+    nombre
+    mat_fam {
+      nombre
+    }
+    mat_uni {
+      nombre
+    }
+  }
+}
+`
 
+// const GET_PARTIDAS = gql`
+// mutation Q_GET_PARTIDAS($pro_fk: bigint!) {
+//   getPartidas(pro_fk: $pro_fk) {
+//     nombre
+//     id
+//     path
+//   }
+// }
+// `
 export {
   GET_FORMAS_PAGO,
   GET_TIPOS_DESPACHO,
@@ -116,5 +149,7 @@ export {
   GET_PROVEEDORES,
   GET_CONTACTOS,
   GET_COMUNAS,
-  GET_PROYECTOS_POR_USUARIO
+  GET_PROYECTOS_POR_USUARIO,
+  GET_PARTIDAS,
+  GET_MATERIAL
 }

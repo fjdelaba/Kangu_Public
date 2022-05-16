@@ -43,7 +43,7 @@
 
           <v-stepper-items>
             <v-stepper-content step="1">
-              <informacion-general></informacion-general>
+              <informacion-general ref="refinformaciongeneraldoc"></informacion-general>
             </v-stepper-content>
 
             <v-stepper-content step="2">
@@ -108,7 +108,19 @@ export default {
   },
   methods: {
     avanzar() {
-      this.pasoStep++
+      if (this.pasoStep === 1) {
+        console.log('de paso 1 a paso 2')
+        this.pasoStep++
+        // if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
+        //   this.pasoStep++
+        // } else {
+        //   console.log('por aca no')
+        // }
+      } else if (this.pasoStep === 2) {
+        console.log('de paso 2 a paso 3')
+      } else if (this.pasoStep === 3) {
+        console.log('finalizar')
+      }
     },
     retroceder() {
       this.pasoStep--

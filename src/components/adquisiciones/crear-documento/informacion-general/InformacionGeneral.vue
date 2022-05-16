@@ -189,7 +189,51 @@
             label="Contacto"
             hint="Indicanos a quien enviarás esta OC"
             dense
-          ></v-combobox>
+          >
+            <template v-slot:item="{ item }">
+              <!-- <span style="font-size: 14px"> {{ item.nombre }} </span> <v-btn small color="primary" dark @click.stop.prevent="editarContacto(item)">Editar</v-btn><br/><br/>
+              <span style="font-size: 12px"> {{ item.email }} </span>
+               -->
+              <!-- <v-list-item-content>
+                <v-list-item-title v-text="item.nombre">
+                  <template v-slot:default>
+                    <v-btn @click="removeBundle(editForm.suggested_bundles[i])">
+                      <v-icon small>mdi-delete</v-icon>
+                    </v-btn>
+                  </template>
+                </v-list-item-title>
+                <v-list-item-subtitle v-text="`Email: ${item.email}`"></v-list-item-subtitle>
+                <v-list-item-icon >
+                  <v-btn @click="removeBundle(editForm.suggested_bundles[i])">
+                    <v-icon small>mdi-delete</v-icon>
+                  </v-btn>
+                </v-list-item-icon>
+              </v-list-item-content> -->
+              <v-list
+                nav
+                dense
+              >
+                <v-list-item-group
+                  v-model="selectedItem"
+                  color="primary"
+                >
+                  <v-list-item
+                    :key="item.id"
+                  >
+                    <v-list-item-content>
+                      <v-list-item-title v-text="item.nombre"></v-list-item-title>
+                      <v-list-item-subtitle v-text="`Email: ${item.email}`"></v-list-item-subtitle>
+                    </v-list-item-content>
+                    <v-list-item-icon>
+                      <v-btn @click.stop.prevent="editarContacto(item)">
+                        <v-icon>mdi-account-edit</v-icon>
+                      </v-btn>
+                    </v-list-item-icon>
+                  </v-list-item>
+                </v-list-item-group>
+              </v-list>
+            </template>
+          </v-combobox>
         </v-col>
            
       </v-row>
@@ -240,7 +284,16 @@
         persistent
         max-width="600px"
       >
-        <modal-entidad :cerrarDialog="cerrarDialog"></modal-entidad>
+        <modal-entidad :cerrar-dialog="cerrarDialog"></modal-entidad>
+      </v-dialog>
+    </v-row>
+    <v-row justify="center">
+      <v-dialog
+        v-model="mostrarEdicionContacto"
+        persistent
+        max-width="600px"
+      >
+        <modal-contacto :cerrar-dialog-contacto="cerrarDialogContacto"></modal-contacto>
       </v-dialog>
     </v-row>
   </div>

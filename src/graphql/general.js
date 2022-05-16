@@ -1,5 +1,5 @@
 import { GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
-  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO } from './querys/general'
+  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_PARTIDAS, GET_MATERIAL } from './querys/general'
 import { apolloClient } from '../client'
 
 export const getFormasPago = async () => {
@@ -83,6 +83,29 @@ export const getProyectosPorUsuario = async (id_usuario) => {
     query: GET_PROYECTOS_POR_USUARIO,
     variables: {
       id_usuario
+    }
+  })
+}
+
+export const getPartidasPorPoroyecto = async (pro_fk) => {
+  console.log('pro_fk: ', pro_fk)
+  
+  return await apolloClient.mutate({
+    mutation: GET_PARTIDAS,
+    variables:{
+      'pro_fk': 1
+    },
+    update: (data) => {console.log('update data getPartidas: ',data)} 
+  })
+}
+
+export const getMateriales = async (material) => {
+  console.log('material: ', material)
+  
+  return await apolloClient.query({
+    query: GET_MATERIAL,
+    variables: {
+      material
     }
   })
 }
