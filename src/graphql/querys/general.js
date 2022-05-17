@@ -105,15 +105,6 @@ query Q_GET_PROYECTOS_POR_USUARIO($id_usuario: bigint!) {
   }
 }
 `
-const GET_PARTIDAS = gql`
-mutation M_GET_PARTIDAS($pro_fk: bigint!) {
-  getPartidas(pro_fk: $pro_fk) {
-    nombre
-    id
-    path
-  }
-}
-`
 const GET_MATERIAL = gql`
 query Q_GET_MATERIAL($material: String!) {
   kangusoft_mat(where: {activo: {_eq: true}, nombre: {_ilike: $material}}) {
@@ -150,6 +141,5 @@ export {
   GET_CONTACTOS,
   GET_COMUNAS,
   GET_PROYECTOS_POR_USUARIO,
-  GET_PARTIDAS,
   GET_MATERIAL
 }

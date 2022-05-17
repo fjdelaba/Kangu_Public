@@ -190,6 +190,19 @@
             hint="Indicanos a quien enviarás esta OC"
             dense
           >
+            <v-list-tile
+              slot="prepend-item"
+              class="grey--text"
+            ><v-btn
+              block
+              small
+              color="secondary"
+              dark
+              @click="agregarContacto()"
+            >
+              Agregar contacto
+            </v-btn>
+            </v-list-tile>
             <template v-slot:item="{ item }">
               <!-- <span style="font-size: 14px"> {{ item.nombre }} </span> <v-btn small color="primary" dark @click.stop.prevent="editarContacto(item)">Editar</v-btn><br/><br/>
               <span style="font-size: 12px"> {{ item.email }} </span>
@@ -289,11 +302,17 @@
     </v-row>
     <v-row justify="center">
       <v-dialog
-        v-model="mostrarEdicionContacto"
+        v-model="mostrarModalContacto"
         persistent
         max-width="600px"
       >
-        <modal-contacto :cerrar-dialog-contacto="cerrarDialogContacto"></modal-contacto>
+        <modal-contacto
+          v-if="mostrarModalContacto"
+          :id-proveedor="oc_cab.proveedor.id"
+          :crear="crearContacto"
+          :datos-contacto="datosContacto"
+          :cerrar-dialog-contacto_="cerrarDialogContacto"
+        ></modal-contacto>
       </v-dialog>
     </v-row>
   </div>

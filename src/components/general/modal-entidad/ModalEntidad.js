@@ -1,3 +1,4 @@
+import { insertEntModal }  from '../../../graphql/general'
 export default {
   name: 'ModalEntidad',
   props: {
@@ -7,10 +8,12 @@ export default {
     return {
       ent:{  
         razon_social: '',
-        giro:'',
-        rut: '',
         email_dte:'',
-        usu_fk:''
+        rut: '',
+        usu_fk:'',
+        emp_fk:1, // cambiar por valor real
+        email_contacto:'',
+        giro:''
       },
       rules:{
         ent:{
@@ -21,7 +24,7 @@ export default {
             (v) => !!v || 'Debes el giro del proveedor'
           ],
           rut: [(v) => !!v || 'El RUT es fundamental, por favor ingresalo'],
-          email_dte:[(v) => !!v || 'A que correo llegarán los documentos'],
+          email_dte:[(v) => !!v || 'A que correo llegarán los documentos',(v) => /.+@.+\..+/.test(v) || 'Ingresa un email correcto'],
           usu_fk:''
         },
         ent_con:{
@@ -50,7 +53,7 @@ export default {
     cerrarDialogEntidad() {
       this.cerrarDialog()
     }, 
-    grabarEntidad() {
+    async grabarEntidad() {
       if (!this.$refs.formCrearEntidad.validate()) {
         return
       }
@@ -58,6 +61,9 @@ export default {
       this.ent_con.usu_fk = this.usu_id
       console.log('this.ent: ', this.ent)
       console.log('this.ent_con: ', this.ent_con)
+      const { data } = await insertEntModal(this.ent, this.ent_con)
+
+      console.log(data)
       this.cerrarDialogEntidad()
     }
   }
