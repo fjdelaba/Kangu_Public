@@ -5,7 +5,7 @@ import InformacionGeneral from '../../../../components/configuracion/proyecto/In
 export default {
   data() {
     return {
-      
+      idPro:''
     }
   },
   components: {
@@ -13,6 +13,12 @@ export default {
     Adquisiciones,
     MaterialControl,
     CuentaCosto
+  },
+  methods:{
+    getIdProyecto(idProyecto) {
+      this.idPro = idProyecto
+      console.log('id porfa:',this.idPro)
+    }
   }
- 
+
 }

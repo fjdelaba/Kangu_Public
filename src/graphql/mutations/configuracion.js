@@ -18,7 +18,6 @@ mutation M_INSERT_PROYECTO_ADQUISICIONES($perfiles: [PerfilesInput!]!,  $aprob_p
     error_
     mensaje_
     totalreg_
-    id_proyecto_
   }
 }
 `

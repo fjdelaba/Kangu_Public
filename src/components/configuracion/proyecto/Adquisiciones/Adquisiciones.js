@@ -1,8 +1,9 @@
 /* eslint-disable */
+import {postProyectoAdquisiciones} from '../../../../graphql/configuracion.js'
 import gql from "graphql-tag";
 const GETUSUARIO = gql`
   query {
-    kangusoft_usu(where: { emp_fk: { _eq: "1" } }) {
+    kangusoft_usu {
       id
       email
       nombre
@@ -11,6 +12,9 @@ const GETUSUARIO = gql`
   }
 `;
 export default {
+  props: {
+    idProyecto: Number
+},
   data() {
     return {
       celulasRules: [
@@ -45,6 +49,7 @@ export default {
         fat: "",
         carbs: "",
       },
+      otrosUsuarios:'',
       aux: "",
       habilitar: false,
       tenant: "",
@@ -270,31 +275,37 @@ export default {
     },
 
     async guardarAdquisiciones(){
-      console.log("aprobador:",this.tablaAprobador)
+    
       let aprobadores = []
       let compradores = []
+      let perfiles =[]
+      let aprobadorPed = {
+        "usu_apro_fk":this.usuariosPedido.usuAprobador.id,
+         "usu_fk":1,
+         "apr_tip_fk":1,
+         "tiempo": 48
+      }
+      console.log("aprobador:", this.usuariosPedido.usuSolicitante)
       for(let a of this.tablaAprobador){
         console.log("a",a)
-      aprobadores.push({apr_tip_fk:3,monto:a.monto,tiempo:a.tiempo,usu_fk:this.usuarioLogin,pro_fk:'',flujo:a.flujo,mon_fk:'',usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
+      aprobadores.push({apr_tip_fk:3,monto:21312,tiempo:48,usu_fk:1,pro_fk:2,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
       console.log("apro:", aprobadores)  
     }
     for(let b of this.tablaCompradores){
-      compradores.push({apr_tip_fk:3,usu_fk:this.usuarioLogin,pro_fk:'',usu_apro_fk:b.usu_apro_fk,monto:b.monto})
-      console.log("b",b)
+      compradores.push({apr_tip_fk:3,usu_fk:1,pro_fk:2,usu_apro_fk:b.usu_apro_fk,monto:2341})
+      console.log("b",compradores)
     }
-      // const aproPed = {
-      //   usu_apro_fk:this.usuariosPedido.usuAprobador.id,
-      //   usu_fk:this.usuarioLogin,
-      //   apr_tip_fk: 1,
-      //   tiempo:''
-      // }
-      // const { data } = await this.$apollo.mutate({
-      //   mutation: INSERTINFORMACIONGENERAL ,
-      //   variables: {
-      //   aprobador:this.tablaAprobador,
-      //   comprador:this.tablaCompradores
-      //   }
-      //  })
+    for(let c of this.usuariosPedido.usuSolicitante){
+      perfiles.push({usu_per_fk:5,usu_fk:1})
+      console.log("c",perfiles)
+    }
+    for(let d of this.otrosUsuarios){
+      perfiles.push({usu_per_fk:7,usu_fk:1})
+      console.log("d",perfiles)
+    }
+    const { data } = await postProyectoAdquisiciones(perfiles,aprobadorPed,aprobadores,compradores)
+    console.log(data)
   },
+  
 }
 };
