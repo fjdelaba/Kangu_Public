@@ -3,7 +3,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>CREACION DE PROYECTO</h2>
+        <h2>CREACION DE PROYECTO {{ idPro }}</h2>
       </v-col>
     </v-row>
     <v-row class="mb-6" no-gutters>
@@ -16,13 +16,13 @@
                 Informacion
               </v-tab>
               <v-tab-item value="search">
-                <informacion-general ref="infoGeneral"></informacion-general>
+                <informacion-general ref="infoGeneral" @guardarInformacion="idProyecto"></informacion-general>
               </v-tab-item>
               <v-tab href="#searcha">
                 Adquisiciones
               </v-tab>
               <v-tab-item value="searcha">
-                <adquisiciones ref="adquisiciones"></adquisiciones>
+                <adquisiciones ref="adquisiciones" :id-proyecto="idMantenedor"></adquisiciones>
               </v-tab-item >
               <v-tab href="#searchas">
                 Cuentas de Costo

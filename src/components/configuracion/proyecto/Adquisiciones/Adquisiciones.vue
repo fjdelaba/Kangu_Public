@@ -2,7 +2,7 @@
   <v-container class="grey lighten-5">
     <v-row class="mb-6" no-gutters>
       <v-col>
-        <h3>PEDIDOS </h3>
+        <h3>PEDIDOS</h3>
         <v-divider></v-divider>
        
         <v-row>
@@ -313,7 +313,7 @@
               </v-col>
               <v-col cols="4" class="pb-0">
                 <v-combobox
-                  v-model="c"
+                  v-model="otrosUsuarios"
                   :items="usuario"
                   label="Usuario"
                   multiple

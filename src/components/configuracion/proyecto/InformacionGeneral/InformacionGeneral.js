@@ -3,9 +3,11 @@ import {getComunas,getProveedores} from "../../../../graphql/general.js"
 import {getDatosGenerales}  from "../../../../graphql/configuracion.js"
 import { postProyectoInformacion } from '../../../../graphql/configuracion.js'
 
-export default {
+export default { 
+ 
   data() {
     return { 
+      idProyecto:'',
       isLoading: false,
       search: null,
       proyectoRules: [
@@ -177,6 +179,9 @@ export default {
       console.log("flag:",finalFlag)
       const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
       console.log(data)
+      this.idProyecto = data.insert_pro_informacion.id_proyecto_
+      this.$emit("guardarInformacion", this.idProyecto)
+      console.log("this id", this.idProyecto)
     },
   },
   watch: {
