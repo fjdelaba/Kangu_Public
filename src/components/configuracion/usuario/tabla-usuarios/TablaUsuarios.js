@@ -24,6 +24,8 @@ export default {
 
       url: null,
       url2:null,
+      abrirDialog:false,
+      dialog:false,
       image: null,
       drawer:false, 
       isLoading: false,
@@ -78,10 +80,38 @@ export default {
     previewFirma() {
       this.url2 = URL.createObjectURL(this.usuario.firma)
     },
+    crearUsuario() {
+      this.usuario = {
+        nombres:'',
+        apellidos: '',
+        email: '',
+        cargo: '',
+        rut: '',
+        perfil: '',
+        imagen: '',
+        firma: ''
+      },
+      this.abrirDialog = false
+      
+    },
+    reset() {
+      this.usuario = {
+        nombres:'',
+        apellidos: '',
+        email: '',
+        cargo: '',
+        rut: '',
+        perfil: '',
+        imagen: '',
+        firma: ''
+      },
+      this.abrirDialog = false
+    },
 
     eliminarFirma() {
       this.url2 = null 
       console.log('eliminar firma')
     }
+   
   }
 }
