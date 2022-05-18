@@ -13,7 +13,7 @@ const GETUSUARIO = gql`
 `;
 export default {
   props: {
-    idProyecto: Number
+    id: Number
 },
   data() {
     return {
@@ -75,6 +75,10 @@ export default {
     };
   },
   mounted() {
+    setTimeout(() => {
+      console.log("mounted adquisiciones",this.id)
+    }, 5000);
+  
     this.cargarUsuarios();
     this.usuarioLogin =
       this.$auth && this.$auth.user["https://kangusoft.cl/jwt/hasura"].user_id;
@@ -275,24 +279,26 @@ export default {
     },
 
     async guardarAdquisiciones(){
-    
       let aprobadores = []
       let compradores = []
       let perfiles =[]
+      let id = this.id
       let aprobadorPed = {
         "usu_apro_fk":this.usuariosPedido.usuAprobador.id,
-         "usu_fk":1,
-         "apr_tip_fk":1,
-         "tiempo": 48
+        "usu_fk":1,
+        "mod_fk":1,
+        "apr_tie_fk": 1,
+        "mon_fk":2
       }
+      console.log("ped",aprobadorPed)
       console.log("aprobador:", this.usuariosPedido.usuSolicitante)
+      console.log("id:", id)
       for(let a of this.tablaAprobador){
-        console.log("a",a)
-      aprobadores.push({apr_tip_fk:3,monto:21312,tiempo:48,usu_fk:1,pro_fk:2,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
+      aprobadores.push({mod_fk:3,apr_tie_fk: 1,monto:21312,usu_fk:1,pro_fk:this.id,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
       console.log("apro:", aprobadores)  
     }
     for(let b of this.tablaCompradores){
-      compradores.push({apr_tip_fk:3,usu_fk:1,pro_fk:2,usu_apro_fk:b.usu_apro_fk,monto:2341})
+      compradores.push({mod_fk:3,usu_fk:1,pro_fk:this.id,usu_apro_fk:b.usu_apro_fk,monto:2341,mon_fk:1})
       console.log("b",compradores)
     }
     for(let c of this.usuariosPedido.usuSolicitante){
@@ -303,8 +309,9 @@ export default {
       perfiles.push({usu_per_fk:7,usu_fk:1})
       console.log("d",perfiles)
     }
-    const { data } = await postProyectoAdquisiciones(perfiles,aprobadorPed,aprobadores,compradores)
+    const { data } = await postProyectoAdquisiciones(id,perfiles,aprobadorPed,aprobadores,compradores)
     console.log(data)
+    console.log(id,perfiles,aprobadorPed,aprobadores,compradores)
   },
   
 }

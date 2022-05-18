@@ -6,7 +6,7 @@
         
         <v-row class="mb-6" no-gutters>
           <v-col>     
-            <h3>MATERIALES A CONTROLAR</h3>
+            <h3>MATERIALES A CONTROLAR {{ monedaSeleccionada }}</h3>
             <h5> Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
           </v-col>
         </v-row>
@@ -55,6 +55,7 @@
             cols="2"
           >
             <v-select
+              v-model="monedaSeleccionada"
               :items="listaMonedas"
               label="Moneda"
               dense
@@ -96,9 +97,10 @@
               color="success"
               dark
               large
-            ><v-icon>mdi-content-save-all</v-icon> 
+              @click="guardarMateriales()"
+            ><v-icon>mdi-content-save-all</v-icon>
               GUARDAR
-            </v-btn> 
+            </v-btn>
          
           </v-col></v-row>
       </v-col>

@@ -1,5 +1,8 @@
+/* eslint-disable */
 import { getMateriales,getMonedas } from '../../../../graphql/general.js'
+import {postProyectoMaterial } from '../../../../graphql/configuracion.js'
 export default {
+  
   data() {
     return {
       select: ['Vuetify', 'Programming'],
@@ -27,6 +30,7 @@ export default {
       listaMaterial: [],
       listaMonedas:[],
       isLoading: false,
+      monedaSeleccionada:'',
       mostrarNoData: false,
       search: null,
       cargaMasiva: false,
@@ -39,12 +43,20 @@ export default {
         formato: '',
         unitario: '',
         total:'',
-        porcentaje:''
+        porcentaje:'',
+        id:''
       }
     }
   },
+  props: {
+    id: Number
+  },
   mounted() {
     this.cargarMonedas()
+    
+    setTimeout(() => {
+      console.log('props:', this.id)
+    }, 5000)
   },
   methods: {
     async cargarMonedas() {
@@ -82,15 +94,47 @@ export default {
       }, 500)
 
     },
+    limpiarMateriales() {
+     this. materialSeleccionado = {
+      nombre: '',
+      cantidad: '',
+      formato: '',
+      unitario: '',
+      total:'',
+      porcentaje:'',
+      moneda:'',
+      id: ''
+    }
+    this.monedaSeleccionada =""
+    },
     guardarNuevoItem () {
-     
+      this.materialSeleccionado.id =  this.listaMaterial[0].id
       this.materialSeleccionado.nombre = this.material.nombre
       this.materialSeleccionado.formato = this.material.mat_uni.nombre
-
+      this.materialSeleccionado.moneda = this.monedaSeleccionada
       this.materialSeleccionado.total = this.materialSeleccionado.unitario * this.materialSeleccionado.cantidad
       this.materialSeleccionado.porcentaje = '%' + this.materialSeleccionado.total / 1000000 * 100
       this.desserts.push(this.materialSeleccionado)
+      this.limpiarMateriales()
       console.log('mats:',this.materialSeleccionado)
+    },
+   async guardarMateriales(){
+      
+    
+      for (let a of this.desserts) {
+      let cantidad = a.cantidad
+      let mat_fk = a.id
+      let mon_fk = a.moneda
+      let pro_fk = 30
+      let total = a.total
+      let valor_unitario = a.unitario
+      console.log(cantidad, mat_fk, mon_fk, pro_fk, total, valor_unitario)
+      const { data } = await postProyectoMaterial(cantidad, mat_fk, mon_fk, pro_fk, total, valor_unitario)
+
+      console.log(data)
+      }
+    
+    
     }
   },
   watch: {

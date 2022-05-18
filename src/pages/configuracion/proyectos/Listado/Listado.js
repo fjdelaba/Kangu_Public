@@ -5,7 +5,8 @@ import InformacionGeneral from '../../../../components/configuracion/proyecto/In
 export default {
   data() {
     return {
-      idPro:''
+      idPro:'',
+      grabado:false
     }
   },
   components: {
@@ -15,10 +16,16 @@ export default {
     CuentaCosto
   },
   methods:{
-    getIdProyecto(idProyecto) {
-      this.idPro = idProyecto
-      console.log('id porfa:',this.idPro)
+    dada() {
+      console.log('aaaaaa',this.$refs.infoGeneral.idProyecto)
+      this.idPro = this.$refs.infoGeneral.idProyecto
+      this.grabado = this.$refs.infoGeneral.grabado
     }
+  },
+  mounted() {
+    // setTimeout(() => {
+    //   this.dada()
+    // }, 5000)
   }
 
 }

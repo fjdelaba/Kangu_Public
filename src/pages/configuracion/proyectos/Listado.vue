@@ -3,7 +3,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>CREACION DE PROYECTO {{ idPro }}</h2>
+        <h2>CREACION DE PROYECTO {{ grabado }} </h2>
       </v-col>
     </v-row>
     <v-row class="mb-6" no-gutters>
@@ -12,29 +12,29 @@
           <v-col> 
             <v-tabs>
 
-              <v-tab href="#search">
+              <v-tab >
                 Informacion
               </v-tab>
-              <v-tab-item value="search">
-                <informacion-general ref="infoGeneral" @guardarInformacion="idProyecto"></informacion-general>
+              <v-tab-item >
+                <informacion-general ref="infoGeneral" @id="dada" ></informacion-general>
               </v-tab-item>
-              <v-tab href="#searcha">
+              <v-tab :disabled="!grabado" >
                 Adquisiciones
               </v-tab>
-              <v-tab-item value="searcha">
-                <adquisiciones ref="adquisiciones" :id-proyecto="idMantenedor"></adquisiciones>
+              <v-tab-item >
+                <adquisiciones :id="idPro" ref="adquisiciones" :grabado="idPro"></adquisiciones>
               </v-tab-item >
-              <v-tab href="#searchas">
+              <v-tab :disabled="!grabado">
                 Cuentas de Costo
               </v-tab>
-              <v-tab-item value="searchas">
+              <v-tab-item >
                 <cuenta-costo ref="cuentaCosto"></cuenta-costo>
               </v-tab-item>
-              <v-tab href="#searchass">
+              <v-tab :disabled="!grabado" >
                 Materiales
               </v-tab>
-              <v-tab-item value="searchass">
-                <material-control ref="mateControl"></material-control>
+              <v-tab-item>
+                <material-control :id="idPro" ref="mateControl"></material-control>
               </v-tab-item>
             </v-tabs>
           </v-col>

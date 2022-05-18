@@ -7,7 +7,8 @@ export default {
  
   data() {
     return { 
-      idProyecto:'',
+      grabado:false,
+      idProyecto:2,
       isLoading: false,
       search: null,
       proyectoRules: [
@@ -84,7 +85,9 @@ export default {
       aut0: "",
       usuarioAdministrador:'',
     };
-  },
+  }, props: {
+    id: Function
+},
   mounted() {
     this.cargarInformacionGeneral()
     this.aut0 = 1;
@@ -151,6 +154,7 @@ export default {
     }, 
 
     async guardarInformacion() {
+     
       let finalCelulas =[]
       let finalFlag = []
       let inf = {
@@ -180,8 +184,9 @@ export default {
       const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
       console.log(data)
       this.idProyecto = data.insert_pro_informacion.id_proyecto_
-      this.$emit("guardarInformacion", this.idProyecto)
-      console.log("this id", this.idProyecto)
+      this.grabado = true
+      this.$emit('id',this.idProyecto, this.grabado)
+    
     },
   },
   watch: {

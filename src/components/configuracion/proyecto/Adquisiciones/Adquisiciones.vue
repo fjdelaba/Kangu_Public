@@ -2,7 +2,7 @@
   <v-container class="grey lighten-5">
     <v-row class="mb-6" no-gutters>
       <v-col>
-        <h3>PEDIDOS</h3>
+        <h3>PEDIDOS {{ idPro }} </h3>
         <v-divider></v-divider>
        
         <v-row>
