@@ -37,15 +37,30 @@ export default {
       //Tabla
       dialog: false,
       dialogDelete: false,
+      // headers: [
+      //   {
+      //     text: 'Nombre',
+      //     align: 'start',
+      //     sortable: false,
+      //     value: 'name'
+      //   },
+      //   { text: 'ID', value: 'protein' },
+      //   { text: 'Actions', value: 'actions', sortable: false }
+      // ],
       headers: [
         {
           text: 'Nombre',
           align: 'start',
           sortable: false,
-          value: 'name'
+          value: 'nombre'
         },
-        { text: 'ID', value: 'protein' },
-        { text: 'Actions', value: 'actions', sortable: false }
+        {
+          text: 'Unidad',
+          align: 'start',
+          sortable: false,
+          value: 'mat_uni.nombre'
+        },
+        { text: 'ID', value: 'id' }
       ],
       desserts: [],
       editedIndex: -1,
@@ -56,7 +71,9 @@ export default {
       defaultItem: {
         name: '',
         protein: 0
-      }
+      },
+      materialesSelected: [],
+      textoFiltroMaterial:''
     }
   },
   mounted() {
@@ -101,7 +118,7 @@ export default {
       }, 1000)
     },
     async buscarMaterial() {
-      const { data } = await getMateriales(`%${this.search}%`)
+      const { data } = await getMateriales(`%${ !this.cargaMasiva ? this.search : this.textoFiltroMaterial}%`)
 
       this.isLoading = false
       this.listaMaterial = data.kangusoft_mat

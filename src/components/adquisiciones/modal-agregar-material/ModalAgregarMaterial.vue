@@ -188,13 +188,15 @@
             md="12"
             class="pb-0 mb-0"
           >
-            <!-- <v-text-field
-              v-model="material.nombre"
+            {{ materialesSelected }}
+            <v-text-field
+              v-model="textoFiltroMaterial"
               label="Material"
               outlined
               dense
-            ></v-text-field> -->
-            <v-autocomplete 
+              @input="cargarMateriales()"
+            ></v-text-field>
+            <!-- <v-autocomplete 
               v-model="material.nombre"
               :items="listaMaterial"
               :rules="rules.material.nombre"
@@ -210,21 +212,7 @@
               dense
               solo
               @focusout="limpiarAutocompleate()"
-            >
-              
-              <template v-slot:no-data >
-              
-                <v-btn
-                  class="ma-2"
-                  outlined
-                  color="indigo"
-                  @click="mostrarDialog()"
-                >
-                  No existe el proveedor, crealo acá
-                </v-btn>
-                
-              </template>
-            </v-autocomplete>
+            ></v-autocomplete> -->
           </v-col>
           <v-col
             cols="12"
@@ -233,6 +221,15 @@
             class="pb-0 mb-0"
           >
             <v-data-table
+              v-model="materialesSelected"
+              :headers="headers"
+              :items="listaMaterial"
+              item-key="id"
+              show-select
+              class="elevation-1"
+            >
+            </v-data-table>
+            <!-- <v-data-table
               :headers="headers"
               :items="desserts"
               sort-by="calories"
@@ -260,7 +257,7 @@
                   mdi-delete
                 </v-icon>
               </template>
-            </v-data-table>
+            </v-data-table> -->
           </v-col>
           <v-col
             cols="12"
