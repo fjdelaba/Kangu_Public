@@ -1,5 +1,7 @@
 import { GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
-  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_PARTIDAS, GET_MATERIAL } from './querys/general'
+  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL } from './querys/general'
+import { GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
+
 import { apolloClient } from '../client'
 
 export const getFormasPago = async () => {
@@ -62,7 +64,8 @@ export const getContactos = async (idproveedor) => {
     query: GET_CONTACTOS,
     variables: {
       idproveedor
-    }
+    },
+    fetchPolicy:'network-only'
   })
 }
 export const getComunas = async (idRegion) => {
@@ -107,5 +110,43 @@ export const getMateriales = async (material) => {
     variables: {
       material
     }
+  })
+}
+
+export const updateContactos = async (id_contacto, ent_con) => {
+  console.log('id_contacto, ent_con: ', id_contacto, ent_con)
+  
+  return await apolloClient.mutate({
+    mutation: UPDATE_CONTACTO,
+    variables:{
+      id_contacto,
+      ent_con
+    },
+    update: (data) => {console.log('update data updateContactos: ',data)} 
+  })
+}
+
+export const insertContactos = async (ent_con) => {
+  console.log('ent_con: ', ent_con)
+  
+  return await apolloClient.mutate({
+    mutation: INSERT_CONTACTO,
+    variables:{
+      ent_con
+    },
+    update: (data) => {console.log('update data updateContactos: ',data)} 
+  })
+}
+
+export const insertEntModal = async (ent,ent_con) => {
+  console.log('ent: ', ent_con, ' - ent_con: ', ent_con)
+  
+  return await apolloClient.mutate({
+    mutation: INSERT_ENT_MODAL,
+    variables:{
+      ent,
+      ent_con
+    },
+    update: (data) => {console.log('update data insertEntModal: ',data)} 
   })
 }

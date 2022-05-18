@@ -1,7 +1,7 @@
 import { getDatosFormularioCabecera } from '../../../../graphql/adquisiciones'
 import { getProveedores, getContactos, getProyectosPorUsuario } from '../../../../graphql/general'
 import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
-import ModalContacto from '../../../general/modal-contacto/ModalContacto'
+import ModalContacto from '../../../general/modal-contacto/ModalContacto.vue'
 export default {
   components: {
     ModalEntidad,
@@ -71,7 +71,9 @@ export default {
       mostrarDialogCrearEntidad: false,
       valid: true,
 
-      mostrarEdicionContacto: false
+      mostrarModalContacto: false,
+      datosContacto: [],
+      crearContacto: false
     }
   },
   created() {
@@ -90,6 +92,13 @@ export default {
     },
     cerrarDialog() {
       this.mostrarDialogCrearEntidad = false
+    },
+    cerrarDialogContacto(recargar = false) {
+      console.log('param: ', recargar)
+      this.mostrarModalContacto = false
+      if (recargar) {
+        this.cargarContactos()
+      }
     },
     async cargarDatosFormulario() {
       console.log('cargarDatosFormulario')
@@ -140,6 +149,7 @@ export default {
       }
     },
     async cargarContactos() {
+      this.listaContactos = []
       console.log('this.proveedor: ', this.oc_cab.proveedor)
       const { data } = await getContactos(this.oc_cab.proveedor.id)
 
@@ -159,7 +169,13 @@ export default {
     },
     async editarContacto(item) {
       console.log('editar Contacto: ', item)
-      this.mostrarEdicionContacto = true
+      this.mostrarModalContacto = true
+      this.datosContacto = item
+      this.crearContacto = false
+    },
+    async agregarContacto() {
+      this.mostrarModalContacto = true
+      this.crearContacto = true
     }
   },
   watch: {
