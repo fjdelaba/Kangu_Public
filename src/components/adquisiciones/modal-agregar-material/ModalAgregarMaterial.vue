@@ -4,6 +4,7 @@
       <v-row justify="center" align="center">
         <span class="text-h5">{{ cpxTitulo }}</span>
         <v-switch
+          v-if="!cpxModoEdicion"
           v-model="cargaMasiva"
           label="Carga Masiva"
         ></v-switch>
@@ -25,37 +26,40 @@
               outlined
               dense
             ></v-text-field> -->
-              <v-autocomplete 
-                v-model="material.nombre"
-                :items="listaMaterial"
-                :rules="rules.material.nombre"
-                :loading="isLoading"
-                :search-input.sync="search"
-                item-text="nombre"
-                item-value="id"
-                label="Material"
-                hint="Busca por su nombre "
-                return-object
-                :hide-no-data="!mostrarNoData"
-                outlined
-                dense
-                solo
-                @focusout="limpiarAutocompleate()"
-              >
-              
-                <template v-slot:no-data >
-              
-                  <v-btn
-                    class="ma-2"
-                    outlined
-                    color="indigo"
-                    @click="mostrarDialog()"
-                  >
-                    No existe el proveedor, crealo acá
-                  </v-btn>
-                
-                </template>
-              </v-autocomplete>
+              {{ materialEdicion }} {{ materialEdicion !== undefined }} - {{ cpxModoEdicion }}
+              <div v-if="materialEdicion !== undefined">
+                <span class="pb-3"> {{ materialEdicion.nombre }} </span>
+              </div>
+              <div v-else>
+                <v-autocomplete 
+                  v-model="material.nombre"
+                  :items="listaMaterial"
+                  :rules="rules.material.nombre"
+                  :loading="isLoading"
+                  :search-input.sync="search"
+                  item-text="nombre"
+                  item-value="id"
+                  label="Material"
+                  hint="Busca por su nombre "
+                  return-object
+                  :hide-no-data="!mostrarNoData"
+                  outlined
+                  dense
+                  solo
+                >
+                  <template v-slot:no-data >
+                    <v-btn
+                      class="ma-2"
+                      outlined
+                      color="indigo"
+                      @click="mostrarDialog()"
+                    >
+                      No existe el Material, crealo acá
+                    </v-btn>
+                  </template>
+                </v-autocomplete>
+              </div>
+
             <!-- <v-autocomplete
               v-model="material.nombre"
               :items="listaMaterial"
@@ -131,6 +135,7 @@
                 :rules="rules.material.cantidad"
                 outlined
                 dense
+                @input="calcularTotal()"
               ></v-text-field>
             </v-col>
             <v-col
@@ -163,6 +168,7 @@
                 label="Precio Unitario"
                 outlined
                 dense
+                @input="calcularTotal()"
               ></v-text-field>
             </v-col>
             <v-row class="pl-3" align="center">
@@ -188,7 +194,7 @@
             md="12"
             class="pb-0 mb-0"
           >
-            {{ materialesSelected }}
+            <!-- {{ materialesSelected }} -->
             <v-text-field
               v-model="textoFiltroMaterial"
               label="Material"
@@ -267,7 +273,7 @@
           >
             Seleccionar partida general
             <v-combobox
-              v-model="material.partida"
+              v-model="partidaGeneral"
               :items="listaPartidas"
               label="Selecciona la partida"
               v-bind="attrs"

@@ -1,6 +1,10 @@
 import { getPartidasPorPoroyecto,getMateriales } from '../../../graphql/general'
 export default {
   name: 'ModalAgregarMaterial',
+  props: {
+    cerrarDialogMaterial_: { type: Function },
+    materialEdicion: {}
+  },
   data() {
     return {
       material:{
@@ -9,7 +13,8 @@ export default {
         cantidad: '',
         unitario: '',
         subtotal: '',
-        observacion: ''
+        observacion: '',
+        mat_fk: 0
       },
       rules:{
         material:{
@@ -73,18 +78,98 @@ export default {
         protein: 0
       },
       materialesSelected: [],
-      textoFiltroMaterial:''
+      textoFiltroMaterial:'',
+      partidaGeneral: ''
     }
   },
   mounted() {
     this.getPartidas()
+    if (this.materialEdicion !== undefined) {
+      this.cargarDatosEdicion()
+    }
+    
   },
   methods: {
     agregarMaterial() {
+      console.log('this.cpxModoEdicion: ', this.cpxModoEdicion, ' - cargaMasiva: ', this.cargaMasiva)
+      if (this.cpxModoEdicion) {
+        const material = {
+          mat_fk: this.material.mat_fk,
+          cantidad: this.material.cantidad,
+          precio_unitario: this.material.unitario,
+          // total: Number(this.material.cantidad * this.material.unitario),
+          total: this.material.subtotal,
+          par_fk: this.material.partida.id,
+          observacion: this.material.observacion,
+          // editable: false,
+          par: this.material.partida
+        }
 
+        this.cerrarDialogMaterial_(material, this.cargaMasiva, this.cpxModoEdicion)
+      } else {
+        if (this.cargaMasiva) {
+          const materiales = []
+  
+          if (this.materialesSelected.length > 0) {
+            for (const mat of this.materialesSelected) {
+    
+              console.log('mat: ', mat)
+              console.log('partidaGeneral: ', this.partidaGeneral)
+              const objMat = {
+                oc_fk: 1,
+                mat_fk: mat.id,
+                nombre: mat.nombre,
+                unidad: mat.mat_uni.nombre,
+                cantidad: 0,
+                precio_unitario: 0,
+                total: 0,
+                par_fk: 0,
+                observacion: 'Sin Observacion',
+                usu_fk: mat.nombre,
+                editable: true
+              }
+    
+              // eslint-disable-next-line eqeqeq
+              if (this.partidaGeneral != '') {
+                objMat.par_fk = this.partidaGeneral.id,
+                objMat.par = this.partidaGeneral
+              } else {
+                objMat.par_fk = ''
+                objMat.par = ''
+              }
+              console.log('partida general: ', this.partidaGeneral)
+              materiales.push(objMat)
+            }
+          }
+          this.cerrarDialogMaterial_(materiales, this.cargaMasiva, this.cpxModoEdicion)
+          console.log('materiales: ', materiales)
+        } else {
+          const material = {
+            oc_fk: 1,
+            mat_fk: this.material.nombre.id,
+            nombre: this.material.nombre.nombre,
+            unidad: this.material.nombre.mat_uni.nombre,
+            cantidad: this.material.cantidad,
+            precio_unitario: this.material.unitario,
+            // total: Number(this.material.cantidad * this.material.unitario),
+            total: this.material.subtotal,
+            par_fk: this.material.partida.id,
+            observacion: this.material.observacion,
+            usu_fk: 1,
+            editable: false,
+            par: this.material.partida
+          }
+  
+          console.log('material: ', material)
+          this.cerrarDialogMaterial_(material, this.cargaMasiva, this.cpxModoEdicion)
+        }
+      }   
+    },
+    calcularTotal() {
+      this.material.subtotal = Number(this.material.cantidad * this.material.unitario)
     },
     cerrar() {
-
+      this.cerrarDialogMaterial_([])
     },
     async getPartidas() {
       const  { data }   = await getPartidasPorPoroyecto(1)
@@ -168,14 +253,31 @@ export default {
         this.editedItem = Object.assign({}, this.defaultItem)
         this.editedIndex = -1
       })
+    },
+    cargarDatosEdicion() {
+      this.material.nombre = this.materialEdicion.nombre
+      this.material.partida = this.materialEdicion.par
+      this.material.cantidad = this.materialEdicion.cantidad
+      this.material.unitario = this.materialEdicion.precio_unitario
+      this.material.subtotal = this.materialEdicion.cantidad
+      this.material.observacion = this.materialEdicion.observacion,
+      this.material.mat_fk = this.materialEdicion.mat_fk
     }
   },
   computed: {
     cpxTitulo() {
-      return this.cargaMasiva ? 'Cagar Material' : 'Seleccion multiple de material'
+      if (this.cpxModoEdicion) {
+        return 'Edicion de Material'
+      } else {
+        return !this.cargaMasiva ? 'Cagar Material' : 'Seleccion multiple de material'
+      }
+      
     },
     formTitle () {
       return this.editedIndex === -1 ? 'New Item' : 'Edit Item'
+    },
+    cpxModoEdicion() {
+      return this.materialEdicion !== undefined
     }
   },
   watch: {
