@@ -23,8 +23,8 @@
                 v-on="on"
               >Crear Usuario</v-btn>
             </template>
-            <template>
-              <v-card>
+            <template >
+              <v-card >
                 <v-toolbar
                   color="primary"
                   dark

@@ -81,6 +81,19 @@ export default {
       this.url2 = URL.createObjectURL(this.usuario.firma)
     },
     crearUsuario() {
+      const usu = { 
+        nombres:this.usuario.nombres,
+        apellidos: this.usuario.apellidos,
+        email: this.usuario.email,
+        cargo: this.usuario.cargo,
+        rut: this.usuario.rut,
+        perfil: this.usuario.perfil,
+        imagen: this.usuario.imagen,
+        firma: this.usuario.firma 
+      }
+
+      console.log(usu)
+
       this.usuario = {
         nombres:'',
         apellidos: '',
@@ -90,9 +103,8 @@ export default {
         perfil: '',
         imagen: '',
         firma: ''
-      },
-      this.abrirDialog = false
-      
+      }
+      //this.abrirDialog = false
     },
     reset() {
       this.usuario = {
