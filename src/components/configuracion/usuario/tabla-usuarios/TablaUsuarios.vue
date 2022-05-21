@@ -24,122 +24,123 @@
               >Crear Usuario</v-btn>
             </template>
             <template >
-              <v-card >
-                <v-toolbar
-                  color="primary"
-                  dark
-                >Creación de Usuario</v-toolbar>
-                <v-card-text>
-                  <v-row >
-                    <v-col
-                      cols="12"
-                    >
-                      <v-text-field 
-                        v-model="usuario.rut"
-                        dense
-                        hint="Por Ejemplo, 19728579-6"
-                        outlined
-                        :error-messages="emailErrors"
-                        label="Rut"
-                        required
-                        class="ma-0 pa-0"
-                        @input="$v.rut.$touch()"
-                        @blur="$v.rut.$touch()"
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="usuario.nombres"
-                        hint="Por Ejemplo, Felipe."
-                        dense
-                        outlined
-                        :error-messages="nombreErrors"
-                        label="Nombres"
-                        required
-                        class="ma-0 pa-0"
-                        @input="$v.name.$touch()"
-                        @blur="$v.name.$touch()"
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="usuario.apellidos"
-                        hint="Por Ejemplo, De la Barra."
-                        dense
-                        outlined
-                        :error-messages="apellidosErrors"
-                        label="Apellidos"
-                        required
-                        @input="$v.apellidos.$touch()"
-                        @blur="$v.apellidos.$touch()"
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="usuario.email"
-                        hint="Por Ejemplo, FelipedelaBarra@gmail.com"
-                        dense
-                        outlined
-                        :error-messages="cargoErrors"
-                        label="Email"
-                        required
-                        @input="$v.email.$touch()"
-                        @blur="$v.email.$touch()" 
-                      ></v-text-field>
-                      <v-text-field
-                        v-model="usuario.cargo"
-                        hint="Por Ejemplo, Supervisor,"
-                        dense
-                        outlined
-                        :error-messages="cargoErrors"
-                        label="Cargo"
-                        required
-                        @input="$v.cargo.$touch()"
-                        @blur="$v.cargo.$touch()"
-                      ></v-text-field>
-                      <v-select
-                        v-model="usuario.perfil"
-                        dense
-                        outlined
-                        :items="items"
-                        :error-messages="errors"
-                        label="Perfil"
-                        data-vv-name="select"
-                        required
-                      ></v-select>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="6"
-                    ><v-file-input
-                       v-model="usuario.imagen"
-                       prepend-icon="mdi-camera"
-                       label="Ingrese Imagen de Perfil" 
-                       @click:clear="eliminarImagen"
-                       @change="previewImagen"
-                     >
-                     </v-file-input>
-                      <v-row justify="center" > <v-avatar size="120"> <v-img :src="url" max-width="auto" max-height="auto" rounded></v-img></v-avatar></v-row>
-                    </v-col>
-                    <v-col
-                      cols="12"
-                      sm="6"
-                      md="6"
-                    ><v-file-input 
-                       v-model="usuario.firma" 
-                       label="Ingrese Firma"
-                       @click:clear="eliminarFirma"
-                       @change="previewFirma"
-                     >
-                     </v-file-input>
-                      <v-row justify="center" ><v-img :src="url2" max-height="123" max-width="178" contain></v-img></v-row>
-                    </v-col></v-row>
-                  <small>*Rellene los campos requeridos</small>
-                  <v-card-actions>
-                    <v-btn text @click="reset()">Cerrar</v-btn>
-                    <v-btn
-                      color="primary"
-                      text
-                      @click="crearUsuario()"
-                    >Crear</v-btn>
-                  </v-card-actions>
-                </v-card-text>
-              </v-card>
+              <v-form
+                ref="form"
+                v-model="valid"
+                lazy-validation
+              >
+                <v-card >
+                  <v-toolbar
+                    color="primary"
+                    dark
+                  >Creación de Usuario</v-toolbar>
+                  <v-card-text>
+                    <v-row >
+                      <v-col
+                        cols="12"
+                      >
+                        <v-text-field 
+                          v-model="usuario.rut"
+                          dense
+                          hint="Por Ejemplo, 19728579-6"
+                          outlined
+                          :error-messages="rutErrors"
+                          label="Rut"
+                          required
+                          class="ma-0 pa-0"
+                          :rules="usuario.rutRules"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="usuario.nombres"
+                          hint="Por Ejemplo, Felipe."
+                          outlined
+                          dense
+                          :counter="10"
+                          label="Nombres"
+                          required
+                          :rules="usuario.nombresRules"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="usuario.apellidos"
+                          hint="Por Ejemplo, De la Barra."
+                          dense
+                          outlined
+                          :error-messages="apellidosErrors"
+                          label="Apellidos"
+                          required
+                          :rules="usuario.apellidosRules"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="usuario.email"
+                          hint="Por Ejemplo, FelipedelaBarra@gmail.com"
+                          dense
+                          outlined
+                          :error-messages="cargoErrors"
+                          label="Email"
+                          required
+                          :rules="usuario.emailRules"
+                        ></v-text-field>
+                        <v-text-field
+                          v-model="usuario.cargo"
+                          hint="Por Ejemplo, Supervisor,"
+                          dense
+                          outlined
+                          :error-messages="cargoErrors"
+                          label="Cargo"
+                          :rules="usuario.cargoRules"
+                        ></v-text-field>
+                        <v-select
+                          v-model="usuario.perfil"
+                          dense
+                          outlined
+                          :items="items"
+                          :error-messages="errors"
+                          label="Perfil"
+                          data-vv-name="select"
+                          required
+                          :rules="[v => !!v || 'Se requiere seleccionar un perfil']"
+                        ></v-select>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                      ><v-file-input
+                         v-model="usuario.imagen"
+                         prepend-icon="mdi-camera"
+                         label="Ingrese Imagen de Perfil" 
+                         @click:clear="eliminarImagen"
+                         @change="previewImagen"
+                       >
+                       </v-file-input>
+                        <v-row justify="center" > <v-avatar size="120"> <v-img :src="url" max-width="auto" max-height="auto" rounded></v-img></v-avatar></v-row>
+                      </v-col>
+                      <v-col
+                        cols="12"
+                        sm="6"
+                        md="6"
+                      ><v-file-input 
+                         v-model="usuario.firma" 
+                         label="Ingrese Firma"
+                         @click:clear="eliminarFirma"
+                         @change="previewFirma"
+                       >
+                       </v-file-input>
+                        <v-row justify="center" ><v-img :src="url2" max-height="123" max-width="178" contain></v-img></v-row>
+                      </v-col></v-row>
+                    <small>*Rellene los campos requeridos</small>
+                    <v-card-actions>
+                      <v-btn text @click="reset()">Cerrar</v-btn>
+                      <v-btn
+                        color="primary"
+                        text
+                        :disabled="!valid"
+                        @click="CrearUsuario()"
+                      >Crear</v-btn>
+                    </v-card-actions>
+                  </v-card-text>
+                </v-card>
+              </v-form>-->
             </template>
           </v-dialog>
         </v-col>

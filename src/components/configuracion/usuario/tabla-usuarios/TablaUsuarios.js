@@ -8,15 +8,35 @@ export default {
   data() {
     return {
       usuario:{
+        valid:true,
         nombres: '',
+        nombresRules: [
+          (v) => !!v || 'Nombre obligatorio',
+          (v) => (v && v.length <= 10) || 'No'
+        ],
         apellidos: '',
+        apellidosRules:[
+          (v) => !!v || 'Apellido obligatorio'
+        ],
         email: '',
+        emailRules: [
+          (v) => !!v || 'E-mail es obligatorio',
+          (v) => /.+@.+\..+/.test(v) || 'E-mail debe ser valido'
+        ],
         cargo: '',
+        cargoRules: [
+          (v) => !!v || 'Cargo obliogatorio'
+        ],
+
         rut: '',
+        rutRules: [
+          (v) => !!v || 'Rut es obligatorio'
+        ],
         perfil: '',
         imagen: '',
         firma: ''
       },
+      select:null,
       items: [
         'Admin',
         'Plebeyo'
@@ -57,6 +77,7 @@ export default {
     }
     
   },
+
   props: {
     usuarios:[]
   },
@@ -93,7 +114,7 @@ export default {
       }
 
       console.log(usu)
-
+      
       this.usuario = {
         nombres:'',
         apellidos: '',
@@ -104,7 +125,11 @@ export default {
         imagen: '',
         firma: ''
       }
+      
       //this.abrirDialog = false
+    },
+    validate () {
+      this.$refs.form.validate()
     },
     reset() {
       this.usuario = {
@@ -118,6 +143,7 @@ export default {
         firma: ''
       },
       this.abrirDialog = false
+      
     },
 
     eliminarFirma() {
