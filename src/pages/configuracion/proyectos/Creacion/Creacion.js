@@ -17,8 +17,8 @@ export default {
   },
   methods:{
     dada() {
-      console.log('aaaaaa',this.$refs.infoGeneral.idProyecto)
-      this.idPro = this.$refs.infoGeneral.idProyecto
+      console.log('aaaaaa',this.$refs.infoGeneral.idProyectoCreado)
+      this.idPro = this.$refs.infoGeneral.idProyectoCreado
       this.grabado = this.$refs.infoGeneral.grabado
     }
   },
