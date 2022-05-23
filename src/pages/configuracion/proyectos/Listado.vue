@@ -3,43 +3,59 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>CREACION DE PROYECTO {{ grabado }} </h2>
+        <h2 v-if="detalle == false">LISTADO DE PROYECTOS</h2>
+        <h2 v-if="detalle == true">DETALLE DEL PROYECTO SELECCIONADO</h2>
       </v-col>
     </v-row>
     <v-row class="mb-6" no-gutters>
-      <v-col>   
+      <v-col >   
         <v-row class="mb-6" no-gutters>
-          <v-col> 
-            <v-tabs>
-
-              <v-tab >
-                Informacion
-              </v-tab>
-              <v-tab-item >
-                <informacion-general ref="infoGeneral" @id="dada" ></informacion-general>
-              </v-tab-item>
-              <v-tab :disabled="!grabado" >
-                Adquisiciones
-              </v-tab>
-              <v-tab-item >
-                <adquisiciones :id="idPro" ref="adquisiciones" :grabado="idPro"></adquisiciones>
-              </v-tab-item >
-              <v-tab :disabled="!grabado">
-                Cuentas de Costo
-              </v-tab>
-              <v-tab-item >
-                <cuenta-costo ref="cuentaCosto"></cuenta-costo>
-              </v-tab-item>
-              <v-tab :disabled="!grabado" >
-                Materiales
-              </v-tab>
-              <v-tab-item>
-                <material-control :id="idPro" ref="mateControl"></material-control>
-              </v-tab-item>
-            </v-tabs>
+          <v-col v-if="detalle == false" cols="12"> 
+            <v-btn
+              color="success"
+              dark
+              large
+              @click="$router.push(`/configuracion/proyectos/sent`)"
+            ><v-icon size="30" left>mdi-folder-plus-outline </v-icon> 
+              CREAR PROYECTO
+            </v-btn> 
+            <v-col> 
+              <v-card>
+                <v-card-title>
+                  <v-text-field
+                    v-model="search"
+                    append-icon="mdi-magnify"
+                    label="Search"
+                    single-line
+                    hide-details
+                  ></v-text-field>
+                </v-card-title>
+                <template>
+                  <v-data-table
+                    :headers="headers"
+                    :items="proyectos"
+                    :items-per-page="5"
+                    :search="search"
+                    class="elevation-1"
+                  >
+                    <template v-slot:item.actions="{item}">
+                      <v-btn
+                        color="success"
+                        dark
+                        @click="abrirDetalle(item)"
+                      ><v-icon left>mdi-eye</v-icon> 
+                        Detalle 
+                      </v-btn> 
+                    </template></v-data-table>
+                </template>
+              </v-card></v-col>
           </v-col>
-        </v-row>
-      </v-col>
+          <v-row class="mb-6" no-gutters>
+            <v-col v-if="detalle == true"> 
+              <detalle-proyecto :detalle="detalle" :idproyecto="idProyectoSeleccionado" ></detalle-proyecto>
+            </v-col>
+          </v-row>
+        </v-row></v-col>
     </v-row>
   </v-container>
 </template>

@@ -6,8 +6,8 @@
         
         <v-row class="mb-6" no-gutters>
           <v-col>     
-            <h3>MATERIALES A CONTROLAR {{ monedaSeleccionada }}</h3>
-            <h5> Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
+            <h3>MATERIALES A CONTROLAR</h3>
+            <h5 > Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
           </v-col>
         </v-row>
         <v-row>
@@ -15,6 +15,7 @@
             cols="2"
           >
             <v-autocomplete 
+              v-if="detalle == false"
               v-model="material"
               :rules="rules.material.nombre"
               :items="listaMaterial"
@@ -35,6 +36,7 @@
             cols="2"
           >
             <v-text-field
+              v-if="detalle == false"
               v-model="materialSeleccionado.cantidad"
               label="Cantidad"
               outlined
@@ -45,6 +47,7 @@
             cols="2"
           >
             <v-text-field
+              v-if="detalle == false"
               v-model="materialSeleccionado.unitario"
               label="Valor Unitario"
               outlined
@@ -55,6 +58,7 @@
             cols="2"
           >
             <v-select
+              v-if="detalle == false"
               v-model="monedaSeleccionada"
               :items="listaMonedas"
               label="Moneda"
@@ -68,6 +72,7 @@
             cols="3"
           >
             <v-btn
+              v-if="detalle == false"
               color="primary"
               dark
               @click="guardarNuevoItem()"
@@ -80,8 +85,17 @@
           <v-col>     
             <template>
               <v-data-table
+                v-if="detalle == false"
                 :headers="headers"
                 :items="desserts"
+                :items-per-page="5"
+                class="elevation-1"
+                :hide-default-footer="true"
+              ></v-data-table>
+              <v-data-table
+                v-if="detalle == true"
+                :headers="headers2"
+                :items="materialesProyecto"
                 :items-per-page="5"
                 class="elevation-1"
                 :hide-default-footer="true"
@@ -94,6 +108,7 @@
             cols="12"
           >
             <v-btn
+              v-if="detalle == false"
               color="success"
               dark
               large

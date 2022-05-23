@@ -1,5 +1,5 @@
 import { apolloClient } from '../client'
-import { GET_DATOS_GENERALES } from './querys/configuracion'
+import { GET_DATOS_GENERALES, GET_PROYECTO,GET_MATERIALES_PROYECTO, GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO } from './querys/configuracion'
 import { INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL } from './mutations/configuracion.js'
 
 export const getDatosGenerales = async () => {
@@ -7,7 +7,46 @@ export const getDatosGenerales = async () => {
     query: GET_DATOS_GENERALES
   })
 }
+export const getUsuariosProyecto = async (id) => {
+  console.log('idProyecto: ', id)
 
+  return await apolloClient.query({
+    query: GET_USUARIOS_PROYECTO,
+    variables: {
+      id
+    }
+  })
+}
+export const getAprobadoresProyecto = async (id) => {
+  console.log('idProyecto: ', id)
+
+  return await apolloClient.query({
+    query: GET_APROBADORES_PROYECTO,
+    variables: {
+      id
+    }
+  })
+}
+export const getMaterialesProyecto = async (id) => {
+  console.log('idProyecto: ', id)
+
+  return await apolloClient.query({
+    query: GET_MATERIALES_PROYECTO,
+    variables: {
+      id
+    }
+  })
+}
+export const getProyecto = async (id) => {
+  console.log('idProyecto: ', id)
+
+  return await apolloClient.query({
+    query: GET_PROYECTO,
+    variables: {
+      id
+    }
+  })
+}
 export const postProyectoInformacion = async (inf, fla, uni) => {
   return await apolloClient.mutate({
     mutation: INSERT_PROYECTO_INFORMACION,

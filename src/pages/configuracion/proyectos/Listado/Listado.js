@@ -1,31 +1,77 @@
-import CuentaCosto from '../../../../components/configuracion/proyecto/CuentaCosto/CuentaCosto.vue'
-import Adquisiciones from '../../../../components/configuracion/proyecto/Adquisiciones/Adquisiciones.vue'
-import MaterialControl from '../../../../components/configuracion/proyecto/MaterialControl/MaterialControl.vue'
-import InformacionGeneral from '../../../../components/configuracion/proyecto/InformacionGeneral/InformacionGeneral.vue'
+/* eslint-disable */
+import {getDatosGenerales}  from "../../../../graphql/configuracion.js"
+import DetalleProyecto from './../Detalle.vue'
 export default {
   data() {
     return {
-      idPro:'',
-      grabado:false
+      search: '',
+      headers: [
+        {
+          text: 'Código',
+          align: 'start',
+     
+          value: 'codigo',
+        },
+        {
+          text: 'Nombre',
+          align: 'start',
+       
+          value: 'nombre',
+        },
+        {
+          text: 'Mandante',
+          align: 'start',
+
+          value: 'ent.razon_social',
+        },
+        {
+          text: 'Administrador',
+          align: 'start',
+        
+          value: 'usu.nombre',
+        },
+        {
+          text: 'Creacion',
+          align: 'start',
+
+          value: 'fec_creacion',
+        },
+        {
+          text: 'Estado',
+          align: 'start',
+          value: 'pro_est.nombre',
+        },
+        {
+          text: 'Accion',
+          align: 'start',
+          value: 'actions',
+        },
+      ],
+      proyectos:[],
+      idProyectoSeleccionado:'',
+      detalle:false
     }
   },
   components: {
-    InformacionGeneral,
-    Adquisiciones,
-    MaterialControl,
-    CuentaCosto
+   DetalleProyecto
   },
   methods:{
-    dada() {
-      console.log('aaaaaa',this.$refs.infoGeneral.idProyecto)
-      this.idPro = this.$refs.infoGeneral.idProyecto
-      this.grabado = this.$refs.infoGeneral.grabado
-    }
+    async cargarProyectos() {
+      const { data: {kangusoft_pro} } = await getDatosGenerales()
+      for(let pro of kangusoft_pro){
+       console.log("proyect:", pro)
+       this.proyectos.push(pro)
+      }  
   },
+  abrirDetalle(item){
+   this.idProyectoSeleccionado = item.id
+   this.detalle = true
+    // console.log("idProyectoSeleccionado",this.idProyectoSeleccionado)
+    // this.$router.push(`/configuracion/proyectos/sent`)
+  }
+},
   mounted() {
-    // setTimeout(() => {
-    //   this.dada()
-    // }, 5000)
+  this.cargarProyectos()
   }
 
 }

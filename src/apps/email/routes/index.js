@@ -8,7 +8,7 @@ export default [{
 }, {
   path: 'sent',
   name: 'apps-email-sent',
-  component: () => import(/* webpackChunkName: "apps-email-sent" */ '@/apps/email/pages/SentPage.vue')
+  component: () => import(/* webpackChunkName: "apps-email-sent" */ '@/pages/configuracion/proyectos/Crear.vue')
 }, {
   path: 'drafts',
   name: 'apps-email-drafts',

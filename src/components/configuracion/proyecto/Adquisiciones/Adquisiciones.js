@@ -1,6 +1,7 @@
 /* eslint-disable */
-import {postProyectoAdquisiciones} from '../../../../graphql/configuracion.js'
+import {postProyectoAdquisiciones, getAprobadoresProyecto,getUsuariosProyecto} from '../../../../graphql/configuracion.js'
 import gql from "graphql-tag";
+import { apolloClient } from '../../../../client.js';
 const GETUSUARIO = gql`
   query {
     kangusoft_usu {
@@ -13,7 +14,9 @@ const GETUSUARIO = gql`
 `;
 export default {
   props: {
-    id: Number
+    id: Number,
+    detalle:Boolean,
+    idproyecto: Number
 },
   data() {
     return {
@@ -30,10 +33,19 @@ export default {
         { text: "Tiempo de Aprobación", value: "tiempo" },
         { text: "Accion", value: "actions" },
       ],
+      headers4: [
+        { text: "Nombre", value: "usu.nombre" },
+        { text: "Hasta", value: "monto", filterable: true, sortable: true },
+        { text: "Tiempo de Aprobación", value: "tiempo" },
+        { text: "Accion", value: "actions" },
+      ],
       headers2: [
         { text: "Nombre", value: "nombre" },
         { text: "Monto Máximo de Compra", value: "monto" },
         { text: "Accion", value: "actions" },
+      ],
+      headers3: [
+        { text: "Nombre", value: "usu.nombre" },
       ],
       desserts: [],
       tablaCompradores: [],
@@ -72,12 +84,22 @@ export default {
       aprobadorFinal: true,
       usuarioLogin: "",
       selectUsuario: [],
+      proyectoSeleccionado:'',
+      tablaDetalleApro:[],
+      tablaSolicitantesPed:[],
+      tablaOtrosUsuarios:[],
+      tablaAprobadores:[]
     };
   },
   mounted() {
     setTimeout(() => {
-      console.log("mounted adquisiciones",this.id)
-    }, 5000);
+      console.log("this.idproyecto",this.idproyecto)
+      if(this.detalle == true){
+        this.proyectoSeleccionado =this.idproyecto
+        this.cargarAprobadores()
+        this.cargarUsuariosTotal()
+      }
+    }, 2000);
   
     this.cargarUsuarios();
     this.usuarioLogin =
@@ -132,6 +154,39 @@ export default {
     },
   },
   methods: {
+    async cargarUsuariosTotal(){
+      const { data : {kangusoft_pro_usu_per}} = await getUsuariosProyecto(this.proyectoSeleccionado)
+        for(let usu of kangusoft_pro_usu_per){
+          console.log("usu",usu)
+          if(usu.usu_per_fk == 5){
+            console.log("SOLICITANTE")
+            this.tablaSolicitantesPed.push(usu)
+          }
+          if(usu.usu_per_fk == 7){
+            console.log("OBSERVADOR")
+            this.tablaOtrosUsuarios.push(usu)
+          }
+        }
+         
+       
+ 
+      },
+   async cargarAprobadores(){
+    const { data : {kangusoft_apr}} = await getAprobadoresProyecto(this.proyectoSeleccionado)
+    for (let apro of kangusoft_apr){
+      if(apro.mod_fk == 1){
+        console.log("apro",apro)
+        this.tablaDetalleApro.push(apro)
+      }
+      if(apro.mod_fk == 3 && apro.monto == 0){
+        this.tablaAprobadores.push(apro)
+      }else if(apro.mod_fk == 3 && apro.monto != 0){
+        this.tablaAprobadores.push(apro)
+      }
+     
+    }
+    },
+
     agregarAprobador() {
       const aprobador = {
         nombre:

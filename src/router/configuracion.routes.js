@@ -9,8 +9,24 @@ export default [
     component: () =>
       import(
         /* webpackChunkName: "apps-email" */ '@/pages/configuracion/proyectos/Listado.vue'
-      ),
-    children: [...emailRoutes]
+      )
+
+  },
+  {
+    path: '/configuracion/proyectos/sent',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-email" */ '@/pages/configuracion/proyectos/Crear.vue'
+      )
+
+  },
+  {
+    path: '/configuracion/proyectos/trash',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-email" */ '@/pages/configuracion/proyectos/Detalle.vue'
+      )
+
   },
   {
     path: '/configuracion/materiales',

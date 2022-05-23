@@ -1,43 +1,74 @@
 <template>
+
   <v-container class="grey lighten-5">
+    <v-btn
+      v-if="detalle == true"
+      color="success"
+      dark
+      large
+    
+      @click="editarInformacion()"
+    ><v-icon left>mdi-pencil</v-icon> 
+      EDITAR
+    </v-btn> 
+    <v-btn
+      v-if="detalle == false && guardarEdicion == true"
+      color="success"
+      dark
+      large
+    
+      @click="guardarEdicion()"
+    ><v-icon left>mdi-pencil</v-icon> 
+      GUARDAR
+    </v-btn> 
+  
     <v-row class="mb-6" no-gutters>
+      
       <v-col>         
         <h3>GENERAL</h3>
         <v-divider></v-divider>
         <v-row>
+        
           <v-col
             cols="2"
             class="pb-0"
           >
             <v-text-field
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.nombre"
               :rules="proyectoRules"
               label="Nombre"
               outlined
               dense
             ></v-text-field>
+            <h4 v-if="detalle == true">Nombre</h4>
+            <p v-if="detalle == true">{{ proyecto.nombre }}</p>
           </v-col>
           <v-col
             cols="2"
             class="pb-0"
           >
             <v-text-field
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.codigo"
               :rules="proyectoRules"
               label="Código"
               outlined
               dense
             ></v-text-field>
+            <h4 v-if="detalle == true">Código</h4>
+            <p v-if="detalle == true">{{ proyecto.codigo }}</p>
           </v-col>
           <v-col
             cols="2"
             class="pb-0"
           >
             <v-select
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.celulas"
               :rules="celulasRules" 
               :items="listaCelulas"
-              label="Celulas"
+              label="Unidades de Trabajo"
               multiple
               persistent-hint
               outlined
@@ -45,12 +76,15 @@
               item-text="nombre"
               item-value="id"
             ></v-select>
+            <h4 v-if="detalle == true">Unidades de Trabajo</h4>
+            <p v-if="detalle == true">{{ proyecto.prouni.nombre }}</p>
           </v-col>
           <v-col
             cols="2"
             class="pb-0"
           >
             <v-text-field
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.valorC"
               :rules="proyectoRules"
               label="Valor Contrato"
@@ -58,24 +92,30 @@
               dense
               type="number"
             ></v-text-field>
+            <h4 v-if="detalle == true">Valor Contractual</h4>
+            <p v-if="detalle == true">{{ proyecto.valor_contractual }}</p>
           </v-col>
           <v-col
             cols="2"
             class="pb-0"
           >
             <v-text-field
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.presupuestoObra"
               :rules="proyectoRules"
               label="Presupuesto de Obra"
               outlined
               dense
             ></v-text-field>
+            <h4 v-if="detalle == true">Presupuesto de Obra</h4>
+            <p v-if="detalle == true">{{ proyecto.presupuesto }}</p>
           </v-col>
           <v-col
             cols="2"
             class="pb-0"
           >
             <v-select
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.estado"
               :items="listaEstados"
               label="Estado"
@@ -85,6 +125,8 @@
               item-value="id"
               value="1"
             ></v-select>
+            <h4 v-if="detalle == true">Estado</h4>
+            <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
           </v-col>
              
         </v-row>
@@ -94,6 +136,7 @@
             class="pt-0"
           >
             <v-select
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.monedaGeneral"
               :rules="proyectoRules"
               :items="listaMonedas"
@@ -103,12 +146,15 @@
               item-text="nombre"
               item-value="id"
             ></v-select>
+            <h4 v-if="detalle == true">Moneda</h4>
+            <p v-if="detalle == true">{{ proyecto.mon.nombre }}</p>
           </v-col>
           <v-col
             class="pt-0"
             cols="2"
           >
             <v-select
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.flag"
               :items="listaFlags"
               label="Etiquetas"
@@ -119,7 +165,8 @@
               item-text="nombre"
               item-value="id"
             ></v-select>
-         
+            <h4 v-if="detalle == true">Etiquetas</h4>
+            <p v-if="detalle == true">{{ proyecto.usu.flas[2].nombre }}</p>
           </v-col>
           <!-- <v-col
             class="pt-0"
@@ -141,18 +188,22 @@
             cols="2"
           >
             <v-text-field
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.ocInicial"
               label="OC inicial"
               outlined
               dense
               value="0"
             ></v-text-field>
+            <h4 v-if="detalle == true">OC Inicial</h4>
+            <p v-if="detalle == true">{{ proyecto.inicio_oc }}</p>
           </v-col>
           <v-col
             class="pt-0"
             cols="4"
           >
             <v-textarea
+              v-if="detalle == false"
               v-model="infoGeneralProyecto.descripcion"
               label="Descripción"
               auto-grow
@@ -161,11 +212,14 @@
               row-height="15"
               dense
             ></v-textarea>
+            <h4 v-if="detalle == true">Descripción</h4>
+            <p v-if="detalle == true">{{ proyecto.descripcion }}</p>
           </v-col>
           <v-col
             cols="4"
           >
-            <v-combobox
+            <v-combobox 
+              v-if="detalle == false"
               v-model="usuarioAdministrador"
               :rules="proyectoRules"
               :items="listaUsuarios"
@@ -175,11 +229,14 @@
               solo
               :item-text="unirNombreApellido"
             ></v-combobox>
+            <h4 v-if="detalle == true">Usuario Administrador</h4>
+            <p v-if="detalle == true">{{ proyecto.usu.nombre }} {{ proyecto.usu.apellidos }}</p>
           </v-col>
           <v-col
             cols=""
           >
             <v-file-input
+              v-if="detalle == false"
               v-model="usuario.firma" 
               label="Imagen"
               outlined
@@ -189,6 +246,8 @@
               @change="previewFirma"
               @click:clear="eliminarFirma"
             ></v-file-input>
+            <h4 v-if="detalle == true">Imagen</h4>
+         
           </v-col>
           <v-col
             cols="2"
@@ -203,6 +262,7 @@
         cols="2"
       >
         <v-select
+          v-if="detalle == false"
           v-model="infoDireccionProyecto.region"
           :items="listaRegion"
           label="Region"
@@ -212,11 +272,14 @@
           item-value="id"
           @blur="cargarComunas()"
         ></v-select>
+        <h4 v-if="detalle == true">Region</h4>
+        <p v-if="detalle == true">{{ proyecto.com.prov.reg.nombre }}</p>
       </v-col>
       <v-col
         cols="2"
       > 
         <v-select
+          v-if="detalle == false"
           v-model="infoDireccionProyecto.comuna"
           :items="listaComunas && listaComunas"
           label="Comuna"
@@ -225,16 +288,21 @@
           item-text="nombre"
           item-value="id"
         ></v-select>
+        <h4 v-if="detalle == true">Comuna</h4>
+        <p v-if="detalle == true">{{ proyecto.com.nombre }}</p>
       </v-col>
       <v-col
         cols="2"
       >
         <v-text-field
+          v-if="detalle == false"
           v-model="infoDireccionProyecto.direccion"
           label="Dirección"
           outlined
           dense
         ></v-text-field>
+        <h4 v-if="detalle == true">Dirección</h4>
+        <p v-if="detalle == true">{{ proyecto.direccion }}</p>
       </v-col>
              
     </v-row>
@@ -244,8 +312,8 @@
       <v-col
         cols="4"
       >
-        {{ listaMandante }}
         <v-autocomplete
+          v-if="detalle == false"
           v-model="infoMandanteProyecto.mandante"
           :items="listaMandante"
           :loading="isLoading"
@@ -259,6 +327,8 @@
           outlined
           dense
         ></v-autocomplete>
+        <h4 v-if="detalle == true">Mandante del Proyecto</h4>
+        <p v-if="detalle == true">{{ proyecto.ent.razon_social }}</p>
       </v-col>
     </v-row>
     <v-row>
@@ -266,6 +336,7 @@
         cols="12"
       >
         <v-btn
+          v-if="detalle == false"
           color="success"
           dark
           large

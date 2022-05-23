@@ -1,6 +1,6 @@
 /* eslint-disable */
 import {getComunas,getProveedores} from "../../../../graphql/general.js"
-import {getDatosGenerales}  from "../../../../graphql/configuracion.js"
+import {getDatosGenerales, getProyecto}  from "../../../../graphql/configuracion.js"
 import { postProyectoInformacion } from '../../../../graphql/configuracion.js'
 
 export default { 
@@ -8,7 +8,8 @@ export default {
   data() {
     return { 
       grabado:false,
-      idProyecto:2,
+      idProyectoCreado:2,
+      proyectoSeleccionado:'',
       isLoading: false,
       search: null,
       proyectoRules: [
@@ -79,16 +80,27 @@ export default {
       listaComunas: [],
       listaUsuarios:[],
       listaMandante:[],
-      a: [],
+      proyecto:{},
       usuLogin: "",
       fecha: "",
       aut0: "",
       usuarioAdministrador:'',
+      guardarEdicion:false
     };
   }, props: {
-    id: Function
+    id: Function,
+    detalle:Boolean,
+    idproyecto: Number
 },
   mounted() {
+    setTimeout(() => {
+      console.log("this.idproyecto",this.idproyecto)
+      if(this.detalle == true){
+        this.proyectoSeleccionado =this.idproyecto
+        this.cargarProyecto()
+      }
+    }, 2000);
+   
     this.cargarInformacionGeneral()
     this.aut0 = 1;
     this.usuLogin = 1;
@@ -130,6 +142,22 @@ export default {
         }
       }
 
+    },
+    guardarEdicion(){
+    this.detalle = true
+    this.guardarEdicion = false
+    },
+    editarInformacion(){
+    this.detalle = false
+    this.guardarEdicion = true
+    },
+    async cargarProyecto(){
+      const { data : {kangusoft_pro,kangusoft_pro_prouni,kangusoft_pro_fla}} = await getProyecto(this.proyectoSeleccionado)
+      console.log("aaa", kangusoft_pro,kangusoft_pro_prouni,kangusoft_pro_fla)
+      this.proyecto = kangusoft_pro[0]
+      this.proyecto.fla = kangusoft_pro_fla[0].fla
+      this.proyecto.prouni = kangusoft_pro_prouni[0].pro_uni
+      console.log("aa2", this.proyecto)
     },
     async cargarInformacionGeneral() {
       const { data: {kangusoft_emp_mon,kangusoft_fla,kangusoft_pro_est,kangusoft_pro_uni,kangusoft_reg,kangusoft_usu} } = await getDatosGenerales()
@@ -183,9 +211,9 @@ export default {
       console.log("flag:",finalFlag)
       const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
       console.log(data)
-      this.idProyecto = data.insert_pro_informacion.id_proyecto_
+      this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
       this.grabado = true
-      this.$emit('id',this.idProyecto, this.grabado)
+      this.$emit('id',this.idProyectoCreado, this.grabado)
     
     },
   },

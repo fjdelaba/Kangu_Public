@@ -1,34 +1,48 @@
 <template>
- 
-  <div>  
-    <v-container class="grey lighten-5">
-      <v-row no-gutters>
-        <v-col
-          v-for="n in 3"
-          :key="n"
-          cols="12"
-          sm="4"
-        >
-          <v-card
-            class="pa-2"
-            outlined
-            tile
-          >
-            One of three columns
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
 
+  <v-container>
+    <v-row>
+      <v-col>
+        <h2>CREACION DE PROYECTO </h2>
+      </v-col>
+    </v-row>
+    <v-row class="mb-6" no-gutters>
+      <v-col>   
+        <v-row class="mb-6" no-gutters>
+          <v-col> 
+            <v-tabs>
+
+              <v-tab >
+                Informacion
+              </v-tab>
+              <v-tab-item >
+                <informacion-general ref="infoGeneral" @id="dada" ></informacion-general>
+              </v-tab-item>
+              <v-tab :disabled="!grabado" >
+                Adquisiciones
+              </v-tab>
+              <v-tab-item >
+                <adquisiciones :id="idPro" ref="adquisiciones" :grabado="idPro"></adquisiciones>
+              </v-tab-item >
+              <v-tab :disabled="!grabado">
+                Cuentas de Costo
+              </v-tab>
+              <v-tab-item >
+                <cuenta-costo ref="cuentaCosto"></cuenta-costo>
+              </v-tab-item>
+              <v-tab :disabled="!grabado" >
+                Materiales
+              </v-tab>
+              <v-tab-item>
+                <material-control :id="idPro" ref="mateControl"></material-control>
+              </v-tab-item>
+            </v-tabs>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
+<style src="./Creacion/Creacion.css"></style>
+<script src="./Creacion/Creacion.js"></script>

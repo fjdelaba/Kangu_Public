@@ -11,6 +11,7 @@
           </v-col>
           <v-col cols="4" class="pb-0">
             <v-combobox
+              v-if="detalle == false"
               v-model="usuariosPedido.usuSolicitante" 
               :rules="celulasRules"
               :items="selectUsuario"
@@ -20,23 +21,16 @@
               outlined
               :item-text="item => item.nombre +'  '+ item.apellidos"
             >
-              <!-- <template v-slot:selection="data">
-                 <v-chip
-                  :key="JSON.stringify(data.item)"
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  :disabled="data.disabled"
-                  @click:close="data.parent.selectItem(data.item)"
-                >
-                  <v-avatar
-                    class="accent white--text"
-                    left
-                    v-text="data.item.slice(0, 1).toUpperCase()"
-                  ></v-avatar>
-                  {{ data.item }}
-                </v-chip> 
-              </template> -->
             </v-combobox>
+            <v-data-table
+              v-if="detalle == true"
+              :headers="headers3"
+              :items="tablaSolicitantesPed"
+              :items-per-page="5"
+              class="elevation-1"
+              :hide-default-footer="true"
+            ></v-data-table>
+        
           </v-col>
         </v-row>
         <v-row>
@@ -45,6 +39,7 @@
           </v-col>
           <v-col cols="4">
             <v-combobox
+              v-if="detalle == false"
               v-model="usuariosPedido.usuAprobador"
               :items="selectUsuario"
               label="Usuario"
@@ -52,18 +47,27 @@
               outlined
               :item-text="item => item.nombre +'  '+ item.apellidos"
             ></v-combobox>
+            <v-data-table
+              v-if="detalle == true"
+              :headers="headers3"
+              :items="tablaDetalleApro"
+              :items-per-page="5"
+              class="elevation-1"
+              :hide-default-footer="true"
+            ></v-data-table>
           </v-col>
         </v-row>
         <h3>ORDEN DE COMPRA</h3>
         <v-divider></v-divider>
         <v-row>
           <v-col>
-            <h3>Flujo de Aprobación Orden de Compra {{ cpxUsuariosAprobadoresFiltrados }}</h3>
+            <h3>Flujo de Aprobación Orden de Compra </h3>
           </v-col>
         </v-row>
         <v-row> </v-row>
-        {{ cpxAprobadorFinal }}
+
         <v-data-table
+          v-if="detalle == false"
           :headers="headers"
           :items="cpxTablaOrdenada"
           :items-per-page="5"
@@ -180,6 +184,37 @@
             </v-icon>
           </template>
         </v-data-table>
+        <v-data-table
+          v-if="detalle == true"
+          :headers="headers4"
+          :items="tablaAprobadores"
+          :items-per-page="5"
+          class="elevation-1"
+          style="min-width: 890px"
+          :hide-default-footer="true"
+        ><template
+           v-slot:item.monto="{ item }"
+         >
+           <div v-if="item.apro_final == true">
+             <v-icon>mdi-infinity</v-icon> 
+           </div>
+           <div v-else>
+             <p>${{ item.monto }}</p> 
+           </div>
+          
+         </template>
+          <template
+            v-slot:item.tiempo="{ item }"
+          >
+            <div v-if="item.apro_final == true">
+              <v-icon>mdi-infinity</v-icon> 
+            </div>
+            <div v-else>
+              <p>{{ item.tiempo }}</p> 
+            </div>
+          
+          </template>
+        </v-data-table>
         <v-row>
           <v-col> </v-col>
         </v-row>
@@ -190,6 +225,7 @@
         </v-row>
 
         <v-data-table
+          v-if="detalle == false"
           :headers="headers2"
           :items="cpxTablaOrdenadaComprador"
           :items-per-page="5"
@@ -313,6 +349,7 @@
               </v-col>
               <v-col cols="4" class="pb-0">
                 <v-combobox
+                  v-if="detalle == false"
                   v-model="otrosUsuarios"
                   :items="usuario"
                   label="Usuario"
@@ -322,23 +359,15 @@
                   :item-text="item => item.nombre +'  '+ item.apellidos"
                   :item-value="[]"
                 >
-                  <!-- <template v-slot:selection="data">
-                 <v-chip
-                  :key="JSON.stringify(data.item)"
-                  v-bind="data.attrs"
-                  :input-value="data.selected"
-                  :disabled="data.disabled"
-                  @click:close="data.parent.selectItem(data.item)"
-                >
-                  <v-avatar
-                    class="accent white--text"
-                    left
-                    v-text="data.item.slice(0, 1).toUpperCase()"
-                  ></v-avatar>
-                  {{ data.item }}
-                </v-chip> 
-              </template> -->
                 </v-combobox>
+                <v-data-table
+                  v-if="detalle == true"
+                  :headers="headers3"
+                  :items="tablaOtrosUsuarios"
+                  :items-per-page="5"
+                  class="elevation-1"
+                  :hide-default-footer="true"
+                ></v-data-table>
               </v-col>
             </v-row>
             <v-row>

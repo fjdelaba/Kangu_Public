@@ -1,6 +1,6 @@
 /* eslint-disable */
 import { getMateriales,getMonedas } from '../../../../graphql/general.js'
-import {postProyectoMaterial } from '../../../../graphql/configuracion.js'
+import {postProyectoMaterial,getMaterialesProyecto} from '../../../../graphql/configuracion.js'
 export default {
   
   data() {
@@ -19,13 +19,20 @@ export default {
           ]
         }
       },
-      headers: [
+      headers1: [
         { text: 'Nombre', value: 'nombre' },
         { text: 'Cantidad', value: 'cantidad' },
         { text: 'Unidad Formato', value: 'formato' },
         { text: 'Valor Unitario', value: 'unitario' },
         { text: 'Valor Total', value: 'total' },
         { text: '% del Presupuesto', value: 'porcentaje' }
+      ],
+      headers2: [
+        { text: 'Nombre', value: 'mat.nombre' },
+        { text: 'Cantidad', value: 'cantidad' },
+        { text: 'Unidad Formato', value: 'mat.mat_uni.nombre' },
+        { text: 'Valor Unitario', value: 'valor_unitario' },
+        { text: 'Valor Total', value: 'total' },
       ],
       listaMaterial: [],
       listaMonedas:[],
@@ -45,24 +52,40 @@ export default {
         total:'',
         porcentaje:'',
         id:''
-      }
+      },
+      proyectoSeleccionado:'',
+      materialesProyecto:[]
     }
   },
   props: {
-    id: Number
+    id: Number,
+    detalle:Boolean,
+    idproyecto: Number
   },
   mounted() {
+    setTimeout(() => {
+      console.log("this.idproyecto",this.idproyecto)
+      if(this.detalle == true){
+        this.proyectoSeleccionado =this.idproyecto
+        this.cargarMaterialesProyecto()
+      }
+    }, 2000);
     this.cargarMonedas()
     
     setTimeout(() => {
-      console.log('props:', this.id)
-    }, 5000)
+      console.log('props:', this.idproyecto)
+    }, 2000)
   },
   methods: {
     async cargarMonedas() {
       const { data } = await getMonedas()
       
       this.listaMonedas = data.kangusoft_mon
+    },
+    async cargarMaterialesProyecto(){
+      const { data : {kangusoft_pro_mat}} = await getMaterialesProyecto(this.proyectoSeleccionado)
+      console.log("aaa", kangusoft_pro_mat)
+      this.materialesProyecto = kangusoft_pro_mat
     },
     cargarMateriales() {
       console.log('PASO POR ACÁ !!!!')
