@@ -84,7 +84,7 @@ export default {
       for (const mat of this.materiales) {
         console.log('mat: ', mat)
         // eslint-disable-next-line eqeqeq
-        if (mat.total != 0 && mat.par != '') {
+        if (mat.total != 0 && mat.partidas.length > 0) {
           mat.editable = false
         }
         
@@ -105,7 +105,17 @@ export default {
         if (this.materiales[mat].mat_fk == item.mat_fk) {
           this.materiales.splice(mat,1)
         }
-        console.log('mat: ', mat)
+        console.log('this.materiales[mat]: ', this.materiales[mat])
+      }
+    },
+    guardarMaterial(item) {
+      for (const mat in this.materiales) {
+        console.log(this.materiales[mat])
+        console.log(item.mat_fk)
+        // eslint-disable-next-line eqeqeq
+        if (this.materiales[mat].mat_fk == item.mat_fk) {
+          this.materiales[mat].editable = false
+        }
       }
     }
   },
