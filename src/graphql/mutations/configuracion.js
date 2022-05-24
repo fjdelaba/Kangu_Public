@@ -24,6 +24,9 @@ const INSERT_PROYECTO_MATERIAL = gql`
 mutation M_INSERT_PROYECTO_MATERIAL($cantidad: numeric!,  $mat_fk: bigint!, $mon_fk: bigint!,  $pro_fk: bigint!, $total:numeric!, $valor_unitario:numeric! ){
   insert_kangusoft_pro_mat(objects:{cantidad: $cantidad,  mat_fk: $mat_fk, mon_fk: $mon_fk, pro_fk: $pro_fk, total: $total, valor_unitario: $valor_unitario}) {
     affected_rows
+    returning {
+      pro_fk
+    }
   }
 }
 `

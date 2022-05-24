@@ -99,7 +99,7 @@ export default {
         this.proyectoSeleccionado =this.idproyecto
         this.cargarProyecto()
       }
-    }, 2000);
+    }, 5000);
    
     this.cargarInformacionGeneral()
     this.aut0 = 1;

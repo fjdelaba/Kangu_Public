@@ -93,7 +93,8 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      console.log("this.idproyecto",this.idproyecto)
+      console.log("this.idproyectoSeleccionado",this.idproyecto)
+      console.log("this.idproyectocreado",this.id)
       if(this.detalle == true){
         this.proyectoSeleccionado =this.idproyecto
         this.cargarAprobadores()

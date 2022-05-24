@@ -64,17 +64,18 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      console.log("this.idproyecto",this.idproyecto)
+      console.log("this.idproyectoSeleccionado",this.idproyecto)
+      console.log("this.idproyectocreado",this.id)
       if(this.detalle == true){
         this.proyectoSeleccionado =this.idproyecto
         this.cargarMaterialesProyecto()
       }
-    }, 2000);
+    }, 5000);
     this.cargarMonedas()
     
     setTimeout(() => {
-      console.log('props:', this.idproyecto)
-    }, 2000)
+      console.log('props:', this.id)
+    },5000)
   },
   methods: {
     async cargarMonedas() {
@@ -138,17 +139,16 @@ export default {
       this.materialSeleccionado.total = this.materialSeleccionado.unitario * this.materialSeleccionado.cantidad
       this.materialSeleccionado.porcentaje = '%' + this.materialSeleccionado.total / 1000000 * 100
       this.desserts.push(this.materialSeleccionado)
-      this.limpiarMateriales()
       console.log('mats:',this.materialSeleccionado)
+      this.limpiarMateriales()
+    
     },
    async guardarMateriales(){
-      
-    
       for (let a of this.desserts) {
       let cantidad = a.cantidad
       let mat_fk = a.id
       let mon_fk = a.moneda
-      let pro_fk = 30
+      let pro_fk = this.id
       let total = a.total
       let valor_unitario = a.unitario
       console.log(cantidad, mat_fk, mon_fk, pro_fk, total, valor_unitario)

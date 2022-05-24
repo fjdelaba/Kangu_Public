@@ -77,7 +77,7 @@
               dark
               @click="guardarNuevoItem()"
             >
-              Agregar Material
+              Agregar Material {{ detalle }}
             </v-btn>
           </v-col>
         </v-row>
@@ -86,7 +86,7 @@
             <template>
               <v-data-table
                 v-if="detalle == false"
-                :headers="headers"
+                :headers="headers1"
                 :items="desserts"
                 :items-per-page="5"
                 class="elevation-1"
