@@ -2,6 +2,8 @@
   <v-card>
     <v-card-title class="pb-0 mb-0">
       <v-row justify="center" align="center">
+        <!-- {{ material }} -->
+        <!-- {{ partidaGeneral }} -->
         <span class="text-h5">{{ cpxTitulo }}</span>
         <v-switch
           v-if="!cpxModoEdicion"
@@ -26,7 +28,7 @@
               outlined
               dense
             ></v-text-field> -->
-              {{ materialEdicion }} {{ materialEdicion !== undefined }} - {{ cpxModoEdicion }}
+              <!-- {{ materialEdicion }} {{ materialEdicion !== undefined }} - {{ cpxModoEdicion }} -->
               <div v-if="materialEdicion !== undefined">
                 <span class="pb-3"> {{ materialEdicion.nombre }} </span>
               </div>
@@ -84,78 +86,109 @@
                 label="Obserbacion"
                 auto-grow
                 outlined
-                rows="3"
+                rows="2"
                 row-height="25"
-                shaped
                 dense
               ></v-textarea>
             </v-col>
-              
+            <v-col
+              cols="12"
+              sm="12"
+              md="12"
+              lg="12"
+              class="pb-0 pt-0 mb-0 mt-0"
+            >
+              <v-btn
+                fab
+                dark
+                x-small
+                color="primary"
+                @click="agregarProrateo()"
+              >
+                <v-icon dark>
+                  mdi-plus
+                </v-icon>
+              </v-btn>
+            </v-col>    
+            <!-- <div
+              v-for="(textField, i) in textFields"
+              :key="i"
+              class="text-fields-row"
+            >        -->
             <v-col
               cols="12"
               sm="6"
               md="6"
               class="pb-0 pt-0 mb-0 mt-0"
             >
-              <v-combobox
-                v-model="material.partida"
-                :items="listaPartidas"
-                label="Selecciona la partida"
-                v-bind="attrs"
-                item-text="nombre"
-                item-value="id"
-                outlined
-                dense
-                :return-object="true"
-                :rules="rules.material.partida"
-              >
-                <template #item="data">
-                  <v-tooltip bottom>
-                    <template #activator="{ on, attrs }">
-                      <v-layout wrap v-bind="attrs" v-on="on">
-                        <v-list-item-content>
-                          <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
-                        </v-list-item-content>
-                      </v-layout>
-                    </template>
-                    <span>{{ `${data.item.path}` }}</span>
-                  </v-tooltip>
-                </template>
-              </v-combobox>
+              <div v-for="prorateo in material.partidas" :key="prorateo.id" class="d-flex justify-space-between">
+                <v-combobox
+                  v-model="prorateo.par_fk"
+                  :items="listaPartidas"
+                  label="Selecciona la partida"
+                  v-bind="attrs"
+                  item-text="nombre"
+                  item-value="id"
+                  outlined
+                  dense
+                  :return-object="true"
+                  :rules="rules.material.partida"
+                  :disabled="disabled"
+                  @input="seleccionPartida()"
+                >
+                  <!-- v-model="material.partida" -->
+                  <template #item="data">
+                    <v-tooltip bottom>
+                      <template #activator="{ on, attrs }">
+                        <v-layout wrap v-bind="attrs" v-on="on">
+                          <v-list-item-content>
+                            <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                          </v-list-item-content>
+                        </v-layout>
+                      </template>
+                      <span>{{ `${data.item.path}` }}</span>
+                    </v-tooltip>
+                  </template>
+                </v-combobox>
+                <v-text-field
+                  v-model="prorateo.cantidad"
+                  label="Cantidad"
+                  :rules="rules.material.cantidad"
+                  outlined
+                  dense
+                  @input="calcularTotal()"
+                ></v-text-field>
+                <!-- v-model="material.cantidad" -->
+                <v-btn
+                  v-if="prorateo.eliminar"
+                  fab
+                  dark
+                  x-small
+                  color="primary"
+                  @click="eliminarProrateo(prorateo)"
+                >
+                  <v-icon dark>
+                    mdi-minus
+                  </v-icon>
+                </v-btn>
+              </div>
             </v-col>
+            <!-- </div> -->
             <v-col
               cols="12"
               sm="6"
               md="4"
               class="pb-0 pt-0 mb-0 mt-0"
             >
-              <v-text-field
+              <!-- <v-text-field
                 v-model="material.cantidad"
                 label="Cantidad"
                 :rules="rules.material.cantidad"
                 outlined
                 dense
                 @input="calcularTotal()"
-              ></v-text-field>
+              ></v-text-field> -->
             </v-col>
-            <v-col
-              cols="12"
-              sm="6"
-              md="2"
-              class="pb-0 pt-0 mb-0 mt-0"
-            >
-              <v-btn
-                fab
-                dark
-                small
-                color="primary"
-              >
-                <v-icon dark>
-                  mdi-plus
-                </v-icon>
-              </v-btn>
-            </v-col>
-                  
             <v-col
               cols="12"
               sm="6"

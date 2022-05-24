@@ -37,8 +37,10 @@
     <v-data-table
       :headers="headers"
       :items="materiales"
+      item-key="id"
       sort-by="calories"
       class="elevation-1"
+      dense
       :hide-default-footer="true"
     >
       <template v-slot:item.nombre="{ item }">
@@ -48,7 +50,72 @@
         </div>
       </template>
       <template v-slot:item.par_fk="{ item }">
-        <div v-if="item.editable">
+        <div v-if="item.partidas.length > 1">
+          <v-tooltip right>
+            <template v-slot:activator="{ on }">
+              <v-chip
+                class="ma-2"
+                color="green"
+                text-color="white"
+                small
+                v-on="on"
+              >
+                {{ item.partidas.length }} partidas
+              </v-chip>
+            </template>
+            <v-card
+              class="mx-auto"
+              max-width="400"
+              tile
+            >
+              <v-list-item>
+                <v-list-item-content>
+                  <v-list-item-title v-for="p in item.partidas" :key="p.id">{{ p.par_fk.nombre }}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>  
+            </v-card>
+          </v-tooltip>
+        </div>
+
+        <div v-else>
+          <div v-if="item.editable">
+            <!-- {{ item.partidas }} -->
+            <v-combobox
+              v-model="item.partidas[0].par_fk"
+              :items="listaPartidas"
+              label="Selecciona la partida"
+              v-bind="attrs"
+              item-text="nombre"
+              :item-value="id"
+              outlined
+              dense
+            >
+              <template #item="data">
+                <v-tooltip bottom>
+                  <template #activator="{ on, attrs }">
+                    <v-layout wrap v-bind="attrs" v-on="on">
+                      <v-list-item-content>
+                        <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                      </v-list-item-content>
+                    </v-layout>
+                  </template>
+                  <span>{{ `${data.item.path}` }}</span>
+                </v-tooltip>
+              </template>
+            </v-combobox>
+          </div>
+          <div v-else>
+            <v-chip
+              class="ma-2"
+              color="primary"
+              text-color="white"
+              small
+            >
+              {{ item.partidas[0].par_fk.nombre }}
+            </v-chip>
+          </div>
+        </div>
+        <!-- <div v-if="item.editable">
           <v-combobox
             v-model="item.par"
             :items="listaPartidas"
@@ -76,7 +143,7 @@
         </div>
         <div v-else>
           <span>{{ item.par.nombre }}</span> 
-        </div>
+        </div> -->
         
       </template>
       <template v-slot:item.cantidad="{ item }">
@@ -112,19 +179,30 @@
         </div>
       </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon
-          small
-          class="mr-2"
-          @click="abrirDialogMaterial(item)"
-        >
-          mdi-pencil
-        </v-icon>
-        <v-icon
-          small
-          @click="eliminarMaterial(item)"
-        >
-          mdi-delete {{ item }}
-        </v-icon>
+        <div v-if="item.editable">
+          <v-icon
+            small
+            class="mr-2"
+            @click="guardarMaterial(item)"
+          >
+            mdi-content-save
+          </v-icon>
+        </div>
+        <div v-else>
+          <v-icon
+            small
+            class="mr-2"
+            @click="abrirDialogMaterial(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            small
+            @click="eliminarMaterial(item)"
+          >
+            mdi-delete {{ item }}
+          </v-icon>
+        </div>
       </template>
       <template v-slot:no-data>
         <!-- <v-btn
