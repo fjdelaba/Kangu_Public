@@ -3,26 +3,25 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>CREACION DE PROYECTO </h2>
+        <h2>CREACION DE PROYECTO {{ active }} {{ grabado }}</h2>
       </v-col>
     </v-row>
     <v-row class="mb-6" no-gutters>
       <v-col>   
         <v-row class="mb-6" no-gutters>
           <v-col> 
-            <v-tabs>
-
-              <v-tab >
+            <v-tabs v-model="active">
+              <v-tab>
                 Informacion
               </v-tab>
               <v-tab-item >
-                <informacion-general ref="infoGeneral" @id="dada" ></informacion-general>
+                <informacion-general ref="infoGeneral" @id="cambioStep1" ></informacion-general>
               </v-tab-item>
               <v-tab :disabled="!grabado" >
                 Adquisiciones
               </v-tab>
               <v-tab-item >
-                <adquisiciones :id="idPro" ref="adquisiciones" :grabado="idPro"></adquisiciones>
+                <adquisiciones :id="idPro" ref="adquisiciones" :grabado="idPro" @id="cambioStep2"></adquisiciones>
               </v-tab-item >
               <v-tab :disabled="!grabado">
                 Cuentas de Costo

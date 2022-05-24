@@ -1,3 +1,4 @@
+/* eslint-disable */
 import CuentaCosto from '../../../../components/configuracion/proyecto/CuentaCosto/CuentaCosto.vue'
 import Adquisiciones from '../../../../components/configuracion/proyecto/Adquisiciones/Adquisiciones.vue'
 import MaterialControl from '../../../../components/configuracion/proyecto/MaterialControl/MaterialControl.vue'
@@ -6,7 +7,8 @@ export default {
   data() {
     return {
       idPro:'',
-      grabado:false
+      grabado:false,
+      active:0
     }
   },
   components: {
@@ -16,16 +18,21 @@ export default {
     CuentaCosto
   },
   methods:{
-    dada() {
+    cambioStep1() {
       console.log('aaaaaa',this.$refs.infoGeneral.idProyectoCreado)
       this.idPro = this.$refs.infoGeneral.idProyectoCreado
       this.grabado = this.$refs.infoGeneral.grabado
+      this.active = this.$refs.infoGeneral.active
+     
+    },
+    cambioStep2() {
+      this.active = this.$refs.adquisiciones.active
     }
   },
   mounted() {
-    // setTimeout(() => {
-    //   this.dada()
-    // }, 5000)
+    setTimeout(() => {
+      this.dada()
+    }, 5000)
   }
 
 }

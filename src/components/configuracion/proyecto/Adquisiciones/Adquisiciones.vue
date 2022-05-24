@@ -349,7 +349,6 @@
               </v-col>
               <v-col cols="4" class="pb-0">
                 <v-combobox
-                  v-if="detalle == false"
                   v-model="otrosUsuarios"
                   :items="usuario"
                   label="Usuario"
@@ -358,16 +357,10 @@
                   outlined
                   :item-text="item => item.nombre +'  '+ item.apellidos"
                   :item-value="[]"
+                  :disabled="detalle == true"
                 >
                 </v-combobox>
-                <v-data-table
-                  v-if="detalle == true"
-                  :headers="headers3"
-                  :items="tablaOtrosUsuarios"
-                  :items-per-page="5"
-                  class="elevation-1"
-                  :hide-default-footer="true"
-                ></v-data-table>
+               
               </v-col>
             </v-row>
             <v-row>

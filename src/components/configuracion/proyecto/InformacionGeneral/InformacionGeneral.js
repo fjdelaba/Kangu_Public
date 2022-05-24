@@ -49,7 +49,7 @@ export default {
       usuario: {
         firma: "",
       },
-      
+      active:'',
       infoGeneralProyecto: {
         nombre: "",
         codigo: "",
@@ -183,37 +183,38 @@ export default {
 
     async guardarInformacion() {
      
-      let finalCelulas =[]
-      let finalFlag = []
-      let inf = {
-          emp_fk: this.aut0,
-          nombre: this.infoGeneralProyecto.nombre,
-          pro_est_fk: this.infoGeneralProyecto.estado,
-          valor_contractual: Number(this.infoGeneralProyecto.valorC),
-          com_fk: this.infoDireccionProyecto.comuna,
-          direccion: this.infoDireccionProyecto.direccion,
-          ent_fk: this.infoMandanteProyecto.mandante.id,
-          usu_fk: this.usuLogin,
-          inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
-          codigo: this.infoGeneralProyecto.codigo,
-          mon_fk: this.infoGeneralProyecto.monedaGeneral,
-          descripcion: this.infoGeneralProyecto.descripcion,
-          presupuesto: Number(this.infoGeneralProyecto.presupuestoObra),
-          adm_obra_fk: this.usuarioAdministrador.id
-        }
-        console.log("inf:",inf)
-      for (let b of this.infoGeneralProyecto.celulas) {
-        finalCelulas.push({pro_uni_fk:b})}
-      for (let a of this.infoGeneralProyecto.flag) {
-        finalFlag.push({fla_fk:a});
-      }
-      console.log("cel",finalCelulas)
-      console.log("flag:",finalFlag)
-      const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
-      console.log(data)
-      this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
+      // let finalCelulas =[]
+      // let finalFlag = []
+      // let inf = {
+      //     emp_fk: this.aut0,
+      //     nombre: this.infoGeneralProyecto.nombre,
+      //     pro_est_fk: this.infoGeneralProyecto.estado,
+      //     valor_contractual: Number(this.infoGeneralProyecto.valorC),
+      //     com_fk: this.infoDireccionProyecto.comuna,
+      //     direccion: this.infoDireccionProyecto.direccion,
+      //     ent_fk: this.infoMandanteProyecto.mandante.id,
+      //     usu_fk: this.usuLogin,
+      //     inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
+      //     codigo: this.infoGeneralProyecto.codigo,
+      //     mon_fk: this.infoGeneralProyecto.monedaGeneral,
+      //     descripcion: this.infoGeneralProyecto.descripcion,
+      //     presupuesto: Number(this.infoGeneralProyecto.presupuestoObra),
+      //     adm_obra_fk: this.usuarioAdministrador.id
+      //   }
+      //   console.log("inf:",inf)
+      // for (let b of this.infoGeneralProyecto.celulas) {
+      //   finalCelulas.push({pro_uni_fk:b})}
+      // for (let a of this.infoGeneralProyecto.flag) {
+      //   finalFlag.push({fla_fk:a});
+      // }
+      // console.log("cel",finalCelulas)
+      // console.log("flag:",finalFlag)
+      // const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
+      // console.log(data)
+      // this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
       this.grabado = true
-      this.$emit('id',this.idProyectoCreado, this.grabado)
+      this.active = 1
+      this.$emit('id',this.active, this.grabado)
     
     },
   },

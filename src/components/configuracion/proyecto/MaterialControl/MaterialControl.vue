@@ -30,6 +30,7 @@
               outlined
               dense
               solo
+              autofocus="false"
             >
             </v-autocomplete></v-col>
           <v-col

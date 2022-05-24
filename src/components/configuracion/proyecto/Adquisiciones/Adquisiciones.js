@@ -53,7 +53,7 @@ export default {
       dialogo: false,
       dialog0: false,
       dialogDelete: false,
-
+      active:'',
       editedIndex: -1,
       editedItem: {
         name: "",
@@ -210,6 +210,7 @@ export default {
         this.aprobadorFinal = false;
       }
       this.limpiarFormUsuarios();
+      this.close()
     },
 
     //TODO: RETORNA TRUE SI EXISTE APROBADOR
@@ -365,9 +366,12 @@ export default {
       perfiles.push({usu_per_fk:7,usu_fk:1})
       console.log("d",perfiles)
     }
+    this.active = 3
+
     const { data } = await postProyectoAdquisiciones(id,perfiles,aprobadorPed,aprobadores,compradores)
     console.log(data)
     console.log(id,perfiles,aprobadorPed,aprobadores,compradores)
+    this.$emit('id',this.active)
   },
   
 }
