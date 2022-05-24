@@ -11,7 +11,6 @@
           </v-col>
           <v-col cols="4" class="pb-0">
             <v-combobox
-              v-if="detalle == false"
               v-model="usuariosPedido.usuSolicitante" 
               :rules="celulasRules"
               :items="selectUsuario"
@@ -20,16 +19,9 @@
               dense
               outlined
               :item-text="item => item.nombre +'  '+ item.apellidos"
+              :disabled="detalle == true"
             >
             </v-combobox>
-            <v-data-table
-              v-if="detalle == true"
-              :headers="headers3"
-              :items="tablaSolicitantesPed"
-              :items-per-page="5"
-              class="elevation-1"
-              :hide-default-footer="true"
-            ></v-data-table>
         
           </v-col>
         </v-row>
@@ -39,22 +31,14 @@
           </v-col>
           <v-col cols="4">
             <v-combobox
-              v-if="detalle == false"
               v-model="usuariosPedido.usuAprobador"
               :items="selectUsuario"
               label="Usuario"
               dense
               outlined
               :item-text="item => item.nombre +'  '+ item.apellidos"
+              :disabled="detalle == true"
             ></v-combobox>
-            <v-data-table
-              v-if="detalle == true"
-              :headers="headers3"
-              :items="tablaDetalleApro"
-              :items-per-page="5"
-              class="elevation-1"
-              :hide-default-footer="true"
-            ></v-data-table>
           </v-col>
         </v-row>
         <h3>ORDEN DE COMPRA</h3>
