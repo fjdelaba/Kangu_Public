@@ -11,8 +11,7 @@ export default {
         valid:true,
         nombres: '',
         nombresRules: [
-          (v) => !!v || 'Nombre obligatorio',
-          (v) => (v && v.length <= 10) || 'No'
+          (v) => !!v || 'Nombre obligatorio'
         ],
         apellidos: '',
         apellidosRules:[
@@ -45,6 +44,7 @@ export default {
       url: null,
       url2:null,
       abrirDialog:false,
+      cerrarDialog:true,
       dialog:false,
       image: null,
       drawer:false, 
@@ -125,8 +125,9 @@ export default {
         imagen: '',
         firma: ''
       }
-      
-      //this.abrirDialog = false
+      this.url2 = null 
+      this.url = null 
+
     },
     validate () {
       this.$refs.form.validate()
@@ -143,7 +144,8 @@ export default {
         firma: ''
       },
       this.abrirDialog = false
-      
+      this.url2 = null 
+      this.url = null 
     },
 
     eliminarFirma() {
