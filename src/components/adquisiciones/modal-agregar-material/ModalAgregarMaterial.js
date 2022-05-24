@@ -1,4 +1,5 @@
 import { getPartidasPorPoroyecto,getMateriales } from '../../../graphql/general'
+import { v4 as uuidv4 } from 'uuid'
 export default {
   name: 'ModalAgregarMaterial',
   props: {
@@ -14,7 +15,8 @@ export default {
         unitario: '',
         subtotal: '',
         observacion: '',
-        mat_fk: 0
+        mat_fk: 0,
+        partidas:[{ par: [], par_fk:0, cantidad:0, id:uuidv4(), eliminar: false }]
       },
       rules:{
         material:{
@@ -79,7 +81,10 @@ export default {
       },
       materialesSelected: [],
       textoFiltroMaterial:'',
-      partidaGeneral: ''
+      partidaGeneral: '',
+      prorateos: [
+        { par: [], par_fk:0, cantidad:0, id:uuidv4(), eliminar: false }
+      ]
     }
   },
   mounted() {
@@ -90,6 +95,35 @@ export default {
     
   },
   methods: {
+    seleccionPartida() {
+      console.log('blur')
+      for (const par of this.material.partidas) {
+        console.log('par: ', par.par_fk)
+        const obj = this.listaPartidas.find((data) => data.id === par.par_fk.id)
+
+        obj.disabled = true
+        console.log('this.listaPartidas: ', this.listaPartidas)
+      }
+    },
+    agregarProrateo() {
+      this.material.partidas.push({ par: [], par_fk:0, cantidad:0, id:uuidv4(), eliminar: true })
+    },
+    eliminarProrateo(prorateo) {
+      console.log('prorateo: ', prorateo)
+      // eslint-disable-next-line eqeqeq
+      for (const pro in this.material.partidas) {
+        // if(mat.mat_fk == item.mat_fk){
+        //   delete mat
+        // }
+        // eslint-disable-next-line eqeqeq
+        if (this.material.partidas[pro].id == prorateo.id) {
+          this.material.partidas.splice(pro,1)
+          console.log('iguales: ')
+        }
+        console.log('pro: ', pro)
+      }
+      this.calcularTotal()
+    },
     agregarMaterial() {
       console.log('this.cpxModoEdicion: ', this.cpxModoEdicion, ' - cargaMasiva: ', this.cargaMasiva)
       if (this.cpxModoEdicion) {
@@ -109,7 +143,14 @@ export default {
       } else {
         if (this.cargaMasiva) {
           const materiales = []
-  
+          const matPar = [{
+            par: '',
+            par_fk: this.partidaGeneral,
+            cantidad: this.material.cantidad,
+            id: uuidv4(),
+            eliminar: false
+          }]
+
           if (this.materialesSelected.length > 0) {
             for (const mat of this.materialesSelected) {
     
@@ -126,16 +167,20 @@ export default {
                 par_fk: 0,
                 observacion: 'Sin Observacion',
                 usu_fk: mat.nombre,
-                editable: true
+                editable: true,
+                id: uuidv4()
               }
     
               // eslint-disable-next-line eqeqeq
               if (this.partidaGeneral != '') {
-                objMat.par_fk = this.partidaGeneral.id,
+                // objMat.par_fk = this.partidaGeneral.id,
+                objMat.par_fk = matPar,
                 objMat.par = this.partidaGeneral
+                objMat.partidas = JSON.parse(JSON.stringify( matPar))
               } else {
                 objMat.par_fk = ''
                 objMat.par = ''
+                objMat.partidas = ''
               }
               console.log('partida general: ', this.partidaGeneral)
               materiales.push(objMat)
@@ -157,7 +202,9 @@ export default {
             observacion: this.material.observacion,
             usu_fk: 1,
             editable: false,
-            par: this.material.partida
+            par: this.material.partida,
+            partidas: this.material.partidas,
+            id: uuidv4()
           }
   
           console.log('material: ', material)
@@ -166,7 +213,14 @@ export default {
       }   
     },
     calcularTotal() {
-      this.material.subtotal = Number(this.material.cantidad * this.material.unitario)
+      let cantidadTotal = 0
+
+      for (const par of this.material.partidas) {
+        cantidadTotal += Number(par.cantidad)
+      }
+      // this.material.subtotal = Number(this.material.cantidad * this.material.unitario)
+      this.material.subtotal = Number(cantidadTotal * this.material.unitario)
+      this.material.cantidad = cantidadTotal
     },
     cerrar() {
       this.cerrarDialogMaterial_([])

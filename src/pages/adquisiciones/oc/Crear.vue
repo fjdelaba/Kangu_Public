@@ -117,8 +117,10 @@ export default {
         //   console.log('por aca no')
         // }
       } else if (this.pasoStep === 2) {
+        this.pasoStep++
         console.log('de paso 2 a paso 3')
       } else if (this.pasoStep === 3) {
+        this.pasoStep++
         console.log('finalizar')
       }
     },

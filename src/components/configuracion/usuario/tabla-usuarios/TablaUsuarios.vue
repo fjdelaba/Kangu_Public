@@ -12,6 +12,7 @@
         
         <v-col cols="auto">
           <v-dialog
+
             v-model="abrirDialog"
             transition="dialog-top-transition"
             max-width="600"
@@ -44,7 +45,6 @@
                           dense
                           hint="Por Ejemplo, 19728579-6"
                           outlined
-                          :error-messages="rutErrors"
                           label="Rut"
                           required
                           class="ma-0 pa-0"
@@ -55,7 +55,6 @@
                           hint="Por Ejemplo, Felipe."
                           outlined
                           dense
-                          :counter="10"
                           label="Nombres"
                           required
                           :rules="usuario.nombresRules"
@@ -65,7 +64,6 @@
                           hint="Por Ejemplo, De la Barra."
                           dense
                           outlined
-                          :error-messages="apellidosErrors"
                           label="Apellidos"
                           required
                           :rules="usuario.apellidosRules"
@@ -75,7 +73,6 @@
                           hint="Por Ejemplo, FelipedelaBarra@gmail.com"
                           dense
                           outlined
-                          :error-messages="cargoErrors"
                           label="Email"
                           required
                           :rules="usuario.emailRules"
@@ -85,7 +82,6 @@
                           hint="Por Ejemplo, Supervisor,"
                           dense
                           outlined
-                          :error-messages="cargoErrors"
                           label="Cargo"
                           :rules="usuario.cargoRules"
                         ></v-text-field>
@@ -94,7 +90,6 @@
                           dense
                           outlined
                           :items="items"
-                          :error-messages="errors"
                           label="Perfil"
                           data-vv-name="select"
                           required
@@ -135,7 +130,7 @@
                         color="primary"
                         text
                         :disabled="!valid"
-                        @click="CrearUsuario()"
+                        @click="crearUsuario()"
                       >Crear</v-btn>
                     </v-card-actions>
                   </v-card-text>
