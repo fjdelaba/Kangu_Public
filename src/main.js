@@ -27,6 +27,9 @@ import './filters/uppercase'
 import './filters/formatCurrency'
 import './filters/formatDate'
 
+//NOTIFICATIONS
+import Notifications from 'vue-notification'
+
 // STYLES
 // Main Theme SCSS
 import './assets/scss/theme.scss'
@@ -101,6 +104,7 @@ import VueApollo from 'vue-apollo'
 const apolloProvider = new VueApollo({ defaultClient: apolloClient })
 
 Vue.use(VueApollo)
+Vue.use(Notifications)
 
 // Set this to false to prevent the production tip on Vue startup.
 Vue.config.productionTip = false

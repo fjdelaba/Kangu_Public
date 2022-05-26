@@ -96,25 +96,49 @@ export default {
       }
     },
     eliminarMaterial(item) {
-      console.log('item: ', item)
       for (const mat in this.materiales) {
         // if(mat.mat_fk == item.mat_fk){
         //   delete mat
         // }
         // eslint-disable-next-line eqeqeq
         if (this.materiales[mat].mat_fk == item.mat_fk) {
+          console.log('this.materiales[mat]: ', this.materiales[mat])
           this.materiales.splice(mat,1)
         }
-        console.log('this.materiales[mat]: ', this.materiales[mat])
       }
     },
     guardarMaterial(item) {
       for (const mat in this.materiales) {
-        console.log(this.materiales[mat])
-        console.log(item.mat_fk)
         // eslint-disable-next-line eqeqeq
         if (this.materiales[mat].mat_fk == item.mat_fk) {
-          this.materiales[mat].editable = false
+          let partidaOk = true
+          const _cantidad = Number(item.cantidad)
+          const _precio_unitario = Number(item.precio_unitario)
+
+          // eslint-disable-next-line eqeqeq
+          console.log('item.partidas.length === 1: ', item.partidas.length === 1)
+          console.log('item.cantidad: ', _cantidad > 0 )
+          console.log('item.precio_unitario: ', _precio_unitario > 0)
+          console.log('item.precio_unitario: ', _precio_unitario > 0)
+          console.log('val: ', item.partidas.length === 1 && _cantidad > 0 && _precio_unitario > 0 && item.partidas[0].par_fk !== '')
+          // eslint-disable-next-line eqeqeq
+          if (item.partidas.length === 1 && _cantidad > 0 && _precio_unitario > 0 && item.partidas[0].par_fk == '') {
+            console.log('item.partidas: ', item.partidas)
+            partidaOk = false
+          }
+
+          // eslint-disable-next-line no-constant-condition
+          if (item.cantidad > 0 && item.precio_unitario > 0 && partidaOk) {
+            this.materiales[mat].editable = false
+          } else {
+            this.$notify({
+              group: 'foo',
+              title: 'Guardar cambios',
+              text: 'Debes ingresar la partida, cantidad y precio para guardar esta linea',
+              type: 'warn'
+            })
+          }
+          
         }
       }
     }

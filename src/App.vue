@@ -2,6 +2,7 @@
   <v-app>
     <!-- Layout component -->
     <component :is="currentLayout" v-if="isRouterLoaded">
+      <notifications group="foo" />
       <transition name="fade" mode="out-in">
         <router-view />
       </transition>
@@ -60,6 +61,9 @@ export default {
       const layout = this.$route.meta.layout || 'default'
 
       return layout + 'Layout'
+    },
+    animacionNotificacion() {
+      return { enter: { opacity: [1, 0] }, leave: { opacity: [0, 1] } }
     }
   },
   head: {

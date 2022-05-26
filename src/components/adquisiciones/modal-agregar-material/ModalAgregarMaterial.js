@@ -180,12 +180,13 @@ export default {
               } else {
                 objMat.par_fk = ''
                 objMat.par = ''
-                objMat.partidas = ''
+                objMat.partidas = JSON.parse(JSON.stringify( matPar))
               }
               console.log('partida general: ', this.partidaGeneral)
               materiales.push(objMat)
             }
           }
+ 
           this.cerrarDialogMaterial_(materiales, this.cargaMasiva, this.cpxModoEdicion)
           console.log('materiales: ', materiales)
         } else {
@@ -211,6 +212,23 @@ export default {
           this.cerrarDialogMaterial_(material, this.cargaMasiva, this.cpxModoEdicion)
         }
       }   
+      let  textoNotificaction = 'Se agrego 1 material' 
+
+      if (this.cargaMasiva) {
+        if (this.materialesSelected.length > 1) {
+          textoNotificaction = `Se agregaron ${this.materialesSelected.length} materiales`
+        } else {
+          textoNotificaction = 'Se agrego 1 material'
+        }
+      } else {
+        textoNotificaction = 'Se agrego 1 material'
+      }
+
+      this.$notify({
+        group: 'foo',
+        title: 'Materiales agregados',
+        text: textoNotificaction
+      })
     },
     calcularTotal() {
       let cantidadTotal = 0

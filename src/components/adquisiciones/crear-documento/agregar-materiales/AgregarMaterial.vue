@@ -33,7 +33,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <!-- {{ materiales }} -->
+    {{ materiales }}
     <v-data-table
       :headers="headers"
       :items="materiales"
@@ -76,33 +76,58 @@
             </v-card>
           </v-tooltip>
         </div>
-
         <div v-else>
           <div v-if="item.editable">
-            <!-- {{ item.partidas }} -->
-            <v-combobox
-              v-model="item.partidas[0].par_fk"
-              :items="listaPartidas"
-              label="Selecciona la partida"
-              v-bind="attrs"
-              item-text="nombre"
-              :item-value="id"
-              outlined
-              dense
-            >
-              <template #item="data">
-                <v-tooltip bottom>
-                  <template #activator="{ on, attrs }">
-                    <v-layout wrap v-bind="attrs" v-on="on">
-                      <v-list-item-content>
-                        <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
-                      </v-list-item-content>
-                    </v-layout>
-                  </template>
-                  <span>{{ `${data.item.path}` }}</span>
-                </v-tooltip>
-              </template>
-            </v-combobox>
+            <div v-if="item.partidas[0].par_fk" >
+              <v-combobox
+                v-model="item.partidas[0].par_fk"
+                :items="listaPartidas"
+                label="Selecciona la partida"
+                v-bind="attrs"
+                item-text="nombre"
+                :item-value="id"
+                outlined
+                dense
+              >
+                <template #item="data">
+                  <v-tooltip bottom>
+                    <template #activator="{ on, attrs }">
+                      <v-layout wrap v-bind="attrs" v-on="on">
+                        <v-list-item-content>
+                          <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                        </v-list-item-content>
+                      </v-layout>
+                    </template>
+                    <span>{{ `${data.item.path}` }}</span>
+                  </v-tooltip>
+                </template>
+              </v-combobox>
+            </div>
+            <div v-else>
+              <v-combobox
+                v-model="item.partidas[0].par_fk"
+                :items="listaPartidas"
+                label="Selecciona la partida"
+                v-bind="attrs"
+                item-text="nombre"
+                :item-value="id"
+                outlined
+                dense
+              >
+                <template #item="data">
+                  <v-tooltip bottom>
+                    <template #activator="{ on, attrs }">
+                      <v-layout wrap v-bind="attrs" v-on="on">
+                        <v-list-item-content>
+                          <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                        </v-list-item-content>
+                      </v-layout>
+                    </template>
+                    <span>{{ `${data.item.path}` }}</span>
+                  </v-tooltip>
+                </template>
+              </v-combobox>
+            </div>
           </div>
           <div v-else>
             <v-chip
