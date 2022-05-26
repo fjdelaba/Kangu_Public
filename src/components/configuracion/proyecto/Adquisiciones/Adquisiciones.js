@@ -156,6 +156,10 @@ export default {
   },
   methods: {
     async cargarUsuariosTotal(){
+      let soli = {}
+      let solicitantesPed = []
+      let obs = {}
+      let usuariosObservadores = []
       const { data : {kangusoft_pro_usu_per}} = await getUsuariosProyecto(this.proyectoSeleccionado)
         for(let usu of kangusoft_pro_usu_per){
           console.log("usu",usu)
@@ -163,21 +167,51 @@ export default {
             console.log("SOLICITANTE")
             this.tablaSolicitantesPed.push(usu)
           }
+          if(usu.usu_per_fk == 5 && this.detalle == true){
+            console.log("SOLICITANTE")
+            soli.id = usu.id
+            soli.nombre = usu.usu.nombre
+            soli.apellidos = usu.usu.apellidos
+            console.log("usu soli:",soli)
+
+            solicitantesPed.push(soli)
+            this.usuariosPedido.usuSolicitante = solicitantesPed
+          }
+          if(usu.usu_per_fk == 7 && this.detalle == true){
+            console.log("SOLICITANTE")
+            obs.id = usu.id
+            obs.nombre = usu.usu.nombre
+            obs.apellidos = usu.usu.apellidos
+            console.log("usu soli:",soli)
+
+            usuariosObservadores.push(obs)
+            this.otrosUsuarios = usuariosObservadores
+          }
           if(usu.usu_per_fk == 7){
             console.log("OBSERVADOR")
             this.tablaOtrosUsuarios.push(usu)
           }
+        
         }
-         
-       
+        
  
       },
    async cargarAprobadores(){
+     let usuAprobadorPed = {}
     const { data : {kangusoft_apr}} = await getAprobadoresProyecto(this.proyectoSeleccionado)
     for (let apro of kangusoft_apr){
       if(apro.mod_fk == 1){
         console.log("apro",apro)
         this.tablaDetalleApro.push(apro)
+      }
+      if(this.detalle == true && apro.mod_fk == 1){
+        console.log("entre")
+        usuAprobadorPed.id = apro.id
+        usuAprobadorPed.nombre = apro.usu.nombre
+        usuAprobadorPed.apellidos = apro.usu.apellidos
+        this.usuariosPedido.usuAprobador = usuAprobadorPed
+        
+       
       }
       if(apro.mod_fk == 3 && apro.monto == 0){
         this.tablaAprobadores.push(apro)
@@ -359,11 +393,11 @@ export default {
       console.log("b",compradores)
     }
     for(let c of this.usuariosPedido.usuSolicitante){
-      perfiles.push({usu_per_fk:5,usu_fk:1})
+      perfiles.push({usu_per_fk:5,usu_fk:c.id})
       console.log("c",perfiles)
     }
     for(let d of this.otrosUsuarios){
-      perfiles.push({usu_per_fk:7,usu_fk:1})
+      perfiles.push({usu_per_fk:7,usu_fk:d.id})
       console.log("d",perfiles)
     }
     this.active = 3

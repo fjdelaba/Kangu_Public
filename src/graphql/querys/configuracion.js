@@ -56,9 +56,11 @@ query Q_GET_PROYECTO($id: bigint) {
     nombre
     fec_creacion
     pro_est {
+      id
       nombre
     }
     ent {
+      id
       razon_social
     }
     usu {
@@ -72,13 +74,16 @@ query Q_GET_PROYECTO($id: bigint) {
     direccion
     com {
       nombre
+      id
       prov {
         reg {
           nombre
+          id
         }
       }
     }
     mon {
+      id
       nombre
     }
     descripcion

@@ -306,7 +306,7 @@
       </v-col>
              
     </v-row>
-    <h3>MANDANTE</h3>
+    <h3>MANDANTE {{ infoMandanteProyecto.mandante }}</h3>
     <v-divider></v-divider>
     <v-row>
       <v-col

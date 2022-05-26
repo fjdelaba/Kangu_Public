@@ -2,7 +2,7 @@
   <v-container class="grey lighten-5">
     <v-row class="mb-6" no-gutters>
       <v-col>
-        <h3>PEDIDOS {{ idPro }} </h3>
+        <h3>PEDIDOS  {{ usuariosPedido.usuSolicitante }} </h3>
         <v-divider></v-divider>
        
         <v-row>
@@ -19,7 +19,7 @@
               dense
               outlined
               :item-text="item => item.nombre +'  '+ item.apellidos"
-              :disabled="detalle == true"
+              :readonly="detalle == true"
             >
             </v-combobox>
         
@@ -37,7 +37,7 @@
               dense
               outlined
               :item-text="item => item.nombre +'  '+ item.apellidos"
-              :disabled="detalle == true"
+              :readonly="detalle == true"
             ></v-combobox>
           </v-col>
         </v-row>
@@ -341,7 +341,7 @@
                   outlined
                   :item-text="item => item.nombre +'  '+ item.apellidos"
                   :item-value="[]"
-                  :disabled="detalle == true"
+                  :readonly="detalle == true"
                 >
                 </v-combobox>
                

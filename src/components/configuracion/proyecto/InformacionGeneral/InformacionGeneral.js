@@ -150,6 +150,23 @@ export default {
     editarInformacion(){
     this.detalle = false
     this.guardarEdicion = true
+
+      this.infoGeneralProyecto.nombre = this.proyecto.nombre
+      this.infoGeneralProyecto.codigo =  this.proyecto.codigo
+      this.infoGeneralProyecto.celulas =  this.proyecto.prouni.id
+      this.infoGeneralProyecto.valorC =  this.proyecto.valor_contractual
+      this.infoGeneralProyecto.presupuestoObra =  this.proyecto.presupuesto
+      this.infoGeneralProyecto.estado  =  this.proyecto.pro_est.id
+      this.infoGeneralProyecto.monedaGeneral =  this.proyecto.mon.id
+      this.infoGeneralProyecto.flag =  this.proyecto.fla.id
+      this.infoGeneralProyecto.ocInicial =  this.proyecto.inicio_oc
+      this.infoGeneralProyecto.descripcion =  this.proyecto.descripcion
+      this.usuarioAdministrador =  this.proyecto.usu.nombre + '' + this.proyecto.usu.apellidos
+      this.infoDireccionProyecto.region =  this.proyecto.com.prov.reg.id
+      this.infoDireccionProyecto.comuna =  this.proyecto.com.id
+      this.infoDireccionProyecto.direccion =  this.proyecto.nombre
+      this.infoMandanteProyecto.mandante =  this.proyecto.ent.id
+ 
     },
     async cargarProyecto(){
       const { data : {kangusoft_pro,kangusoft_pro_prouni,kangusoft_pro_fla}} = await getProyecto(this.proyectoSeleccionado)
@@ -158,6 +175,7 @@ export default {
       this.proyecto.fla = kangusoft_pro_fla[0].fla
       this.proyecto.prouni = kangusoft_pro_prouni[0].pro_uni
       console.log("aa2", this.proyecto)
+     
     },
     async cargarInformacionGeneral() {
       const { data: {kangusoft_emp_mon,kangusoft_fla,kangusoft_pro_est,kangusoft_pro_uni,kangusoft_reg,kangusoft_usu} } = await getDatosGenerales()
@@ -183,35 +201,35 @@ export default {
 
     async guardarInformacion() {
      
-      // let finalCelulas =[]
-      // let finalFlag = []
-      // let inf = {
-      //     emp_fk: this.aut0,
-      //     nombre: this.infoGeneralProyecto.nombre,
-      //     pro_est_fk: this.infoGeneralProyecto.estado,
-      //     valor_contractual: Number(this.infoGeneralProyecto.valorC),
-      //     com_fk: this.infoDireccionProyecto.comuna,
-      //     direccion: this.infoDireccionProyecto.direccion,
-      //     ent_fk: this.infoMandanteProyecto.mandante.id,
-      //     usu_fk: this.usuLogin,
-      //     inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
-      //     codigo: this.infoGeneralProyecto.codigo,
-      //     mon_fk: this.infoGeneralProyecto.monedaGeneral,
-      //     descripcion: this.infoGeneralProyecto.descripcion,
-      //     presupuesto: Number(this.infoGeneralProyecto.presupuestoObra),
-      //     adm_obra_fk: this.usuarioAdministrador.id
-      //   }
-      //   console.log("inf:",inf)
-      // for (let b of this.infoGeneralProyecto.celulas) {
-      //   finalCelulas.push({pro_uni_fk:b})}
-      // for (let a of this.infoGeneralProyecto.flag) {
-      //   finalFlag.push({fla_fk:a});
-      // }
-      // console.log("cel",finalCelulas)
-      // console.log("flag:",finalFlag)
-      // const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
-      // console.log(data)
-      // this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
+      let finalCelulas =[]
+      let finalFlag = []
+      let inf = {
+          emp_fk: this.aut0,
+          nombre: this.infoGeneralProyecto.nombre,
+          pro_est_fk: this.infoGeneralProyecto.estado,
+          valor_contractual: Number(this.infoGeneralProyecto.valorC),
+          com_fk: this.infoDireccionProyecto.comuna,
+          direccion: this.infoDireccionProyecto.direccion,
+          ent_fk: this.infoMandanteProyecto.mandante.id,
+          usu_fk: this.usuLogin,
+          inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
+          codigo: this.infoGeneralProyecto.codigo,
+          mon_fk: this.infoGeneralProyecto.monedaGeneral,
+          descripcion: this.infoGeneralProyecto.descripcion,
+          presupuesto: Number(this.infoGeneralProyecto.presupuestoObra),
+          adm_obra_fk: this.usuarioAdministrador.id
+        }
+        console.log("inf:",inf)
+      for (let b of this.infoGeneralProyecto.celulas) {
+        finalCelulas.push({pro_uni_fk:b})}
+      for (let a of this.infoGeneralProyecto.flag) {
+        finalFlag.push({fla_fk:a});
+      }
+      console.log("cel",finalCelulas)
+      console.log("flag:",finalFlag)
+      const { data } = await postProyectoInformacion(inf,finalFlag,finalCelulas)
+      console.log(data)
+      this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
       this.grabado = true
       this.active = 1
       this.$emit('id',this.active, this.grabado)
