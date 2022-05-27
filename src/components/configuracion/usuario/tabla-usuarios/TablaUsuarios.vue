@@ -108,20 +108,31 @@
                          @change="previewImagen"
                        >
                        </v-file-input>
-                        <v-row justify="center" > <v-avatar size="120"> <v-img :src="url" max-width="auto" max-height="auto" rounded></v-img></v-avatar></v-row>
+                        <v-row v-if="usuario.imagen" justify="center" > <v-avatar size="120"> <v-img
+                          :src="url"
+                          min-width="auto"
+                          min-height="auto"
+                          rounded
+                        ></v-img>
+                        </v-avatar></v-row>
                       </v-col>
                       <v-col
                         cols="12"
                         sm="6"
                         md="6"
                       ><v-file-input 
-                         v-model="usuario.firma" 
+                         v-model="usuario.firma"
                          label="Ingrese Firma"
                          @click:clear="eliminarFirma"
                          @change="previewFirma"
                        >
                        </v-file-input>
-                        <v-row justify="center" ><v-img :src="url2" max-height="123" max-width="178" contain></v-img></v-row>
+                        <v-row v-if="usuario.firma" justify="center" ><v-img
+                          :src="url2"
+                          max-height="123"
+                          max-width="178"
+                          contain
+                        ></v-img></v-row>
                       </v-col></v-row>
                     <small>*Rellene los campos requeridos</small>
                     <v-card-actions>

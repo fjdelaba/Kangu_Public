@@ -49,6 +49,7 @@ export default {
       image: null,
       drawer:false, 
       isLoading: false,
+      visible: true,
       breadcrumbs: [
         {
           text: 'Users',
