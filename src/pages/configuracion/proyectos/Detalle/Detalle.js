@@ -6,6 +6,7 @@ import InformacionGeneral from '../../../../components/configuracion/proyecto/In
 export default {
   data() {
     return {
+
     }
   },
   components: {
@@ -19,14 +20,13 @@ export default {
 },
 props:{
     detalle: Boolean,
-    idproyecto: Number
+    idproyecto: Number,
+    presupuesto: Number
 },
   mounted() {
-    setTimeout(() => {
         console.log('detalle', this.detalle)
         console.log('idproyectoSeleccionado:',this.idproyecto)
-      }, 5000);
-
+        console.log('detalle', this.presupuesto)
   }
 
 }

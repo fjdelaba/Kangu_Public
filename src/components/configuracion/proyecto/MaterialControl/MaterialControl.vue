@@ -79,7 +79,7 @@
           >
             <v-text-field
               v-if="detalle == false"
-              v-model="materialSeleccionado.unitario"
+              v-model="materialSeleccionado.valor_unitario"
               label="Valor Unitario"
               outlined
               dense
@@ -112,13 +112,23 @@
             </v-btn>
           </v-col>
         </v-row>
+        {{ cpxMostrarAlert }}
+        <v-alert
+          v-if="cpxMostrarAlert"
+          border="left"
+          type="warning"
+        >
+          TU TOTAL DE LINEAS <strong>EXCEDE</strong> TU <strong>PRESUPUESTO</strong> DE ESTE PROYECTO
+        </v-alert>
         <v-row class="mb-6" no-gutters>
+        
           <v-col>     
             <template>
               <v-data-table
                 :headers="mergedHeaders"
                 :items="desserts"
                 class="elevation-1"
+                :items-per-page="desserts.length"
                 :hide-default-footer="true"
               >
                 <template
@@ -134,14 +144,14 @@
                   <v-icon
                     v-if="editarLinea == true"
                     color="success"
-                    @click="deleteItem1()"
+                    @click="deleteItem1(item)"
                   >
                     mdi-content-save
                   </v-icon>
                   <v-icon
                     v-if="editarLinea == false || editarLinea == true"
                     color="red"
-                    @click="deleteItem3(item)"
+                    @click="deleteItem2(item)"
                   >
                     mdi-delete
                   </v-icon>
@@ -161,12 +171,12 @@
                     v-if="item.id != idLinea || editarLinea == false"
                   >{{ item.cantidad }}</p> 
                 </template>
-                 <template
-                  v-slot:item.unitario="{ item }"
+                <template
+                  v-slot:item.valor_unitario="{ item }"
                 >
                   <v-text-field
                     v-if="item.id == idLinea && editarLinea == true"
-                    v-model="item.unitario"
+                    v-model="item.valor_unitario"
                     label="Valor Unitario"
                     outlined
                     dense
@@ -174,7 +184,7 @@
                 
                   <p 
                     v-if="item.id != idLinea || editarLinea == false"
-                  >{{ item.unitario }}</p> 
+                  >{{ item.valor_unitario }}</p> 
                 </template></v-data-table>
             </template>
           </v-col>

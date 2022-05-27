@@ -21,10 +21,10 @@ export default {
         }
       },
       headers1: [
-        { text: 'Nombre', value: 'nombre' },
+        { text: 'Nombre', value: 'mat.nombre' },
         { text: 'Cantidad', value: 'cantidad' },
-        { text: 'Unidad Formato', value: 'formato' },
-        { text: 'Valor Unitario', value: 'unitario' },
+        { text: 'Unidad Formato', value: 'mat.mat_uni.nombre' },
+        { text: 'Valor Unitario', value: 'valor_unitario' },
         { text: 'Valor Total', value: 'total' },
         { text: '% del Presupuesto', value: 'porcentaje' },
         
@@ -40,10 +40,13 @@ export default {
       desserts: [],
       editedIndex: -1,
       materialSeleccionado: {
-        nombre: '',
+        mat:{ mat_uni:{
+          nombre: ''
+        },  nombre: '',},
+      
         cantidad: '',
         formato: '',
-        unitario: '',
+        valor_unitario: '',
         total:'',
         porcentaje:'',
         id:''
@@ -51,28 +54,29 @@ export default {
       proyectoSeleccionado:'',
       materialesProyecto:'',
       editarLinea:false,
-      idLinea:''
+      idLinea:'',
+      alert:false
     }
   },
   props: {
     id: Number,
     detalle:Boolean,
-    idproyecto: Number
+    idproyecto: Number,
+    presupuesto: Number
   },
   mounted() {
     setTimeout(() => {
       console.log("this.idproyectoSeleccionado",this.idproyecto)
-      console.log("this.idproyectocreado",this.id)
       if(this.detalle == true){
         this.proyectoSeleccionado =this.idproyecto
         this.cargarMaterialesProyecto()
       }
-    }, 5000);
+    }, 1);
     this.cargarMonedas()
     
     setTimeout(() => {
-      console.log('props:', this.idproyecto)
-    },5000)
+      console.log('presupuesto:', this.presupuesto)
+    },1)
   },
   computed:{
      mergedHeaders() {
@@ -90,6 +94,14 @@ export default {
         ]
       }
       return this.headers1;
+    },
+
+    cpxMostrarAlert(){
+      let total = 0
+      for(let mat of this.desserts){
+      total = total + mat.total
+     }
+     return total > this.presupuesto
     }
 
   },
@@ -110,24 +122,31 @@ export default {
       this.guardarEdicion = false
     },
     async cargarMaterialesProyecto(){
+      let total = 0
       const { data : {kangusoft_pro_mat}} = await getMaterialesProyecto(this.proyectoSeleccionado)
       console.log("aaa", kangusoft_pro_mat)
       for(let mat of kangusoft_pro_mat){
+        console.log("mat", mat)
         if(this.detalle == true){
+          total = total + mat.total
+          console.log("mat", mat)
+          mat.porcentaje = '%'+ '' + 100 * mat.total / this.presupuesto
         this.desserts.push(mat)
-        console.log("desserts", this.desserts)
+        console.log("desserts", total)
       }
       }
-     
+      if(total > this.presupuesto){
+        this.alert = true
+      }
      
     },
     deleteItem2(item){
       this.editarLinea = true
       this.idLinea = item.id
+     
        console.log("item",item)
     },
     deleteItem3(item){
-      this.editarLinea = true
       this.desserts.splice(item, 1)
        console.log("item",item)
     },
@@ -153,8 +172,9 @@ export default {
       }
       console.log('this.listaMaterial: ', this.listaMaterial)
     },
-    deleteItem1(){
+    deleteItem1(item){
       this.editarLinea = false
+      item.total = item.valor_unitario * item.cantidad
     },
 
     limpiarAutocompleate() {
@@ -167,10 +187,12 @@ export default {
     },
     limpiarMateriales() {
      this. materialSeleccionado = {
-      nombre: '',
+      mat:{ mat_uni:{
+        nombre: ''
+      },  nombre: '',},
       cantidad: '',
       formato: '',
-      unitario: '',
+      valor_unitario: '',
       total:'',
       porcentaje:'',
       moneda:'',
@@ -179,20 +201,37 @@ export default {
     this.monedaSeleccionada =""
     },
     guardarNuevoItem () {
- 
+        let total = 0
         this.materialSeleccionado.id =  this.listaMaterial[0].id
-        this.materialSeleccionado.nombre = this.material.nombre
-        this.materialSeleccionado.formato = this.material.mat_uni.nombre
+        this.materialSeleccionado.mat.nombre = this.material.nombre
+        this.materialSeleccionado.mat.mat_uni.nombre = this.material.mat_uni.nombre
         this.materialSeleccionado.moneda = this.monedaSeleccionada
-        this.materialSeleccionado.total = this.materialSeleccionado.unitario * this.materialSeleccionado.cantidad
-        this.materialSeleccionado.porcentaje = '%' + this.materialSeleccionado.total / 1000000 * 100
-        this.desserts.push(this.materialSeleccionado)
-        console.log('mats:',this.materialSeleccionado)
+        this.materialSeleccionado.total = this.materialSeleccionado.valor_unitario * this.materialSeleccionado.cantidad
+        this.materialSeleccionado.porcentaje = '%' + this.materialSeleccionado.total  * 100 / this.presupuesto
+        total = this.materialSeleccionado.total + total
+        if(total > this.presupuesto){
+          this.alert = true
+        }
+        let existeMaterial = false
+        for(let mat of this.desserts){
+          console.log('mat',mat)
+          if(this.materialSeleccionado.id == mat.mat_fk){
+            existeMaterial = true
+          }
+        }
+        if(existeMaterial){
+          this.$notify({
+            group: 'foo',
+            title: 'Guardar Nuevo Material',
+            text: 'No puedes agregar un material que ya esta agregado',
+            type: 'error'
+          })
+        }
+        else{
+          this.desserts.push(this.materialSeleccionado)
+        }
         this.limpiarMateriales()
         console.log('desserts',this.desserts)
-    
-      
-    
     },
    async guardarMateriales(){
       for (let a of this.desserts) {

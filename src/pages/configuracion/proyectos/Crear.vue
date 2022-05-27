@@ -3,7 +3,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>CREACION DE PROYECTO {{ active }} {{ grabado }}</h2>
+        <h2>CREACION DE PROYECTO</h2>
       </v-col>
     </v-row>
     <v-row class="mb-6" no-gutters>

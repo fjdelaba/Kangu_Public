@@ -30,9 +30,9 @@ export default {
     }
   },
   mounted() {
-    setTimeout(() => {
+  
       this.dada()
-    }, 5000)
+
   }
 
 }

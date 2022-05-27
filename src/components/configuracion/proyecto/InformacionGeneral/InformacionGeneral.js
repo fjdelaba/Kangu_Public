@@ -165,7 +165,7 @@ export default {
       this.infoDireccionProyecto.region =  this.proyecto.com.prov.reg.id
       this.infoDireccionProyecto.comuna =  this.proyecto.com.id
       this.infoDireccionProyecto.direccion =  this.proyecto.nombre
-      this.infoMandanteProyecto.mandante =  this.proyecto.ent.id
+      this.infoMandanteProyecto.mandante =  this.proyecto.ent.razon_social
  
     },
     async cargarProyecto(){
@@ -232,7 +232,7 @@ export default {
       this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
       this.grabado = true
       this.active = 1
-      this.$emit('id',this.active, this.grabado)
+      this.$emit('id',this.active, this.grabado, inf.presupuesto)
     
     },
   },

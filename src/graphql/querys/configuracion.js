@@ -32,6 +32,7 @@ const GET_DATOS_GENERALES = gql`
     }
     kangusoft_pro {
     id
+    presupuesto
     codigo
     nombre
     fec_creacion
@@ -108,6 +109,7 @@ const GET_MATERIALES_PROYECTO = gql`
 query Q_GET_MATERIALES_PROYECTO($id: bigint) {
   kangusoft_pro_mat(where: {pro: {id: {_eq: $id}}}) {
     id
+    mat_fk
     mat {
       nombre
       mat_uni {

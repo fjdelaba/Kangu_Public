@@ -13,14 +13,14 @@
                 Informacion
               </v-tab>
               <v-tab-item >
-                <informacion-general ref="infoGeneral" :detalle="detalle" :idproyecto="idproyecto" @id="dada" ></informacion-general>
+                <informacion-general ref="infoGeneral" :detalle="detalle" :idproyecto="idproyecto" ></informacion-general>
               </v-tab-item>
               <v-tab>
                 Adquisiciones
               </v-tab>
               <v-tab-item >
                 <adquisiciones
-                  :id="idPro"
+
                   ref="adquisiciones"
                   :detalle="detalle"
                   :idproyecto="idproyecto"
@@ -37,8 +37,8 @@
               </v-tab>
               <v-tab-item>
                 <material-control
-                  :id="idPro"
                   ref="mateControl"
+                  :presupuesto="presupuesto"
                   :detalle="detalle"
                   :idproyecto="idproyecto"
                 ></material-control>

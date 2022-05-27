@@ -52,7 +52,7 @@
           </v-col>
           <v-row class="mb-6" no-gutters>
             <v-col v-if="detalle == true"> 
-              <detalle-proyecto :detalle="detalle" :idproyecto="idProyectoSeleccionado" ></detalle-proyecto>
+              <detalle-proyecto :presupuesto="presupuestoProyecto" :detalle="detalle" :idproyecto="idProyectoSeleccionado" ></detalle-proyecto>
             </v-col>
           </v-row>
         </v-row></v-col>

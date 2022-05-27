@@ -49,7 +49,8 @@ export default {
       ],
       proyectos:[],
       idProyectoSeleccionado:'',
-      detalle:false
+      detalle:false,
+      presupuestoProyecto:''
     }
   },
   components: {
@@ -66,7 +67,8 @@ export default {
   abrirDetalle(item){
    this.idProyectoSeleccionado = item.id
    this.detalle = true
-    // console.log("idProyectoSeleccionado",this.idProyectoSeleccionado)
+   this.presupuestoProyecto = item.presupuesto
+    console.log("proyecto",item)
     // this.$router.push(`/configuracion/proyectos/sent`)
   }
 },
