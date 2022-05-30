@@ -24,9 +24,116 @@ export default {
     ],
     materiales:[],
     listaPartidas: [],
-    materialEdicion: {}
+    materialEdicion: {},
+    mostartAlertMaterial: false,
+    textoMaterial: [],
+    totalesItems: [
+      {
+        item: 'Neto',
+        valor: 159
+      },
+      {
+        item: 'Impuesto',
+        valor: 237
+      },
+      {
+        item: 'Total',
+        valor: 262
+      }
+    ],
+    totalesHeaders: [
+      {
+        text: 'Dessert (100g serving)',
+        align: 'start',
+        value: 'item',
+        width: '20%'
+      },
+      { text: 'Calories', value: 'valor', width: '20%' }
+    ],
+    files: [],
+    respFiles: [],
+    dialogValidacion: false
   }),
   methods: {
+    validarAgregarMaterial() {
+      
+      this.materiales.length > 0 ? this.dialogValidacion = false : this.dialogValidacion = true
+
+      return !this.dialogValidacion
+    },
+    eliminarAdjunto(item) {
+      console.log('item: ', item)
+      for (const f in this.files) {
+        if (this.files[f].name === item.name) {
+          console.log('giaules')
+          this.files.splice(f, 1)
+        }
+      }
+      this.respFiles = [...this.files]
+    },
+    chang() {
+      if (this.files.length >= 5) {
+        this.$notify({
+          group: 'foo',
+          title: 'Puedes agregar un maximo de 5 archivos',
+          text: 'Adjuntar archivos'
+        })
+
+        return
+      }
+
+      console.log('Change files: ',this.files)
+      if (this.respFiles.length < 1) {
+        console.log('IF')
+        this.respFiles = [...this.files]
+      } else {
+        console.log('ELSE')
+        for (const f in this.files) {
+          let agregarAdjunto = true
+
+          for (const fr in this.respFiles) {
+            console.log('f: ', this.respFiles[fr].name)
+            if (this.respFiles[fr].name === this.files[f].name) {
+              agregarAdjunto = false
+            }
+          }
+          if (agregarAdjunto) {
+            console.log('concat: ', this.files[f])
+            this.respFiles.push(this.files[f])
+            // this.files = [...this.respFiles,  ...this.files[f]]
+          }
+          console.log('agregarAdjunto: ', agregarAdjunto)
+        }
+        this.files = [...this.respFiles]
+
+      }
+      console.log('respFiles: ', this.respFiles)
+      console.log('files: ', this.files)
+
+      return
+      // eslint-disable-next-line no-unreachable
+      if (this.respFiles.length < 2) {
+        this.files = [
+          ...this.respFiles,
+          ...this.files
+        ]
+      } else {
+        this.files = [
+          ...this.respFiles
+        ]
+        this.$notify({
+          group: 'foo',
+          title: 'Puedes agregar un maximo de 2 archivos',
+          text: 'Adjuntar archivos'
+        })
+      }
+    },
+    clic() {
+      console.log('Clic files: ', this.files)    
+    },
+    revisarImagen() {
+      console.log(this.files)
+    },
     async getPartidas() {
       const  { data }   = await getPartidasPorPoroyecto(1)
 
@@ -62,23 +169,81 @@ export default {
       // }, 6000)
     },
     cerrarDialogMaterial(materiales, array, edicion) {
+      if (materiales.length === 0) {
+        this.dialogMaterial = false
+
+        return
+      }
       if (edicion) {
         console.log('edicion de material: ', materiales)
         // eslint-disable-next-line eqeqeq
-        this.materiales.map((u) => u.mat_fk != materiales.mat_fk ? u : materiales)
+        // this.materiales.map((u) => {
+        //   u.mat_fk != materiales.mat_fk ? u : materiales
+        // })
+        for (const mat of this.materiales) {
+          console.log('mat: ', mat)
+          // eslint-disable-next-line eqeqeq
+          if (materiales.mat_fk == mat.mat_fk) {
+            console.log('iguales')
+            mat.cantidad = materiales.cantidad
+            mat.precio_unitario = materiales.precio_unitario
+            mat.total = Number(mat.cantidad * mat.precio_unitario)
+            mat.observacion = materiales.observacion
+            mat.partidas = JSON.parse(JSON.stringify( materiales.partidas))
+          }
+        }
       } else {
         if (array) {
-          console.log('materiales:', materiales)
+          // console.log('materiales:', materiales)
           // this.materiales = materiales
+          for (const mat in this.materiales) {
+            for (const _mat in materiales) {
+              console.log(mat, _mat)
+              if (this.materiales[mat].mat_fk === materiales[_mat].mat_fk) {
+                console.log('adsa')
+                //delete materiales[_mat]
+                this.textoMaterial.push(materiales[_mat].nombre)
+                materiales.splice(_mat,1)
+              }
+            }
+          }
           this.materiales.push(...materiales)
+          if (this.textoMaterial.length > 0) {
+            this.mostartAlertMaterial = true
+            this.ocultarAlertMateriales()
+          }
+
         } else {
-          this.materiales.push(materiales)
+          let existeMaterial = false
+
+          for (const mat of this.materiales) {
+            // eslint-disable-next-line eqeqeq
+            if (mat.mat_fk == materiales.mat_fk) {
+              console.log('giaules')
+              existeMaterial = true
+            }
+          }
+          if (!existeMaterial) {
+            this.materiales.push(materiales)
+          } else {
+            this.textoMaterial.push(materiales.nombre)
+            this.mostartAlertMaterial = true
+            this.ocultarAlertMateriales()
+          }
         }
       }
       this.dialogMaterial = false
     },
     calcularTotalMaterial(item) {
-      item.total = item.cantidad * item.precio_unitario
+      let totalCantidad = 0
+
+      for (const par of item.partidas) {
+        totalCantidad += Number(par.cantidad)
+      }
+      console.log('totalCantidad: ', totalCantidad)
+      // item.total = item.cantidad * item.precio_unitario
+      item.cantidad = totalCantidad
+      item.total = totalCantidad * item.precio_unitario
     },
     grabarMateriales() {
       for (const mat of this.materiales) {
@@ -112,15 +277,17 @@ export default {
         // eslint-disable-next-line eqeqeq
         if (this.materiales[mat].mat_fk == item.mat_fk) {
           let partidaOk = true
-          const _cantidad = Number(item.cantidad)
+          const _cantidad = Number(item.partidas[0].cantidad)
           const _precio_unitario = Number(item.precio_unitario)
 
           // eslint-disable-next-line eqeqeq
-          console.log('item.partidas.length === 1: ', item.partidas.length === 1)
-          console.log('item.cantidad: ', _cantidad > 0 )
-          console.log('item.precio_unitario: ', _precio_unitario > 0)
-          console.log('item.precio_unitario: ', _precio_unitario > 0)
-          console.log('val: ', item.partidas.length === 1 && _cantidad > 0 && _precio_unitario > 0 && item.partidas[0].par_fk !== '')
+          console.log('1: ', item.partidas.length === 1)
+          console.log('2: ', _cantidad > 0)
+          console.log('3 == ', _precio_unitario > 0)
+          // eslint-disable-next-line eqeqeq
+          console.log('4: ', item.partidas[0].par_fk == '' )
+          // eslint-disable-next-line eqeqeq
+          console.log('val: ', item.partidas.length === 1 && _cantidad > 0 && _precio_unitario > 0 && item.partidas[0].par_fk == '')
           // eslint-disable-next-line eqeqeq
           if (item.partidas.length === 1 && _cantidad > 0 && _precio_unitario > 0 && item.partidas[0].par_fk == '') {
             console.log('item.partidas: ', item.partidas)
@@ -128,7 +295,7 @@ export default {
           }
 
           // eslint-disable-next-line no-constant-condition
-          if (item.cantidad > 0 && item.precio_unitario > 0 && partidaOk) {
+          if (_cantidad > 0 && item.precio_unitario > 0 && partidaOk) {
             this.materiales[mat].editable = false
           } else {
             this.$notify({
@@ -141,9 +308,38 @@ export default {
           
         }
       }
+    },
+    ocultarAlertMateriales() {
+      setTimeout(() => {
+        this.mostartAlertMaterial = false
+      }, 6000)
     }
   },
   async mounted() {
     this.getPartidas()
+  },
+  computed: {
+    cpxTotalesItems() {
+      let neto = 0
+      let iva = 0
+      const retencion = 0
+      let total = 0
+      const descuento = 0
+
+      for (const linea of this.materiales) {
+        console.log('linea: ', linea)
+        neto += Number(linea.total)
+      }
+      iva = neto * 0.19
+      total = iva + neto
+
+      console.log(neto, iva, total)
+
+      return [
+        { item: 'Neto', valor: neto },
+        { item: 'IVA', valor: iva },
+        { item: 'Total', valor: total }
+      ]
+    }
   }
 }

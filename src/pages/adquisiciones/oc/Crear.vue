@@ -6,7 +6,7 @@
     >
       <v-col
         cols="12"
-        style="min-width: 600px;"
+        style="min-width: 850px;"
         class="flex-grow-0 flex-shrink-1 w-full"
       >
         <v-stepper v-model="pasoStep" class="flex-grow-1">
@@ -47,7 +47,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="2">
-              <agregar-material></agregar-material>
+              <agregar-material ref="refAgregarMaterial"></agregar-material>
             </v-stepper-content>
 
             <v-stepper-content step="3">
@@ -109,15 +109,20 @@ export default {
   methods: {
     avanzar() {
       if (this.pasoStep === 1) {
-        console.log('de paso 1 a paso 2')
-        this.pasoStep++
-        // if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
-        //   this.pasoStep++
-        // } else {
-        //   console.log('por aca no')
-        // }
+        // console.log('de paso 1 a paso 2')
+        // this.pasoStep++
+        if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
+          this.pasoStep++
+        } else {
+          console.log('por aca no')
+        }
       } else if (this.pasoStep === 2) {
-        this.pasoStep++
+        // this.pasoStep++
+        console.log('this.$refs.refAgregarMaterial.validarAgregarMaterial()_ ', this.$refs.refAgregarMaterial.validarAgregarMaterial())
+
+        if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
+          this.pasoStep++
+        }
         console.log('de paso 2 a paso 3')
       } else if (this.pasoStep === 3) {
         this.pasoStep++

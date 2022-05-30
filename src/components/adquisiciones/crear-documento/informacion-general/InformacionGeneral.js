@@ -108,7 +108,7 @@ export default {
         this.listaMonedas.push({ id: mon.mon.id, nombre:mon.mon.nombre })
       }
       for (const doc_tip of kangusoft_emp_doctip) {
-        console.log('doc_tip.doc_ti: ', doc_tip.doc_tip)
+        // console.log('doc_tip.doc_ti: ', doc_tip.doc_tip)
         this.listaTiposDocumento.push({ id: doc_tip.doc_tip.id, nombre:doc_tip.doc_tip.nombre })
       }
       this.listaFormasPago = kangusoft_for_pag
@@ -168,7 +168,7 @@ export default {
       return this.$refs.formPaso1.validate()
     },
     async editarContacto(item) {
-      console.log('editar Contacto: ', item)
+      
       this.mostrarModalContacto = true
       this.datosContacto = item
       this.crearContacto = false

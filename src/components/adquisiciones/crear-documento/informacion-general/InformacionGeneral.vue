@@ -10,7 +10,7 @@
           md="4"
           class="pb-0"
         >
-          <v-combobox
+          <!-- <v-combobox
             v-model="oc_cab.proyecto"
             :rules="rules.oc_cab.proyecto"
             outlined
@@ -27,13 +27,34 @@
                 <v-list-item-subtitle v-text="`codigo: ${item.codigo}`"></v-list-item-subtitle>
               </v-list-item-content>
             </template>
-          </v-combobox>
+          </v-combobox> -->
+          {{ oc_cab.proyecto }}
+          <v-autocomplete
+            v-model="oc_cab.proyecto"
+            :items="listaProyectos"
+            :rules="rules.oc_cab.proyecto"
+            outlined
+            label="Proyectos"
+            item-text="nombre"
+            item-value="id"
+            hint="Selecciona el proyecto al que asignaras esta OC"
+            dense
+            return-object
+          >
+            <template v-slot:item="{ item }">
+              <v-list-item-content>
+                <v-list-item-title v-text="item.nombre"></v-list-item-title>
+                <v-list-item-subtitle v-text="`codigo: ${item.codigo}`"></v-list-item-subtitle>
+              </v-list-item-content>
+            </template>
+          </v-autocomplete>
         </v-col>
         <v-col
           cols="12"
           md="4"
           class="pb-0"
         >
+        {{ oc_cab.nombre }}
           <v-text-field
             v-model="oc_cab.nombre"
             label="Nombre de OC"
@@ -49,7 +70,8 @@
           md="4"
           class="pb-0"
         >
-          <v-combobox
+        {{ oc_cab.moneda }}
+          <v-autocomplete
             v-model="oc_cab.moneda"
             :rules="rules.oc_cab.moneda"
             clearable
@@ -60,7 +82,8 @@
             item-value="id"
             hint="¿En que moneda generaras esta OC?"
             dense
-          ></v-combobox>
+            return-object
+          ></v-autocomplete>
         </v-col>
       </v-row>
       <v-row >
@@ -69,7 +92,8 @@
           md="6"
           class="pt-0"
         >
-          <v-combobox
+        {{ oc_cab.tipoDocumento }}
+          <v-autocomplete
             v-model="oc_cab.tipoDocumento"
             :rules="rules.oc_cab.tipoDocumento"
             clearable
@@ -80,7 +104,8 @@
             label="Tipo Documento"
             hint="¿Que documento contable generará esta OC?"
             dense
-          ></v-combobox>
+            return-object
+          ></v-autocomplete>
         </v-col>
 
         <v-col
@@ -136,6 +161,7 @@
             hint="Puedes buscar por nombre o por rut"
             dense
           ></v-autocomplete> -->
+          {{ oc_cab.proveedor }}
           <v-autocomplete
             v-model="oc_cab.proveedor"
             :rules="rules.oc_cab.proveedor"
@@ -178,7 +204,8 @@
           cols="12"
           md="6"
         >
-          <v-combobox
+        {{ oc_cab.contacto }}
+          <v-autocomplete
             v-model="oc_cab.contacto"
             :rules="rules.oc_cab.contacto"
             clearable
@@ -189,6 +216,7 @@
             label="Contacto"
             hint="Indicanos a quien enviarás esta OC"
             dense
+            return-object
           >
             <v-list-tile
               slot="prepend-item"
@@ -246,7 +274,7 @@
                 </v-list-item-group>
               </v-list>
             </template>
-          </v-combobox>
+          </v-autocomplete>
         </v-col>
            
       </v-row>
@@ -257,7 +285,8 @@
           cols="12"
           md="6"
         >
-          <v-combobox
+        {{ oc_cab.formaPago }}
+          <v-autocomplete
             v-model="oc_cab.formaPago"
             :rules="rules.oc_cab.formaPago"
             clearable
@@ -268,14 +297,16 @@
             label="Forma de pago"
             hint="Selecciona como pagarás esta OC"
             dense
-          ></v-combobox>
+            return-object
+          ></v-autocomplete>
         </v-col>
 
         <v-col
           cols="12"
           md="6"
         >
-          <v-combobox
+        {{ oc_cab.tipoDespacho }}
+          <v-autocomplete
             v-model="oc_cab.tipoDespacho"
             :rules="rules.oc_cab.tipoDespacho"
             clearable
@@ -286,7 +317,8 @@
             label="Despacho/Retiro"
             hint="¿Como llegarán los materiales a tu proyecto?"
             dense
-          ></v-combobox>
+            return-object
+          ></v-autocomplete>
         </v-col>
            
       </v-row>

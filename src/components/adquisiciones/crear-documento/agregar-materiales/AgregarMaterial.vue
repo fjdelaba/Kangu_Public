@@ -33,7 +33,26 @@
         </v-btn>
       </v-col>
     </v-row>
-    {{ materiales }}
+    <!-- {{ materiales }} -->
+    <v-alert
+      :value="mostartAlertMaterial"
+      color="orange"
+      dark
+      icon="mdi-alert"
+      transition="scale-transition"
+    >
+      Los siguientes materiales no fueron agregados por que existian anteriormente. <v-btn
+        color="primary"
+        x-small
+        @click="mostartAlertMaterial = false"
+      >
+        Cerrar
+      </v-btn>
+      <br>
+      <ul>
+        <li v-for="(item, index) in textoMaterial" :key="index">{{ item }}</li>
+      </ul>
+    </v-alert>
     <v-data-table
       :headers="headers"
       :items="materiales"
@@ -49,7 +68,7 @@
           <span> <span style="font-size: 16px">{{ item.nombre }} - {{ item.unidad }} </span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span> 
         </div>
       </template>
-      <template v-slot:item.par_fk="{ item }">
+      <template v-slot:item.par_fk="{ item, attrs}">
         <div v-if="item.partidas.length > 1">
           <v-tooltip right>
             <template v-slot:activator="{ on }">
@@ -85,7 +104,7 @@
                 label="Selecciona la partida"
                 v-bind="attrs"
                 item-text="nombre"
-                :item-value="id"
+                :item-value="item.id"
                 outlined
                 dense
               >
@@ -110,7 +129,7 @@
                 label="Selecciona la partida"
                 v-bind="attrs"
                 item-text="nombre"
-                :item-value="id"
+                :item-value="item.id"
                 outlined
                 dense
               >
@@ -174,12 +193,17 @@
       <template v-slot:item.cantidad="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
           <div v-if="item.editable">
-            <v-text-field
-              v-model="item.cantidad"
-              outlined
-              dense
-              @input="calcularTotalMaterial(item)"
-            ></v-text-field>
+            <div v-if="item.partidas.length > 1">
+              <span>{{ item.cantidad }}</span> 
+            </div>
+            <div v-else>
+              <v-text-field
+                v-model="item.partidas[0].cantidad"
+                outlined
+                dense
+                @input="calcularTotalMaterial(item)"
+              ></v-text-field>
+            </div>
           </div>
           <div v-else>
             <span>{{ item.cantidad }}</span> 
@@ -239,30 +263,45 @@
         Sin datos
       </template>
     </v-data-table>
-    <v-row>
-      <v-col lg="6" md="4" class="py-0">
-        <v-chip
-          class="ma-2"
-          color="indigo"
-          text-color="white"
+    <v-row justify="end">
+      <v-col lg="8" md="6" class="py-3">
+        <!-- {{ cpxTotalesItems }} -->
+        <v-file-input
+          v-model="files"
+          placeholder="¿Que archivos deseas agregar?"
+          label="Seleccion de archivos"
+          multiple
+          prepend-icon="mdi-paperclip"
+          :clearable="false"
+          @change="chang()"
+          @click="clic()"
         >
-          <v-avatar left>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          Mike
-        </v-chip>
+          <template v-slot:selection="{ text, file }">
+            <v-chip
+              small
+              label
+              color="primary"
+              close
+              @click:close="eliminarAdjunto(file)"
+            >
+              {{ text }}
+            </v-chip>
+          </template>
+        </v-file-input>
+        <v-btn
+          elevation="2"
+          @click="revisarImagen()"
+        >clicl</v-btn>
       </v-col>
-      <v-col lg="6" md="4" class="py-0">
-        <v-chip
-          class="ma-2"
-          color="indigo"
-          text-color="white"
-        >
-          <v-avatar left>
-            <v-icon>mdi-account-circle</v-icon>
-          </v-avatar>
-          Mike
-        </v-chip>
+      <v-col lg="4" md="6" class="py-0 py-3 pr-2">
+        <!-- {{ cpxTotalesItems }} -->
+        <v-data-table
+          :headers="totalesHeaders"
+          :items="cpxTotalesItems"
+          hide-default-header
+          hide-default-footer
+          class="elevation-1"
+        ></v-data-table>
       </v-col>
     </v-row>
     <v-dialog
@@ -271,6 +310,30 @@
       max-width="600px"
     >
       <modal-agregar-material v-if="dialogMaterial" :material-edicion="materialEdicion" :cerrar-dialog-material_="cerrarDialogMaterial"></modal-agregar-material></v-dialog>
+    <v-dialog
+      v-model="dialogValidacion"
+      persistent
+      max-width="550"
+    >
+      <template>
+      </template>
+      <v-card>
+        <v-card-title class="text-h5">
+          No has agregado materiales
+        </v-card-title>
+        <v-card-text>Para avanzar al siguiente paso debes tener por lo menos un material agregado</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialogValidacion = false"
+          >
+            Cerrar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 

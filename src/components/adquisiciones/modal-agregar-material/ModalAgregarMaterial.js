@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { getPartidasPorPoroyecto,getMateriales } from '../../../graphql/general'
 import { v4 as uuidv4 } from 'uuid'
 export default {
@@ -12,7 +13,7 @@ export default {
         nombre: '',
         partida: '',
         cantidad: '',
-        unitario: '',
+        precio_unitario: '',
         subtotal: '',
         observacion: '',
         mat_fk: 0,
@@ -29,7 +30,7 @@ export default {
           cantidad: [
             (v) => !!v || 'Ingresa la cantidad del material'
           ],
-          unitario: [
+          precio_unitario: [
             (v) => !!v || 'Ingresa el precio unitario'
           ]
         }
@@ -84,7 +85,9 @@ export default {
       partidaGeneral: '',
       prorateos: [
         { par: [], par_fk:0, cantidad:0, id:uuidv4(), eliminar: false }
-      ]
+      ],
+      mostrarAlert: false,
+      textoAlert: ''
     }
   },
   mounted() {
@@ -95,14 +98,26 @@ export default {
     
   },
   methods: {
+    validarTablaMaterialMasiva() {
+
+    },
+    validarInputMaterial() {
+
+    },
+    validarPrecioMaterial() {
+
+    },
+    validarPartidaMaterial() {
+
+    },
     seleccionPartida() {
-      console.log('blur')
+      // console.log('blur')
       for (const par of this.material.partidas) {
-        console.log('par: ', par.par_fk)
+        // console.log('par: ', par.par_fk)
         const obj = this.listaPartidas.find((data) => data.id === par.par_fk.id)
 
         obj.disabled = true
-        console.log('this.listaPartidas: ', this.listaPartidas)
+        // console.log('this.listaPartidas: ', this.listaPartidas)
       }
     },
     agregarProrateo() {
@@ -125,16 +140,17 @@ export default {
       this.calcularTotal()
     },
     agregarMaterial() {
-      console.log('this.cpxModoEdicion: ', this.cpxModoEdicion, ' - cargaMasiva: ', this.cargaMasiva)
+      // console.log('this.cpxModoEdicion: ', this.cpxModoEdicion, ' - cargaMasiva: ', this.cargaMasiva)
       if (this.cpxModoEdicion) {
         const material = {
           mat_fk: this.material.mat_fk,
           cantidad: this.material.cantidad,
-          precio_unitario: this.material.unitario,
+          precio_unitario: this.material.precio_unitario,
           // total: Number(this.material.cantidad * this.material.unitario),
           total: this.material.subtotal,
           par_fk: this.material.partida.id,
           observacion: this.material.observacion,
+          partidas: JSON.parse(JSON.stringify( this.material.partidas)),
           // editable: false,
           par: this.material.partida
         }
@@ -142,6 +158,15 @@ export default {
         this.cerrarDialogMaterial_(material, this.cargaMasiva, this.cpxModoEdicion)
       } else {
         if (this.cargaMasiva) {
+          if (this.listaMaterial.length < 1) {
+            this.mostrarAlert = true
+            this.textoAlert = 'Debes seleccionar por lo menos un material'
+            setTimeout(() => {
+              this.mostrarAlert = false
+            }, 6000)
+
+            return
+          }
           const materiales = []
           const matPar = [{
             par: '',
@@ -154,8 +179,8 @@ export default {
           if (this.materialesSelected.length > 0) {
             for (const mat of this.materialesSelected) {
     
-              console.log('mat: ', mat)
-              console.log('partidaGeneral: ', this.partidaGeneral)
+              // console.log('mat: ', mat)
+              // console.log('partidaGeneral: ', this.partidaGeneral)
               const objMat = {
                 oc_fk: 1,
                 mat_fk: mat.id,
@@ -182,21 +207,35 @@ export default {
                 objMat.par = ''
                 objMat.partidas = JSON.parse(JSON.stringify( matPar))
               }
-              console.log('partida general: ', this.partidaGeneral)
+              // console.log('partida general: ', this.partidaGeneral)
               materiales.push(objMat)
             }
           }
  
           this.cerrarDialogMaterial_(materiales, this.cargaMasiva, this.cpxModoEdicion)
-          console.log('materiales: ', materiales)
+          // console.log('materiales: ', materiales)
         } else {
+          console.log('this.material.partidas.length: ', this.material.partidas.length)
+          console.log('this.material.partidas[0].cantidad < 1: ', this.material.partidas[0].cantidad < 1)
+          console.log('this.material.partidas[0].par_fk.id == undefined: ', this.material.partidas[0].par_fk.id == undefined)
+          console.log('this.material.precio_unitario < 1: ', this.material.precio_unitario < 1)
+          console.log('this.material.nombre == : ', this.material.nombre == '')
+          if (this.material.partidas[0].par_fk.id == undefined || this.material.partidas[0].cantidad < 1 || this.material.precio_unitario < 1 || this.material.nombre == '') {
+            this.mostrarAlert = true
+            this.textoAlert = 'Debes ingresar material, cantidad, precio y una partida'
+            setTimeout(() => {
+              this.mostrarAlert = false
+            }, 6000)
+
+            return
+          }
           const material = {
             oc_fk: 1,
             mat_fk: this.material.nombre.id,
             nombre: this.material.nombre.nombre,
             unidad: this.material.nombre.mat_uni.nombre,
             cantidad: this.material.cantidad,
-            precio_unitario: this.material.unitario,
+            precio_unitario: this.material.precio_unitario,
             // total: Number(this.material.cantidad * this.material.unitario),
             total: this.material.subtotal,
             par_fk: this.material.partida.id,
@@ -208,7 +247,7 @@ export default {
             id: uuidv4()
           }
   
-          console.log('material: ', material)
+          // console.log('material: ', material)
           this.cerrarDialogMaterial_(material, this.cargaMasiva, this.cpxModoEdicion)
         }
       }   
@@ -237,7 +276,7 @@ export default {
         cantidadTotal += Number(par.cantidad)
       }
       // this.material.subtotal = Number(this.material.cantidad * this.material.unitario)
-      this.material.subtotal = Number(cantidadTotal * this.material.unitario)
+      this.material.subtotal = Number(cantidadTotal * this.material.precio_unitario)
       this.material.cantidad = cantidadTotal
     },
     cerrar() {
@@ -330,10 +369,11 @@ export default {
       this.material.nombre = this.materialEdicion.nombre
       this.material.partida = this.materialEdicion.par
       this.material.cantidad = this.materialEdicion.cantidad
-      this.material.unitario = this.materialEdicion.precio_unitario
+      this.material.precio_unitario = this.materialEdicion.precio_unitario
       this.material.subtotal = this.materialEdicion.cantidad
       this.material.observacion = this.materialEdicion.observacion,
       this.material.mat_fk = this.materialEdicion.mat_fk
+      this.material.partidas = this.materialEdicion.partidas
     }
   },
   computed: {

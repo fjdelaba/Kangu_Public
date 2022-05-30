@@ -91,14 +91,16 @@ export const getProyectosPorUsuario = async (id_usuario) => {
 }
 
 export const getPartidasPorPoroyecto = async (pro_fk) => {
-  console.log('pro_fk: ', pro_fk)
+  // console.log('pro_fk: ', pro_fk)
   
   return await apolloClient.mutate({
     mutation: GET_PARTIDAS,
     variables:{
       'pro_fk': 1
     },
-    update: (data) => {console.log('update data getPartidas: ',data)} 
+    update: (data) => {
+      // console.log('update data getPartidas: ',data)
+    } 
   })
 }
 

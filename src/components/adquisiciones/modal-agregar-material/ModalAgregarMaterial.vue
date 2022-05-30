@@ -126,14 +126,13 @@
                   v-model="prorateo.par_fk"
                   :items="listaPartidas"
                   label="Selecciona la partida"
-                  v-bind="attrs"
                   item-text="nombre"
                   item-value="id"
                   outlined
                   dense
                   :return-object="true"
                   :rules="rules.material.partida"
-                  :disabled="disabled"
+                  :disabled="prorateo.disabled"
                   @input="seleccionPartida()"
                 >
                   <!-- v-model="material.partida" -->
@@ -196,8 +195,8 @@
               class="pb-0 pt-0 mb-0 mt-0"
             >
               <v-text-field
-                v-model="material.unitario"
-                :rules="rules.material.unitario"
+                v-model="material.precio_unitario"
+                :rules="rules.material.precio_unitario"
                 label="Precio Unitario"
                 outlined
                 dense
@@ -309,7 +308,6 @@
               v-model="partidaGeneral"
               :items="listaPartidas"
               label="Selecciona la partida"
-              v-bind="attrs"
               item-text="nombre"
               item-value="id"
               outlined
@@ -334,7 +332,14 @@
         </v-row>
       </v-card-text>
     </div>
-
+    <v-alert
+      v-if="mostrarAlert"
+      dense
+      border="left"
+      type="warning"
+    >
+      {{ textoAlert }}
+    </v-alert>
     <v-card-actions>
       <v-spacer></v-spacer>
       <v-btn
