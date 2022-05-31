@@ -33,7 +33,7 @@
                 Materiales
               </v-tab>
               <v-tab-item>
-                <material-control :id="idPro" ref="mateControl"></material-control>
+                <material-control :id="idPro" :presupuesto="presupuesto" ref="mateControl"></material-control>
               </v-tab-item>
             </v-tabs>
           </v-col>

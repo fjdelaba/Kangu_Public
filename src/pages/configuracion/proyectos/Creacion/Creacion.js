@@ -8,7 +8,8 @@ export default {
     return {
       idPro:'',
       grabado:false,
-      active:0
+      active:0,
+      presupuesto:0
     }
   },
   components: {
@@ -19,11 +20,11 @@ export default {
   },
   methods:{
     cambioStep1() {
-      console.log('aaaaaa',this.$refs.infoGeneral.idProyectoCreado)
+      console.log('aaaaaa',this.$refs.infoGeneral.infoGeneralProyecto.presupuestoObra)
       this.idPro = this.$refs.infoGeneral.idProyectoCreado
       this.grabado = this.$refs.infoGeneral.grabado
       this.active = this.$refs.infoGeneral.active
-     
+      this.presupuesto = this.$refs.infoGeneral.infoGeneralProyecto.presupuestoObra
     },
     cambioStep2() {
       this.active = this.$refs.adquisiciones.active
