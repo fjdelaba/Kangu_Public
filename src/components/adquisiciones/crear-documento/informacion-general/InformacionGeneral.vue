@@ -28,7 +28,7 @@
               </v-list-item-content>
             </template>
           </v-combobox> -->
-          {{ oc_cab.proyecto }}
+          <!-- {{ oc_cab.proyecto }} -->
           <v-autocomplete
             v-model="oc_cab.proyecto"
             :items="listaProyectos"
@@ -54,7 +54,7 @@
           md="4"
           class="pb-0"
         >
-        {{ oc_cab.nombre }}
+        <!-- {{ oc_cab.nombre }} -->
           <v-text-field
             v-model="oc_cab.nombre"
             label="Nombre de OC"
@@ -70,7 +70,7 @@
           md="4"
           class="pb-0"
         >
-        {{ oc_cab.moneda }}
+        <!-- {{ oc_cab.moneda }} -->
           <v-autocomplete
             v-model="oc_cab.moneda"
             :rules="rules.oc_cab.moneda"
@@ -92,7 +92,7 @@
           md="6"
           class="pt-0"
         >
-        {{ oc_cab.tipoDocumento }}
+        <!-- {{ oc_cab.tipoDocumento }} -->
           <v-autocomplete
             v-model="oc_cab.tipoDocumento"
             :rules="rules.oc_cab.tipoDocumento"
@@ -161,7 +161,7 @@
             hint="Puedes buscar por nombre o por rut"
             dense
           ></v-autocomplete> -->
-          {{ oc_cab.proveedor }}
+          <!-- {{ oc_cab.proveedor }} -->
           <v-autocomplete
             v-model="oc_cab.proveedor"
             :rules="rules.oc_cab.proveedor"
@@ -204,7 +204,7 @@
           cols="12"
           md="6"
         >
-        {{ oc_cab.contacto }}
+        <!-- {{ oc_cab.contacto }} -->
           <v-autocomplete
             v-model="oc_cab.contacto"
             :rules="rules.oc_cab.contacto"
@@ -285,7 +285,7 @@
           cols="12"
           md="6"
         >
-        {{ oc_cab.formaPago }}
+        <!-- {{ oc_cab.formaPago }} -->
           <v-autocomplete
             v-model="oc_cab.formaPago"
             :rules="rules.oc_cab.formaPago"
@@ -305,7 +305,7 @@
           cols="12"
           md="6"
         >
-        {{ oc_cab.tipoDespacho }}
+        <!-- {{ oc_cab.tipoDespacho }} -->
           <v-autocomplete
             v-model="oc_cab.tipoDespacho"
             :rules="rules.oc_cab.tipoDespacho"
