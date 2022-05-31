@@ -288,10 +288,13 @@
             </v-chip>
           </template>
         </v-file-input>
-        <v-btn
-          elevation="2"
-          @click="revisarImagen()"
-        >clicl</v-btn>
+        <v-textarea
+          v-model="comentarioDocumento"
+          outlined
+          label="Comentarios al proveedor"
+          placeholder="Detalla algun articulo o deja claro algun compromiso"
+          rows="3"
+        ></v-textarea>
       </v-col>
       <v-col lg="4" md="6" class="py-0 py-3 pr-2">
         <!-- {{ cpxTotalesItems }} -->
@@ -319,9 +322,9 @@
       </template>
       <v-card>
         <v-card-title class="text-h5">
-          No has agregado materiales
+          Aun no puedes avanzar al siguiente paso
         </v-card-title>
-        <v-card-text>Para avanzar al siguiente paso debes tener por lo menos un material agregado</v-card-text>
+        <v-card-text>Para avanzar al siguiente paso debes tener por lo menos un material agregado y no tener lineas en edicion</v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn

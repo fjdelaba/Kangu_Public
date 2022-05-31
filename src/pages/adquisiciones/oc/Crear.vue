@@ -110,14 +110,14 @@ export default {
     avanzar() {
       if (this.pasoStep === 1) {
         // console.log('de paso 1 a paso 2')
-        // this.pasoStep++
+        //this.pasoStep++
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
           this.pasoStep++
         } else {
           console.log('por aca no')
         }
       } else if (this.pasoStep === 2) {
-        // this.pasoStep++
+        //this.pasoStep++
         console.log('this.$refs.refAgregarMaterial.validarAgregarMaterial()_ ', this.$refs.refAgregarMaterial.validarAgregarMaterial())
 
         if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {

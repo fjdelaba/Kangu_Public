@@ -1,4 +1,8 @@
+import CuadroResumen from '../../../general/cuadro-resumen/CuadroResumen.vue'
 export default {
+  components:{
+    CuadroResumen
+  },
   data() {
     return {
       headers: [

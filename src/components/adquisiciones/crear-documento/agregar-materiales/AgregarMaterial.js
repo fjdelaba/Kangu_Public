@@ -52,12 +52,23 @@ export default {
     ],
     files: [],
     respFiles: [],
-    dialogValidacion: false
+    dialogValidacion: false,
+    comentarioDocumento: ''
   }),
   methods: {
     validarAgregarMaterial() {
-      
-      this.materiales.length > 0 ? this.dialogValidacion = false : this.dialogValidacion = true
+      let materialEdicion = false
+
+      for (const mat of this.materiales) {
+        console.log('mat: ', mat)
+        if (mat.editable === true) {
+          materialEdicion = true
+          break
+        }
+      }
+      console.log('materialEdicion: ', materialEdicion)
+
+      this.materiales.length > 0 && materialEdicion === false ? this.dialogValidacion = false : this.dialogValidacion = true
 
       return !this.dialogValidacion
     },
