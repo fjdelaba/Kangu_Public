@@ -29,7 +29,9 @@ export default {
 
         rut: '',
         rutRules: [
-          (v) => !!v || 'Rut es obligatorio'
+          (v) => !!v || 'Rut es obligatorio',
+          (v) => /.+-.+/.test(v) || 'Rut con formato invalido'
+         
         ],
         perfil: '',
         imagen: '',
@@ -128,6 +130,15 @@ export default {
       }
       this.url2 = null 
       this.url = null 
+
+    },
+    checkDuplicate(val) {
+      // write your api call and return the below statement if it already exist
+      if (val === 'test') {
+        return `Rut "${val}" existe en la base de datos`
+      } else {
+        return true
+      }
 
     },
     validate () {
