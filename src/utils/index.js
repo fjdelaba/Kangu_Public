@@ -14,6 +14,7 @@ export const TIPO_APROBACION = {
 }
 
 export const validaRut = (rule, rutCompleto, callback) => {
+  console.log('rut', rutCompleto)
   if (!rutCompleto) {
     return callback(new Error('Ingrese un rut'))
   }

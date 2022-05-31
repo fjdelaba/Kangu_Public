@@ -1,5 +1,6 @@
 import users from '../../../../pages/users/content/users'
 import CopyLabel from '../../../common/CopyLabel'
+import { validaRut } from '../../../../utils'
 
 export default {
   components: {
@@ -24,14 +25,14 @@ export default {
         ],
         cargo: '',
         cargoRules: [
-          (v) => !!v || 'Cargo obliogatorio'
+          (v) => !!v || 'Cargo obligatorio'
         ],
 
         rut: '',
         rutRules: [
           (v) => !!v || 'Rut es obligatorio',
-          (v) => /.+-.+/.test(v) || 'Rut con formato invalido'
-         
+          (v) => /.+-.+/.test(v) || 'Rut con formato invalido',
+          (v) => validaRut(v) || 'Rut invalido'
         ],
         perfil: '',
         imagen: '',
