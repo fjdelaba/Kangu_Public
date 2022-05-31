@@ -235,18 +235,24 @@ export default {
     },
    async guardarMateriales(){
       for (let a of this.desserts) {
+        console.log("MATERIALES EN ARREGLO",a)
       let cantidad = a.cantidad
       let mat_fk = a.id
       let mon_fk = a.moneda
       let pro_fk = this.id
       let total = a.total
-      let valor_unitario = a.unitario
+      let valor_unitario = a.valor_unitario
       console.log(cantidad, mat_fk, mon_fk, pro_fk, total, valor_unitario)
       const { data } = await postProyectoMaterial(cantidad, mat_fk, mon_fk, pro_fk, total, valor_unitario)
 
       console.log(data)
       }
-    
+      this.$notify({
+        group: 'foo',
+        title: 'Creacion de Proyecto',
+        text: 'Se a Creado con Exito tu Proyecto',
+        type: 'success'
+      })
     
     }
   },

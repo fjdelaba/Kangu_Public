@@ -1,6 +1,6 @@
 <template>
   
-  <v-container class="grey lighten-5">
+  <v-container class="white">
     <v-btn
       v-if="detalle == true"
       color="success"

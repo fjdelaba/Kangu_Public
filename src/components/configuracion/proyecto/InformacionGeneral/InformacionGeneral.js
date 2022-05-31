@@ -232,7 +232,7 @@ export default {
       this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
       this.grabado = true
       this.active = 1
-      this.$emit('id',this.active, this.grabado, inf.presupuesto)
+      this.$emit('id',this.active, this.grabado, inf.presupuesto,this.infoGeneralProyecto.presupuestoObra)
     
     },
   },

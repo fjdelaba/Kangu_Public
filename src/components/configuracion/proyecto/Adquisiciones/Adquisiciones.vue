@@ -1,5 +1,5 @@
 <template>
-  <v-container class="grey lighten-5">
+  <v-container class="white">
     <v-row class="mb-6" no-gutters>
       <v-col>
         <h3>PEDIDOS  {{ usuariosPedido.usuSolicitante }} </h3>

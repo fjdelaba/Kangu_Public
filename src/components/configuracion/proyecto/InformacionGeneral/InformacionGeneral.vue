@@ -1,6 +1,6 @@
 <template>
 
-  <v-container class="grey lighten-5">
+  <v-container class="white">
     <v-btn
       v-if="detalle == true"
       color="success"
@@ -114,7 +114,7 @@
             cols="2"
             class="pb-0"
           >
-            <v-select
+            <v-autocomplete
               v-if="detalle == false"
               v-model="infoGeneralProyecto.estado"
               :items="listaEstados"
@@ -124,7 +124,7 @@
               item-text="nombre"
               item-value="id"
               value="1"
-            ></v-select>
+            ></v-autocomplete>
             <h4 v-if="detalle == true">Estado</h4>
             <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
           </v-col>
@@ -135,7 +135,7 @@
             cols="2"
             class="pt-0"
           >
-            <v-select
+            <v-autocomplete
               v-if="detalle == false"
               v-model="infoGeneralProyecto.monedaGeneral"
               :rules="proyectoRules"
@@ -145,7 +145,7 @@
               outlined
               item-text="nombre"
               item-value="id"
-            ></v-select>
+            ></v-autocomplete>
             <h4 v-if="detalle == true">Moneda</h4>
             <p v-if="detalle == true">{{ proyecto.mon.nombre }}</p>
           </v-col>
