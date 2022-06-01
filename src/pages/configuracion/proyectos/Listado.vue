@@ -34,9 +34,10 @@
                   <v-data-table
                     :headers="headers"
                     :items="proyectos"
-                    :items-per-page="5"
+                    :items-per-page="10"
                     :search="search"
                     class="elevation-1"
+                    loading="true"
                   >
                     <template v-slot:item.actions="{item}">
                       <v-btn

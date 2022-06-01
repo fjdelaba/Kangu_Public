@@ -1,7 +1,7 @@
 <template>
   <v-menu offset-y left transition="slide-y-transition">
-    <template v-slot:activator="{ on }">
-      <v-badge
+    <!-- <template v-slot:activator="{ on }">
+       <v-badge
         bordered
         content="6"
         offset-x="22"
@@ -11,7 +11,7 @@
           <v-icon>mdi-bell-outline</v-icon>
         </v-btn>
       </v-badge>
-    </template>
+    </template> -->
 
     <!-- dropdown card -->
     <v-card>
