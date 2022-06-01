@@ -131,7 +131,8 @@ query Q_GET_APROBADORES_PROYECTO($id: bigint) {
     pro_fk
     apro_final
     mod_fk
-    usu {
+    usu_apro_fk
+    usuByUsuAproFk{
       apellidos
       nombre
     }
