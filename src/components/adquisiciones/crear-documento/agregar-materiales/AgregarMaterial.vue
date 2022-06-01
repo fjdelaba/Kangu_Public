@@ -60,7 +60,6 @@
       sort-by="calories"
       class="elevation-1"
       dense
-      :hide-default-footer="true"
     >
       <template v-slot:item.nombre="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:400px">
