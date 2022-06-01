@@ -32,6 +32,7 @@ const GET_DATOS_GENERALES = gql`
     }
     kangusoft_pro {
     id
+    valor_contractual
     presupuesto
     codigo
     nombre

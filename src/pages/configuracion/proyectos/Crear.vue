@@ -30,10 +30,10 @@
                 <cuenta-costo ref="cuentaCosto"></cuenta-costo>
               </v-tab-item>
               <v-tab :disabled="!grabado" >
-                Materiales
+                Control de Materiales
               </v-tab>
               <v-tab-item>
-                <material-control :id="idPro" :presupuesto="presupuesto" ref="mateControl"></material-control>
+                <material-control :id="idPro" ref="mateControl" :presupuesto="presupuesto"></material-control>
               </v-tab-item>
             </v-tabs>
           </v-col>

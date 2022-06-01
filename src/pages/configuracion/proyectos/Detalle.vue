@@ -33,7 +33,7 @@
                 <cuenta-costo ref="cuentaCosto"></cuenta-costo>
               </v-tab-item>
               <v-tab >
-                Materiales
+                Control de Materiales
               </v-tab>
               <v-tab-item>
                 <material-control

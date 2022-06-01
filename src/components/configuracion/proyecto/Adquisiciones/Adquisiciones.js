@@ -41,7 +41,7 @@ export default {
       ],
       headers2: [
         { text: "Nombre", value: "nombre" },
-        { text: "Monto Máximo de Compra", value: "monto" },
+        { text: "Monto Máximo de Compra Directa", value: "monto" },
         { text: "Accion", value: "actions" },
       ],
       headers3: [
