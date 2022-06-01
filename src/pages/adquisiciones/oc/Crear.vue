@@ -9,6 +9,7 @@
         style="min-width: 850px;"
         class="flex-grow-0 flex-shrink-1 w-full"
       >
+        {{ pasoStep }}
         <v-stepper v-model="pasoStep" class="flex-grow-1">
           <v-stepper-header>
             <v-stepper-step
@@ -59,7 +60,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="4">
-              <previsualizacion></previsualizacion>
+              <previsualizacion :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.materiales" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
             </v-stepper-content>
           </v-stepper-items>
           <v-btn
@@ -110,14 +111,14 @@ export default {
     avanzar() {
       if (this.pasoStep === 1) {
         // console.log('de paso 1 a paso 2')
-        //this.pasoStep++
+        // this.pasoStep++
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
           this.pasoStep++
         } else {
           console.log('por aca no')
         }
       } else if (this.pasoStep === 2) {
-        //this.pasoStep++
+        // this.pasoStep++
         console.log('this.$refs.refAgregarMaterial.validarAgregarMaterial()_ ', this.$refs.refAgregarMaterial.validarAgregarMaterial())
 
         if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
