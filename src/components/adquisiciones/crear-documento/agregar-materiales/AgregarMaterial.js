@@ -328,6 +328,7 @@ export default {
   },
   async mounted() {
     this.getPartidas()
+    console.log('mounted Agregar Material')
   },
   computed: {
     cpxTotalesItems() {

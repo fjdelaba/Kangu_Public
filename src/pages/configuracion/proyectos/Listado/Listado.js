@@ -21,20 +21,17 @@ export default {
         {
           text: 'Mandante',
           align: 'start',
-
+          width: "150px",
           value: 'ent.razon_social',
         },
         {
-          text: 'Administrador',
+          text: 'Monto Contrato',
           align: 'start',
         
-          value: 'usu.nombre',
+          value: 'valor_contractual'
         },
         {
-          text: 'Creacion',
-          align: 'start',
-
-          value: 'fec_creacion',
+          
         },
         {
           text: 'Estado',
