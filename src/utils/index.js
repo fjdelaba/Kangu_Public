@@ -7,72 +7,55 @@
 // Valor infinito para Aprobador Final
 export const INFINITY = '∞'
 export const INFINITY_NUMBER_REPRESENTATION = 2100000000
+export function checkRut(rut) {
+  // Despejar Puntos
+  let valor = rut.value.replace('.','')
 
-export const TIPO_APROBACION = {
-  PEDIDO: 1,
-  ORDEN_COMPRA: 2
-}
+  // Despejar Guión
+  valor = valor.replace('-','')
+    
+  // Aislar Cuerpo y Dígito Verificador
+  cuerpo = valor.slice(0,-1)
+  dv = valor.slice(-1).toUpperCase()
+    
+  // Formatear RUN
+  rut.value = cuerpo + '-' + dv
+    
+  // Si no cumple con el mínimo ej. (n.nnn.nnn)
+  if (cuerpo.length < 7) { rut.setCustomValidity('RUT Incompleto')
 
-export const validaRut = (rule, rutCompleto, callback) => {
-  if (!rutCompleto) {
-    return callback(new Error('Ingrese un rut'))
-  }
-  if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto )) {
-    return callback(new Error('Ingrese un rut con formato válido: xxxxxxx-x'))
-  }
-  const tmp 	= rutCompleto.split('-')
-  let digv = tmp[1] 
-  const rut = tmp[0]
-
-  if ( digv === 'K' ) {
-    digv = 'k'
-  }
-  console.log('dv:: ', dv(rut) )
-  console.log('digv:: ', digv)
-  if ((dv(rut) == digv )) {
-    callback()
-  } else {
-    callback(new Error('Rut invalido'))
-  }
-}
-const dv = ( T ) => {
-  let M = 0, S = 1
-
-  for ( ; T; T = Math.floor( T / 10 ) ) {
-    S = ( S + T % 10 * ( 9 - M++ % 6) ) % 11
-  }
+    return false}
+    
+  // Calcular Dígito Verificador
+  suma = 0
+  multiplo = 2
+    
+  // Para cada dígito del Cuerpo
+  for (i = 1;i <= cuerpo.length;i++) {
+    
+    // Obtener su Producto con el Múltiplo Correspondiente
+    index = multiplo * valor.charAt(cuerpo.length - i)
         
-  return S ? S - 1 : 'k'
-}
-
-export const validaCorreo = (rule, correo, callback) => {
-  if (!correo) {
-    return callback(new Error('Ingrese correo del usuario'))
+    // Sumar al Contador General
+    suma = suma + index
+        
+    // Consolidar Múltiplo dentro del rango [2,7]
+    if (multiplo < 7) { multiplo = multiplo + 1 } else { multiplo = 2 }
+  
   }
-  const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    
+  // Calcular Dígito Verificador en base al Módulo 11
+  dvEsperado = 11 - (suma % 11)
+    
+  // Casos Especiales (0 y K)
+  dv = (dv == 'K') ? 10 : dv
+  dv = (dv == 0) ? 11 : dv
+    
+  // Validar que el Cuerpo coincide con su Dígito Verificador
+  if (dvEsperado != dv) { rut.setCustomValidity('RUT Inválido')
 
-  if (re.test(correo)) {
-    callback()
-  } else {
-    callback(new Error('correo invalido'))
-  }
+    return false }
+    
+  // Si todo sale bien, eliminar errores (decretar que es válido)
+  rut.setCustomValidity('')
 }
-
-export const hex_to_ascii = (str1) => {
-  const hex  = str1.toString()
-  let str = ''
-
-  for (let n = 0; n < hex.length; n += 2) {
-    str += String.fromCharCode(parseInt(hex.substr(n, 2), 16))
-  }
-
-  return str
-}
-
-export const toBase64 = (file) => new Promise((resolve, reject) => {
-  const reader = new FileReader()
-
-  reader.readAsDataURL(file)
-  reader.onload = () => resolve(reader.result)
-  reader.onerror = (error) => reject(error)
-})
