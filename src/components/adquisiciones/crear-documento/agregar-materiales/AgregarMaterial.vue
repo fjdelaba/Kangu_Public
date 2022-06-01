@@ -58,9 +58,10 @@
       :items="materiales"
       item-key="id"
       sort-by="calories"
+      hide-default-footer
       class="elevation-1"
+      :items-per-page="materiales.length"
       dense
-      :hide-default-footer="true"
     >
       <template v-slot:item.nombre="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:400px">
@@ -235,6 +236,12 @@
             @click="guardarMaterial(item)"
           >
             mdi-content-save
+          </v-icon>
+          <v-icon
+            small
+            @click="eliminarMaterial(item)"
+          >
+            mdi-delete {{ item }}
           </v-icon>
         </div>
         <div v-else>

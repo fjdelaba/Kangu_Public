@@ -152,3 +152,9 @@ export const insertEntModal = async (ent,ent_con) => {
     update: (data) => {console.log('update data insertEntModal: ',data)} 
   })
 }
+
+export const getDatosUsuarios = async () => {
+  return await apolloClient.query({
+    query: GET_UNIDADES_NEGOCIO
+  })
+}
