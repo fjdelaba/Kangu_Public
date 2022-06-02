@@ -2,6 +2,7 @@
 import {getComunas,getProveedores} from "../../../../graphql/general.js"
 import {getDatosGenerales, getProyecto}  from "../../../../graphql/configuracion.js"
 import { postProyectoInformacion } from '../../../../graphql/configuracion.js'
+import moment from 'moment'
 
 export default { 
  
@@ -9,6 +10,8 @@ export default {
     return { 
       picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       picker2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      menu1: false,
+      menu2: false,
       grabado:false,
       idProyectoCreado:2,
       proyectoSeleccionado:'',
@@ -18,10 +21,8 @@ export default {
         (v) => !!v || 'Este Campo es Obligatorio'
       ],
       celulasRules: [
-        (v) => !!v || 'Selecciona 1 Unidad como minimo'
+        (v) => !!v || 'Selecciona una Unidad'
       ],
-      select: ["Vuetify", "Programming"],
-      items: ["Programming", "Design", "Vue", "Vuetify"],
       headers: [
         {
           text: "Codigo",
@@ -84,10 +85,10 @@ export default {
       listaMandante:[],
       proyecto:{},
       usuLogin: "",
-      fecha: "",
       aut0: "",
       usuarioAdministrador:'',
-      guardarEdicion:false
+      guardarEdicion:false,
+      fechaCalulada:''
     };
   }, props: {
     id: Function,
@@ -106,8 +107,6 @@ export default {
     this.cargarInformacionGeneral()
     this.aut0 = 1;
     this.usuLogin = 1;
-    this.fecha = this.$moment(new Date()).format();
- 
   },
   methods: {
     fetchEntriesDebounced() {
@@ -134,6 +133,12 @@ export default {
     },
     eliminarFirma() {
       this.url2 = null;
+    },
+    calcularFecha(){
+      const a = this.$moment(this.picker)
+      const b = this.$moment(this.picker2)
+      this.fechaCalulada = b.diff(a, 'hours')
+     console.log("fecha",this.fechaCalulada)
     },
     async cargarComunas(){
       const { data : {kangusoft_prov}} = await getComunas(this.infoDireccionProyecto.region)
