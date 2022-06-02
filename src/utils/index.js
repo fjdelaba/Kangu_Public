@@ -9,6 +9,7 @@ export const INFINITY = '∞'
 export const INFINITY_NUMBER_REPRESENTATION = 2100000000
 export function checkRut(rut) {
   // Despejar Puntos
+  console.log(rut)
   let valor = rut.value.replace('.','')
 
   // Despejar Guión

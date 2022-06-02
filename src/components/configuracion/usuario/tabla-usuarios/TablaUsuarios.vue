@@ -49,6 +49,7 @@
                           required
                           class="ma-0 pa-0"
                           :rules="usuario.rutRules"
+                          @input="validarFomatoRut()"
                         ></v-text-field>
                         <v-text-field
                           v-model="usuario.nombres"
