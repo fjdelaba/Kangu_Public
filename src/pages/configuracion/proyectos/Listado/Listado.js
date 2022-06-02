@@ -21,7 +21,7 @@ export default {
         {
           text: 'Mandante',
           align: 'start',
-          width: "150px",
+          width: "200px",
           value: 'ent.razon_social',
         },
         {

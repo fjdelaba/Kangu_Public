@@ -1,38 +1,30 @@
 <template>
-
   <v-container class="white">
     <v-btn
       v-if="detalle == true"
       color="success"
       dark
       large
-    
       @click="editarInformacion()"
-    ><v-icon left>mdi-pencil</v-icon> 
+    ><v-icon left>mdi-pencil</v-icon>
       EDITAR
-    </v-btn> 
+    </v-btn>
     <v-btn
       v-if="detalle == false && guardarEdicion == true"
       color="success"
       dark
       large
-    
       @click="guardarEdicion()"
-    ><v-icon left>mdi-pencil</v-icon> 
+    ><v-icon left>mdi-pencil</v-icon>
       GUARDAR
-    </v-btn> 
-  
+    </v-btn>
+
     <v-row class="mb-6" no-gutters>
-      
-      <v-col>         
+      <v-col>
         <h3>GENERAL</h3>
         <v-divider></v-divider>
         <v-row>
-        
-          <v-col
-            cols="2"
-            class="pb-0"
-          >
+          <v-col cols="2" class="pb-0">
             <v-text-field
               v-if="detalle == false"
               v-model="infoGeneralProyecto.nombre"
@@ -44,10 +36,7 @@
             <h4 v-if="detalle == true">Nombre</h4>
             <p v-if="detalle == true">{{ proyecto.nombre }}</p>
           </v-col>
-          <v-col
-            cols="2"
-            class="pb-0"
-          >
+          <v-col cols="2" class="pb-0">
             <v-text-field
               v-if="detalle == false"
               v-model="infoGeneralProyecto.codigo"
@@ -59,14 +48,11 @@
             <h4 v-if="detalle == true">Código</h4>
             <p v-if="detalle == true">{{ proyecto.codigo }}</p>
           </v-col>
-          <v-col
-            cols="2"
-            class="pb-0"
-          >
+          <v-col cols="2" class="pb-0">
             <v-select
               v-if="detalle == false"
               v-model="infoGeneralProyecto.celulas"
-              :rules="celulasRules" 
+              :rules="celulasRules"
               :items="listaCelulas"
               label="Unidades de Trabajo"
               multiple
@@ -79,10 +65,7 @@
             <h4 v-if="detalle == true">Unidades de Trabajo</h4>
             <p v-if="detalle == true">{{ proyecto.prouni.nombre }}</p>
           </v-col>
-          <v-col
-            cols="2"
-            class="pb-0"
-          >
+          <v-col cols="2" class="pb-0">
             <v-text-field
               v-if="detalle == false"
               v-model="infoGeneralProyecto.valorC"
@@ -95,10 +78,7 @@
             <h4 v-if="detalle == true">Valor Contractual</h4>
             <p v-if="detalle == true">{{ proyecto.valor_contractual }}</p>
           </v-col>
-          <v-col
-            cols="2"
-            class="pb-0"
-          >
+          <v-col cols="2" class="pb-0">
             <v-text-field
               v-if="detalle == false"
               v-model="infoGeneralProyecto.presupuestoObra"
@@ -110,10 +90,7 @@
             <h4 v-if="detalle == true">Presupuesto de Obra</h4>
             <p v-if="detalle == true">{{ proyecto.presupuesto }}</p>
           </v-col>
-          <v-col
-            cols="2"
-            class="pb-0"
-          >
+          <v-col cols="2" class="pb-0">
             <v-autocomplete
               v-if="detalle == false"
               v-model="infoGeneralProyecto.estado"
@@ -128,13 +105,10 @@
             <h4 v-if="detalle == true">Estado</h4>
             <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
           </v-col>
-             
         </v-row>
+        
         <v-row>
-          <v-col
-            cols="2"
-            class="pt-0"
-          >
+          <v-col cols="2" class="pt-0">
             <v-autocomplete
               v-if="detalle == false"
               v-model="infoGeneralProyecto.monedaGeneral"
@@ -149,10 +123,7 @@
             <h4 v-if="detalle == true">Moneda</h4>
             <p v-if="detalle == true">{{ proyecto.mon.nombre }}</p>
           </v-col>
-          <v-col
-            class="pt-0"
-            cols="2"
-          >
+          <v-col class="pt-0" cols="2">
             <v-select
               v-if="detalle == false"
               v-model="infoGeneralProyecto.flag"
@@ -168,25 +139,7 @@
             <h4 v-if="detalle == true">Etiquetas</h4>
             <p v-if="detalle == true">{{ proyecto.usu.flas[2].nombre }}</p>
           </v-col>
-          <!-- <v-col
-            class="pt-0"
-            cols="2"
-          >
-            <v-select
-              v-model="infoGeneralProyecto.monedaPersonalizada"
-              :items="monedero"
-              label="Monedas Permitidas"
-              multiple
-              persistent-hint
-              outlined
-              dense
-              item-text="mon.nombre"
-            ></v-select>
-          </v-col> -->
-          <v-col
-            class="pt-0"
-            cols="2"
-          >
+          <v-col class="pt-0" cols="2">
             <v-text-field
               v-if="detalle == false"
               v-model="infoGeneralProyecto.ocInicial"
@@ -198,10 +151,7 @@
             <h4 v-if="detalle == true">OC Inicial</h4>
             <p v-if="detalle == true">{{ proyecto.inicio_oc }}</p>
           </v-col>
-          <v-col
-            class="pt-0"
-            cols="4"
-          >
+          <v-col class="pt-0" cols="6">
             <v-textarea
               v-if="detalle == false"
               v-model="infoGeneralProyecto.descripcion"
@@ -215,10 +165,9 @@
             <h4 v-if="detalle == true">Descripción</h4>
             <p v-if="detalle == true">{{ proyecto.descripcion }}</p>
           </v-col>
-          <v-col
-            cols="4"
-          >
-            <v-combobox 
+
+          <v-col cols="4">
+            <v-combobox
               v-if="detalle == false"
               v-model="usuarioAdministrador"
               :rules="proyectoRules"
@@ -230,14 +179,14 @@
               :item-text="unirNombreApellido"
             ></v-combobox>
             <h4 v-if="detalle == true">Usuario Administrador</h4>
-            <p v-if="detalle == true">{{ proyecto.usu.nombre }} {{ proyecto.usu.apellidos }}</p>
+            <p v-if="detalle == true">
+              {{ proyecto.usu.nombre }} {{ proyecto.usu.apellidos }}
+            </p>
           </v-col>
-          <v-col
-            cols=""
-          >
+          <v-col cols="8">
             <v-file-input
               v-if="detalle == false"
-              v-model="usuario.firma" 
+              v-model="usuario.firma"
               label="Imagen"
               outlined
               dense
@@ -247,20 +196,66 @@
               @click:clear="eliminarFirma"
             ></v-file-input>
             <h4 v-if="detalle == true">Imagen</h4>
-         
           </v-col>
-          <v-col
-            cols="2"
-          >
-            <v-img :src="url2" max-height="1000" max-width="2000" contain></v-img>
+          <v-col cols="">
+            <v-img
+              :src="url2"
+              max-height="1000"
+              max-width="2000"
+              contain
+            ></v-img>
+          </v-col> </v-row>
+        <v-row>
+          <v-col cols="4" >
+            <h4>FECHA ESTIMADA DE TERMINO</h4>
+            <v-menu
+              ref="menu1"
+              v-model="menu1"
+              :close-on-content-click="false"
+              transition="scale-transition"
+              offset-y
+              max-width="290px"
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="dateFormatted"
+                  label="Date"
+                  hint="MM/DD/YYYY format"
+                  persistent-hint
+                  prepend-icon="mdi-calendar"
+                  v-bind="attrs"
+                  @blur="date = parseDate(dateFormatted)"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="date"
+                no-title
+                @input="menu1 = false"
+              ></v-date-picker>
+            </v-menu>
+            <p>Date in ISO format: <strong>{{ date }}</strong></p>
           </v-col>
-        </v-row></v-col></v-row>
+          
+          <v-col cols="4" >
+            <h4>FECHA ESTIMADA DE TERMINO</h4>
+            <v-date-picker
+              v-model="picker2"
+              year-icon="mdi-calendar-blank"
+              prev-icon="mdi-skip-previous"
+              next-icon="mdi-skip-next"
+            ></v-date-picker>
+          </v-col>
+          <v-col cols="2" class="pb-0">
+            <p>{{ picker }} - {{ picker2 }}</p>
+          </v-col>
+        </v-row>
+      </v-col></v-row>
     <h3>DIRECCIÓN</h3>
     <v-divider></v-divider>
     <v-row>
-      <v-col
-        cols="2"
-      >
+      <v-col cols="2">
         <v-select
           v-if="detalle == false"
           v-model="infoDireccionProyecto.region"
@@ -275,9 +270,7 @@
         <h4 v-if="detalle == true">Region</h4>
         <p v-if="detalle == true">{{ proyecto.com.prov.reg.nombre }}</p>
       </v-col>
-      <v-col
-        cols="2"
-      > 
+      <v-col cols="2">
         <v-select
           v-if="detalle == false"
           v-model="infoDireccionProyecto.comuna"
@@ -291,9 +284,7 @@
         <h4 v-if="detalle == true">Comuna</h4>
         <p v-if="detalle == true">{{ proyecto.com.nombre }}</p>
       </v-col>
-      <v-col
-        cols="2"
-      >
+      <v-col cols="2">
         <v-text-field
           v-if="detalle == false"
           v-model="infoDireccionProyecto.direccion"
@@ -304,14 +295,11 @@
         <h4 v-if="detalle == true">Dirección</h4>
         <p v-if="detalle == true">{{ proyecto.direccion }}</p>
       </v-col>
-             
     </v-row>
     <h3>MANDANTE {{ infoMandanteProyecto.mandante }}</h3>
     <v-divider></v-divider>
     <v-row>
-      <v-col
-        cols="4"
-      >
+      <v-col cols="4">
         <v-autocomplete
           v-if="detalle == false"
           v-model="infoMandanteProyecto.mandante"
@@ -332,21 +320,17 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col
-        cols="12"
-      >
+      <v-col cols="12">
         <v-btn
           v-if="detalle == false"
           color="success"
           dark
           large
           @click="guardarInformacion()"
-        ><v-icon>mdi-content-save-all</v-icon> 
+        ><v-icon>mdi-content-save-all</v-icon>
           GUARDAR
-        </v-btn> 
-         
+        </v-btn>
       </v-col></v-row>
-
   </v-container>
 </template>
 <script src="./InformacionGeneral.js"></script>

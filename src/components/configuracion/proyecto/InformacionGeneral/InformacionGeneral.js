@@ -7,6 +7,8 @@ export default {
  
   data() {
     return { 
+      picker: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
+      picker2: (new Date(Date.now() - (new Date()).getTimezoneOffset() * 60000)).toISOString().substr(0, 10),
       grabado:false,
       idProyectoCreado:2,
       proyectoSeleccionado:'',
