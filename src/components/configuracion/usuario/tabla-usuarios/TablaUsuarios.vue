@@ -147,7 +147,7 @@
                     </v-card-actions>
                   </v-card-text>
                 </v-card>
-              </v-form>-->
+              </v-form>
             </template>
           </v-dialog>
         </v-col>

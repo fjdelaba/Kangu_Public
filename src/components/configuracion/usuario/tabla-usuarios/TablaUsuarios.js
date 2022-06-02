@@ -1,6 +1,6 @@
 import users from '../../../../pages/users/content/users'
 import CopyLabel from '../../../common/CopyLabel'
-import { checkRut } from '../../../../utils'
+import { validaRut } from '../../../../utils'
 
 export default {
   components: {
@@ -30,7 +30,8 @@ export default {
 
         rut: '',
         rutRules: [
-      
+          (v) => !!v || 'Rut es obligatorio',
+          (v) => validaRut(v) || 'Rut NO valido'
         ],
         perfil: '',
         imagen: '',
@@ -133,9 +134,7 @@ export default {
     },
     validarFomatoRut() {
 
-      console.log('aquideberia')
-      console.log(this.usuario.rut)
-      checkRut(this.usuario.rut)
+      console.log(validaRut(this.usuario.rut))
     },
     validate () {
       this.$refs.form.validate()
