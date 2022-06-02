@@ -5,6 +5,7 @@
       :items="cpxTotalesItems"
       hide-default-header
       hide-default-footer
+      dense
       class="elevation-1"
     ></v-data-table>
   </div>

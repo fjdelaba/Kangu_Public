@@ -34,9 +34,9 @@ export default {
       console.log(neto, iva, total)
   
       return [
-        { item: 'Neto', valor: 33 },
-        { item: 'IVA', valor: 44 },
-        { item: 'Total', valor: 55 }
+        { item: 'Neto', valor: neto },
+        { item: 'IVA', valor: iva },
+        { item: 'Total', valor: total }
       ]
     }
   }
