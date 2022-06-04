@@ -10,7 +10,7 @@
         Documento
       </v-tab>
 
-      <v-tab href="#flujo">
+      <v-tab href="#flujo" @click="clickTab()" @change="changeTab()">
         Flujo y Distribucion
       </v-tab>
 
@@ -140,12 +140,15 @@
         value="flujo"
         class="mb-6 pb-6"
       >
-        <pipeline class="mt-5"></pipeline>
-        <v-textarea
-          v-model="comentarioAprobadores"
-          outlined
-          label="Comentario a los aprobadores"
-        ></v-textarea>
+        <p class="mb-0 pb-0 mt-3">Flujo de Aprobacion</p>
+        <v-divider class="mb-2"></v-divider>
+        <div v-if="aprobadores.length > 0">
+          <pipeline :aprobadores="aprobadores" :origen="1"></pipeline>
+          <v-textarea
+            v-model="comentarioAprobadores"
+            outlined
+            label="Comentario a los aprobadores"
+          ></v-textarea>
         <!-- <e-charts
           ref="pie"
           style="width: 100%; top: -60px "
@@ -153,6 +156,19 @@
           :options="pie"
           auto-resize
         /> -->
+        </div>
+        <div v-else>
+          <v-alert
+            text
+            dense
+            color="teal"
+            icon="mdi-clock-fast"
+            border="left"
+          >
+            Esta orden de compra no pasará por flujo de aprobacion
+          </v-alert>
+        </div>
+        <distribucion-lineas-partidas :materiales="materiales"></distribucion-lineas-partidas>
       </v-tab-item>
     </v-tabs-items>
 

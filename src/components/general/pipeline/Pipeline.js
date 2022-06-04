@@ -1,3 +1,10 @@
 export default {
-  name: 'Pipeline'
+  name: 'Pipeline',
+  props: {
+    aprobadores:[],
+    origen:{
+      Type: Number,
+      default: 1
+    }
+  }
 }
