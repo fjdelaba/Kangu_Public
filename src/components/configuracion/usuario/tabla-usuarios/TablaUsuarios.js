@@ -51,6 +51,7 @@ export default {
       image: null,
       drawer:false, 
       isLoading: false,
+     
       visible: true,
       breadcrumbs: [
         {
@@ -62,7 +63,15 @@ export default {
           text: 'List'
         }
       ],
-     
+      settings: [],
+      settings2: [],
+      /*selectedItem: 1,
+      items2: [
+        { text: 'Real-Time', icon: 'mdi-clock' },
+        { text: 'Audience', icon: 'mdi-account' },
+        { text: 'Conversions', icon: 'mdi-flag' }
+      ],*/
+
       searchQuery: '',
       selectedUsers: [],
       headers: [
