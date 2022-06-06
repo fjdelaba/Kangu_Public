@@ -19,11 +19,11 @@
       GUARDAR
     </v-btn>
 
-    <v-row class="mb-6" no-gutters>
+    <v-row no-gutters>
       <v-col>
         <h3>GENERAL</h3>
         <v-divider></v-divider>
-        <v-row>
+        <v-row >
           <v-col cols="2" class="pb-0">
             <v-text-field
               v-if="detalle == false"
@@ -55,7 +55,6 @@
               :rules="celulasRules"
               :items="listaCelulas"
               label="Unidades de Trabajo"
-              multiple
               persistent-hint
               outlined
               dense
@@ -106,8 +105,7 @@
             <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
           </v-col>
         </v-row>
-        
-        <v-row>
+        <v-row class="filaContenidoStep3Ste">
           <v-col cols="2" class="pt-0">
             <v-autocomplete
               v-if="detalle == false"
@@ -165,8 +163,70 @@
             <h4 v-if="detalle == true">Descripción</h4>
             <p v-if="detalle == true">{{ proyecto.descripcion }}</p>
           </v-col>
-
-          <v-col cols="4">
+        </v-row>
+        <v-row>
+          <v-col v-if="detalle == false" cols="4" class="pb-0 pt-0">
+            <v-menu
+              v-model="menu1"
+              :close-on-content-click="false"
+              max-width="290"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  prepend-icon="event"
+                  :value="computedDateFormattedMomentjs"
+                  clearable
+                  label="Fecha de Inicio"
+                  readonly
+                  dense
+                  outlined
+                  v-bind="attrs"
+                  v-on="on"
+                  @click:clear="date = null"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="date"
+                :first-day-of-week="1"
+                :weekday-format="getDay"
+                @change="menu1 = false"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>   
+          <v-col v-if="detalle == false" cols="4" class="pb-0 pt-0">
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              max-width="290"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  prepend-icon="event"
+                  :value="computedDateFormattedMomentjs2"
+                  clearable
+                  label="Fecha Estimada de Termino"
+                  readonly
+                  dense
+                  outlined
+                  v-bind="attrs"
+                  v-on="on"
+                  @click:clear="date2 = null"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="date2"
+                :first-day-of-week="1"
+                :weekday-format="getDay"
+                @change="menu2 = false"
+              ></v-date-picker>
+            </v-menu> 
+          </v-col>
+          <v-col cols="4" class="pb-0 pt-0">
+            <p>horas{{ fechaCalulada }}--->{{ cpxCalcularFecha }}</p>
+          </v-col>
+        </v-row>
+        <v-row v-if="detalle == false">
+          <v-col cols="4" class="pt-0">
             <v-combobox
               v-if="detalle == false"
               v-model="usuarioAdministrador"
@@ -180,10 +240,10 @@
             ></v-combobox>
             <h4 v-if="detalle == true">Usuario Administrador</h4>
             <p v-if="detalle == true">
-              {{ proyecto.usu.nombre }} {{ proyecto.usu.apellidos }}
+              {{ proyecto.usu.nombre }}  {{ proyecto.usu.apellidos }}
             </p>
           </v-col>
-          <v-col cols="8">
+          <v-col cols="8" class="pt-0">
             <v-file-input
               v-if="detalle == false"
               v-model="usuario.firma"
@@ -197,80 +257,13 @@
             ></v-file-input>
             <h4 v-if="detalle == true">Imagen</h4>
           </v-col>
-          <v-col cols="">
-            <v-img
-              :src="url2"
-              max-height="1000"
-              max-width="2000"
-              contain
-            ></v-img>
-          </v-col> </v-row>
-        <v-row>
-          <v-col cols="4" >
-            <v-menu
-              ref="menu1"
-              v-model="menu1"
-              :close-on-content-click="false"
-              transition="scale-transition"
-              offset-y
-              max-width="290px"
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="picker"
-                  label="Fecha de Inicio"
-                  outlined
-                  dense
-                  persistent-hint
-                  prepend-icon="mdi-calendar"
-                  v-bind="attrs"
-                  @blur="date = parseDate(picker)"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="picker"
-                no-title
-                @input="menu1 = false"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-          
-          <v-col cols="4" >
-            <v-menu
-              ref="menu2"
-              v-model="menu2"
-              :close-on-content-click="false"
-              transition="scale-transition"
-              offset-y
-              max-width="290px"
-              min-width="auto"
-            >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="picker2"
-                  persistent-hint
-                  label="Fecha Estimada de Termino"
-                  outlined
-                  dense
-                  prepend-icon="mdi-calendar"
-                  v-bind="attrs"
-                  @blur="date = calcularFecha()"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="picker2"
-                no-title
-                @input="menu2 = false"
-              ></v-date-picker>
-            </v-menu>
-          </v-col>
-          <v-col cols="4" class="pb-0">
-            <p v-if="!fechaCalculada">La Duración del Proyecto sera de {{ fechaCalulada }} Horas</p>
-          </v-col>
-        </v-row>
+          <v-row v-if="usuario.firma" justify="center" ><v-img
+            :src="url2"
+            max-height="123"
+            max-width="178"
+            contain
+          ></v-img></v-row>
+        </v-row>  
       </v-col></v-row>
     <h3>DIRECCIÓN</h3>
     <v-divider></v-divider>
