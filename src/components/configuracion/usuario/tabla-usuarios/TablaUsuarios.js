@@ -1,6 +1,6 @@
 import users from '../../../../pages/users/content/users'
 import CopyLabel from '../../../common/CopyLabel'
-import { checkRut } from '../../../../utils'
+import { validaRut } from '../../../../utils'
 
 export default {
   components: {
@@ -30,7 +30,8 @@ export default {
 
         rut: '',
         rutRules: [
-      
+          (v) => !!v || 'Rut es obligatorio',
+          (v) => validaRut(v) || 'Rut NO valido'
         ],
         perfil: '',
         imagen: '',
@@ -50,6 +51,7 @@ export default {
       image: null,
       drawer:false, 
       isLoading: false,
+     
       visible: true,
       breadcrumbs: [
         {
@@ -61,7 +63,15 @@ export default {
           text: 'List'
         }
       ],
-     
+      settings: [],
+      settings2: [],
+      /*selectedItem: 1,
+      items2: [
+        { text: 'Real-Time', icon: 'mdi-clock' },
+        { text: 'Audience', icon: 'mdi-account' },
+        { text: 'Conversions', icon: 'mdi-flag' }
+      ],*/
+
       searchQuery: '',
       selectedUsers: [],
       headers: [
@@ -133,9 +143,7 @@ export default {
     },
     validarFomatoRut() {
 
-      console.log('aquideberia')
-      console.log(this.usuario.rut)
-      checkRut(this.usuario.rut)
+      console.log(validaRut(this.usuario.rut))
     },
     validate () {
       this.$refs.form.validate()
