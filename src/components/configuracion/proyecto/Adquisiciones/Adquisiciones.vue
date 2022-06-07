@@ -1,5 +1,14 @@
 <template>
   <v-container class="white">
+    <v-btn
+      v-if="detalle == true"
+      color="success"
+      dark
+      large
+      @click="editarAdquisiciones()"
+    ><v-icon left>mdi-pencil</v-icon>
+      EDITAR
+    </v-btn>
     <v-row class="mb-6" no-gutters>
       <v-col>
         <h3>PEDIDOS  {{ usuariosPedido.usuSolicitante }} </h3>
@@ -11,7 +20,8 @@
           </v-col>
           <v-col cols="4" class="pb-0">
             <v-combobox
-              v-model="usuariosPedido.usuSolicitante" 
+              v-model="usuariosPedido.usuSolicitante"
+              small-chips 
               :rules="celulasRules"
               :items="selectUsuario"
               label="Usuario"
@@ -19,7 +29,7 @@
               dense
               outlined
               :item-text="item => item.nombre +'  '+ item.apellidos"
-              :readonly="detalle == true"
+              :readonly="cpxReadOnly"
             >
             </v-combobox>
         
@@ -356,6 +366,15 @@
                   @click="guardarAdquisiciones()"
                 ><v-icon>mdi-content-save-all</v-icon>
                   GUARDAR
+                </v-btn>
+                <v-btn
+                  v-if="detalle == false && guardarEdicion == true"
+                  color="warning"
+                  dark
+                  large
+                  @click="cancelarEdicion()"
+                ><v-icon left>mdi-cancel</v-icon>
+                  CANCELAR
                 </v-btn>
               </v-col></v-row>
           </v-col>

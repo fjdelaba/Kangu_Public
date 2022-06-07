@@ -11,26 +11,7 @@
     ><v-icon left>mdi-pencil</v-icon> 
       EDITAR
     </v-btn> 
-    <v-btn
-      v-if="detalle == false && guardarEdicion == true"
-      color="success"
-      dark
-      large
-    
-      @click="guardarDetalle()"
-    ><v-icon left>mdi-content-save</v-icon> 
-      GUARDAR
-    </v-btn> 
-    <v-btn
-      v-if="detalle == false && guardarEdicion == true"
-      color="warning"
-      dark
-      large
-    
-      @click="guardarDetalle()"
-    ><v-icon left>mdi-cancel</v-icon> 
-      CANCELAR
-    </v-btn> 
+   
     <v-row class="mb-6" no-gutters>
       <v-col>   
         
@@ -40,68 +21,86 @@
             <h5 > Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
           </v-col>
         </v-row>
-        <v-row>
-          <v-col
-            cols="2"
+        <v-row class="mb-6" no-gutters>
+          <v-form
+            ref="material"
+            v-model="valid"
           >
-            <v-autocomplete 
-              v-if="detalle == false"
-              v-model="material"
-              :rules="rules.material.nombre"
-              :items="listaMaterial"
-              :loading="isLoading"
-              :search-input.sync="search"
-              item-text="nombre"
-              item-value="id"
-              label="Material"
-              hint="Busca por su nombre "
-              return-object
-              :hide-no-data="!mostrarNoData"
-              outlined
-              dense
-              solo
-              autofocus="false"
-            >
-            </v-autocomplete></v-col>
-          <v-col
-            cols="2"
+            <v-col >
+              <v-autocomplete 
+                v-if="detalle == false"
+                v-model="material"
+                :rules="rules.material.nombre"
+                :items="listaMaterial"
+                :loading="isLoading"
+                :search-input.sync="search"
+                item-text="nombre"
+                item-value="id"
+                label="Material"
+                hint="Busca por su nombre "
+                return-object
+                :hide-no-data="!mostrarNoData"
+                outlined
+                dense
+                solo
+                autofocus="false"
+                required
+              >
+              </v-autocomplete>
+            </v-col>
+          </v-form>
+          <v-form
+            ref="cantidad"
+            v-model="valid"
           >
-            <v-text-field
-              v-if="detalle == false"
-              v-model="materialSeleccionado.cantidad"
-              label="Cantidad"
-              outlined
-              dense
-            ></v-text-field>
-          </v-col>
-          <v-col
-            cols="2"
+            <v-col >
+              <v-text-field
+                v-if="detalle == false"
+                v-model="materialSeleccionado.cantidad"
+                :rules="rules.material.cantidad"
+                label="Cantidad"
+                outlined
+                dense
+                required
+              ></v-text-field>
+            </v-col>
+          </v-form>
+          <v-form
+            ref="unitario"
+            v-model="valid"
           >
-            <v-text-field
-              v-if="detalle == false"
-              v-model="materialSeleccionado.valor_unitario"
-              label="Valor Unitario"
-              outlined
-              dense
-            ></v-text-field>
-          </v-col>
-          <v-col
-            cols="2"
+            <v-col>
+              <v-text-field
+                v-if="detalle == false"
+                v-model="materialSeleccionado.valor_unitario"
+                :rules="rules.material.unitario"
+                label="Valor Unitario"
+                outlined
+                dense
+                required
+              ></v-text-field>
+            </v-col>
+          </v-form>
+          <v-form
+            ref="moneda"
+            v-model="valid"
           >
-            <v-select
-              v-if="detalle == false"
-              v-model="monedaSeleccionada"
-              :items="listaMonedas"
-              label="Moneda"
-              dense
-              outlined
-              item-text="nombre"
-              item-value="id"
-            ></v-select>
-          </v-col>
-          <v-col
-            cols="3"
-          >
+            <v-col>
+              <v-select
+                v-if="detalle == false"
+                v-model="monedaSeleccionada"
+                :items="listaMonedas"
+                :rules="rules.material.unitario"
+                label="Moneda"
+                dense
+                outlined
+                item-text="nombre"
+                item-value="id"
+                required
+              ></v-select>
+            </v-col>
+          </v-form>
+          <v-col cols="2" class="pb-0">
             <v-btn
               v-if="detalle == false"
               color="primary"
@@ -111,6 +110,7 @@
               Agregar Material 
             </v-btn>
           </v-col>
+          
         </v-row>
         {{ cpxMostrarAlert }}
         <v-alert
@@ -151,7 +151,7 @@
                   <v-icon
                     v-if="editarLinea == false || editarLinea == true"
                     color="red"
-                    @click="deleteItem2(item)"
+                    @click="deleteItem3(item)"
                   >
                     mdi-delete
                   </v-icon>
@@ -202,8 +202,17 @@
             ><v-icon>mdi-content-save-all</v-icon>
               GUARDAR
             </v-btn>
-         
-          </v-col></v-row>
+            <v-btn
+              v-if="detalle == false && guardarEdicion == true"
+              color="warning"
+              dark
+              large
+    
+              @click="guardarDetalle()"
+            ><v-icon left>mdi-cancel</v-icon> 
+              CANCELAR
+            </v-btn> 
+          </v-col> </v-row>
       </v-col>
     </v-row>
   </v-container>
