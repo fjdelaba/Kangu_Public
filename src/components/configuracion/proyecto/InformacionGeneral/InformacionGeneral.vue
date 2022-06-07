@@ -9,16 +9,7 @@
     ><v-icon left>mdi-pencil</v-icon>
       EDITAR
     </v-btn>
-    <v-btn
-      v-if="detalle == false && guardarEdicion == true"
-      color="success"
-      dark
-      large
-      @click="guardarEdicion()"
-    ><v-icon left>mdi-pencil</v-icon>
-      GUARDAR
-    </v-btn>
-
+   
     <v-row no-gutters>
       <v-col>
         <h3>GENERAL</h3>
@@ -207,6 +198,7 @@
                   label="Fecha Estimada de Termino"
                   readonly
                   dense
+                  :rules="fechasRules"
                   outlined
                   v-bind="attrs"
                   v-on="on"
@@ -215,17 +207,18 @@
               </template>
               <v-date-picker
                 v-model="date2"
+               
                 :first-day-of-week="1"
                 :weekday-format="getDay"
                 @change="menu2 = false"
               ></v-date-picker>
             </v-menu> 
           </v-col>
-          <v-col cols="4" class="pb-0 pt-0">
-            <p>horas{{ fechaCalulada }}--->{{ cpxCalcularFecha }}</p>
+          <v-col v-if="detalle == false" cols="4" class="pb-0 pt-0">
+            <p>La Duracion del Proyecto sera de :{{ cpxCalcularFecha }}</p>
           </v-col>
         </v-row>
-        <v-row v-if="detalle == false">
+        <v-row>
           <v-col cols="4" class="pt-0">
             <v-combobox
               v-if="detalle == false"
@@ -235,7 +228,6 @@
               label="Administrador de Obra"
               dense
               outlined
-              solo
               :item-text="unirNombreApellido"
             ></v-combobox>
             <h4 v-if="detalle == true">Usuario Administrador</h4>
@@ -268,6 +260,7 @@
     <h3>DIRECCIÓN</h3>
     <v-divider></v-divider>
     <v-row>
+      {{ infoDireccionProyecto }}
       <v-col cols="2">
         <v-select
           v-if="detalle == false"
@@ -309,10 +302,11 @@
         <p v-if="detalle == true">{{ proyecto.direccion }}</p>
       </v-col>
     </v-row>
-    <h3>MANDANTE {{ infoMandanteProyecto.mandante }}</h3>
+    <h3>MANDANTE</h3>
     <v-divider></v-divider>
     <v-row>
       <v-col cols="4">
+        {{ infoMandanteProyecto.mandante }}
         <v-autocomplete
           v-if="detalle == false"
           v-model="infoMandanteProyecto.mandante"
@@ -322,15 +316,44 @@
           item-text="razon_social"
           item-value="id"
           label="Proveedor"
-          hide-no-data
+          :hide-no-data="!mostrarNoData"
           hint="Puedes buscar por nombre o por rut"
-          return-object
           outlined
           dense
-        ></v-autocomplete>
+          @focusout="limpiarAutocompleate()"
+        >
+        
+          <template v-slot:item="{ item }">
+            <v-list-item-content>
+              <v-list-item-title v-text="`${item.razon_social}`"></v-list-item-title>
+              <!-- <v-list-item-subtitle v-text="`codigo: ${item.codigo}`"></v-list-item-subtitle>  -->
+            </v-list-item-content>
+          </template> 
+          <template v-slot:no-data >
+              
+            <v-btn
+              class="ma-2"
+              outlined
+              color="indigo"
+              @click="mostrarDialog()"
+            >
+              No existe el proveedor, crealo acá
+            </v-btn>
+                
+          </template>
+        </v-autocomplete>
         <h4 v-if="detalle == true">Mandante del Proyecto</h4>
         <p v-if="detalle == true">{{ proyecto.ent.razon_social }}</p>
       </v-col>
+    </v-row>
+    <v-row justify="center">
+      <v-dialog
+        v-model="mostrarDialogCrearEntidad"
+        persistent
+        max-width="600px"
+      >
+        <modal-entidad :cerrar-dialog="cerrarDialog"></modal-entidad>
+      </v-dialog>
     </v-row>
     <v-row>
       <v-col cols="12">
@@ -343,6 +366,16 @@
         ><v-icon>mdi-content-save-all</v-icon>
           GUARDAR
         </v-btn>
+        <v-btn
+          v-if="detalle == false && guardarEdicion == true"
+          color="warning"
+          dark
+          large
+          @click="cancelarEdicion()"
+        ><v-icon left>mdi-cancel</v-icon>
+          CANCELAR
+        </v-btn>
+
       </v-col></v-row>
   </v-container>
 </template>

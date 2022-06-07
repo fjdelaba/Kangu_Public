@@ -3,9 +3,13 @@ import { getComunas, getProveedores } from "../../../../graphql/general.js"
 import { getDatosGenerales, getProyecto } from "../../../../graphql/configuracion.js"
 import { postProyectoInformacion } from '../../../../graphql/configuracion.js'
 import moment from 'moment'
-
+import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
 
 export default {
+
+  components: {
+    ModalEntidad,
+  },
 
   data() {
     return {
@@ -24,6 +28,9 @@ export default {
       ],
       celulasRules: [
         (v) => !!v || 'Selecciona una Unidad'
+      ],
+      fechasRules: [
+        (v) => !!v || 'La fecha seleccionada no puede ser antes de la fecha de inicio'
       ],
       headers: [
         {
@@ -90,7 +97,9 @@ export default {
       aut0: "",
       usuarioAdministrador: '',
       guardarEdicion: false,
-      fechaCalulada: ''
+      fechaCalulada: '',
+      mostrarNoData:false,
+      mostrarDialogCrearEntidad: false,
     };
   }, props: {
     id: Function,
@@ -135,30 +144,38 @@ export default {
         return dias+" "  + "Días"
       } else if(this.fechaCalulada > 168 ||  this.fechaCalulada == 168 ){
         let semanas = b.diff(a, 'weeks')
+        console.log('semanas',semanas)
         if(this.fechaCalulada == 168 || this.fechaCalulada < 335 ){
           return semanas +" " +  "Semana"
-        } else if(this.fechaCalulada > 335 && this.fechaCalulada < 672){
+        } else if(this.fechaCalulada > 335 && this.fechaCalulada < 671){
           return semanas + " " + "Semanas"
-        }else if(this.fechaCalulada == 672 || this.fechaCalulada > 673){
+        }else if(this.fechaCalulada == 672 || this.fechaCalulada > 672){
           let mes = b.diff(a, 'months');
-          if(this.fechaCalulada  == 672 || this.fechaCalulada < 1459 ){
+          console.log('mes',mes)
+          if(this.fechaCalulada  == 672 || this.fechaCalulada < 1343 ){
           return mes +" " + "Mes"
-        } else if(this.fechaCalulada  > 1460 && this.fechaCalulada < 8760){
+        } else if(this.fechaCalulada  > 1343 && this.fechaCalulada < 8760){
           return mes +" " + "Meses"
-         }
-        //     else if(this.fechaCalulada  > 8760 || this.fechaCalulada == 8760){
-        //       let year = b.diff(a, 'years');
-        //       if(this.fechaCalulada  == 8760){
-        //         return year +" " + "Año"
-        //       } else if(this.fechaCalulada  > 8760 && this.fechaCalulada < 876000){
-        //         return year +" " + "Años"
-        //       } 
+        }else if(this.fechaCalulada  > 8760 || this.fechaCalulada == 8760){
+               let year = b.diff(a, 'years');
+              if(this.fechaCalulada  == 8760 || this.fechaCalulada < 17520){
+                return year +" " + "Año"
+              } else if(this.fechaCalulada  > 8760 && this.fechaCalulada < 876000){
+               return year +" " + "Años"
+              } 
            }
          }
       }
+    }
     },
   },
   methods: {
+    mostrarDialog() {
+      this.mostrarDialogCrearEntidad = true
+    },
+    cerrarDialog() {
+      this.mostrarDialogCrearEntidad = false
+    },
     formatDate (date) {
       if (!date) return null
 
@@ -170,9 +187,17 @@ export default {
       let i = new Date(date).getDay(date)
       return this.daysOfWeek[i]
     },
+    limpiarAutocompleate() {
+      setTimeout(() => {
+        console.log('PASO POR AQUÍ !!!!')
+        this.mostrarNoData = false
+        this.search = ''        
+      }, 500)
+
+    },
     fetchEntriesDebounced() {
       clearTimeout(this._timerId)
-
+      this.mostrarNoData = false
       this._timerId = setTimeout(() => {
         this.buscarProveedor()
       }, 1000)
@@ -183,6 +208,9 @@ export default {
       this.isLoading = false
       this.listaMandante = data.kangusoft_ent
       console.log('search data: ', data)
+      if (this.listaMandante.length === 0) {
+        this.mostrarNoData = true
+      }
     },
 
     unirNombreApellido(item) {
@@ -206,14 +234,13 @@ export default {
       }
 
     },
-    guardarEdicion() {
+    cancelarEdicion() {
       this.detalle = true
       this.guardarEdicion = false
     },
     editarInformacion() {
       this.detalle = false
       this.guardarEdicion = true
-
       this.infoGeneralProyecto.nombre = this.proyecto.nombre
       this.infoGeneralProyecto.codigo = this.proyecto.codigo
       this.infoGeneralProyecto.celulas = this.proyecto.prouni.id
@@ -224,11 +251,12 @@ export default {
       this.infoGeneralProyecto.flag = this.proyecto.fla.id
       this.infoGeneralProyecto.ocInicial = this.proyecto.inicio_oc
       this.infoGeneralProyecto.descripcion = this.proyecto.descripcion
-      this.usuarioAdministrador = this.proyecto.usu.nombre + '' + this.proyecto.usu.apellidos
+      this.usuarioAdministrador = this.proyecto.usu.nombre + ' ' + this.proyecto.usu.apellidos
       this.infoDireccionProyecto.region = this.proyecto.com.prov.reg.id
       this.infoDireccionProyecto.comuna = this.proyecto.com.id
       this.infoDireccionProyecto.direccion = this.proyecto.nombre
-      this.infoMandanteProyecto.mandante = this.proyecto.ent.razon_social
+      this.infoMandanteProyecto.mandante = this.proyecto.ent.id
+      this.search(this.proyecto.ent.nombre)
 
     },
     guardarEdicion() {
@@ -309,10 +337,11 @@ export default {
       if (this.isLoading) return
       this.isLoading = true
       this.fetchEntriesDebounced()
-    },
+      },
     date (val) {
       this.dateFormatted = this.formatDate(this.date)
       this.dateFormatted2= this.formatDate(this.date2)
-    },
+      },
+    }
   }
-};
+
