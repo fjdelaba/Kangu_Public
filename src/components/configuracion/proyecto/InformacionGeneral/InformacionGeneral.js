@@ -238,6 +238,7 @@ export default {
       this.detalle = true
       this.guardarEdicion = false
     },
+    //hola
     editarInformacion() {
       this.detalle = false
       this.guardarEdicion = true
