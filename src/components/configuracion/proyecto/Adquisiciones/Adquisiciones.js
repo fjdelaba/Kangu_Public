@@ -88,7 +88,8 @@ export default {
       tablaDetalleApro:[],
       tablaSolicitantesPed:[],
       tablaOtrosUsuarios:[],
-      tablaAprobadores:[]
+      tablaAprobadores:[],
+      guardarEdicion: false,
     };
   },
   mounted() {
@@ -110,6 +111,13 @@ export default {
       this.$auth.user["https://kangusoft.cl/jwt/hasura"].user_tenant;
   },
   computed: {
+    cpxReadOnly(){
+     if(this.detalle == true){
+       return true
+     } else{
+       return false
+     }
+    },
     cpxUsuariosAprobadores() {
       return this.usuario.filter((el) => {
         return this.tablaAprobador.some((f) => {
@@ -155,6 +163,10 @@ export default {
     },
   },
   methods: {
+    editarAdquisiciones() {
+      this.detalle = false
+      this.guardarEdicion = true
+    },
     async cargarUsuariosTotal(){
       let soli = {}
       let solicitantesPed = []
@@ -266,6 +278,10 @@ export default {
       this.selectUsuario = data.data.kangusoft_usu;
 
       console.log("usuarios:", this.usuario);
+    },
+    cancelarEdicion() {
+      this.detalle = true
+      this.guardarEdicion = false
     },
     guardarNuevoItem() {
       // if (this.tablaAprobador.length > 0) {

@@ -12,12 +12,23 @@ export default {
         'Design',
         'Vue',
         'Vuetify'
-      ],rules:{
+      ],
+      valid:true,
+      rules:{
      
         material:{
           nombre: [
-            (v) => !!v || 'Debes buscar un material'
-          ]
+            (v) => !!v || 'Debes buscar un Material'
+          ],
+          cantidad:[
+            (v) => !!v || 'Debes agregar su Cantidad '
+          ],
+          unitario:[
+            (v) => !!v || 'Debes agregar su Valor'
+          ],
+          moneda:[
+            (v) => !!v || 'Debes agregar su Moneda'
+          ],
         }
       },
       headers1: [
@@ -143,13 +154,14 @@ export default {
     deleteItem2(item){
       this.editarLinea = true
       this.idLinea = item.id
-     
        console.log("item",item)
     },
     deleteItem3(item){
       this.desserts.splice(item, 1)
+      this.editarLinea = false
        console.log("item",item)
     },
+  
     cargarMateriales() {
       console.log('PASO POR ACÁ !!!!')
       this.mostrarNoData = false
@@ -175,6 +187,7 @@ export default {
     deleteItem1(item){
       this.editarLinea = false
       item.total = item.valor_unitario * item.cantidad
+      item.porcentaje = '%'+ 100 * item.total / this.presupuesto
     },
 
     limpiarAutocompleate() {
@@ -201,7 +214,21 @@ export default {
     this.monedaSeleccionada =""
     },
     guardarNuevoItem () {
-        let total = 0
+      let validado 
+   this.$refs.material.validate() 
+   this.$refs.cantidad.validate() 
+   this.$refs.unitario.validate() 
+   this.$refs.moneda.validate() 
+  console.log("validacion",   this.$refs.material.validate() ,   this.$refs.cantidad.validate() ,    this.$refs.moneda.validate()  ,  this.$refs.unitario.validate() )
+
+  if( this.$refs.material.validate() == true && this.$refs.cantidad.validate() == true &&   this.$refs.moneda.validate() == true && this.$refs.unitario.validate() == true){
+    validado = true
+  }else{
+    validado = false
+  }
+  console.log('validado',validado)
+  if(validado == true){
+  let total = 0
         this.materialSeleccionado.id =  this.listaMaterial[0].id
         this.materialSeleccionado.mat.nombre = this.material.nombre
         this.materialSeleccionado.mat.mat_uni.nombre = this.material.mat_uni.nombre
@@ -232,6 +259,9 @@ export default {
         }
         this.limpiarMateriales()
         console.log('desserts',this.desserts)
+      
+  }
+       
     },
    async guardarMateriales(){
       for (let a of this.desserts) {

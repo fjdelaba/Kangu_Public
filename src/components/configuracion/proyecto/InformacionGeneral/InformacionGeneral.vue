@@ -198,7 +198,7 @@
                   label="Fecha Estimada de Termino"
                   readonly
                   dense
-                  :rules="fechasRules"
+                  :rules="[cpxValidaFecha, fechasRules]"
                   outlined
                   v-bind="attrs"
                   v-on="on"

@@ -122,7 +122,7 @@ export default {
     this.usuLogin = 1;
   },
   computed: {
-    
+   
     computedDateFormattedMomentjs () {
       return this.date ? moment(this.date).format('DD/MM/yy') : ''
     },
@@ -172,6 +172,15 @@ export default {
   methods: {
     mostrarDialog() {
       this.mostrarDialogCrearEntidad = true
+    },
+    cpxValidaFecha(val){
+      console.log('FECHA value',val)
+      console.log('FECHA value2',this.computedDateFormattedMomentjs)
+      if(val <= this.computedDateFormattedMomentjs){
+        return `Esta fecha debe ser MAYOR a la de Inicio`
+      } else {
+        return true;
+      }
     },
     cerrarDialog() {
       this.mostrarDialogCrearEntidad = false
@@ -306,7 +315,7 @@ export default {
         valor_contractual: Number(this.infoGeneralProyecto.valorC),
         com_fk: this.infoDireccionProyecto.comuna,
         direccion: this.infoDireccionProyecto.direccion,
-        ent_fk: this.infoMandanteProyecto.mandante.id,
+        ent_fk: this.infoMandanteProyecto.mandante,
         usu_fk: this.usuLogin,
         inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
         codigo: this.infoGeneralProyecto.codigo,
@@ -316,9 +325,9 @@ export default {
         adm_obra_fk: this.usuarioAdministrador.id
       }
       console.log("inf:", inf)
-      for (let b of this.infoGeneralProyecto.celulas) {
-        finalCelulas.push({ pro_uni_fk: b })
-      }
+     
+     finalCelulas.push({ pro_uni_fk: this.infoGeneralProyecto.celulas })
+    
       for (let a of this.infoGeneralProyecto.flag) {
         finalFlag.push({ fla_fk: a });
       }
