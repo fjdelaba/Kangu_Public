@@ -23,6 +23,7 @@ export default {
       proyectoSeleccionado: '',
       isLoading: false,
       search: null,
+      valid:true,
       proyectoRules: [
         (v) => !!v || 'Este Campo es Obligatorio'
       ],
@@ -68,7 +69,7 @@ export default {
         celulas: "",
         valorC: "",
         presupuestoObra: "",
-        estado: "",
+        estado: 1,
         monedaGeneral: "",
         flag: "",
         monedaPersonalizada: "",
@@ -305,7 +306,19 @@ export default {
     },
 
     async guardarInformacion() {
-
+      let validado 
+      this.$refs.infoGeneral.validate() 
+     
+     console.log("validacion",   this.$refs.infoGeneral.validate() , )
+   
+     if( this.$refs.infoGeneral.validate() == true ){
+       validado = true
+     }else{
+       validado = false
+     }
+     console.log('validado',validado)
+     if(validado == true){
+    
       let finalCelulas = []
       let finalFlag = []
       let inf = {
@@ -339,7 +352,9 @@ export default {
       this.grabado = true
       this.active = 1
       this.$emit('id', this.active, this.grabado, inf.presupuesto, this.infoGeneralProyecto.presupuestoObra)
-
+    }else{
+      this.valid = false
+    }
     },
   },
   watch: {
