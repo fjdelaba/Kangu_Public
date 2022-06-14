@@ -72,7 +72,7 @@ export default {
         monedaGeneral: "",
         flag: "",
         monedaPersonalizada: "",
-        ocInicial: "",
+        ocInicial: 1,
         descripcion: "",
         imagen: "",
       },

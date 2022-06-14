@@ -128,6 +128,7 @@ const GET_APROBADORES_PROYECTO = gql`
 query Q_GET_APROBADORES_PROYECTO($id: bigint) {
   kangusoft_apr(where: {pro_fk: {_eq: $id}}) {
     id
+    flujo
     monto
     pro_fk
     apro_final
@@ -155,7 +156,19 @@ query Q_GET_USUARIOS_PROYECTO($id: bigint) {
     }
   }
 }
-
+`
+const GET_USUARIOS_EMPRESA = gql`
+query Q_GET_USUARIOS_EMPRESA {
+  kangusoft_usu {
+    activo
+    apellidos
+    nombre
+    email
+    cargo
+    rut
+    fec_creacion
+  }
+}
 `
 
-export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO }
+export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA }

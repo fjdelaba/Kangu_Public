@@ -449,7 +449,7 @@
       >
         <template v-slot:item.rut="{ item }">
           <div class="font-weight-bold">
-            <div>{{ item.rut }}8r</div>
+            <div>{{ item.rut }}</div>
           </div>
         </template>
 

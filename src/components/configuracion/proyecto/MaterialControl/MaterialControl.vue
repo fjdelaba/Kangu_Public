@@ -50,7 +50,7 @@
             </v-col>
           </v-form>
           <v-form
-            ref="cantidad"
+            ref="material"
             v-model="valid"
           >
             <v-col >
@@ -66,7 +66,7 @@
             </v-col>
           </v-form>
           <v-form
-            ref="unitario"
+            ref="material"
             v-model="valid"
           >
             <v-col>
@@ -82,7 +82,7 @@
             </v-col>
           </v-form>
           <v-form
-            ref="moneda"
+            ref="material"
             v-model="valid"
           >
             <v-col>

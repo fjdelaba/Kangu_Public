@@ -15,18 +15,22 @@
         <h3>GENERAL</h3>
         <v-divider></v-divider>
         <v-row >
+         
           <v-col cols="2" class="pb-0">
-            <v-text-field
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.nombre"
-              :rules="proyectoRules"
-              label="Nombre"
-              outlined
-              dense
-            ></v-text-field>
-            <h4 v-if="detalle == true">Nombre</h4>
-            <p v-if="detalle == true">{{ proyecto.nombre }}</p>
+            <form>
+              <v-text-field
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.nombre"
+                :rules="proyectoRules"
+                label="Nombre"
+                outlined
+                dense
+              ></v-text-field>
+              <h4 v-if="detalle == true">Nombre</h4>
+              <p v-if="detalle == true">{{ proyecto.nombre }}</p>
+            </form>
           </v-col>
+          
           <v-col cols="2" class="pb-0">
             <v-text-field
               v-if="detalle == false"
@@ -95,6 +99,7 @@
             <h4 v-if="detalle == true">Estado</h4>
             <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
           </v-col>
+         
         </v-row>
         <v-row class="filaContenidoStep3Ste">
           <v-col cols="2" class="pt-0">
@@ -135,7 +140,6 @@
               label="OC inicial"
               outlined
               dense
-              value="0"
             ></v-text-field>
             <h4 v-if="detalle == true">OC Inicial</h4>
             <p v-if="detalle == true">{{ proyecto.inicio_oc }}</p>
@@ -235,7 +239,7 @@
               {{ proyecto.usu.nombre }}  {{ proyecto.usu.apellidos }}
             </p>
           </v-col>
-          <v-col cols="8" class="pt-0">
+          <v-col cols="4" class="pt-0">
             <v-file-input
               v-if="detalle == false"
               v-model="usuario.firma"
@@ -315,7 +319,7 @@
           :search-input.sync="search"
           item-text="razon_social"
           item-value="id"
-          label="Proveedor"
+          label="Mandante"
           :hide-no-data="!mostrarNoData"
           hint="Puedes buscar por nombre o por rut"
           outlined

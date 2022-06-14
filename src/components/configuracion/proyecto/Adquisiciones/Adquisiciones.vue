@@ -61,14 +61,13 @@
         <v-row> </v-row>
 
         <v-data-table
-          v-if="detalle == false"
-          :headers="headers"
+          :headers="cpxDinamicHeaders1"
           :items="cpxTablaOrdenada"
           :items-per-page="5"
           class="elevation-1"
           style="min-width: 890px"
           :hide-default-footer="true"
-        ><template v-slot:top>
+        ><template v-if="detalle == false" v-slot:top>
            <v-toolbar flat>
              <v-divider class="mx-4" inset vertical></v-divider>
              <v-spacer></v-spacer>
@@ -86,36 +85,53 @@
                    <v-container>
                      <v-row>
                        <v-col cols="12" sm="6" md="12" xl="12">
-                       
-                         <v-combobox
-                           v-model="usuarioAprobador.usuario" 
-                           :rules="celulasRules"
-                           filled
-                           outlined
-                           solo
-                           :items="cpxUsuariosAprobadoresFiltrados"
-                           dense
-                           item-text="nombre"
-                           item-value="id"
-                         ></v-combobox>
-                         <v-text-field
-                           v-if="!cpxAprobadorFinal" 
-                           v-model="usuarioAprobador.monto" 
-                           :rules="celulasRules"
-                           label="Hasta que Monto Aprobara"
-                           outlined
-                           dense
-                           value
-                         ></v-text-field>
-                         <v-select
-                           v-if="!cpxAprobadorFinal" 
-                           v-model="usuarioAprobador.tiempo" 
-                           :rules="celulasRules"
-                           :items="items2"
-                           label="Tiempo de Aprobación"
-                           outlined
-                           dense
-                         ></v-select>
+                         <v-form
+                           ref="nombreApro"
+                           v-model="valid"
+                         >
+                           <v-combobox
+                             v-model="usuarioAprobador.usuario" 
+                             :rules="celulasRules"
+                             filled
+                             outlined
+                             solo
+                             :items="cpxUsuariosAprobadoresFiltrados"
+                             dense
+                             required
+                             :item-text="item => item.nombre +'  '+ item.apellidos"
+                             item-value="id"
+                           ></v-combobox>
+                         </v-form>
+                         <v-form
+                           ref="montoApro"
+                           v-model="valid"
+                         >
+                           <v-text-field
+                             v-if="!cpxAprobadorFinal" 
+                             v-model="usuarioAprobador.monto" 
+                             :rules="celulasRules"
+                             label="Hasta que Monto Aprobara"
+                             outlined
+                             required
+                             dense
+                             value
+                           ></v-text-field>
+                         </v-form>
+                         <v-form
+                           ref="tiempoApro"
+                           v-model="valid"
+                         >
+                           <v-select
+                             v-if="!cpxAprobadorFinal" 
+                             v-model="usuarioAprobador.tiempo" 
+                             :rules="celulasRules"
+                             :items="items2"
+                             label="Tiempo de Aprobación"
+                             outlined
+                             dense
+                             required
+                           ></v-select>
+                         </v-form>
                          <v-checkbox
                            v-if="cpxAprobadorFinal"
                            v-model="aprobadorFinal"
@@ -178,37 +194,6 @@
             </v-icon>
           </template>
         </v-data-table>
-        <v-data-table
-          v-if="detalle == true"
-          :headers="headers4"
-          :items="tablaAprobadores"
-          :items-per-page="5"
-          class="elevation-1"
-          style="min-width: 890px"
-          :hide-default-footer="true"
-        ><template
-           v-slot:item.monto="{ item }"
-         >
-           <div v-if="item.apro_final == true">
-             <v-icon>mdi-infinity</v-icon> 
-           </div>
-           <div v-else>
-             <p>${{ item.monto }}</p> 
-           </div>
-          
-         </template>
-          <template
-            v-slot:item.tiempo="{ item }"
-          >
-            <div v-if="item.apro_final == true">
-              <v-icon>mdi-infinity</v-icon> 
-            </div>
-            <div v-else>
-              <p>{{ item.tiempo }}</p> 
-            </div>
-          
-          </template>
-        </v-data-table>
         <v-row>
           <v-col> </v-col>
         </v-row>
@@ -219,14 +204,13 @@
         </v-row>
 
         <v-data-table
-          v-if="detalle == false"
-          :headers="headers2"
+          :headers="cpxDinamicHeaders2"
           :items="cpxTablaOrdenadaComprador"
           :items-per-page="5"
           class="elevation-1"
           style="min-width: 890px"
           :hide-default-footer="true"
-        ><template v-slot:top>
+        ><template v-if="detalle == false" v-slot:top>
            <v-toolbar flat>
              <v-divider class="mx-4" inset vertical></v-divider>
              <v-spacer></v-spacer>
@@ -248,7 +232,7 @@
                          <v-select
                            v-model="usuariosCompradores.usuario" 
                            :rules="celulasRules"
-                           :items="usuario"
+                           :items="cpxUsuariosCompradoresFiltrados"
                            label="Nombre"
                            outlined
                            dense
@@ -322,6 +306,7 @@
           
           </template>
           <template
+            v-if="detalle == false"
             v-slot:item.actions="{ item }"
           >
             <v-icon
@@ -344,13 +329,13 @@
               <v-col cols="4" class="pb-0">
                 <v-combobox
                   v-model="otrosUsuarios"
-                  :items="usuario"
+                  :items="cpxOtrosUsuariosFiltrados"
                   label="Usuario"
                   multiple
                   dense
                   outlined
                   :item-text="item => item.nombre +'  '+ item.apellidos"
-                  :item-value="[]"
+                  :item-value="id"
                   :readonly="detalle == true"
                 >
                 </v-combobox>
