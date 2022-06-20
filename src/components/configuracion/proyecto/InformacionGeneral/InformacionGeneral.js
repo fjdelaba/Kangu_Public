@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       date: (new Date().toISOString().substr(0, 10)),
-      date2: (new Date().toISOString().substr(0, 10)),
+      date2: '',
       daysOfWeek : ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'],
       menu1: false,
       menu2: false,

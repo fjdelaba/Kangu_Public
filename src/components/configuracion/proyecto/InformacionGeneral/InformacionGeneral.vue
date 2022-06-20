@@ -171,7 +171,8 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  prepend-icon="event"
+                  :prepend-icon="false"
+                  append-icon="event"
                   :value="computedDateFormattedMomentjs"
                   clearable
                   label="Fecha de Inicio"
@@ -199,7 +200,8 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  prepend-icon="event"
+                  :prepend-icon="false"
+                  append-icon="event"
                   :value="computedDateFormattedMomentjs2"
                   clearable
                   label="Fecha Estimada de Termino"
@@ -222,7 +224,7 @@
             </v-menu> 
           </v-col>
           <v-col v-if="detalle == false" cols="4" class="pb-0 pt-0">
-            <p>La Duracion del Proyecto sera de :{{ cpxCalcularFecha }}</p>
+            <p v-if="computedDateFormattedMomentjs2 != ''">La Duracion del Proyecto sera de :{{ cpxCalcularFecha }}</p>
           </v-col>
         </v-row>
         <v-row>
@@ -312,7 +314,6 @@
     <v-divider></v-divider>
     <v-row>
       <v-col cols="4">
-        {{ infoMandanteProyecto.mandante }}
         <v-autocomplete
           v-if="detalle == false"
           v-model="infoMandanteProyecto.mandante"
@@ -321,7 +322,7 @@
           :search-input.sync="search"
           item-text="razon_social"
           item-value="id"
-          label="Mandante"
+          label="Proveedor"
           :hide-no-data="!mostrarNoData"
           hint="Puedes buscar por nombre o por rut"
           outlined

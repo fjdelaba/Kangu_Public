@@ -28,16 +28,7 @@ export default {
       items2: ["24 HORAS", "48 HORAS"],
       usuario: [],
       headers: [],
-      headers4: [
-        { text: "Nombre", value: "usu.nombre" },
-        { text: "Hasta", value: "monto", filterable: true, sortable: true },
-        { text: "Tiempo de Aprobación", value: "tiempo" },
-        
-      ],
       headers2: [],
-      headers3: [
-        { text: "Nombre", value: "usu.nombre" },
-      ],
       desserts: [],
       tablaCompradores: [],
       dialog: false,
@@ -152,6 +143,9 @@ export default {
           }),
         
       ); 
+    },
+    cpxUsuariosAprobadoresNombre(){
+      return item => item.nombre + ' ' + item.apellidos
     },
     cpxUsuariosCompradoresFiltrados() {
       return this.usuario.filter(
@@ -383,7 +377,7 @@ export default {
     guardarNuevoItem2() {
       console.log("usu comprador:", this.usuariosCompradores.nombre);
       const comprador = {
-        nombre:this.usuariosCompradores.usuario.nombre ,
+        nombre:this.usuariosCompradores.usuario.nombre + ' ' + this.usuariosCompradores.usuario.apellidos ,
         apr_tip_fk: 3,
         usu_fk: this.usuarioLogin,
         pro_fk: 1,
@@ -394,7 +388,7 @@ export default {
       this.tablaCompradores.push(comprador);
       // this.tablaCompradores = Object.values(this.tablaAprobador)
       console.log("dessert:", this.tablaCompradores);
-
+      this.usuariosCompradores.monto = ''
       this.limpiarFormUsuarios();
       this.close();
     },
