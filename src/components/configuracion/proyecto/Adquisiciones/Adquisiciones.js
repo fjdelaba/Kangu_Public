@@ -27,23 +27,14 @@ export default {
       items: ["Programming", "Design", "Vue", "Vuetify"],
       items2: ["24 HORAS", "48 HORAS"],
       usuario: [],
-      headers: [
-        { text: "Nombre", value: "nombre" },
-        { text: "Hasta", value: "monto", filterable: true, sortable: true },
-        { text: "Tiempo de Aprobación", value: "tiempo" },
-        { text: "Accion", value: "actions" },
-      ],
+      headers: [],
       headers4: [
         { text: "Nombre", value: "usu.nombre" },
         { text: "Hasta", value: "monto", filterable: true, sortable: true },
         { text: "Tiempo de Aprobación", value: "tiempo" },
-        { text: "Accion", value: "actions" },
+        
       ],
-      headers2: [
-        { text: "Nombre", value: "nombre" },
-        { text: "Monto Máximo de Compra Directa", value: "monto" },
-        { text: "Accion", value: "actions" },
-      ],
+      headers2: [],
       headers3: [
         { text: "Nombre", value: "usu.nombre" },
       ],
@@ -157,9 +148,75 @@ export default {
         (obj1) =>
           !this.tablaAprobador.find((obj2) => {
             console.log("obj1:", obj1, "obj2:", obj2);
-            return obj1.id == obj2.usu_apro_fk;
-          })
+            return obj1.id == obj2.usu_apro_fk; 
+          }),
+        
+      ); 
+    },
+    cpxUsuariosCompradoresFiltrados() {
+      return this.usuario.filter(
+        (obj1) =>
+          !this.tablaCompradores.find((obj2) => {
+            console.log("obj1:", obj1, "obj2:", obj2);
+            return obj1.id == obj2.usu_apro_fk; 
+          }),
+        
+      ); 
+    },
+    cpxOtrosUsuariosFiltrados() {
+      return this.tablaOtrosUsuarios.filter(
+        (obj1) =>
+          !this.tablaAprobador.find((obj2) => {
+            console.log("obj1:", obj1, "obj2:", obj2);
+            return obj1.id == obj2.usu_apro_fk; 
+          }),
+        
       );
+    },
+    cpxDinamicHeaders2() {
+      if ( this.detalle == true) {
+        console.log("normal")
+        return [
+          ...this.headers2,
+          { text: "Nombre", value: "nombre" },
+          { text: "Monto Máximo de Compra Directa", value: "monto" },
+        ]
+      }
+      if ( this.detalle == false) {
+        console.log("agregar actions")
+        return [
+          ...this.headers2,
+          { text: "Nombre", value: "nombre" },
+          { text: "Monto Máximo de Compra Directa", value: "monto" },
+          { text: "Accion", value: "actions" },
+          
+        ]
+      }
+      return this.headers2;
+    },
+    cpxDinamicHeaders1() {
+      if ( this.detalle == true) {
+        console.log("normal")
+        return [
+          ...this.headers,
+          { text: "Nombre", value: "nombre" },
+          { text: "Hasta", value: "monto", filterable: true, sortable: true },
+          { text: "Tiempo de Aprobación", value: "tiempo" },
+          { text: "Monto Máximo de Compra Directa", value: "monto" },
+        ]
+      }
+      if ( this.detalle == false) {
+        console.log("agregar actions")
+        return [
+          ...this.headers,
+          { text: "Nombre", value: "nombre" },
+          { text: "Hasta", value: "monto", filterable: true, sortable: true },
+          { text: "Tiempo de Aprobación", value: "tiempo" },
+          { text: "Monto Máximo de Compra Directa", value: "monto" },
+          { text: "Accion", value: "actions" }
+        ]
+      }
+      return this.headers;
     },
   },
   methods: {
@@ -168,73 +225,78 @@ export default {
       this.guardarEdicion = true
     },
     async cargarUsuariosTotal(){
-      let soli = {}
-      let solicitantesPed = []
+      console.log("TABLA ANTES",  this.tablaOtrosUsuarios)
       let obs = {}
       let usuariosObservadores = []
       const { data : {kangusoft_pro_usu_per}} = await getUsuariosProyecto(this.proyectoSeleccionado)
         for(let usu of kangusoft_pro_usu_per){
-          console.log("usu",usu)
-          if(usu.usu_per_fk == 5){
-            console.log("SOLICITANTE")
-            this.tablaSolicitantesPed.push(usu)
-          }
-          if(usu.usu_per_fk == 5 && this.detalle == true){
-            console.log("SOLICITANTE")
-            soli.id = usu.id
-            soli.nombre = usu.usu.nombre
-            soli.apellidos = usu.usu.apellidos
-            console.log("usu soli:",soli)
-
-            solicitantesPed.push(soli)
-            this.usuariosPedido.usuSolicitante = solicitantesPed
-          }
-          if(usu.usu_per_fk == 7 && this.detalle == true){
-            console.log("SOLICITANTE")
+          if(usu.usu_per_fk == 7){
             obs.id = usu.id
             obs.nombre = usu.usu.nombre
             obs.apellidos = usu.usu.apellidos
-            console.log("usu soli:",soli)
-
             usuariosObservadores.push(obs)
-            this.otrosUsuarios = usuariosObservadores
+            console.log("usuariosObservadores", usuariosObservadores)
           }
-          if(usu.usu_per_fk == 7){
-            console.log("OBSERVADOR")
-            this.tablaOtrosUsuarios.push(usu)
-          }
-        
         }
-        
- 
+        this.otrosUsuarios = usuariosObservadores
+      
       },
    async cargarAprobadores(){
-     let usuAprobadorPed = {}
+     let aprobadorPed = []
+     let solicitantePed = []
+     let aprobadorOc = []
+     let compradorOc = []
     const { data : {kangusoft_apr}} = await getAprobadoresProyecto(this.proyectoSeleccionado)
-    for (let apro of kangusoft_apr){
-      if(apro.mod_fk == 1){
-        console.log("apro",apro)
-        this.tablaDetalleApro.push(apro)
-      }
-      if(this.detalle == true && apro.mod_fk == 1){
-        console.log("entre")
-        usuAprobadorPed.id = apro.id
-        usuAprobadorPed.nombre = apro.usu.nombre
-        usuAprobadorPed.apellidos = apro.usu.apellidos
-        this.usuariosPedido.usuAprobador = usuAprobadorPed
-        
-       
-      }
-      if(apro.mod_fk == 3 && apro.monto == 0){
-        this.tablaAprobadores.push(apro)
-      }else if(apro.mod_fk == 3 && apro.monto != 0){
-        this.tablaAprobadores.push(apro)
-      }
-     
+    for (let apro of kangusoft_apr){ 
+ 
+    if(apro.flujo == true && apro.mod_fk == 3){
+        console.log("APROBADOR OC",apro)
+        let nombre = apro.usuByUsuAproFk.nombre + ' ' + apro.usuByUsuAproFk.apellidos
+        aprobadorOc.push({id:apro.id,nombre:nombre,apellidos:'',monto:apro.monto,apro_final:apro.apro_final,flujo:apro.flujo})
+     }else if(apro.flujo == false && apro.mod_fk == 3){
+      console.log("COMPRADOR OC",apro)
+      let nombre = apro.usuByUsuAproFk.nombre + ' ' + apro.usuByUsuAproFk.apellidos
+      compradorOc.push({id:apro.id,nombre:nombre,apellidos:'',monto:apro.monto,apro_final:apro.apro_final,flujo:apro.flujo})
+     }
+     if(apro.flujo == true && apro.mod_fk == 1){
+      aprobadorPed.push[{id:apro.id,nombre:apro.usuByUsuAproFk.nombre,apellidos:apro.usuByUsuAproFk.apellidos}]
+      console.log("APROBADOR PED",usuAprobadorPed)
+      
+     }else if(apro.flujo == false && apro.mod_fk == 1){
+      solicitantePed.push({id:apro.id,nombre:apro.usuByUsuAproFk.nombre,apellidos:apro.usuByUsuAproFk.apellidos})
+      console.log("SOLICITANTE PED", solicitantePed)
+     }
     }
+    if(aprobadorPed.length == 0){
+      console.log("APROBADOR no existe")
+      aprobadorPed  = {nombre:"No existe Aprobador",apellidos:''}
+    }
+    this.tablaAprobador = aprobadorOc
+    this.tablaCompradores = compradorOc
+    this.usuariosPedido.usuSolicitante = solicitantePed
+    this.usuariosPedido.usuAprobador = aprobadorPed
+   
+    console.log("tablaAprobador",  this.tablaAprobador)
+    console.log("this.tablaCompradores",   this.tablaCompradores)
+    console.log("this.usuariosPedido",   this.usuariosPedido.usuSolicitante)
+    console.log(" this.usuariosPedido.usuAprobador",    this.usuariosPedido.usuAprobador)
     },
 
     agregarAprobador() {
+      let validado 
+      this.$refs.nombreApro.validate() 
+      this.$refs.montoApro.validate() 
+      this.$refs.tiempoApro.validate() 
+     console.log("validacion",this.$refs.nombreApro.validate() ,this.$refs.montoApro.validate(),  this.$refs.tiempoApro.validate()  )
+   
+     if(this.$refs.nombreApro.validate() == true && this.$refs.montoApro.validate() == true &&    this.$refs.tiempoApro.validate()   == true){
+       validado = true
+  
+     }else{
+       validado = false
+     }
+     console.log('validado',validado)
+  if(validado == true){
       const aprobador = {
         nombre:
           this.usuarioAprobador.usuario.nombre +
@@ -257,6 +319,7 @@ export default {
       }
       this.limpiarFormUsuarios();
       this.close()
+    }
     },
 
     //TODO: RETORNA TRUE SI EXISTE APROBADOR
@@ -276,7 +339,7 @@ export default {
       });
       this.usuario = data.data.kangusoft_usu;
       this.selectUsuario = data.data.kangusoft_usu;
-
+      this.tablaOtrosUsuarios= data.data.kangusoft_usu
       console.log("usuarios:", this.usuario);
     },
     cancelarEdicion() {
@@ -386,6 +449,7 @@ export default {
     },
 
     async guardarAdquisiciones(){
+      console.log('this.usuariosPedido.usuAprobador',this.usuariosPedido.usuAprobador)
       let aprobadores = []
       let compradores = []
       let perfiles =[]
@@ -401,11 +465,11 @@ export default {
       console.log("aprobador:", this.usuariosPedido.usuSolicitante)
       console.log("id:", id)
       for(let a of this.tablaAprobador){
-      aprobadores.push({mod_fk:3,apr_tie_fk: 1,monto:21312,usu_fk:1,pro_fk:this.id,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
+      aprobadores.push({mod_fk:3,apr_tie_fk: 1,monto:a.monto,usu_fk:1,pro_fk:this.id,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
       console.log("apro:", aprobadores)  
     }
     for(let b of this.tablaCompradores){
-      compradores.push({mod_fk:3,usu_fk:1,pro_fk:this.id,usu_apro_fk:b.usu_apro_fk,monto:2341,mon_fk:1})
+      compradores.push({mod_fk:3,usu_fk:1,pro_fk:this.id,usu_apro_fk:b.usu_apro_fk,monto:b.montox,mon_fk:1})
       console.log("b",compradores)
     }
     for(let c of this.usuariosPedido.usuSolicitante){

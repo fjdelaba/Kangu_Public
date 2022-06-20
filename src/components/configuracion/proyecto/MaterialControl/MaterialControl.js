@@ -33,8 +33,8 @@ export default {
       },
       headers1: [
         { text: 'Nombre', value: 'mat.nombre' },
-        { text: 'Cantidad', value: 'cantidad' },
         { text: 'Unidad Formato', value: 'mat.mat_uni.nombre' },
+        { text: 'Cantidad', value: 'cantidad' },
         { text: 'Valor Unitario', value: 'valor_unitario' },
         { text: 'Valor Total', value: 'total' },
         { text: '% del Presupuesto', value: 'porcentaje' },
@@ -216,12 +216,10 @@ export default {
     guardarNuevoItem () {
       let validado 
    this.$refs.material.validate() 
-   this.$refs.cantidad.validate() 
-   this.$refs.unitario.validate() 
-   this.$refs.moneda.validate() 
-  console.log("validacion",   this.$refs.material.validate() ,   this.$refs.cantidad.validate() ,    this.$refs.moneda.validate()  ,  this.$refs.unitario.validate() )
+  
+  console.log("validacion",   this.$refs.material.validate() , )
 
-  if( this.$refs.material.validate() == true && this.$refs.cantidad.validate() == true &&   this.$refs.moneda.validate() == true && this.$refs.unitario.validate() == true){
+  if( this.$refs.material.validate() == true ){
     validado = true
   }else{
     validado = false
@@ -257,6 +255,7 @@ export default {
         else{
           this.desserts.push(this.materialSeleccionado)
         }
+        this.material = ""
         this.limpiarMateriales()
         console.log('desserts',this.desserts)
       

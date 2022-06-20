@@ -9,7 +9,7 @@
         style="min-width: 850px;"
         class="flex-grow-0 flex-shrink-1 w-full"
       >
-        <!-- {{ pasoStep }} -->
+        {{ pasoStep }}
         <v-stepper v-model="pasoStep" class="flex-grow-1">
           <v-stepper-header>
             <v-stepper-step
@@ -62,6 +62,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="4">
+              prev
               <previsualizacion :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.materiales" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
             </v-stepper-content>
           </v-stepper-items>
@@ -112,6 +113,7 @@ export default {
   methods: {
     avanzar() {
       if (this.pasoStep === 1) {
+        this.$store.dispatch('app/setLoading', true)
         this.pasoStep++
         // console.log('de paso 1 a paso 2')
         // if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {

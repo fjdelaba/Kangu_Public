@@ -1,24 +1,28 @@
 <template>
-  <v-app>
-    <!-- Layout component -->
-    <component :is="currentLayout" v-if="isRouterLoaded">
-      <notifications group="foo" />
-      <transition name="fade" mode="out-in">
-        <router-view />
-      </transition>
-    </component>
+  <div>
+    <v-app>
+      <!-- Layout component -->
+    
+      <component :is="currentLayout" v-if="isRouterLoaded">
+      
+        <notifications group="foo" />
+        <transition name="fade" mode="out-in">
+          <router-view />
+        </transition>
+      </component>
 
-    <v-snackbar v-model="toast.show" :timeout="toast.timeout" :color="toast.color" bottom>
-      {{ toast.message }}
-      <v-btn v-if="toast.timeout === 0" color="white" text @click="toast.show = false">{{ $t('common.close') }}</v-btn>
-    </v-snackbar>
+      <v-snackbar v-model="toast.show" :timeout="toast.timeout" :color="toast.color" bottom>
+        {{ toast.message }}
+        <v-btn v-if="toast.timeout === 0" color="white" text @click="toast.show = false">{{ $t('common.close') }}</v-btn>
+      </v-snackbar>
 
-    <!-- Demo customization menu -->
-    <customization-menu />
-  </v-app>
+      <!-- Demo customization menu -->
+      <customization-menu />
+    </v-app></div>
 </template>
 
 <script>
+
 import { mapState } from 'vuex'
 
 // Demo Menu

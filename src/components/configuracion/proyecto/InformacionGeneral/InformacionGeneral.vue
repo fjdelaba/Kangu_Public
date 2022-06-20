@@ -14,147 +14,154 @@
       <v-col>
         <h3>GENERAL</h3>
         <v-divider></v-divider>
-        <v-row >
-          <v-col cols="2" class="pb-0">
-            <v-text-field
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.nombre"
-              :rules="proyectoRules"
-              label="Nombre"
-              outlined
-              dense
-            ></v-text-field>
-            <h4 v-if="detalle == true">Nombre</h4>
-            <p v-if="detalle == true">{{ proyecto.nombre }}</p>
-          </v-col>
-          <v-col cols="2" class="pb-0">
-            <v-text-field
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.codigo"
-              :rules="proyectoRules"
-              label="Código"
-              outlined
-              dense
-            ></v-text-field>
-            <h4 v-if="detalle == true">Código</h4>
-            <p v-if="detalle == true">{{ proyecto.codigo }}</p>
-          </v-col>
-          <v-col cols="2" class="pb-0">
-            <v-select
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.celulas"
-              :rules="celulasRules"
-              :items="listaCelulas"
-              label="Unidades de Trabajo"
-              persistent-hint
-              outlined
-              dense
-              item-text="nombre"
-              item-value="id"
-            ></v-select>
-            <h4 v-if="detalle == true">Unidades de Trabajo</h4>
-            <p v-if="detalle == true">{{ proyecto.prouni.nombre }}</p>
-          </v-col>
-          <v-col cols="2" class="pb-0">
-            <v-text-field
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.valorC"
-              :rules="proyectoRules"
-              label="Valor Contrato"
-              outlined
-              dense
-              type="number"
-            ></v-text-field>
-            <h4 v-if="detalle == true">Valor Contractual</h4>
-            <p v-if="detalle == true">{{ proyecto.valor_contractual }}</p>
-          </v-col>
-          <v-col cols="2" class="pb-0">
-            <v-text-field
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.presupuestoObra"
-              :rules="proyectoRules"
-              label="Presupuesto de Obra"
-              outlined
-              dense
-            ></v-text-field>
-            <h4 v-if="detalle == true">Presupuesto de Obra</h4>
-            <p v-if="detalle == true">{{ proyecto.presupuesto }}</p>
-          </v-col>
-          <v-col cols="2" class="pb-0">
-            <v-autocomplete
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.estado"
-              :items="listaEstados"
-              label="Estado"
-              outlined
-              dense
-              item-text="nombre"
-              item-value="id"
-              value="1"
-            ></v-autocomplete>
-            <h4 v-if="detalle == true">Estado</h4>
-            <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
-          </v-col>
-        </v-row>
-        <v-row class="filaContenidoStep3Ste">
-          <v-col cols="2" class="pt-0">
-            <v-autocomplete
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.monedaGeneral"
-              :rules="proyectoRules"
-              :items="listaMonedas"
-              label="Moneda"
-              dense
-              outlined
-              item-text="nombre"
-              item-value="id"
-            ></v-autocomplete>
-            <h4 v-if="detalle == true">Moneda</h4>
-            <p v-if="detalle == true">{{ proyecto.mon.nombre }}</p>
-          </v-col>
-          <v-col class="pt-0" cols="2">
-            <v-select
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.flag"
-              :items="listaFlags"
-              label="Etiquetas"
-              multiple
-              persistent-hint
-              outlined
-              dense
-              item-text="nombre"
-              item-value="id"
-            ></v-select>
-            <h4 v-if="detalle == true">Etiquetas</h4>
-            <p v-if="detalle == true">{{ proyecto.usu.flas[2].nombre }}</p>
-          </v-col>
-          <v-col class="pt-0" cols="2">
-            <v-text-field
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.ocInicial"
-              label="OC inicial"
-              outlined
-              dense
-              value="0"
-            ></v-text-field>
-            <h4 v-if="detalle == true">OC Inicial</h4>
-            <p v-if="detalle == true">{{ proyecto.inicio_oc }}</p>
-          </v-col>
-          <v-col class="pt-0" cols="6">
-            <v-textarea
-              v-if="detalle == false"
-              v-model="infoGeneralProyecto.descripcion"
-              label="Descripción"
-              auto-grow
-              outlined
-              rows="1"
-              row-height="15"
-              dense
-            ></v-textarea>
-            <h4 v-if="detalle == true">Descripción</h4>
-            <p v-if="detalle == true">{{ proyecto.descripcion }}</p>
-          </v-col>
-        </v-row>
+
+        <v-form
+          ref="infoGeneral"
+          v-model="valid"
+        >
+          <v-row >
+          
+            <v-col cols="2" class="pb-0">
+              <v-text-field
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.nombre"
+                :rules="proyectoRules"
+                label="Nombre"
+                outlined
+                dense
+              ></v-text-field>
+              <h4 v-if="detalle == true">Nombre</h4>
+              <p v-if="detalle == true">{{ proyecto.nombre }}</p>
+            </v-col>
+          
+            <v-col cols="2" class="pb-0">
+              <v-text-field
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.codigo"
+                :rules="proyectoRules"
+                label="Código"
+                outlined
+                dense
+              ></v-text-field>
+              <h4 v-if="detalle == true">Código</h4>
+              <p v-if="detalle == true">{{ proyecto.codigo }}</p>
+            </v-col>
+            <v-col cols="2" class="pb-0">
+              <v-select
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.celulas"
+                :rules="celulasRules"
+                :items="listaCelulas"
+                label="Unidades de Trabajo"
+                persistent-hint
+                outlined
+                dense
+                item-text="nombre"
+                item-value="id"
+              ></v-select>
+              <h4 v-if="detalle == true">Unidades de Trabajo</h4>
+              <p v-if="detalle == true">{{ proyecto.prouni.nombre }}</p>
+            </v-col>
+            <v-col cols="2" class="pb-0">
+              <v-text-field
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.valorC"
+                :rules="proyectoRules"
+                label="Valor Contrato"
+                outlined
+                dense
+                type="number"
+              ></v-text-field>
+              <h4 v-if="detalle == true">Valor Contractual</h4>
+              <p v-if="detalle == true">{{ proyecto.valor_contractual }}</p>
+            </v-col>
+            <v-col cols="2" class="pb-0">
+              <v-text-field
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.presupuestoObra"
+                :rules="proyectoRules"
+                label="Presupuesto de Obra"
+                outlined
+                dense
+              ></v-text-field>
+              <h4 v-if="detalle == true">Presupuesto de Obra</h4>
+              <p v-if="detalle == true">{{ proyecto.presupuesto }}</p>
+            </v-col>
+            <v-col cols="2" class="pb-0">
+              <v-autocomplete
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.estado"
+                :items="listaEstados"
+                label="Estado"
+                outlined
+                dense
+                item-text="nombre"
+                item-value="id"
+                value="1"
+              ></v-autocomplete>
+              <h4 v-if="detalle == true">Estado</h4>
+              <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
+            </v-col>
+          </v-row>
+          <v-row class="filaContenidoStep3Ste">
+            <v-col cols="2" class="pt-0">
+              <v-autocomplete
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.monedaGeneral"
+                :rules="proyectoRules"
+                :items="listaMonedas"
+                label="Moneda"
+                dense
+                outlined
+                item-text="nombre"
+                item-value="id"
+              ></v-autocomplete>
+              <h4 v-if="detalle == true">Moneda</h4>
+              <p v-if="detalle == true">{{ proyecto.mon.nombre }}</p>
+            </v-col>
+            <v-col class="pt-0" cols="2">
+              <v-select
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.flag"
+                :items="listaFlags"
+                label="Etiquetas"
+                multiple
+                persistent-hint
+                outlined
+                dense
+                item-text="nombre"
+                item-value="id"
+              ></v-select>
+              <h4 v-if="detalle == true">Etiquetas</h4>
+              <p v-if="detalle == true">{{ proyecto.usu.flas[2].nombre }}</p>
+            </v-col>
+            <v-col class="pt-0" cols="2">
+              <v-text-field
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.ocInicial"
+                label="OC inicial"
+                outlined
+                dense
+              ></v-text-field>
+              <h4 v-if="detalle == true">OC Inicial</h4>
+              <p v-if="detalle == true">{{ proyecto.inicio_oc }}</p>
+            </v-col>
+            <v-col class="pt-0" cols="6">
+              <v-textarea
+                v-if="detalle == false"
+                v-model="infoGeneralProyecto.descripcion"
+                label="Descripción"
+                auto-grow
+                outlined
+                rows="1"
+                row-height="15"
+                dense
+              ></v-textarea>
+              <h4 v-if="detalle == true">Descripción</h4>
+              <p v-if="detalle == true">{{ proyecto.descripcion }}</p>
+            </v-col>
+          </v-row>
+        </v-form>
         <v-row>
           <v-col v-if="detalle == false" cols="4" class="pb-0 pt-0">
             <v-menu
@@ -235,7 +242,7 @@
               {{ proyecto.usu.nombre }}  {{ proyecto.usu.apellidos }}
             </p>
           </v-col>
-          <v-col cols="8" class="pt-0">
+          <v-col cols="4" class="pt-0">
             <v-file-input
               v-if="detalle == false"
               v-model="usuario.firma"
@@ -260,7 +267,6 @@
     <h3>DIRECCIÓN</h3>
     <v-divider></v-divider>
     <v-row>
-      {{ infoDireccionProyecto }}
       <v-col cols="2">
         <v-select
           v-if="detalle == false"
@@ -315,7 +321,7 @@
           :search-input.sync="search"
           item-text="razon_social"
           item-value="id"
-          label="Proveedor"
+          label="Mandante"
           :hide-no-data="!mostrarNoData"
           hint="Puedes buscar por nombre o por rut"
           outlined

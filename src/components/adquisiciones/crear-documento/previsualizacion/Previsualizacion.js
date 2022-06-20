@@ -36,6 +36,7 @@ export default {
     }},
   methods: {
     async cargarAprobadores() {
+      this.aprobadores = []
       const { data:{ kangusoft_apr } } = await getAprobadoresProyecto()
 
       for (const apro of kangusoft_apr) {

@@ -155,7 +155,19 @@ query Q_GET_USUARIOS_PROYECTO($id: bigint) {
     }
   }
 }
-
+`
+const GET_USUARIOS_EMPRESA = gql`
+query Q_GET_USUARIOS_EMPRESA {
+  kangusoft_usu {
+    activo
+    apellidos
+    nombre
+    email
+    cargo
+    rut
+    fec_creacion
+  }
+}
 `
 
-export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_USUARIOS_PROYECTO }
+export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA }

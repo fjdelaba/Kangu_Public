@@ -34,8 +34,13 @@ const showSuccess = ({ state, commit }, message) => {
   })
 }
 
+const setLoading = ({ state, commit }, payload) => {
+  commit('setLoading', payload)
+}
+
 export default {
   showToast,
   showError,
-  showSuccess
+  showSuccess,
+  setLoading
 }

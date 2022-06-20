@@ -84,7 +84,16 @@ export default {
         { text: 'activo', value: 'activo' },
         { text: '', sortable: false, align: 'right', value: 'action' }
       ],
-
+      
+      crearUsuario: {
+        rut:'',
+        email:'',
+        nombres: '',
+        apellidos:'',
+        cargo:'',
+        fec_creacion:'',
+        activo:''
+      },
       users
     }
     

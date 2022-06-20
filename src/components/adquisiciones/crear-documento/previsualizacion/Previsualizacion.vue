@@ -9,125 +9,9 @@
       <v-tab href="#documento">
         Documento
       </v-tab>
-      <v-card-text>
-        <v-row >
-          <v-col
-            cols="12"
-          >
-            <v-text-field 
-              v-model="usuario.rut"
-              dense
-              hint="Por Ejemplo, 19728579-6"
-              outlined
-              label="Rut"
-              required
-              class="ma-0 pa-0"
-              :rules="usuario.rutRules"
-              @input="validarFomatoRut()"
-            ></v-text-field>
-            <v-text-field
-              v-model="usuario.nombres"
-              hint="Por Ejemplo, Felipe."
-              outlined
-              dense
-              label="Nombres"
-              required
-              :rules="usuario.nombresRules"
-            ></v-text-field>
-            <v-text-field
-              v-model="usuario.apellidos"
-              hint="Por Ejemplo, De la Barra."
-              dense
-              outlined
-              label="Apellidos"
-              required
-              :rules="usuario.apellidosRules"
-            ></v-text-field>
-            <v-text-field
-              v-model="usuario.email"
-              hint="Por Ejemplo, FelipedelaBarra@gmail.com"
-              dense
-              outlined
-              label="Email"
-              required
-              :rules="usuario.emailRules"
-            ></v-text-field>
-            <v-text-field
-              v-model="usuario.cargo"
-              hint="Por Ejemplo, Supervisor,"
-              dense
-              outlined
-              label="Cargo"
-              :rules="usuario.cargoRules"
-            ></v-text-field>
-            <v-select
-              v-model="usuario.perfil"
-              dense
-              outlined
-              :items="items"
-              label="Perfil"
-              data-vv-name="select"
-              required
-              :rules="[v => !!v || 'Se requiere seleccionar un perfil']"
-            ></v-select>
-          </v-col>
-          <v-col
-            cols="12"
-            sm="6"
-            md="6"
-          ><v-file-input
-             v-model="usuario.imagen"
-             prepend-icon="mdi-camera"
-             label="Ingrese Imagen de Perfil" 
-             @click:clear="eliminarImagen"
-             @change="previewImagen"
-           >
-           </v-file-input>
-            <v-row v-if="usuario.imagen" justify="center" > <v-avatar size="120"> <v-img
-              :src="url"
-              min-width="auto"
-              min-height="auto"
-              rounded
-            ></v-img>
-            </v-avatar></v-row>
-          </v-col>
-          <v-col
-            cols="12"
-            sm="6"
-            md="6"
-          ><v-file-input 
-             v-model="usuario.firma"
-             label="Ingrese Firma"
-             @click:clear="eliminarFirma"
-             @change="previewFirma"
-           >
-           </v-file-input>
-            <v-row v-if="usuario.firma" justify="center" ><v-img
-              :src="url2"
-              max-height="123"
-              max-width="178"
-              contain
-            ></v-img></v-row>
-          </v-col></v-row>
-        <small>*Rellene los campos requeridos</small>
-        <v-card-actions>
-          <v-btn text @click="reset()">Cerrar</v-btn>
-          <v-btn
-            color="primary"
-            text
-            :disabled="!valid"
-            @click="crearUsuario()"
-          >Crear</v-btn>
-        </v-card-actions>
-      </v-card-text>
 
-<<<<<<< HEAD
       <v-tab href="#flujo" @click="clickTab()" @change="changeTab()">
         Flujo y Distribucion
-=======
-      <v-tab href="">
-        Permisos
->>>>>>> 68a60a43f25ff9bce96aff93a5adad826c11f797
       </v-tab>
 
     </v-tabs>
@@ -256,15 +140,13 @@
         value="flujo"
         class="mb-6 pb-6"
       >
-        <p class="mb-0 pb-0 mt-3">Flujo de Aprobacion</p>
-        <v-divider class="mb-2"></v-divider>
-        <div v-if="aprobadores.length > 0">
-          <pipeline :aprobadores="aprobadores" :origen="1"></pipeline>
-          <v-textarea
-            v-model="comentarioAprobadores"
-            outlined
-            label="Comentario a los aprobadores"
-          ></v-textarea>
+        <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline>
+        <v-textarea
+          v-model="comentarioAprobadores"
+          outlined
+          label="Comentario a los aprobadores"
+        ></v-textarea>
+        <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
           style="width: 100%; top: -60px "
@@ -272,19 +154,6 @@
           :options="pie"
           auto-resize
         /> -->
-        </div>
-        <div v-else>
-          <v-alert
-            text
-            dense
-            color="teal"
-            icon="mdi-clock-fast"
-            border="left"
-          >
-            Esta orden de compra no pasará por flujo de aprobacion
-          </v-alert>
-        </div>
-        <distribucion-lineas-partidas :materiales="materiales"></distribucion-lineas-partidas>
       </v-tab-item>
     </v-tabs-items>
 

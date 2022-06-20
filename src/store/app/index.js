@@ -25,6 +25,9 @@ const state = {
   isContentBoxed,
   isRTL,
 
+  //loading
+  loading: false,
+
   // App.vue main toast
   toast: {
     show: false,

@@ -15,7 +15,7 @@
 
             v-model="abrirDialog"
             transition="dialog-top-transition"
-            max-width="700"
+            max-width="650"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
@@ -59,33 +59,35 @@
                               <v-row
                                 :align="align"
                                 no-gutters
+                                justify="left" 
                               >
                                 <v-col
-                                  align-self="center"
+                                  
                                   cols="12"
                                   sm="6"
                                   md="6"
                                 >
                                   <v-text-field 
                                     v-model="usuario.rut"
-                                    style="width:80%"
+                                    style="width:90%"
                                     dense
                                     hint="Por Ejemplo, 19728579-6"
                                     outlined
                                     label="Rut"
                                     required
-                                    class="ma-0 pa-0"
+                                    class="mt-2  pl-5"
                                     :rules="usuario.rutRules"
                                     @input="validarFomatoRut()"
                                   ></v-text-field>
                                   <v-text-field
                                     v-model="usuario.nombres"
-                                    style="width:80%"
+                                    style="width:90%"
                                     hint="Por Ejemplo, Felipe."
                                     outlined
                                     dense
                                     label="Nombres"
                                     required
+                                    class="ma-0  pl-5"
                                     :rules="usuario.nombresRules"
                                   ></v-text-field>
                                 </v-col>
@@ -96,33 +98,32 @@
                                 >
                                   <v-text-field
                                     v-model="usuario.email"
-                                    style="width:80%"
+                                    style="width:90%"
                                     hint="Por Ejemplo, FelipedelaBarra@gmail.com"
                                     dense
                                     outlined
                                     label="Email"
                                     required
                                     :rules="usuario.emailRules"
+                                    class="mt-2  pl-5"
                                   ></v-text-field>
                                    
                                   <v-text-field
                                     v-model="usuario.apellidos"
-                                    style="width:80%"
+                                    style="width:90%"
                                     hint="Por Ejemplo, De la Barra."
                                     dense
                                     outlined
                                     label="Apellidos"
+                                    class="ma-0  pl-5"
                                     required
                                     :rules="usuario.apellidosRules"
                                   ></v-text-field>
                                 </v-col>
-                              </v-row>
-                              <v-row
-                                :align="align"
-                                no-gutters
-                              >
                                 <v-col
                                   cols="12"
+                                  sm="6"
+                                  md="6"
                                 >
                                   <v-text-field
                                     v-model="usuario.cargo"
@@ -131,11 +132,21 @@
                                     outlined
                                     label="Cargo"
                                     :rules="usuario.cargoRules"
+                                    style="width:90%"
+                                    class="ma-0  pl-5"
                                   ></v-text-field>
+                                </v-col>
+                                <v-col
+                                  cols="12"
+                                  sm="6"
+                                  md="6"
+                                >
                                   <v-select
                                     v-model="usuario.perfil"
                                     dense
+                                    style="width:90%"
                                     outlined
+                                    class="ma-0  pl-5"
                                     :items="items"
                                     label="Perfil"
                                     data-vv-name="select"
@@ -153,6 +164,7 @@
                                    v-model="usuario.imagen"
                                    prepend-icon="mdi-camera"
                                    label="Ingrese Imagen de Perfil" 
+                                   style="width:85%"
                                    @click:clear="eliminarImagen"
                                    @change="previewImagen"
                                  >
@@ -172,6 +184,7 @@
                                 ><v-file-input 
                                    v-model="usuario.firma"
                                    label="Ingrese Firma"
+                                   style="width:85%"
                                    @click:clear="eliminarFirma"
                                    @change="previewFirma"
                                  >
@@ -183,8 +196,11 @@
                                     contain
                                   ></v-img></v-row>
                                 </v-col> </v-row>
+                              <p class="text-right">
+                                Rellene los campos requeridos.
+                              </p>
                             </v-card-text>
-                            <small>*Rellene los campos requeridos</small>
+                            
                           </v-card>
                         </v-tab-item>
                         <v-tab-item>
@@ -353,7 +369,9 @@
                                 </v-list-item-group></v-col></v-row></v-card>
                         </v-tab-item></v-tabs>
                       <v-card-actions>
+                        <v-spacer></v-spacer>
                         <v-btn text @click="reset()">Cerrar</v-btn>
+                        
                         <v-btn
                           color="primary"
                           text
@@ -368,93 +386,95 @@
             </template>
           </v-dialog>
         </v-col>
+      </div>
         
-        <!-- users list -->
-        <v-row dense class="pa-2 align-center">
-          <v-col cols="6">
-            <v-menu offset-y left>
-              <template v-slot:activator="{ on }">
-                <transition name="slide-fade" mode="out-in">
-                  <v-btn v-show="selectedUsers.length > 0" v-on="on">
-                    Actions
-                    <v-icon right>mdi-menu-down</v-icon>
-                  </v-btn>
-                </transition>
-              </template>
-              <v-list dense>
-                <v-list-item @click>
-                  <v-list-item-title>Verify</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click>
-                  <v-list-item-title>Disable</v-list-item-title>
-                </v-list-item>
-                <v-divider></v-divider>
-                <v-list-item @click>
-                  <v-list-item-title>Delete</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-          </v-col>
-          <v-col cols="6" class="d-flex text-right align-center">
-            <v-text-field
-              v-model="searchQuery"
-              append-icon="mdi-magnify"
-              class="flex-grow-1 mr-md-2"
-              solo
-              hide-details
-              dense---
-              clearable
-              placeholder="p.ej. filtrar por rut, correo electrónico, nombre, etc."
-              @keyup.enter="searchUser(searchQuery)"
-            ></v-text-field>
-            <v-btn
-              :loading="isLoading"
-              icon
-              small
-              class="ml-2"
-              @click
-            >
-              <v-icon>mdi-refresh</v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
+      <!-- users list -->
+        
+      <v-row dense class="pa-2 align-center">
+        <v-col cols="6">
+          <v-menu offset-y left>
+            <template v-slot:activator="{ on }">
+              <transition name="slide-fade" mode="out-in">
+                <v-btn v-show="selectedUsers.length > 0" v-on="on">
+                  Actions
+                  <v-icon right>mdi-menu-down</v-icon>
+                </v-btn>
+              </transition>
+            </template>
+            <v-list dense>
+              <v-list-item @click>
+                <v-list-item-title>Verify</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click>
+                <v-list-item-title>Disable</v-list-item-title>
+              </v-list-item>
+              <v-divider></v-divider>
+              <v-list-item @click>
+                <v-list-item-title>Delete</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-col>
+        <v-col cols="6" class="d-flex text-right align-center">
+          <v-text-field
+            v-model="searchQuery"
+            append-icon="mdi-magnify"
+            class="flex-grow-1 mr-md-2"
+            solo
+            hide-details
+            dense---
+            clearable
+            placeholder="p.ej. filtrar por rut, correo electrónico, nombre, etc."
+            @keyup.enter="searchUser(searchQuery)"
+          ></v-text-field>
+          <v-btn
+            :loading="isLoading"
+            icon
+            small
+            class="ml-2"
+            @click
+          >
+            <v-icon>mdi-refresh</v-icon>
+          </v-btn>
+        </v-col>
+      </v-row>
 
-        <v-data-table
-          v-model="selectedUsers"
-          show-select
-          :headers="headers"
-          :items="usuarios"
-          :search="searchQuery"
-          class="flex-grow-1"
-        >
-          <template v-slot:item.rut="{ item }">
-            <div class="font-weight-bold">
-              <div>{{ item.rut }}8r</div>
-            </div>
-          </template>
+      <v-data-table
+        v-model="selectedUsers"
+        show-select
+        :headers="headers"
+        :items="usuarios"
+        :search="searchQuery"
+        class="flex-grow-1"
+      >
+        <template v-slot:item.rut="{ item }">
+          <div class="font-weight-bold">
+            <div>{{ item.rut }}</div>
+          </div>
+        </template>
 
-          <template v-slot:item.nombre="{ item }">
-            <div class="font-weight-bold">
-              <div>{{ item.nombre }}</div>
+        <template v-slot:item.nombre="{ item }">
+          <div class="font-weight-bold">
+            <div>{{ item.nombre }}</div>
+          </div>
+        </template>
+        <template v-slot:item.apellidos="{ item }">
+          <div class="font-weight-bold">
+            <div>{{ item.apellidos }}</div>
+          </div>
+        </template>
+        <template v-slot:item.email="{ item }">
+          <div class="d-flex align-center py-1">
+            <v-avatar size="32" class="elevation-1 grey lighten-3">
+              <v-img :src="item.avatar" />
+            </v-avatar>
+            <div class="ml-1 caption font-weight-bold">
+              <copy-label :text="item.email" />
             </div>
-          </template>
-          <template v-slot:item.apellidos="{ item }">
-            <div class="font-weight-bold">
-              <div>{{ item.apellidos }}</div>
-            </div>
-          </template>
-          <template v-slot:item.email="{ item }">
-            <div class="d-flex align-center py-1">
-              <v-avatar size="32" class="elevation-1 grey lighten-3">
-                <v-img :src="item.avatar" />
-              </v-avatar>
-              <div class="ml-1 caption font-weight-bold">
-                <copy-label :text="item.email" />
-              </div>
-            </div>
-          </template>
+          </div>
+        </template>
 
-          <!-- <template v-slot:item.verified="{ item }">
+        <!-- <template v-slot:item.verified="{ item }">
             <v-icon v-if="item.verified" small color="success">
               mdi-check-circle
             </v-icon>
@@ -463,33 +483,34 @@
             </v-icon>
           </template> -->
 
-          <template v-slot:item.activo="{ item }">
-            <div>
-              <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
-            </div>
-          </template>
+        <template v-slot:item.activo="{ item }">
+          <div>
+            <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
+          </div>
+        </template>
 
-          <template v-slot:item.cargo="{ item }">
-            <v-chip label small class="font-weight-bold" color="primary">{{
-              item.cargo | capitalize
-            }}</v-chip>
-          </template>
+        <template v-slot:item.cargo="{ item }">
+          <v-chip label small class="font-weight-bold" color="primary">{{
+            item.cargo | capitalize
+          }}</v-chip>
+        </template>
 
-          <template v-slot:item.fec_creacion="{ item }">
-            <div>{{ item.fec_creacion | formatDate("ll") }}</div>
-          </template>
+        <template v-slot:item.fec_creacion="{ item }">
+          <div>{{ item.fec_creacion | formatDate("ll") }}</div>
+        </template>
 
-          <template v-slot:item.action="{}">
-            <div class="actions">
-              <v-btn icon to="/users/edit">
-                <v-icon>mdi-open-in-new</v-icon>
-              </v-btn>
-            </div>
-          </template>
-        </v-data-table>
-      </div>
+        <template v-slot:item.action="{}">
+          <div class="actions">
+            <v-btn icon to="/users/edit">
+              <v-icon>mdi-open-in-new</v-icon>
+            </v-btn>
+          </div>
+        </template>
+      </v-data-table>
     </div>
-  </div></template>
+  </div>
+  
+</template>
 
 <script src="./TablaUsuarios.js"></script>
 <style scoped src="./TablaUsuarios.css"></style>
