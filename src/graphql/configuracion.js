@@ -1,11 +1,6 @@
 import { apolloClient } from '../client'
-<<<<<<< HEAD
-import { GET_DATOS_GENERALES, GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_USUARIOS_PROYECTO } from './querys/configuracion'
-import { INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL } from './mutations/configuracion.js'
-=======
-import { GET_DATOS_GENERALES, GET_PROYECTO, GET_MATERIALES_PROYECTO, GET_APROBADORES_PROYECTO, GET_USUARIOS_PROYECTO, GET_USUARIOS_EMPRESA } from './querys/configuracion'
+import { GET_DATOS_GENERALES, GET_PROYECTO, GET_MATERIALES_PROYECTO, GET_USUARIOS_PROYECTO, GET_USUARIOS_EMPRESA, GET_EXISTE_USUARIO } from './querys/configuracion'
 import { INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL, INSERT_USUARIO_EMPRESA } from './mutations/configuracion.js'
->>>>>>> e6f97663bdbf527623c77908041d91e063b0feb5
 
 export const getDatosGenerales = async () => {
   return await apolloClient.query({
@@ -97,4 +92,17 @@ export const postProyectoMaterial = async (cantidad, mat_fk, mon_fk, pro_fk, tot
     }
   })
 }
+
+export const getUsuarioExistente = async (email, rut) => {
+  console.log('idProyecto: ', id)
+
+  return await apolloClient.query({
+    query: GET_EXISTE_USUARIO,
+    variables: {
+      email,
+      rut
+    }
+  })
+}
+
 //paso

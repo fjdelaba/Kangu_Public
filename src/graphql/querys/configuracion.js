@@ -169,5 +169,12 @@ query Q_GET_USUARIOS_EMPRESA {
   }
 }
 `
+const GET_EXISTE_USUARIO = gql`
+query Q_GET_EXISTE_USUARIO($_email: String = "", $_rut: String = "") {
+  kangusoft_usu(where: {email: {_eq: $_email}, _or: {rut: {_eq: $_rut}}}) {
+    id
+  }
+}
+`
 
-export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA }
+export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA, GET_EXISTE_USUARIO }
