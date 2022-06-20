@@ -1,6 +1,8 @@
+/* eslint-disable */
 import users from '../../../../pages/users/content/users'
 import CopyLabel from '../../../common/CopyLabel'
 import { validaRut } from '../../../../utils'
+import {postUsuarioEsmpresa,getUsuariosEmpresa} from '../../../../graphql/configuracion'
 
 export default {
   components: {
@@ -84,16 +86,6 @@ export default {
         { text: 'activo', value: 'activo' },
         { text: '', sortable: false, align: 'right', value: 'action' }
       ],
-      
-      crearUsuario: {
-        rut:'',
-        email:'',
-        nombres: '',
-        apellidos:'',
-        cargo:'',
-        fec_creacion:'',
-        activo:''
-      },
       users
     }
     
@@ -122,22 +114,28 @@ export default {
     previewFirma() {
       this.url2 = URL.createObjectURL(this.usuario.firma)
     },
-    crearUsuario() {
+   
+    async crearUsuarioEmpresa() {
       const usu = { 
-        nombres:this.usuario.nombres,
+        nombre:this.usuario.nombres,
         apellidos: this.usuario.apellidos,
         email: this.usuario.email,
         cargo: this.usuario.cargo,
         rut: this.usuario.rut,
         perfil: this.usuario.perfil,
         imagen: this.usuario.imagen,
-        firma: this.usuario.firma 
+        firma: this.usuario.firma,
+        clave: '19023',
+        emp_fk: 1,
+        usu_per_fk:2,
+        activo: true
       }
-
+      const { data } = await postUsuarioEsmpresa(usu.activo, usu.apellidos, usu.cargo, usu.clave, usu.email, usu.nombre, usu.rut, usu.emp_fk, usu.usu_per_fk)
+      console.log(data)
       console.log(usu)
       
       this.usuario = {
-        nombres:'',
+        nombre:'',
         apellidos: '',
         email: '',
         cargo: '',
@@ -146,9 +144,9 @@ export default {
         imagen: '',
         firma: ''
       }
+      this.abrirDialog = false
       this.url2 = null 
       this.url = null 
-
     },
     validarFomatoRut() {
 

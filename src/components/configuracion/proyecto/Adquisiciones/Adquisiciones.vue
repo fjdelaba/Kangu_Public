@@ -41,7 +41,8 @@
           </v-col>
           <v-col cols="4">
             <v-combobox
-              v-model="usuariosPedido.usuAprobador"
+              v-model="usuariosPedido.usuAprobador" 
+              small-chips
               :items="selectUsuario"
               label="Usuario"
               dense
@@ -55,7 +56,7 @@
         <v-divider></v-divider>
         <v-row>
           <v-col>
-            <h3>Flujo de Aprobación Orden de Compra </h3>
+            <h3>Flujo de Aprobación Orden de Compra {{ cpxUsuariosAprobadoresFiltrados }} </h3>
           </v-col>
         </v-row>
         <v-row> </v-row>
@@ -98,7 +99,7 @@
                              :items="cpxUsuariosAprobadoresFiltrados"
                              dense
                              required
-                             :item-text="item => item.nombre +'  '+ item.apellidos"
+                             :item-text="cpxUsuariosAprobadoresNombre"
                              item-value="id"
                            ></v-combobox>
                          </v-form>
@@ -236,7 +237,7 @@
                            label="Nombre"
                            outlined
                            dense
-                           :item-text="item => item.nombre +'  '+ item.apellidos"
+                           :item-text="cpxUsuariosAprobadoresNombre"
                            :item-value="[]"
                          ></v-select>
                          <v-text-field
@@ -329,6 +330,7 @@
               <v-col cols="4" class="pb-0">
                 <v-combobox
                   v-model="otrosUsuarios"
+                  small-chips 
                   :items="cpxOtrosUsuariosFiltrados"
                   label="Usuario"
                   multiple

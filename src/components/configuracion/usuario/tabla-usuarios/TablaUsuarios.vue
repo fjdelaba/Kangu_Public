@@ -376,7 +376,7 @@
                           color="primary"
                           text
                           :disabled="!valid"
-                          @click="crearUsuario()"
+                          @click="crearUsuarioEmpresa()"
                         >Crear</v-btn>
                       </v-card-actions>
                     </v-card>
