@@ -20,9 +20,9 @@
             </v-stepper-step>
 
             <v-divider></v-divider>
-
+            <!-- :complete="pasoStep > 2" -->
             <v-stepper-step
-              :complete="pasoStep > 2"
+              :complete="false"
               step="2"
             >
               Selección de Lineas
@@ -36,6 +36,8 @@
             >
               Materiales
             </v-stepper-step>
+
+            <v-divider></v-divider>
 
             <v-stepper-step step="4">
               Previsualización
@@ -60,6 +62,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="4">
+              prev
               <previsualizacion :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.materiales" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
             </v-stepper-content>
           </v-stepper-items>
@@ -110,28 +113,38 @@ export default {
   methods: {
     avanzar() {
       if (this.pasoStep === 1) {
+        this.$store.dispatch('app/setLoading', true)
+        this.pasoStep++
         // console.log('de paso 1 a paso 2')
-        // this.pasoStep++
-        if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
-          this.pasoStep++
-        } else {
-          console.log('por aca no')
-        }
+        // if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
+        //   this.pasoStep++
+        // } else {
+        //   console.log('por aca no')
+        // }
       } else if (this.pasoStep === 2) {
+        // eslint-disable-next-line no-constant-condition
+        if (true) {
+          this.pasoStep = this.pasoStep + 2
+        } else {
+          this.pasoStep++
+        }
         // this.pasoStep++
         console.log('this.$refs.refAgregarMaterial.validarAgregarMaterial()_ ', this.$refs.refAgregarMaterial.validarAgregarMaterial())
-
-        if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
-          this.pasoStep++
-        }
-        console.log('de paso 2 a paso 3')
+        // if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
+        //   this.pasoStep++
+        // }
+        // console.log('de paso 2 a paso 3')
       } else if (this.pasoStep === 3) {
         this.pasoStep++
         console.log('finalizar')
       }
     },
     retroceder() {
-      this.pasoStep--
+      if (this.pasoStep === 4) {
+        this.pasoStep = this.pasoStep - 2
+      } else {
+        this.pasoStep--
+      }
     }
   }
 }

@@ -1,5 +1,9 @@
 import { apolloClient } from '../client'
+<<<<<<< HEAD
 import { GET_DATOS_GENERALES, GET_PROYECTO, GET_MATERIALES_PROYECTO, GET_APROBADORES_PROYECTO, GET_USUARIOS_PROYECTO, GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO } from './querys/configuracion'
+=======
+import { GET_DATOS_GENERALES, GET_PROYECTO, GET_MATERIALES_PROYECTO, GET_USUARIOS_PROYECTO, GET_USUARIOS_EMPRESA, GET_EXISTE_USUARIO } from './querys/configuracion'
+>>>>>>> 3ac67f3a1f7f3023e220809e7d28505435cc5782
 import { INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL, INSERT_USUARIO_EMPRESA } from './mutations/configuracion.js'
 
 export const getDatosGenerales = async () => {
@@ -35,13 +39,13 @@ export const getProyectoCodigoDuplicado = async (codigo) => {
 export const getAprobadoresProyecto = async (id) => {
   console.log('idProyecto: ', id)
 
-  return await apolloClient.query({
-    query: GET_APROBADORES_PROYECTO,
-    variables: {
-      id
-    }
-  })
-}
+//   return await apolloClient.query({
+//     query: GET_APROBADORES_PROYECTO,
+//     variables: {
+//       id
+//     }
+//   })
+// }
 export const getMaterialesProyecto = async (id) => {
   console.log('idProyecto: ', id)
 
@@ -102,4 +106,17 @@ export const postProyectoMaterial = async (cantidad, mat_fk, mon_fk, pro_fk, tot
     }
   })
 }
+
+export const getUsuarioExistente = async (email, rut) => {
+  console.log('idProyecto: ', id)
+
+  return await apolloClient.query({
+    query: GET_EXISTE_USUARIO,
+    variables: {
+      email,
+      rut
+    }
+  })
+}
+
 //paso

@@ -25,7 +25,9 @@ export default {
       timeout: 3000
     }
   },
-
+  setLoading: (state, payload) => {
+    state.loading = payload
+  },
   /**
    * Theme and Layout
    */

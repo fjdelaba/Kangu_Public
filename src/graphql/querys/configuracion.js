@@ -124,24 +124,23 @@ query Q_GET_MATERIALES_PROYECTO($id: bigint) {
 }
 
 `
-const GET_APROBADORES_PROYECTO = gql`
-query Q_GET_APROBADORES_PROYECTO($id: bigint) {
-  kangusoft_apr(where: {pro_fk: {_eq: $id}}) {
-    id
-    flujo
-    monto
-    pro_fk
-    apro_final
-    mod_fk
-    usu_apro_fk
-    usuByUsuAproFk{
-      apellidos
-      nombre
-    }
-  }
-}
+// const GET_APROBADORES_PROYECTO = gql`
+// query Q_GET_APROBADORES_PROYECTO($id: bigint) {
+//   kangusoft_apr(where: {pro_fk: {_eq: $id}}) {
+//     id
+//     monto
+//     pro_fk
+//     apro_final
+//     mod_fk
+//     usu_apro_fk
+//     usuByUsuAproFk{
+//       apellidos
+//       nombre
+//     }
+//   }
+// }
 
-`
+// `
 
 const GET_USUARIOS_PROYECTO = gql`
 query Q_GET_USUARIOS_PROYECTO($id: bigint) {
