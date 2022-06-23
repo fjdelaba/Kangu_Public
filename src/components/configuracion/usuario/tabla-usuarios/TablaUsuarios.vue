@@ -1,7 +1,7 @@
 <template>
   <div>
     <div>
-      <!-- {{ usuarios }}-->
+      {{ usuario }}
     </div>
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center py-3">
@@ -71,12 +71,13 @@
                                     v-model="usuario.rut"
                                     style="width:90%"
                                     dense
+                                    tabindex="1"
                                     hint="Por Ejemplo, 19728579-6"
                                     outlined
                                     label="Rut"
                                     required
                                     class="mt-2  pl-5"
-                                    :rules="usuario.rutRules"
+                                    :rules="usuarioRules.rutRules"
                                     @input="validarFomatoRut()"
                                   ></v-text-field>
                                   <v-text-field
@@ -84,11 +85,12 @@
                                     style="width:90%"
                                     hint="Por Ejemplo, Felipe."
                                     outlined
+                                    tabindex="3"
                                     dense
                                     label="Nombres"
                                     required
                                     class="ma-0  pl-5"
-                                    :rules="usuario.nombresRules"
+                                    :rules="usuarioRules.nombresRules"
                                   ></v-text-field>
                                 </v-col>
                                 <v-col
@@ -101,10 +103,11 @@
                                     style="width:90%"
                                     hint="Por Ejemplo, FelipedelaBarra@gmail.com"
                                     dense
+                                    tabindex="2"
                                     outlined
                                     label="Email"
                                     required
-                                    :rules="usuario.emailRules"
+                                    :rules="usuarioRules.emailRules"
                                     class="mt-2  pl-5"
                                   ></v-text-field>
                                    
@@ -113,11 +116,12 @@
                                     style="width:90%"
                                     hint="Por Ejemplo, De la Barra."
                                     dense
+                                    tabindex="4"
                                     outlined
                                     label="Apellidos"
                                     class="ma-0  pl-5"
                                     required
-                                    :rules="usuario.apellidosRules"
+                                    :rules="usuarioRules.apellidosRules"
                                   ></v-text-field>
                                 </v-col>
                                 <v-col
@@ -130,8 +134,9 @@
                                     hint="Por Ejemplo, Supervisor,"
                                     dense
                                     outlined
+                                    tabindex="5"
                                     label="Cargo"
-                                    :rules="usuario.cargoRules"
+                                    :rules="usuarioRules.cargoRules"
                                     style="width:90%"
                                     class="ma-0  pl-5"
                                   ></v-text-field>
@@ -143,11 +148,12 @@
                                 >
                                   <v-select
                                     v-model="usuario.perfil"
+                                    :items="items"
                                     dense
                                     style="width:90%"
                                     outlined
+                                    tabindex="6"
                                     class="ma-0  pl-5"
-                                    :items="items"
                                     label="Perfil"
                                     data-vv-name="select"
                                     required
@@ -165,12 +171,14 @@
                                    prepend-icon="mdi-camera"
                                    label="Ingrese Imagen de Perfil" 
                                    style="width:85%"
+                                   tabindex="7"
                                    @click:clear="eliminarImagen"
                                    @change="previewImagen"
                                  >
                                  </v-file-input>
                                   <v-row v-if="usuario.imagen" justify="center" > <v-avatar size="120"> <v-img
                                     :src="url"
+                                    tabindex="none"
                                     min-width="auto"
                                     min-height="auto"
                                     rounded
@@ -184,6 +192,7 @@
                                 ><v-file-input 
                                    v-model="usuario.firma"
                                    label="Ingrese Firma"
+                                   tabindex="8"
                                    style="width:85%"
                                    @click:clear="eliminarFirma"
                                    @change="previewFirma"
@@ -191,6 +200,7 @@
                                  </v-file-input>
                                   <v-row v-if="usuario.firma" justify="center" ><v-img
                                     :src="url2"
+                                    tabindex="none"
                                     max-height="123"
                                     max-width="178"
                                     contain
@@ -370,13 +380,13 @@
                         </v-tab-item></v-tabs>
                       <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn text @click="reset()">Cerrar</v-btn>
+                        <v-btn text tabindex="9" @click="reset()">Cerrar</v-btn>
                         
                         <v-btn
                           color="primary"
                           text
-                          :disabled="!valid"
-                          @click="crearUsuarioEmpresa()"
+                          tabindex="10"
+                          @click=""
                         >Crear</v-btn>
                       </v-card-actions>
                     </v-card>

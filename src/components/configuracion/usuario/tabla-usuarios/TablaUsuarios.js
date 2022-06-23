@@ -2,7 +2,8 @@
 import users from '../../../../pages/users/content/users'
 import CopyLabel from '../../../common/CopyLabel'
 import { validaRut } from '../../../../utils'
-import {postUsuarioEsmpresa,getUsuariosEmpresa} from '../../../../graphql/configuracion'
+import {postUsuarioEsmpresa,getUsuariosEmpresa,getUsuarioExistente} from '../../../../graphql/configuracion'
+
 
 export default {
   components: {
@@ -10,41 +11,44 @@ export default {
   },
   data() {
     return {
+      valid:true,
       usuario:{
-        valid:true,
         nombres: '',
-        nombresRules: [
-          (v) => !!v || 'Nombre obligatorio'
-        ],
         apellidos: '',
-        apellidosRules:[
-          (v) => !!v || 'Apellido obligatorio'
-        ],
         email: '',
-        emailRules: [
-          (v) => !!v || 'E-mail es obligatorio',
-          (v) => /.+@.+\..+/.test(v) || 'E-mail debe ser valido'
-        ],
         cargo: '',
-        cargoRules: [
-          (v) => !!v || 'Cargo obligatorio'
-        ],
-
         rut: '',
-        rutRules: [
-          (v) => !!v || 'Rut es obligatorio',
-          (v) => validaRut(v) || 'Rut NO valido'
-        ],
         perfil: '',
         imagen: '',
-        firma: ''
+        firma: '',
+        select:null,
       },
-      select:null,
       items: [
         'Admin',
         'Plebeyo'
       ],
-
+      usuarioRules:{
+        nombresRules: [
+          (v) => !!v || 'Nombre obligatorio',
+        ],
+        apellidosRules:[
+          (v) => !!v || 'Apellido obligatorio'
+        ],
+        cargoRules: [
+          (v) => !!v || 'Cargo obligatorio'
+        ],
+        emailRules: [
+          (v) => !!v || 'E-mail es obligatorio',
+          (v) => /.+@.+\..+/.test(v) || 'E-mail debe ser valido',
+          (v) => getValidaRutEmail(v,'')
+        ],
+        rutRules: [
+          (v) => !!v || 'Rut es obligatorio',
+          (v) => validaRut(v) || 'Rut NO valido',
+          (v) => getValidaRutEmail('',v)
+        ],
+      },
+      
       url: null,
       url2:null,
       abrirDialog:false,
@@ -53,6 +57,7 @@ export default {
       image: null,
       drawer:false, 
       isLoading: false,
+      dialog2:false,
      
       visible: true,
       breadcrumbs: [
@@ -114,7 +119,15 @@ export default {
     previewFirma() {
       this.url2 = URL.createObjectURL(this.usuario.firma)
     },
-   
+
+    async getValidaRutEmail(email,rut) {
+      console.log(email,rut)
+      const usuario = await getUsuarioExistente(email,rut)
+
+      console.log(usuario)
+    },
+
+
     async crearUsuarioEmpresa() {
       const usu = { 
         nombre:this.usuario.nombres,
@@ -134,7 +147,7 @@ export default {
       console.log(data)
       console.log(usu)
       
-      this.usuario = {
+      /*this.usuario = {
         nombre:'',
         apellidos: '',
         email: '',
@@ -143,10 +156,15 @@ export default {
         perfil: '',
         imagen: '',
         firma: ''
-      }
+      }*/
+      this.usuario ={}
+      
       this.abrirDialog = false
       this.url2 = null 
       this.url = null 
+    },
+    crearUsu() { 
+
     },
     validarFomatoRut() {
 
@@ -156,19 +174,9 @@ export default {
       this.$refs.form.validate()
     },
     reset() {
-      this.usuario = {
-        nombres:'',
-        apellidos: '',
-        email: '',
-        cargo: '',
-        rut: '',
-        perfil: '',
-        imagen: '',
-        firma: ''
-      },
+      this.$refs.form.reset()
       this.abrirDialog = false
-      this.url2 = null 
-      this.url = null 
+     
     },
 
     eliminarFirma() {
