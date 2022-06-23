@@ -122,25 +122,23 @@ query Q_GET_MATERIALES_PROYECTO($id: bigint) {
     cantidad
   }
 }
-
 `
-// const GET_APROBADORES_PROYECTO = gql`
-// query Q_GET_APROBADORES_PROYECTO($id: bigint) {
-//   kangusoft_apr(where: {pro_fk: {_eq: $id}}) {
-//     id
-//     monto
-//     pro_fk
-//     apro_final
-//     mod_fk
-//     usu_apro_fk
-//     usuByUsuAproFk{
-//       apellidos
-//       nombre
-//     }
-//   }
-// }
-
-// `
+const GET_APROBADORES_PROYECTO = gql`
+query Q_GET_APROBADORES_PROYECTO($id: bigint) {
+  kangusoft_apr(where: {pro_fk: {_eq: $id}}) {
+    id
+    monto
+    pro_fk
+    apro_final
+    mod_fk
+    usu_apro_fk
+    usuByUsuAproFk{
+      apellidos
+      nombre
+    }
+  }
+}
+`
 
 const GET_USUARIOS_PROYECTO = gql`
 query Q_GET_USUARIOS_PROYECTO($id: bigint) {
@@ -176,5 +174,12 @@ query Q_GET_PROYECTO_CODIGO_DUPLICADO($codigo: String!) {
   }
 }
 `
-
-export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO }
+const GET_EXISTE_USUARIO = gql`
+query Q_GET_EXISTE_USUARIO($_email: String = "", $_rut: String = "") {
+  kangusoft_usu(where: {email: {_eq: $_email}, _or: {rut: {_eq: $_rut}}}) {
+    id
+  }
+}
+`
+ 
+export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO,GET_EXISTE_USUARIO }
