@@ -35,10 +35,11 @@
             </v-col>
           
             <v-col cols="2" class="pb-0">
+              {{ validaCodigo1() }}
               <v-text-field
                 v-if="detalle == false"
                 v-model="infoGeneralProyecto.codigo"
-                :rules="proyectoRules"
+                :rules="codigoRules"
                 label="Código"
                 outlined
                 dense

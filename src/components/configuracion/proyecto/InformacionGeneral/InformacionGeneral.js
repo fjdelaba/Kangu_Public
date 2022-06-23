@@ -1,37 +1,43 @@
 /* eslint-disable */
-import { getComunas, getProveedores } from "../../../../graphql/general.js"
-import { getDatosGenerales, getProyecto } from "../../../../graphql/configuracion.js"
-import { postProyectoInformacion } from '../../../../graphql/configuracion.js'
-import moment from 'moment'
-import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
+import { getComunas, getProveedores } from "../../../../graphql/general.js";
+import {
+  getDatosGenerales,
+  getProyecto,
+  getProyectoCodigoDuplicado,
+} from "../../../../graphql/configuracion.js";
+import { postProyectoInformacion } from "../../../../graphql/configuracion.js";
+import moment from "moment";
+import ModalEntidad from "../../../general/modal-entidad/ModalEntidad.vue";
 
 export default {
-
   components: {
     ModalEntidad,
   },
 
   data() {
     return {
-      date: (new Date().toISOString().substr(0, 10)),
-      date2: '',
-      daysOfWeek : ['Lu', 'Ma', 'Mi', 'Ju', 'Vi', 'Sa', 'Do'],
+      cont:'',
+      date: new Date().toISOString().substr(0, 10),
+      date2: "",
+      daysOfWeek: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
       menu1: false,
       menu2: false,
       grabado: false,
       idProyectoCreado: 2,
-      proyectoSeleccionado: '',
+      proyectoSeleccionado: "",
       isLoading: false,
       search: null,
-      valid:true,
-      proyectoRules: [
-        (v) => !!v || 'Este Campo es Obligatorio'
+      valid: true,
+      proyectoRules: [(v) => !!v || "Este Campo es Obligatorio"],
+      codigoRules: [
+        (v) => !!v || "Este Campo es Obligatorio",
+        (v) => this.validaCodigo1(v) || "Este Codigo ya EXISTE",
       ],
-      celulasRules: [
-        (v) => !!v || 'Selecciona una Unidad'
-      ],
+      celulasRules: [(v) => !!v || "Selecciona una Unidad"],
       fechasRules: [
-        (v) => !!v || 'La fecha seleccionada no puede ser antes de la fecha de inicio'
+        (v) =>
+          !!v ||
+          "La fecha seleccionada no puede ser antes de la fecha de inicio",
       ],
       headers: [
         {
@@ -62,7 +68,7 @@ export default {
       usuario: {
         firma: "",
       },
-      active: '',
+      active: "",
       infoGeneralProyecto: {
         nombre: "",
         codigo: "",
@@ -96,135 +102,140 @@ export default {
       proyecto: {},
       usuLogin: "",
       aut0: "",
-      usuarioAdministrador: '',
+      usuarioAdministrador: "",
       guardarEdicion: false,
-      fechaCalulada: '',
-      mostrarNoData:false,
+      fechaCalulada: "",
+      mostrarNoData: false,
       mostrarDialogCrearEntidad: false,
+      proyectosBD: [],
+
     };
-  }, props: {
+  },
+  props: {
     id: Function,
     detalle: Boolean,
-    idproyecto: Number
+    idproyecto: Number,
   },
   mounted() {
-
-   
     setTimeout(() => {
-      console.log("this.idproyecto", this.idproyecto)
+      console.log("this.idproyecto", this.idproyecto);
       if (this.detalle == true) {
-        this.proyectoSeleccionado = this.idproyecto
-        this.cargarProyecto()
+        this.proyectoSeleccionado = this.idproyecto;
+        this.cargarProyecto();
       }
     }, 5000);
 
-    this.cargarInformacionGeneral()
+    this.cargarInformacionGeneral();
     this.aut0 = 1;
     this.usuLogin = 1;
   },
   computed: {
-   
-    computedDateFormattedMomentjs () {
-      return this.date ? moment(this.date).format('DD/MM/yy') : ''
+    computedDateFormattedMomentjs() {
+      return this.date ? moment(this.date).format("DD/MM/yy") : "";
     },
-    computedDateFormattedMomentjs2 () {
-      return this.date2 ? moment(this.date2).format('DD/MM/yy') : ''
+    computedDateFormattedMomentjs2() {
+      return this.date2 ? moment(this.date2).format("DD/MM/yy") : "";
     },
     cpxCalcularFecha() {
-      let a = this.$moment(this.date)
-      let b = this.$moment(this.date2)
-      
-      this.fechaCalulada = b.diff(a, 'hours')
-      console.log( 'fecha', this.fechaCalulada)
-       if (this.fechaCalulada == 24 || this.fechaCalulada > 24 ) {
-      let dias = b.diff(a, 'days');
-      console.log('dias',dias)
-      if(this.fechaCalulada == 24){
-        return dias +" " + "Día"
-      } else if(this.fechaCalulada > 24 && this.fechaCalulada < 168){
-        return dias+" "  + "Días"
-      } else if(this.fechaCalulada > 168 ||  this.fechaCalulada == 168 ){
-        let semanas = b.diff(a, 'weeks')
-        console.log('semanas',semanas)
-        if(this.fechaCalulada == 168 || this.fechaCalulada < 335 ){
-          return semanas +" " +  "Semana"
-        } else if(this.fechaCalulada > 335 && this.fechaCalulada < 671){
-          return semanas + " " + "Semanas"
-        }else if(this.fechaCalulada == 672 || this.fechaCalulada > 672){
-          let mes = b.diff(a, 'months');
-          console.log('mes',mes)
-          if(this.fechaCalulada  == 672 || this.fechaCalulada < 1343 ){
-          return mes +" " + "Mes"
-        } else if(this.fechaCalulada  > 1343 && this.fechaCalulada < 8760){
-          return mes +" " + "Meses"
-        }else if(this.fechaCalulada  > 8760 || this.fechaCalulada == 8760){
-               let year = b.diff(a, 'years');
-              if(this.fechaCalulada  == 8760 || this.fechaCalulada < 17520){
-                return year +" " + "Año"
-              } else if(this.fechaCalulada  > 8760 && this.fechaCalulada < 876000){
-               return year +" " + "Años"
-              } 
-           }
-         }
+      let a = this.$moment(this.date);
+      let b = this.$moment(this.date2);
+
+      this.fechaCalulada = b.diff(a, "hours");
+      console.log("fecha", this.fechaCalulada);
+      if (this.fechaCalulada == 24 || this.fechaCalulada > 24) {
+        let dias = b.diff(a, "days");
+        console.log("dias", dias);
+        if (this.fechaCalulada == 24) {
+          return dias + " " + "Día";
+        } else if (this.fechaCalulada > 24 && this.fechaCalulada < 168) {
+          return dias + " " + "Días";
+        } else if (this.fechaCalulada > 168 || this.fechaCalulada == 168) {
+          let semanas = b.diff(a, "weeks");
+          console.log("semanas", semanas);
+          if (this.fechaCalulada == 168 || this.fechaCalulada < 335) {
+            return semanas + " " + "Semana";
+          } else if (this.fechaCalulada > 335 && this.fechaCalulada < 671) {
+            return semanas + " " + "Semanas";
+          } else if (this.fechaCalulada == 672 || this.fechaCalulada > 672) {
+            let mes = b.diff(a, "months");
+            console.log("mes", mes);
+            if (this.fechaCalulada == 672 || this.fechaCalulada < 1343) {
+              return mes + " " + "Mes";
+            } else if (this.fechaCalulada > 1343 && this.fechaCalulada < 8760) {
+              return mes + " " + "Meses";
+            } else if (
+              this.fechaCalulada > 8760 ||
+              this.fechaCalulada == 8760
+            ) {
+              let year = b.diff(a, "years");
+              if (this.fechaCalulada == 8760 || this.fechaCalulada < 17520) {
+                return year + " " + "Año";
+              } else if (
+                this.fechaCalulada > 8760 &&
+                this.fechaCalulada < 876000
+              ) {
+                return year + " " + "Años";
+              }
+            }
+          }
+        }
       }
-    }
     },
   },
   methods: {
     mostrarDialog() {
-      this.mostrarDialogCrearEntidad = true
+      this.mostrarDialogCrearEntidad = true;
     },
-    cpxValidaFecha(val){
-      console.log('FECHA value',val)
-      console.log('FECHA value2',this.computedDateFormattedMomentjs)
-      if(val <= this.computedDateFormattedMomentjs){
-        return `Esta fecha debe ser MAYOR a la de Inicio`
+    cpxValidaFecha(val) {
+      console.log("FECHA value", val);
+      console.log("FECHA value2", this.computedDateFormattedMomentjs);
+      if (val <= this.computedDateFormattedMomentjs) {
+        return `Esta fecha debe ser MAYOR a la de Inicio`;
       } else {
         return true;
       }
     },
     cerrarDialog() {
-      this.mostrarDialogCrearEntidad = false
+      this.mostrarDialogCrearEntidad = false;
     },
-    formatDate (date) {
-      if (!date) return null
+    formatDate(date) {
+      if (!date) return null;
 
-      const [year, month, day] = date.split('-')
-      return `${day}/${month}/${year}`
+      const [year, month, day] = date.split("-");
+      return `${day}/${month}/${year}`;
     },
-    getDay(date){
-      console.log("date:",date)
-      let i = new Date(date).getDay(date)
-      return this.daysOfWeek[i]
+    getDay(date) {
+      console.log("date:", date);
+      let i = new Date(date).getDay(date);
+      return this.daysOfWeek[i];
     },
     limpiarAutocompleate() {
       setTimeout(() => {
-        console.log('PASO POR AQUÍ !!!!')
-        this.mostrarNoData = false
-        this.search = ''        
-      }, 500)
-
+        console.log("PASO POR AQUÍ !!!!");
+        this.mostrarNoData = false;
+        this.search = "";
+      }, 500);
     },
     fetchEntriesDebounced() {
-      clearTimeout(this._timerId)
-      this.mostrarNoData = false
+      clearTimeout(this._timerId);
+      this.mostrarNoData = false;
       this._timerId = setTimeout(() => {
-        this.buscarProveedor()
-      }, 1000)
+        this.buscarProveedor();
+      }, 1000);
     },
     async buscarProveedor() {
-      const { data } = await getProveedores(`%${this.search}%`)
+      const { data } = await getProveedores(`%${this.search}%`);
 
-      this.isLoading = false
-      this.listaMandante = data.kangusoft_ent
-      console.log('search data: ', data)
+      this.isLoading = false;
+      this.listaMandante = data.kangusoft_ent;
+      console.log("search data: ", data);
       if (this.listaMandante.length === 0) {
-        this.mostrarNoData = true
+        this.mostrarNoData = true;
       }
     },
 
     unirNombreApellido(item) {
-      return item.nombre + ' ' + item.apellidos
+      return item.nombre + " " + item.apellidos;
     },
 
     previewFirma() {
@@ -235,138 +246,186 @@ export default {
     },
 
     async cargarComunas() {
-      const { data: { kangusoft_prov } } = await getComunas(this.infoDireccionProyecto.region)
+      const {
+        data: { kangusoft_prov },
+      } = await getComunas(this.infoDireccionProyecto.region);
       for (let prov of kangusoft_prov) {
         for (let com of prov.coms) {
-          console.log("coms", com)
-          this.listaComunas.push({ id: com.id, nombre: com.nombre })
+          console.log("coms", com);
+          this.listaComunas.push({ id: com.id, nombre: com.nombre });
         }
       }
-
     },
     cancelarEdicion() {
-      this.detalle = true
-      this.guardarEdicion = false
+      this.detalle = true;
+      this.guardarEdicion = false;
     },
     //hola
     editarInformacion() {
-      this.detalle = false
-      this.guardarEdicion = true
-      this.infoGeneralProyecto.nombre = this.proyecto.nombre
-      this.infoGeneralProyecto.codigo = this.proyecto.codigo
-      this.infoGeneralProyecto.celulas = this.proyecto.prouni.id
-      this.infoGeneralProyecto.valorC = this.proyecto.valor_contractual
-      this.infoGeneralProyecto.presupuestoObra = this.proyecto.presupuesto
-      this.infoGeneralProyecto.estado = this.proyecto.pro_est.id
-      this.infoGeneralProyecto.monedaGeneral = this.proyecto.mon.id
-      this.infoGeneralProyecto.flag = this.proyecto.fla.id
-      this.infoGeneralProyecto.ocInicial = this.proyecto.inicio_oc
-      this.infoGeneralProyecto.descripcion = this.proyecto.descripcion
-      this.usuarioAdministrador = this.proyecto.usu.nombre + ' ' + this.proyecto.usu.apellidos
-      this.infoDireccionProyecto.region = this.proyecto.com.prov.reg.id
-      this.infoDireccionProyecto.comuna = this.proyecto.com.id
-      this.infoDireccionProyecto.direccion = this.proyecto.nombre
-      this.infoMandanteProyecto.mandante = this.proyecto.ent.id
-      this.search(this.proyecto.ent.nombre)
-
+      this.detalle = false;
+      this.guardarEdicion = true;
+      this.infoGeneralProyecto.nombre = this.proyecto.nombre;
+      this.infoGeneralProyecto.codigo = this.proyecto.codigo;
+      this.infoGeneralProyecto.celulas = this.proyecto.prouni.id;
+      this.infoGeneralProyecto.valorC = this.proyecto.valor_contractual;
+      this.infoGeneralProyecto.presupuestoObra = this.proyecto.presupuesto;
+      this.infoGeneralProyecto.estado = this.proyecto.pro_est.id;
+      this.infoGeneralProyecto.monedaGeneral = this.proyecto.mon.id;
+      this.infoGeneralProyecto.flag = this.proyecto.fla.id;
+      this.infoGeneralProyecto.ocInicial = this.proyecto.inicio_oc;
+      this.infoGeneralProyecto.descripcion = this.proyecto.descripcion;
+      this.usuarioAdministrador =
+        this.proyecto.usu.nombre + " " + this.proyecto.usu.apellidos;
+      this.infoDireccionProyecto.region = this.proyecto.com.prov.reg.id;
+      this.infoDireccionProyecto.comuna = this.proyecto.com.id;
+      this.infoDireccionProyecto.direccion = this.proyecto.nombre;
+      this.infoMandanteProyecto.mandante = this.proyecto.ent.id;
+      this.search(this.proyecto.ent.nombre);
     },
     guardarEdicion() {
-      this.detalle = true
-      this.guardarEdicion = false
+      this.detalle = true;
+      this.guardarEdicion = false;
     },
     async cargarProyecto() {
-      const { data: { kangusoft_pro, kangusoft_pro_prouni, kangusoft_pro_fla } } = await getProyecto(this.proyectoSeleccionado)
-      console.log("aaa", kangusoft_pro, kangusoft_pro_prouni, kangusoft_pro_fla)
-      this.proyecto = kangusoft_pro[0]
-      this.proyecto.fla = kangusoft_pro_fla[0].fla
-      this.proyecto.prouni = kangusoft_pro_prouni[0].pro_uni
-      console.log("aa2", this.proyecto)
-
+      const {
+        data: { kangusoft_pro, kangusoft_pro_prouni, kangusoft_pro_fla },
+      } = await getProyecto(this.proyectoSeleccionado);
+      console.log(
+        "aaa",
+        kangusoft_pro,
+        kangusoft_pro_prouni,
+        kangusoft_pro_fla
+      );
+      this.proyecto = kangusoft_pro[0];
+      this.proyecto.fla = kangusoft_pro_fla[0].fla;
+      this.proyecto.prouni = kangusoft_pro_prouni[0].pro_uni;
+      console.log("aa2", this.proyecto);
+    },
+    
+    validaCodigo1(val) {
+      console.log("val",val)
+      if(this.infoGeneralProyecto.codigo.length > 0 && val != undefined){
+        console.log('entro al if')
+        getProyectoCodigoDuplicado(val)
+        .then((res) => {
+          console.log("res", res);
+          if(res.data.kangusoft_pro[0].codigo == this.infoGeneralProyecto.codigo ){
+            this.cont = 1
+            console.log("true")
+         
+          }else if (res.data.kangusoft_pro[0].codigo != this.infoGeneralProyecto.codigo) {
+            console.log("false")
+            this.cont = 0
+          }
+        })
+      } 
+      console.log("CONT", this.cont)
+      if(this.cont == 1){
+        return false
+      }else if(this.cont == 0){
+        return true
+      }
+     
     },
     async cargarInformacionGeneral() {
-      const { data: { kangusoft_emp_mon, kangusoft_fla, kangusoft_pro_est, kangusoft_pro_uni, kangusoft_reg, kangusoft_usu } } = await getDatosGenerales()
+      const {
+        data: {
+          kangusoft_emp_mon,
+          kangusoft_pro,
+          kangusoft_fla,
+          kangusoft_pro_est,
+          kangusoft_pro_uni,
+          kangusoft_reg,
+          kangusoft_usu,
+        },
+      } = await getDatosGenerales();
       for (let mon of kangusoft_emp_mon) {
-        this.listaMonedas.push({ id: mon.mon.id, nombre: mon.mon.nombre })
+        this.listaMonedas.push({ id: mon.mon.id, nombre: mon.mon.nombre });
       }
       for (let flag of kangusoft_fla) {
-        this.listaFlags.push({ id: flag.id, nombre: flag.nombre })
+        this.listaFlags.push({ id: flag.id, nombre: flag.nombre });
       }
       for (let estado of kangusoft_pro_est) {
-        this.listaEstados.push({ id: estado.id, nombre: estado.nombre })
+        this.listaEstados.push({ id: estado.id, nombre: estado.nombre });
       }
       for (let uni of kangusoft_pro_uni) {
-        this.listaCelulas.push({ id: uni.id, nombre: uni.nombre })
+        this.listaCelulas.push({ id: uni.id, nombre: uni.nombre });
       }
       for (let region of kangusoft_reg) {
-        this.listaRegion.push({ id: region.id, nombre: region.nombre })
+        this.listaRegion.push({ id: region.id, nombre: region.nombre });
       }
       for (let usu of kangusoft_usu) {
-        this.listaUsuarios.push({ id: usu.id, nombre: usu.nombre, apellidos: usu.apellidos })
+        this.listaUsuarios.push({
+          id: usu.id,
+          nombre: usu.nombre,
+          apellidos: usu.apellidos,
+        });
+      }
+      for (let pro of kangusoft_pro) {
+        this.proyectosBD.push(pro);
       }
     },
 
     async guardarInformacion() {
-      let validado 
-      this.$refs.infoGeneral.validate() 
-     
-     console.log("validacion",   this.$refs.infoGeneral.validate() , )
-   
-     if( this.$refs.infoGeneral.validate() == true ){
-       validado = true
-     }else{
-       validado = false
-     }
-     console.log('validado',validado)
-     if(validado == true){
-    
-      let finalCelulas = []
-      let finalFlag = []
-      let inf = {
-        emp_fk: this.aut0,
-        nombre: this.infoGeneralProyecto.nombre,
-        pro_est_fk: this.infoGeneralProyecto.estado,
-        valor_contractual: Number(this.infoGeneralProyecto.valorC),
-        com_fk: this.infoDireccionProyecto.comuna,
-        direccion: this.infoDireccionProyecto.direccion,
-        ent_fk: this.infoMandanteProyecto.mandante,
-        usu_fk: this.usuLogin,
-        inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
-        codigo: this.infoGeneralProyecto.codigo,
-        mon_fk: this.infoGeneralProyecto.monedaGeneral,
-        descripcion: this.infoGeneralProyecto.descripcion,
-        presupuesto: Number(this.infoGeneralProyecto.presupuestoObra),
-        adm_obra_fk: this.usuarioAdministrador.id
+      this.$refs.infoGeneral.validate();
+      console.log("validacion", this.$refs.infoGeneral.validate());
+      if (this.$refs.infoGeneral.validate() == true) {
+        let finalCelulas = [];
+        let finalFlag = [];
+        let inf = {
+          emp_fk: this.aut0,
+          nombre: this.infoGeneralProyecto.nombre,
+          pro_est_fk: this.infoGeneralProyecto.estado,
+          valor_contractual: Number(this.infoGeneralProyecto.valorC),
+          com_fk: this.infoDireccionProyecto.comuna,
+          direccion: this.infoDireccionProyecto.direccion,
+          ent_fk: this.infoMandanteProyecto.mandante,
+          usu_fk: this.usuLogin,
+          inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
+          codigo: this.infoGeneralProyecto.codigo,
+          mon_fk: this.infoGeneralProyecto.monedaGeneral,
+          descripcion: this.infoGeneralProyecto.descripcion,
+          presupuesto: Number(this.infoGeneralProyecto.presupuestoObra),
+          adm_obra_fk: this.usuarioAdministrador.id,
+        };
+        console.log("inf:", inf);
+
+        finalCelulas.push({ pro_uni_fk: this.infoGeneralProyecto.celulas });
+
+        for (let a of this.infoGeneralProyecto.flag) {
+          finalFlag.push({ fla_fk: a });
+        }
+
+        const { data } = await postProyectoInformacion(
+          inf,
+          finalFlag,
+          finalCelulas
+        );
+        console.log(data);
+        this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_;
+        this.grabado = true;
+        this.active = 1;
+        this.$emit(
+          "id",
+          this.active,
+          this.grabado,
+          inf.presupuesto,
+          this.infoGeneralProyecto.presupuestoObra
+        );
+      } else {
+        this.valid = false;
       }
-      console.log("inf:", inf)
-     
-     finalCelulas.push({ pro_uni_fk: this.infoGeneralProyecto.celulas })
-    
-      for (let a of this.infoGeneralProyecto.flag) {
-        finalFlag.push({ fla_fk: a });
-      }
-      console.log("cel", finalCelulas)
-      console.log("flag:", finalFlag)
-      const { data } = await postProyectoInformacion(inf, finalFlag, finalCelulas)
-      console.log(data)
-      this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_
-      this.grabado = true
-      this.active = 1
-      this.$emit('id', this.active, this.grabado, inf.presupuesto, this.infoGeneralProyecto.presupuestoObra)
-    }else{
-      this.valid = false
-    }
     },
   },
   watch: {
     async search(val) {
-      if (this.isLoading) return
-      this.isLoading = true
-      this.fetchEntriesDebounced()
-      },
-    date (val) {
-      this.dateFormatted = this.formatDate(this.date)
-      this.dateFormatted2= this.formatDate(this.date2)
-      },
-    }
-  }
-
+      if (this.isLoading) return;
+      this.isLoading = true;
+      this.fetchEntriesDebounced();
+    },
+    date(val) {
+      this.dateFormatted = this.formatDate(this.date);
+      this.dateFormatted2 = this.formatDate(this.date2);
+    },
+  },
+};
