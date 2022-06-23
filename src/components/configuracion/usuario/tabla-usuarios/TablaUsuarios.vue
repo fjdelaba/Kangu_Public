@@ -40,6 +40,25 @@
                       >
                         <v-toolbar-title>Creación de Usuario</v-toolbar-title>
                       </v-toolbar>
+                      <v-alert
+                        :value="alert"        
+                        prominent
+                        type="error"
+                        transition="dialog-bottom-transition"
+                      >
+                        <v-row align="center">
+                          <v-col class="">
+                            Creando usuario sin permisos. ¿Desea continuar?
+            
+                          </v-col>
+                          <v-col class="shrink">
+                            <v-btn>Continuar</v-btn>
+                          </v-col>
+                          <v-col class="shrink">
+                            <v-btn>Cancelar</v-btn>
+                          </v-col>
+                        </v-row>
+                      </v-alert>
                       <v-tabs grow>
                         <v-tab >
                           <v-icon left>
@@ -53,7 +72,9 @@
                           </v-icon>
                           Permisos
                         </v-tab>
+                        
                         <v-tab-item>
+
                           <v-card flat>
                             <v-card-text>
                               <v-row
@@ -225,13 +246,13 @@
                                   <v-subheader>Panel de Configuraciones</v-subheader>
   
                                   <v-list-item-group
-                                    v-model="settings"
                                     multiple
                                   >
                                     <v-list-item>
                                       <template v-slot:default="{ active, }">
                                         <v-list-item-action>
                                           <v-switch
+                                            v-model="switch1"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -247,6 +268,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
+                                            v-model="switch2"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -262,6 +284,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
+                                            v-model="switch3"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -276,6 +299,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
+                                            v-model="switch4"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -290,6 +314,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
+                                            v-model="switch5"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -306,13 +331,13 @@
                                 <v-subheader>Adquisiciónes</v-subheader>
   
                                 <v-list-item-group
-                                  v-model="settings2"
                                   multiple
                                 >
                                   <v-list-item>
                                     <template v-slot:default="{ active, }">
                                       <v-list-item-action>
                                         <v-switch
+                                          v-model="switch6"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -328,6 +353,7 @@
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
                                         <v-switch
+                                          v-model="switch7"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -343,6 +369,7 @@
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
                                         <v-switch
+                                          v-model="switch8"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -357,6 +384,7 @@
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
                                         <v-switch
+                                          v-model="switch9"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -366,16 +394,21 @@
                                         <v-list-item-title>Despacho</v-list-item-title>                                        </v-list-item-content>
                                     </template>
                                   </v-list-item>
-                                
-                                  <template v-slot:default="{ active }">
-                                    <v-list-item-action>
-                                      <v-switch
-                                        :input-value="active"
-                                        color="primary"
-                                      ></v-switch>
-                                    </v-list-item-action>
-
-                                  </template>
+                                  <v-list-item>
+                                    <template v-slot:default="{ active }">
+                                      <v-list-item-action>
+                                        <v-switch
+                                          v-model="switch10"
+                                          :input-value="active"
+                                          color="primary"
+                                        ></v-switch>
+                                      </v-list-item-action>
+  
+                                      <v-list-item-content>
+                                        <v-list-item-title>Recepcion</v-list-item-title>                                        </v-list-item-content>
+                                    </template>
+                                  </v-list-item>
+     
                                 </v-list-item-group></v-col></v-row></v-card>
                         </v-tab-item></v-tabs>
                       <v-card-actions>
@@ -386,7 +419,7 @@
                           color="primary"
                           text
                           tabindex="10"
-                          @click=""
+                          @click="crearUsu()"
                         >Crear</v-btn>
                       </v-card-actions>
                     </v-card>

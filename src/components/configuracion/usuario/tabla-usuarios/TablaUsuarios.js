@@ -12,6 +12,7 @@ export default {
   data() {
     return {
       valid:true,
+      alert:false,
       usuario:{
         nombres: '',
         apellidos: '',
@@ -57,8 +58,16 @@ export default {
       image: null,
       drawer:false, 
       isLoading: false,
-      dialog2:false,
-     
+      switch1:true,
+      switch2:true, 
+      switch3:true, 
+      switch4:true,
+      switch5:true,
+      switch6:true,
+      switch7:true,
+      switch8:true,
+      switch9:true,
+      switch10:true,
       visible: true,
       breadcrumbs: [
         {
@@ -102,6 +111,7 @@ export default {
   watch: {
     selectedUsers(val) {}
   },
+  
   methods: {
     searchUser() {},
     open() {},
@@ -163,9 +173,7 @@ export default {
       this.url2 = null 
       this.url = null 
     },
-    crearUsu() { 
 
-    },
     validarFomatoRut() {
 
       console.log(validaRut(this.usuario.rut))
@@ -173,10 +181,18 @@ export default {
     validate () {
       this.$refs.form.validate()
     },
+    
     reset() {
       this.$refs.form.reset()
       this.abrirDialog = false
+      this.alert = false
+
      
+    },
+    crearUsu(){
+      this.alert = true
+      this.$refs.form.reset()
+
     },
 
     eliminarFirma() {
