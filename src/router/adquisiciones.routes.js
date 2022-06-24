@@ -21,6 +21,22 @@ export default [
     children: [...chatRoutes]
   },
   {
+    path: '/adquisiciones/oc/consultar/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-chat" */ '@/pages/adquisiciones/oc/consultar/Detalle.vue'
+      ),
+    children: [...chatRoutes]
+  },
+  {
+    path: '/adquisiciones/oc/aprobar/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-chat" */ '@/pages/adquisiciones/oc/aprobar/Detalle.vue'
+      ),
+    children: [...chatRoutes]
+  },
+  {
     path: '/adquisiciones/oc/aprobar',
     component: () =>
       import(

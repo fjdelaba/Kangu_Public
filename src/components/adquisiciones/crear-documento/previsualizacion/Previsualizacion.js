@@ -4,6 +4,7 @@ import DistribucionLineasPartidas from '../../../adquisiciones/distribucion-line
 import { getAprobadoresProyecto } from '../../../../graphql/aprobaciones'
 
 export default {
+  name:'Previsualizacion',
   components:{
     CuadroResumen,
     Pipeline,

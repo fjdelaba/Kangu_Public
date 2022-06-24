@@ -59,5 +59,13 @@ export default [
         /* webpackChunkName: "apps-todo" */ '@/pages/configuracion/usuarios/Listado.vue'
       ),
     children: [...todoRoutes]
+  },
+  {
+    path: '/configuracion/usuarios/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-todo" */ '@/pages/configuracion/usuarios/Detalle.vue'
+      ),
+    children: [...todoRoutes]
   }
 ]
