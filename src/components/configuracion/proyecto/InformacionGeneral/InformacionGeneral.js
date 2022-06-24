@@ -16,7 +16,7 @@ export default {
 
   data() {
     return {
-      cont:'',
+      mostrarError:false,
       date: new Date().toISOString().substr(0, 10),
       date2: "",
       daysOfWeek: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
@@ -31,7 +31,7 @@ export default {
       proyectoRules: [(v) => !!v || "Este Campo es Obligatorio"],
       codigoRules: [
         (v) => !!v || "Este Campo es Obligatorio",
-        (v) => this.validaCodigo1(v) || "Este Codigo ya EXISTE",
+        (v) => this.returnValidaCodigo() || "Este Codigo ya EXISTE",
       ],
       celulasRules: [(v) => !!v || "Selecciona una Unidad"],
       fechasRules: [
@@ -130,6 +130,7 @@ export default {
     this.usuLogin = 1;
   },
   computed: {
+  
     computedDateFormattedMomentjs() {
       return this.date ? moment(this.date).format("DD/MM/yy") : "";
     },
@@ -301,31 +302,29 @@ export default {
       this.proyecto.prouni = kangusoft_pro_prouni[0].pro_uni;
       console.log("aa2", this.proyecto);
     },
-    
-    validaCodigo1(val) {
+   returnValidaCodigo(){
+      return this.mostrarError 
+    },
+   async validaCodigo1() {
+     let kangusoft_pro1 = []
+      let val = this.infoGeneralProyecto.codigo
       console.log("val",val)
       if(this.infoGeneralProyecto.codigo.length > 0 && val != undefined){
-        console.log('entro al if')
-        getProyectoCodigoDuplicado(val)
-        .then((res) => {
-          console.log("res", res);
-          if(res.data.kangusoft_pro[0].codigo == this.infoGeneralProyecto.codigo ){
-            this.cont = 1
-            console.log("true")
-         
-          }else if (res.data.kangusoft_pro[0].codigo != this.infoGeneralProyecto.codigo) {
-            console.log("false")
-            this.cont = 0
-          }
-        })
+        const {
+          data: { kangusoft_pro },
+        } = await getProyectoCodigoDuplicado(val)
+      console.log("dataaaa",kangusoft_pro)
+      kangusoft_pro1 = kangusoft_pro
+      console.log("dataaaa1",kangusoft_pro1)
+      
       } 
-      console.log("CONT", this.cont)
-      if(this.cont == 1){
-        return false
-      }else if(this.cont == 0){
-        return true
-      }
-     
+      if(kangusoft_pro1.length > 0){
+        return this.mostrarError = false
+        }else if(kangusoft_pro1.length == 0){
+          return this.mostrarError = true
+        }
+       
+        console.log("error ",this.mostrarError)
     },
     async cargarInformacionGeneral() {
       const {

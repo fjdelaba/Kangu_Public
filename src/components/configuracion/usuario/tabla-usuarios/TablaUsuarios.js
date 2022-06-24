@@ -2,7 +2,7 @@
 import users from '../../../../pages/users/content/users'
 import CopyLabel from '../../../common/CopyLabel'
 import { validaRut } from '../../../../utils'
-import {postUsuarioEsmpresa,getUsuariosEmpresa,getUsuarioExistente} from '../../../../graphql/configuracion'
+import {postUsuarioEsmpresa,getUsuarioExistente} from '../../../../graphql/configuracion'
 
 
 export default {
@@ -11,7 +11,7 @@ export default {
   },
   data() {
     return {
-      valid:true,
+      agregarPermiso:false,
       alert:false,
       usuario:{
         nombres: '',
@@ -41,33 +41,34 @@ export default {
         emailRules: [
           (v) => !!v || 'E-mail es obligatorio',
           (v) => /.+@.+\..+/.test(v) || 'E-mail debe ser valido',
-          (v) => getValidaRutEmail(v,'')
+          // (v) => getValidaRutEmail(v,'')
         ],
         rutRules: [
           (v) => !!v || 'Rut es obligatorio',
           (v) => validaRut(v) || 'Rut NO valido',
-          (v) => getValidaRutEmail('',v)
+          // (v) => getValidaRutEmail('',v)
         ],
       },
       
       url: null,
       url2:null,
       abrirDialog:false,
+      valid:true,
       cerrarDialog:true,
       dialog:false,
       image: null,
       drawer:false, 
       isLoading: false,
-      switch1:true,
-      switch2:true, 
-      switch3:true, 
-      switch4:true,
-      switch5:true,
-      switch6:true,
-      switch7:true,
-      switch8:true,
-      switch9:true,
-      switch10:true,
+      switch1:false,
+      switch2:false, 
+      switch3:false, 
+      switch4:false,
+      switch5:false,
+      switch6:false,
+      switch7:false,
+      switch8:false,
+      switch9:false,
+      switch10:false,
       visible: true,
       breadcrumbs: [
         {
@@ -87,7 +88,7 @@ export default {
         { text: 'Audience', icon: 'mdi-account' },
         { text: 'Conversions', icon: 'mdi-flag' }
       ],*/
-
+      active:0,
       searchQuery: '',
       selectedUsers: [],
       headers: [
@@ -153,6 +154,7 @@ export default {
         usu_per_fk:2,
         activo: true
       }
+ 
       const { data } = await postUsuarioEsmpresa(usu.activo, usu.apellidos, usu.cargo, usu.clave, usu.email, usu.nombre, usu.rut, usu.emp_fk, usu.usu_per_fk)
       console.log(data)
       console.log(usu)
@@ -189,12 +191,52 @@ export default {
 
      
     },
-    crearUsu(){
-      this.alert = true
-      this.$refs.form.reset()
-
+    
+  async  crearUsu(){
+      this.$refs.datosUsuario.validate()
+      if(this.$refs.datosUsuario.validate() == true && this.switch8 == false){
+        this.alert = true
+      }
+      if( this.$refs.datosUsuario.validate() == true && this.switch8 == true){
+        this.abrirDialog = false
+        this.alert = false
+        this.switch8 = false
+        const usu = { 
+          nombre:this.usuario.nombres,
+          apellidos: this.usuario.apellidos,
+          email: this.usuario.email,
+          cargo: this.usuario.cargo,
+          rut: this.usuario.rut,
+          perfil: this.usuario.perfil,
+          imagen: this.usuario.imagen,
+          firma: this.usuario.firma,
+          clave: '19023',
+          emp_fk: 1,
+          usu_per_fk:2,
+          activo: true
+        }
+        const { data } = await postUsuarioEsmpresa(usu.activo, usu.apellidos, usu.cargo, usu.clave, usu.email, usu.nombre, usu.rut, usu.emp_fk, usu.usu_per_fk)
+        console.log(data)
+        this.usuario ={
+          nombre:'',
+          apellidos: '',
+          email: '',
+          cargo: '',
+          rut: '',
+          perfil: '',
+          imagen: '',
+          firma: ''
+        }
+      }
     },
 
+    permisoUsu(){
+        this.active = 1
+        this.alert = false
+        this.agregarPermiso = true
+        console.log("  this.$refs.datosUsuario.validate()",  this.$refs.datosUsuario.validate())
+       
+    },
     eliminarFirma() {
       this.url2 = null 
       console.log('eliminar firma')

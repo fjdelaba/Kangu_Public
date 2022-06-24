@@ -48,18 +48,18 @@
                       >
                         <v-row align="center">
                           <v-col class="">
-                            Creando usuario sin permisos. ¿Desea continuar?
-            
+                            Antes de crear este usuario ¿Desea asignarle permisos?
+                            {{ agregarPermiso }}
                           </v-col>
                           <v-col class="shrink">
-                            <v-btn>Continuar</v-btn>
+                            <v-btn @click="permisoUsu()">Si</v-btn>
                           </v-col>
                           <v-col class="shrink">
-                            <v-btn>Cancelar</v-btn>
+                            <v-btn @click="agregarPermiso = false">No</v-btn>
                           </v-col>
                         </v-row>
                       </v-alert>
-                      <v-tabs grow>
+                      <v-tabs v-model="active" grow>
                         <v-tab >
                           <v-icon left>
                             mdi-account
@@ -70,167 +70,172 @@
                           <v-icon left>
                             mdi-lock
                           </v-icon>
-                          Permisos
+                          Permisos 
                         </v-tab>
                         
                         <v-tab-item>
 
                           <v-card flat>
                             <v-card-text>
-                              <v-row
-                                :align="align"
-                                no-gutters
-                                justify="left" 
+                              <v-form
+                                ref="datosUsuario"
+                                v-model="valid"
                               >
-                                <v-col
+                                <v-row
+                                  :align="align"
+                                  no-gutters
+                                  justify="left" 
+                                >
+                              
+                                  <v-col
                                   
-                                  cols="12"
-                                  sm="6"
-                                  md="6"
-                                >
-                                  <v-text-field 
-                                    v-model="usuario.rut"
-                                    style="width:90%"
-                                    dense
-                                    tabindex="1"
-                                    hint="Por Ejemplo, 19728579-6"
-                                    outlined
-                                    label="Rut"
-                                    required
-                                    class="mt-2  pl-5"
-                                    :rules="usuarioRules.rutRules"
-                                    @input="validarFomatoRut()"
-                                  ></v-text-field>
-                                  <v-text-field
-                                    v-model="usuario.nombres"
-                                    style="width:90%"
-                                    hint="Por Ejemplo, Felipe."
-                                    outlined
-                                    tabindex="3"
-                                    dense
-                                    label="Nombres"
-                                    required
-                                    class="ma-0  pl-5"
-                                    :rules="usuarioRules.nombresRules"
-                                  ></v-text-field>
-                                </v-col>
-                                <v-col
-                                  cols="12"
-                                  sm="6"
-                                  md="6"
-                                >
-                                  <v-text-field
-                                    v-model="usuario.email"
-                                    style="width:90%"
-                                    hint="Por Ejemplo, FelipedelaBarra@gmail.com"
-                                    dense
-                                    tabindex="2"
-                                    outlined
-                                    label="Email"
-                                    required
-                                    :rules="usuarioRules.emailRules"
-                                    class="mt-2  pl-5"
-                                  ></v-text-field>
+                                    cols="12"
+                                    sm="6"
+                                    md="6"
+                                  >
+                                    <v-text-field 
+                                      v-model="usuario.rut"
+                                      style="width:90%"
+                                      dense
+                                      tabindex="1"
+                                      hint="Por Ejemplo, 19728579-6"
+                                      outlined
+                                      label="Rut"
+                                      required
+                                      class="mt-2  pl-5"
+                                      :rules="usuarioRules.rutRules"
+                                      @input="validarFomatoRut()"
+                                    ></v-text-field>
+                                    <v-text-field
+                                      v-model="usuario.nombres"
+                                      style="width:90%"
+                                      hint="Por Ejemplo, Felipe."
+                                      outlined
+                                      tabindex="3"
+                                      dense
+                                      label="Nombres"
+                                      required
+                                      class="ma-0  pl-5"
+                                      :rules="usuarioRules.nombresRules"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="6"
+                                  >
+                                    <v-text-field
+                                      v-model="usuario.email"
+                                      style="width:90%"
+                                      hint="Por Ejemplo, FelipedelaBarra@gmail.com"
+                                      dense
+                                      tabindex="2"
+                                      outlined
+                                      label="Email"
+                                      required
+                                      :rules="usuarioRules.emailRules"
+                                      class="mt-2  pl-5"
+                                    ></v-text-field>
                                    
-                                  <v-text-field
-                                    v-model="usuario.apellidos"
-                                    style="width:90%"
-                                    hint="Por Ejemplo, De la Barra."
-                                    dense
-                                    tabindex="4"
-                                    outlined
-                                    label="Apellidos"
-                                    class="ma-0  pl-5"
-                                    required
-                                    :rules="usuarioRules.apellidosRules"
-                                  ></v-text-field>
-                                </v-col>
-                                <v-col
-                                  cols="12"
-                                  sm="6"
-                                  md="6"
-                                >
-                                  <v-text-field
-                                    v-model="usuario.cargo"
-                                    hint="Por Ejemplo, Supervisor,"
-                                    dense
-                                    outlined
-                                    tabindex="5"
-                                    label="Cargo"
-                                    :rules="usuarioRules.cargoRules"
-                                    style="width:90%"
-                                    class="ma-0  pl-5"
-                                  ></v-text-field>
-                                </v-col>
-                                <v-col
-                                  cols="12"
-                                  sm="6"
-                                  md="6"
-                                >
-                                  <v-select
-                                    v-model="usuario.perfil"
-                                    :items="items"
-                                    dense
-                                    style="width:90%"
-                                    outlined
-                                    tabindex="6"
-                                    class="ma-0  pl-5"
-                                    label="Perfil"
-                                    data-vv-name="select"
-                                    required
-                                    :rules="[v => !!v || 'Se requiere seleccionar un perfil']"
-                                  ></v-select>
-                                </v-col>
-                              </v-row>
-                              <v-row>
-                                <v-col
-                                  cols="12"
-                                  sm="6"
-                                  md="6"
-                                ><v-file-input
-                                   v-model="usuario.imagen"
-                                   prepend-icon="mdi-camera"
-                                   label="Ingrese Imagen de Perfil" 
-                                   style="width:85%"
-                                   tabindex="7"
-                                   @click:clear="eliminarImagen"
-                                   @change="previewImagen"
-                                 >
-                                 </v-file-input>
-                                  <v-row v-if="usuario.imagen" justify="center" > <v-avatar size="120"> <v-img
-                                    :src="url"
-                                    tabindex="none"
-                                    min-width="auto"
-                                    min-height="auto"
-                                    rounded
-                                  ></v-img>
-                                  </v-avatar></v-row>
-                                </v-col>
-                                <v-col
-                                  cols="12"
-                                  sm="6"
-                                  md="6"
-                                ><v-file-input 
-                                   v-model="usuario.firma"
-                                   label="Ingrese Firma"
-                                   tabindex="8"
-                                   style="width:85%"
-                                   @click:clear="eliminarFirma"
-                                   @change="previewFirma"
-                                 >
-                                 </v-file-input>
-                                  <v-row v-if="usuario.firma" justify="center" ><v-img
-                                    :src="url2"
-                                    tabindex="none"
-                                    max-height="123"
-                                    max-width="178"
-                                    contain
-                                  ></v-img></v-row>
-                                </v-col> </v-row>
-                              <p class="text-right">
-                                Rellene los campos requeridos.
-                              </p>
-                            </v-card-text>
+                                    <v-text-field
+                                      v-model="usuario.apellidos"
+                                      style="width:90%"
+                                      hint="Por Ejemplo, De la Barra."
+                                      dense
+                                      tabindex="4"
+                                      outlined
+                                      label="Apellidos"
+                                      class="ma-0  pl-5"
+                                      required
+                                      :rules="usuarioRules.apellidosRules"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="6"
+                                  >
+                                    <v-text-field
+                                      v-model="usuario.cargo"
+                                      hint="Por Ejemplo, Supervisor,"
+                                      dense
+                                      outlined
+                                      tabindex="5"
+                                      label="Cargo"
+                                      :rules="usuarioRules.cargoRules"
+                                      style="width:90%"
+                                      class="ma-0  pl-5"
+                                    ></v-text-field>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="6"
+                                  >
+                                    <v-select
+                                      v-model="usuario.perfil"
+                                      :items="items"
+                                      dense
+                                      style="width:90%"
+                                      outlined
+                                      tabindex="6"
+                                      class="ma-0  pl-5"
+                                      label="Perfil"
+                                      data-vv-name="select"
+                                      required
+                                      :rules="[v => !!v || 'Se requiere seleccionar un perfil']"
+                                    ></v-select>
+                                  </v-col>
+                                </v-row>
+                                <v-row>
+                                  <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="6"
+                                  ><v-file-input
+                                     v-model="usuario.imagen"
+                                     prepend-icon="mdi-camera"
+                                     label="Ingrese Imagen de Perfil" 
+                                     style="width:85%"
+                                     tabindex="7"
+                                     @click:clear="eliminarImagen"
+                                     @change="previewImagen"
+                                   >
+                                   </v-file-input>
+                                    <v-row v-if="usuario.imagen" justify="center" > <v-avatar size="120"> <v-img
+                                      :src="url"
+                                      tabindex="none"
+                                      min-width="auto"
+                                      min-height="auto"
+                                      rounded
+                                    ></v-img>
+                                    </v-avatar></v-row>
+                                  </v-col>
+                                  <v-col
+                                    cols="12"
+                                    sm="6"
+                                    md="6"
+                                  ><v-file-input 
+                                     v-model="usuario.firma"
+                                     label="Ingrese Firma"
+                                     tabindex="8"
+                                     style="width:85%"
+                                     @click:clear="eliminarFirma"
+                                     @change="previewFirma"
+                                   >
+                                   </v-file-input>
+                                    <v-row v-if="usuario.firma" justify="center" ><v-img
+                                      :src="url2"
+                                      tabindex="none"
+                                      max-height="123"
+                                      max-width="178"
+                                      contain
+                                    ></v-img></v-row>
+                                  </v-col> </v-row>
+                                <p class="text-right">
+                                  Rellene los campos requeridos.
+                                </p>
+                              </v-form></v-card-text>
                             
                           </v-card>
                         </v-tab-item>
@@ -364,7 +369,7 @@
                                       </v-list-item-content>
                                     </template>
                                   </v-list-item>
-  
+ 
                                   <v-list-item>
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
@@ -376,7 +381,7 @@
                                       </v-list-item-action>
   
                                       <v-list-item-content>
-                                        <v-list-item-title>Orden de compras</v-list-item-title>                                        </v-list-item-content>
+                                        <v-list-item-title>Orden de compra</v-list-item-title>                                        </v-list-item-content>
                                     </template>
                                   </v-list-item>
   

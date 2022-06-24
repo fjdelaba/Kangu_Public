@@ -35,7 +35,7 @@
             </v-col>
           
             <v-col cols="2" class="pb-0">
-              {{ validaCodigo1() }}
+          {{ returnValidaCodigo() }}
               <v-text-field
                 v-if="detalle == false"
                 v-model="infoGeneralProyecto.codigo"
@@ -43,6 +43,7 @@
                 label="Código"
                 outlined
                 dense
+                @blur="validaCodigo1()"
               ></v-text-field>
               <h4 v-if="detalle == true">Código</h4>
               <p v-if="detalle == true">{{ proyecto.codigo }}</p>
