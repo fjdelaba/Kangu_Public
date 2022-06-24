@@ -55,7 +55,7 @@
                             <v-btn @click="permisoUsu()">Si</v-btn>
                           </v-col>
                           <v-col class="shrink">
-                            <v-btn @click="agregarPermiso = false">No</v-btn>
+                            <v-btn @click="grabarUsuario(2)">No</v-btn>
                           </v-col>
                         </v-row>
                       </v-alert>

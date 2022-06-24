@@ -73,11 +73,14 @@ export const postProyectoInformacion = async (inf, fla, uni) => {
     }
   })
 }
-export const postUsuarioEsmpresa = async (activo, apellidos, cargo, clave, email, nombre, rut, emp_fk, usu_per_fk) => {
+export const postUsuarioEsmpresa = async (usu,modulos) => {
+  console.log('USUARIO',usu)
+
   return await apolloClient.mutate({
     mutation: INSERT_USUARIO_EMPRESA,
     variables: {
-      activo, apellidos, cargo, clave, email, nombre, rut, emp_fk, usu_per_fk
+      usu,
+      modulos
     }
   })
 }

@@ -31,18 +31,9 @@ mutation M_INSERT_PROYECTO_MATERIAL($cantidad: numeric!,  $mat_fk: bigint!, $mon
 }
 `
 const INSERT_USUARIO_EMPRESA = gql`
-mutation M_INSERT_USUARIO_EMPRESA($activo: Boolean!,  $apellidos: String!, $cargo: String!,  $clave: String!, $email:String!, $nombre:String!, $rut:String!,$emp_fk:bigint!,$usu_per_fk:bigint! ){
-  insert_kangusoft_usu(objects: {activo: $activo, apellidos:  $apellidos, cargo: $cargo, clave:  $clave, email:$email, nombre: $nombre, rut: $rut, emp_fk: $emp_fk, usu_per_fk: $usu_per_fk}) {
-    affected_rows
-    returning {
-      activo
-      apellidos
-      cargo
-      email
-      id
-      nombre
-      rut
-    }
+mutation M_INSERT_USUARIO_EMPRESA($usu: UsuarioInput!,$modulos:[UsuarioPermisoInput!]!){
+  insert_usuario(usuario: $usu, modulos: $modulos) {
+    id
   }
 }
 `
