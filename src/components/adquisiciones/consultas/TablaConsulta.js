@@ -1,18 +1,6 @@
 /* eslint-disable */
-import gql from 'graphql-tag'
-const QUERY_GET_OC = gql`
- query {
-  kangusoft_oc {
-    id
-    identificacion
-    nombre
-    neto
-    fec_creacion
-    cg_fk
-  }
-}
+import {getDatosOcConsulta} from "../../../graphql/adquisiciones";
 
-`
 export default {
     components: {
       },
@@ -40,10 +28,8 @@ export default {
     methods: {
      async cargarOc(){
         console.log("Cargando Datos")
-        const { data }  = await this.$apollo.query({
-          query: QUERY_GET_OC
-        })
-        console.log("DATA", data)
+        const { data }  = await getDatosOcConsulta()
+        console.log("data:",data)
         this.ocs = data.kangusoft_oc
       }
 

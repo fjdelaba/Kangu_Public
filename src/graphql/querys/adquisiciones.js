@@ -37,5 +37,23 @@ query Q_GET_DATOS_OC_CABECERA {
   }
 }
 `
+const GET_DATOS_OC_CONSULTA = gql`
+query Q_GET_DATOS_OC_CONSULTA{
+  kangusoft_oc {
+    nombre
+    pro {
+      nombre
+      fec_creacion
+    }
+    identificacion
+    neto
+    usu {
+      nombre
+      apellidos
+    }
+    fec_aprobacion
+  }
+}
+`
 
-export { GET_DATOS_OC_CABECERA }
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA }
