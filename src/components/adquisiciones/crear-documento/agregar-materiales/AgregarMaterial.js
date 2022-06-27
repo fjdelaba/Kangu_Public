@@ -1,9 +1,13 @@
 import { getPartidasPorPoroyecto } from '../../../../graphql/general'
 import ModalAgregarMaterial from '../../modal-agregar-material/ModalAgregarMaterial.vue'
+import { postDetalleOC } from '../../../../graphql/adquisiciones'
 
 export default {
   components:{
     ModalAgregarMaterial
+  },
+  props: {
+    oc_id: 0
   },
   data: () => ({
     dialogMaterial: false,
@@ -179,7 +183,7 @@ export default {
       //   this.dialogMaterial = false
       // }, 6000)
     },
-    cerrarDialogMaterial(materiales, array, edicion) {
+    async cerrarDialogMaterial(materiales, array, edicion) {
       if (materiales.length === 0) {
         this.dialogMaterial = false
 
@@ -204,14 +208,15 @@ export default {
           }
         }
       } else {
+        console.log('ELSE: ', this.materiales)
         if (array) {
           // console.log('materiales:', materiales)
           // this.materiales = materiales
           for (const mat in this.materiales) {
+            console.log('for mat: ', mat)
             for (const _mat in materiales) {
-              console.log(mat, _mat)
+              console.log('for mat_: ', _mat)
               if (this.materiales[mat].mat_fk === materiales[_mat].mat_fk) {
-                console.log('adsa')
                 //delete materiales[_mat]
                 this.textoMaterial.push(materiales[_mat].nombre)
                 materiales.splice(_mat,1)
@@ -225,6 +230,10 @@ export default {
           }
 
         } else {
+          console.log('ELSE ELSE this.materiales: ', this.materiales)
+          console.log('ELSE ELSE materiales: ', materiales)
+          console.log('ELSE materiales par_fk.id: ', materiales.partidas[0].par_fk.id)
+          console.log('ELSE materiales cantidad: ', materiales.partidas[0].cantidad)
           let existeMaterial = false
 
           for (const mat of this.materiales) {
@@ -235,7 +244,41 @@ export default {
             }
           }
           if (!existeMaterial) {
-            this.materiales.push(materiales)
+            try {
+              let total_cantidad = 0
+              const detalle_partida = []
+  
+              for (const detPar of materiales.partidas) {
+                console.log('detPar: ', detPar)
+                total_cantidad += detPar.cantidad
+                const obj = {
+                  par_fk : Number(detPar.par_fk.id),
+                  cantidad : Number(detPar.cantidad)
+                }
+  
+                detalle_partida.push(obj)
+              }
+  
+              const detalle = {
+                oc_fk: this.oc_id,
+                mat_fk: Number(materiales.mat_fk),
+                cantidad: Number(total_cantidad),
+                precio_unitario: Number(materiales.precio_unitario),
+                total: Number(total_cantidad) * Number(materiales.precio_unitario),
+                usu_fk:1
+              }
+  
+              console.log('detalle: ', detalle)
+              console.log('detalle detalle_partida: ', detalle_partida)
+  
+              const returnPostDetalle = await postDetalleOC(detalle, detalle_partida)
+  
+              console.log('returnPostDetalle: ', returnPostDetalle)
+              this.materiales.push(materiales)
+                
+            } catch (error) {
+              console.log(error)              
+            }
           } else {
             this.textoMaterial.push(materiales.nombre)
             this.mostartAlertMaterial = true

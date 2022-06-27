@@ -9,7 +9,7 @@
           class="mb-2"
           @click="abrirDialogMaterial()"
         >
-          Agregar Material
+          Agregar Material {{oc_id}}
         </v-btn>
       </v-col>
       <v-col cols="12" ld="6" md="6" class="py-0 text-right">

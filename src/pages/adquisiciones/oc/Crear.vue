@@ -50,7 +50,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="2">
-              <agregar-material ref="refAgregarMaterial"></agregar-material>
+              <agregar-material ref="refAgregarMaterial" :oc_id="oc_id"></agregar-material>
             </v-stepper-content>
 
             <v-stepper-content step="3">
@@ -88,6 +88,7 @@ import CrearDocumento from '../../../components/adquisiciones/crear-documento/Cr
 import AgregarMaterial from '../../../components/adquisiciones/crear-documento/agregar-materiales/AgregarMaterial.vue'
 import InformacionGeneral from '../../../components/adquisiciones/crear-documento/informacion-general/InformacionGeneral.vue'
 import Previsualizacion from '../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
+import { postCabeceraOC } from '../../../graphql/adquisiciones'
 export default {
   components: {
     // CrearDocumento,
@@ -98,7 +99,8 @@ export default {
   data() {
     return {
       e1: 1,
-      pasoStep: 1
+      pasoStep: 1,
+      oc_id: 0
     }
   },
   computed: {
@@ -111,16 +113,44 @@ export default {
     }
   },
   methods: {
-    avanzar() {
+    async avanzar() {
       if (this.pasoStep === 1) {
         this.$store.dispatch('app/setLoading', true)
-        this.pasoStep++
+        // this.pasoStep++
         // console.log('de paso 1 a paso 2')
-        // if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
-        //   this.pasoStep++
-        // } else {
-        //   console.log('por aca no')
-        // }
+        if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
+          try {
+            const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+
+            console.log('cabecera: ', cabecera)
+            const datosCabecera = {
+              des_tip_fk: cabecera.tipoDespacho.id, 
+              doc_tip_fk: cabecera.tipoDocumento.id, 
+              emp_fk: 1, // Cambiar 
+              ent_con_fk: cabecera.contacto.id, 
+              ent_fk: cabecera.proveedor.id, 
+              est_doc_fk: 4, 
+              for_pag_fk: cabecera.formaPago.id, 
+              mon_fk: cabecera.moneda.id, 
+              nombre: cabecera.nombre, 
+              pro_fk: cabecera.proyecto.id, 
+              usu_fk: 3 // Cambiar
+            }
+
+            console.log('datosCabecera: ', datosCabecera)
+
+            const returnPostCabecera = await postCabeceraOC(datosCabecera)
+
+            console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
+            this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
+            this.pasoStep++
+          } catch (error) {
+            console.log('error: ', error)
+          }
+
+        } else {
+          console.log('por aca no')
+        }
       } else if (this.pasoStep === 2) {
         // eslint-disable-next-line no-constant-condition
         if (true) {
