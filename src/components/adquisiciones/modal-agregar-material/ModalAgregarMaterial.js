@@ -5,7 +5,8 @@ export default {
   name: 'ModalAgregarMaterial',
   props: {
     cerrarDialogMaterial_: { type: Function },
-    materialEdicion: {}
+    materialEdicion: {},
+    listaPartidas: []
   },
   data() {
     return {
@@ -35,7 +36,7 @@ export default {
           ]
         }
       },
-      listaPartidas: [],
+      // listaPartidas: [],
       listaMaterial: [],
       isLoading: false,
       mostrarNoData: false,
@@ -283,9 +284,9 @@ export default {
       this.cerrarDialogMaterial_([])
     },
     async getPartidas() {
-      const  { data }   = await getPartidasPorPoroyecto(1)
+      // const  { data }   = await getPartidasPorPoroyecto(1)
 
-      this.listaPartidas = data.getPartidas
+      // this.listaPartidas = data.getPartidas
       for (const partida of this.listaPartidas) {
         if (partida.path.indexOf('/') > 0) {
           const pathArray = partida.path.split('/')

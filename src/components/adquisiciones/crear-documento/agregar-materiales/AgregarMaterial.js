@@ -1,13 +1,15 @@
 import { getPartidasPorPoroyecto } from '../../../../graphql/general'
 import ModalAgregarMaterial from '../../modal-agregar-material/ModalAgregarMaterial.vue'
 import { postDetalleOC } from '../../../../graphql/adquisiciones'
+import { getDetalleOC } from '../../../../graphql/adquisiciones'
 
 export default {
   components:{
     ModalAgregarMaterial
   },
   props: {
-    oc_id: 0
+    oc_id: 0,
+    pro_fk: 0
   },
   data: () => ({
     dialogMaterial: false,
@@ -17,10 +19,10 @@ export default {
         text: 'Material',
         align: 'start',
         sortable: false,
-        value: 'nombre',
+        value: 'mat',
         width: '400px'
       },
-      { text: 'C.C', value: 'par_fk', sortable: false, width: '200px' },
+      { text: 'C.C', value: 'oc_det_pars', sortable: false, width: '200px' },
       { text: 'Cant.', value: 'cantidad', width: '100px', sortable: false, align: 'center' },
       { text: 'P. Unitario', value: 'precio_unitario', width: '100px', sortable: false, align: 'center' },
       { text: 'Subtotal', value: 'total', width: '100px', sortable: false, align: 'center' },
@@ -57,7 +59,8 @@ export default {
     files: [],
     respFiles: [],
     dialogValidacion: false,
-    comentarioDocumento: ''
+    comentarioDocumento: '',
+    lista_detalle:[]
   }),
   methods: {
     validarAgregarMaterial() {
@@ -72,7 +75,7 @@ export default {
       }
       console.log('materialEdicion: ', materialEdicion)
 
-      this.materiales.length > 0 && materialEdicion === false ? this.dialogValidacion = false : this.dialogValidacion = true
+      this.lista_detalle.length > 0 && materialEdicion === false ? this.dialogValidacion = false : this.dialogValidacion = true
 
       return !this.dialogValidacion
     },
@@ -149,9 +152,12 @@ export default {
     revisarImagen() {
       console.log(this.files)
     },
-    async getPartidas() {
-      const  { data }   = await getPartidasPorPoroyecto(1)
+    async getPartidas(pro_fk) {
+      // console.log('pro_fk: ', this.pro_fk) 
 
+      const  { data }   = await getPartidasPorPoroyecto(pro_fk)
+      
+      console.log('data: ', data) 
       this.listaPartidas = data.getPartidas
       for (const partida of this.listaPartidas) {
         if (partida.path.indexOf('/') > 0) {
@@ -184,6 +190,7 @@ export default {
       // }, 6000)
     },
     async cerrarDialogMaterial(materiales, array, edicion) {
+      // this.lista_detalle = []
       if (materiales.length === 0) {
         this.dialogMaterial = false
 
@@ -199,7 +206,7 @@ export default {
           console.log('mat: ', mat)
           // eslint-disable-next-line eqeqeq
           if (materiales.mat_fk == mat.mat_fk) {
-            console.log('iguales')
+            console.log('iguales') 
             mat.cantidad = materiales.cantidad
             mat.precio_unitario = materiales.precio_unitario
             mat.total = Number(mat.cantidad * mat.precio_unitario)
@@ -265,7 +272,8 @@ export default {
                 cantidad: Number(total_cantidad),
                 precio_unitario: Number(materiales.precio_unitario),
                 total: Number(total_cantidad) * Number(materiales.precio_unitario),
-                usu_fk:1
+                usu_fk:1,
+                observacion: materiales.observacion
               }
   
               console.log('detalle: ', detalle)
@@ -274,7 +282,20 @@ export default {
               const returnPostDetalle = await postDetalleOC(detalle, detalle_partida)
   
               console.log('returnPostDetalle: ', returnPostDetalle)
-              this.materiales.push(materiales)
+
+              // const oc_fk = {
+              //   oc_fk:{
+              //     _eq: 15
+              //   }
+              // }
+              // const ase = {
+              //   oc_fk
+              // }
+              const resp = await getDetalleOC(this.oc_id)
+
+              this.lista_detalle = resp.data.kangusoft_oc_det
+              console.log('this.lista_detalle: ', this.lista_detalle)
+              // this.materiales.push(materiales)
                 
             } catch (error) {
               console.log(error)              
@@ -287,6 +308,21 @@ export default {
         }
       }
       this.dialogMaterial = false
+    },
+    getNombreLineaDetalle(item) {
+      console.log('item: ', item)
+    },
+    getNombrePartida(idPartida) {
+      const searchObject = this.listaPartidas.find((partida) => {
+        console.log('partida: ', partida)
+        console.log('idPartida: ', idPartida)
+
+        return Number(partida.id) === Number(idPartida)
+      })
+
+      console.log('searchObject: ', searchObject)
+
+      return searchObject.nombre
     },
     calcularTotalMaterial(item) {
       let totalCantidad = 0
@@ -381,7 +417,8 @@ export default {
       let total = 0
       const descuento = 0
 
-      for (const linea of this.materiales) {
+      // for (const linea of this.materiales) {
+      for (const linea of this.lista_detalle) {
         console.log('linea: ', linea)
         neto += Number(linea.total)
       }

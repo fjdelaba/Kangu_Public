@@ -1,6 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="pb-0 mb-0">
+      {{ listaPartidas }}
       <v-row justify="center" align="center">
         <!-- {{ material }} -->
         <!-- {{ partidaGeneral }} -->

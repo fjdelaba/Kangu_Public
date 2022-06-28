@@ -1,5 +1,6 @@
 <template>
   <v-card min-width="1000" min-height="500" >
+    <!-- {{ lista_detalle }} -->
     <v-row>
       <v-col cols="12" ld="6" md="6" class="py-0">
         <v-btn
@@ -9,7 +10,7 @@
           class="mb-2"
           @click="abrirDialogMaterial()"
         >
-          Agregar Material {{oc_id}}
+          Agregar Material {{ oc_id }}
         </v-btn>
       </v-col>
       <v-col cols="12" ld="6" md="6" class="py-0 text-right">
@@ -53,7 +54,7 @@
         <li v-for="(item, index) in textoMaterial" :key="index">{{ item }}</li>
       </ul>
     </v-alert>
-    <v-data-table
+    <!-- <v-data-table
       :headers="headers"
       :items="materiales"
       item-key="id"
@@ -62,15 +63,26 @@
       class="elevation-1"
       :items-per-page="materiales.length"
       dense
+    > -->
+    <v-data-table
+      :headers="headers"
+      :items="lista_detalle"
+      item-key="id"
+      sort-by="calories"
+      hide-default-footer
+      class="elevation-1"
+      :items-per-page="lista_detalle.length"
+      dense
     >
-      <template v-slot:item.nombre="{ item }">
+      <template v-slot:item.mat="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:400px">
           <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
-          <span> <span style="font-size: 16px">{{ item.nombre }} - {{ item.unidad }} </span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span> 
+          <!-- {{ item.nombre }} -->
+          <span> <span style="font-size: 16px"> {{ item.mat.nombre }} - {{ item.mat.mat_uni.nombre }} </span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span> 
         </div>
       </template>
-      <template v-slot:item.par_fk="{ item, attrs}">
-        <div v-if="item.partidas.length > 1">
+      <template v-slot:item.oc_det_pars="{ item, attrs}">
+        <div v-if="item.oc_det_pars.length > 1">
           <v-tooltip right>
             <template v-slot:activator="{ on }">
               <v-chip
@@ -80,7 +92,7 @@
                 small
                 v-on="on"
               >
-                {{ item.partidas.length }} partidas
+                {{ item.oc_det_pars.length }} partidas
               </v-chip>
             </template>
             <v-card
@@ -98,9 +110,9 @@
         </div>
         <div v-else>
           <div v-if="item.editable">
-            <div v-if="item.partidas[0].par_fk" >
+            <div v-if="item.oc_det_pars[0].par_fk" >
               <v-combobox
-                v-model="item.partidas[0].par_fk"
+                v-model="item.oc_det_pars[0].par_fk"
                 :items="listaPartidas"
                 label="Selecciona la partida"
                 v-bind="attrs"
@@ -125,7 +137,7 @@
             </div>
             <div v-else>
               <v-combobox
-                v-model="item.partidas[0].par_fk"
+                v-model="item.oc_det_pars[0].par_fk"
                 :items="listaPartidas"
                 label="Selecciona la partida"
                 v-bind="attrs"
@@ -156,7 +168,8 @@
               text-color="white"
               small
             >
-              {{ item.partidas[0].par_fk.nombre }}
+              <!-- {{ item.oc_det_pars[0].par_fk }} -->
+              {{ getNombrePartida(item.oc_det_pars[0].par_fk) }}
             </v-chip>
           </div>
         </div>
@@ -194,12 +207,12 @@
       <template v-slot:item.cantidad="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
           <div v-if="item.editable">
-            <div v-if="item.partidas.length > 1">
+            <div v-if="item.oc_det_pars.length > 1">
               <span>{{ item.cantidad }}</span> 
             </div>
             <div v-else>
               <v-text-field
-                v-model="item.partidas[0].cantidad"
+                v-model="item.oc_det_pars[0].cantidad"
                 outlined
                 dense
                 @input="calcularTotalMaterial(item)"
@@ -319,7 +332,7 @@
       persistent
       max-width="600px"
     >
-      <modal-agregar-material v-if="dialogMaterial" :material-edicion="materialEdicion" :cerrar-dialog-material_="cerrarDialogMaterial"></modal-agregar-material></v-dialog>
+      <modal-agregar-material v-if="dialogMaterial" :material-edicion="materialEdicion" :cerrar-dialog-material_="cerrarDialogMaterial" :lista-partidas="listaPartidas"></modal-agregar-material></v-dialog>
     <v-dialog
       v-model="dialogValidacion"
       persistent

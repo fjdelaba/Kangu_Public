@@ -50,7 +50,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="2">
-              <agregar-material ref="refAgregarMaterial" :oc_id="oc_id"></agregar-material>
+              <agregar-material ref="refAgregarMaterial" :oc_id="oc_id" :pro_fk="pro_fk"></agregar-material>
             </v-stepper-content>
 
             <v-stepper-content step="3">
@@ -62,8 +62,7 @@
             </v-stepper-content>
 
             <v-stepper-content step="4">
-              prev
-              <previsualizacion :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.materiales" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
+              <previsualizacion :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.listaPartidas" :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista_detalle" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
             </v-stepper-content>
           </v-stepper-items>
           <v-btn
@@ -100,7 +99,8 @@ export default {
     return {
       e1: 1,
       pasoStep: 1,
-      oc_id: 0
+      oc_id: 0,
+      pro_fk: 0
     }
   },
   computed: {
@@ -143,6 +143,8 @@ export default {
 
             console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
             this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
+            this.pro_fk = cabecera.proyecto.id
+            this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id)
             this.pasoStep++
           } catch (error) {
             console.log('error: ', error)
@@ -153,18 +155,21 @@ export default {
         }
       } else if (this.pasoStep === 2) {
         // eslint-disable-next-line no-constant-condition
-        if (true) {
-          this.pasoStep = this.pasoStep + 2
-        } else {
-          this.pasoStep++
-        }
-        // this.pasoStep++
-        console.log('this.$refs.refAgregarMaterial.validarAgregarMaterial()_ ', this.$refs.refAgregarMaterial.validarAgregarMaterial())
-        // if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
+        // if (true) {
+        //   this.pasoStep = this.pasoStep + 2
+        // } else {
         //   this.pasoStep++
         // }
-        // console.log('de paso 2 a paso 3')
+        // this.pasoStep++
+        console.log('this.$refs.refAgregarMaterial.validarAgregarMaterial()_ ', this.$refs.refAgregarMaterial.validarAgregarMaterial())
+        if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
+          this.pasoStep = this.pasoStep + 2
+        }
+        console.log('de paso 2 a paso 3')
       } else if (this.pasoStep === 3) {
+        this.pasoStep++
+        console.log('finalizar')
+      } else if (this.pasoStep === 4) {
         this.pasoStep++
         console.log('finalizar')
       }

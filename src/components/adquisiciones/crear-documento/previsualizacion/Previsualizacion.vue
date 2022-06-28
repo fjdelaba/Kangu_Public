@@ -47,9 +47,9 @@
               <v-list-item style="padding-left: 0px">
                 <v-list-item-content>
                   <v-list-item-title class="text-h5">
-                    Orden de Compra 45 mat
+                    Orden de Compra: Borrador
                   </v-list-item-title>
-                  <v-list-item-subtitle class="caption">Fecha: asdsda</v-list-item-subtitle>
+                  <v-list-item-subtitle class="caption">Fecha: {{cpxFecha}}</v-list-item-subtitle>
                   <v-list-item-subtitle class="caption">Contacto DLB: asdsda</v-list-item-subtitle>
                 </v-list-item-content>
 
@@ -85,35 +85,222 @@
             <v-data-table
               :headers="headers"
               :items="materiales"
-              :items-per-page="5"
-              :hide-default-footer="true"
-              dense
+              item-key="id"
+              sort-by="calories"
+              hide-default-footer
               class="elevation-1"
+              :items-per-page="materiales.length"
+              dense
             >
-              <template v-slot:item.nombre="{ item }">
+              <template v-slot:item.mat="{ item }">
                 <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:400px">
                   <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
-                  <span> <span style="font-size: 12px">{{ item.nombre }} - {{ item.unidad }} </span></span>
+                  <!-- {{ item.nombre }} -->
+                  <span> <span style="font-size: 16px"> {{ item.mat.nombre }} - {{ item.mat.mat_uni.nombre }} </span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span> 
                 </div>
               </template>
+              <template v-slot:item.oc_det_pars="{ item, attrs}">
+                <div v-if="item.oc_det_pars.length > 1">
+                  <v-tooltip right>
+                    <template v-slot:activator="{ on }">
+                      <v-chip
+                        class="ma-2"
+                        color="green"
+                        text-color="white"
+                        small
+                        v-on="on"
+                      >
+                        {{ item.oc_det_pars.length }} partidas
+                      </v-chip>
+                    </template>
+                    <v-card
+                      class="mx-auto"
+                      max-width="400"
+                      tile
+                    >
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title v-for="p in item.partidas" :key="p.id">{{ p.par_fk.nombre }}</v-list-item-title>
+                        </v-list-item-content>
+                      </v-list-item>  
+                    </v-card>
+                  </v-tooltip>
+                </div>
+                <div v-else>
+                  <div v-if="item.editable">
+                    <div v-if="item.oc_det_pars[0].par_fk" >
+                      <v-combobox
+                        v-model="item.oc_det_pars[0].par_fk"
+                        :items="listaPartidas"
+                        label="Selecciona la partida"
+                        v-bind="attrs"
+                        item-text="nombre"
+                        :item-value="item.id"
+                        outlined
+                        dense
+                      >
+                        <template #item="data">
+                          <v-tooltip bottom>
+                            <template #activator="{ on, attrs }">
+                              <v-layout wrap v-bind="attrs" v-on="on">
+                                <v-list-item-content>
+                                  <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                                </v-list-item-content>
+                              </v-layout>
+                            </template>
+                            <span>{{ `${data.item.path}` }}</span>
+                          </v-tooltip>
+                        </template>
+                      </v-combobox>
+                    </div>
+                    <div v-else>
+                      <v-combobox
+                        v-model="item.oc_det_pars[0].par_fk"
+                        :items="listaPartidas"
+                        label="Selecciona la partida"
+                        v-bind="attrs"
+                        item-text="nombre"
+                        :item-value="item.id"
+                        outlined
+                        dense
+                      >
+                        <template #item="data">
+                          <v-tooltip bottom>
+                            <template #activator="{ on, attrs }">
+                              <v-layout wrap v-bind="attrs" v-on="on">
+                                <v-list-item-content>
+                                  <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                                </v-list-item-content>
+                              </v-layout>
+                            </template>
+                            <span>{{ `${data.item.path}` }}</span>
+                          </v-tooltip>
+                        </template>
+                      </v-combobox>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <v-chip
+                      class="ma-2"
+                      color="primary"
+                      text-color="white"
+                      small
+                    >
+                      <!-- {{ item.oc_det_pars[0].par_fk }} -->
+                      {{ getNombrePartida(item.oc_det_pars[0].par_fk) }}
+                    </v-chip>
+                  </div>
+                </div>
+                <!-- <div v-if="item.editable">
+          <v-combobox
+            v-model="item.par"
+            :items="listaPartidas"
+            label="Selecciona la partida"
+            v-bind="attrs"
+            item-text="nombre"
+            item-value="id"
+            outlined
+            dense
+            :return-object="true"
+          >
+            <template #item="data">
+              <v-tooltip bottom>
+                <template #activator="{ on, attrs }">
+                  <v-layout wrap v-bind="attrs" v-on="on">
+                    <v-list-item-content>
+                      <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                    </v-list-item-content>
+                  </v-layout>
+                </template>
+                <span>{{ `${data.item.path}` }}</span>
+              </v-tooltip>
+            </template>
+          </v-combobox>
+        </div>
+        <div v-else>
+          <span>{{ item.par.nombre }}</span> 
+        </div> -->
+        
+              </template>
               <template v-slot:item.cantidad="{ item }">
-                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:20px">
+                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+                  <div v-if="item.editable">
+                    <div v-if="item.oc_det_pars.length > 1">
+                      <span>{{ item.cantidad }}</span> 
+                    </div>
+                    <div v-else>
+                      <v-text-field
+                        v-model="item.oc_det_pars[0].cantidad"
+                        outlined
+                        dense
+                        @input="calcularTotalMaterial(item)"
+                      ></v-text-field>
+                    </div>
+                  </div>
+                  <div v-else>
+                    <span>{{ item.cantidad }}</span> 
+                  </div>
                   <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
-                  <span> <span style="font-size: 12px">{{ item.cantidad }} </span></span>
+                  <!-- <span> <span style="font-size: 16px">{{ item.nombre }}</span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span>  -->
                 </div>
               </template>
               <template v-slot:item.precio_unitario="{ item }">
-                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:20px">
-                  <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
-                  <span style="font-size: 12px">{{ item.precio_unitario }} </span>
+                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+                  <div v-if="item.editable">
+                    <v-text-field
+                      v-model="item.precio_unitario"
+                      outlined
+                      dense
+                      @input="calcularTotalMaterial(item)"
+                    ></v-text-field>
+                  </div>
+                  <div v-else>
+                    <span>{{ item.precio_unitario }}</span> 
+                  </div>
                 </div>
               </template>
-              <template v-slot:item.total="{ item }">
-                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:20px">
-                  <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
-                  <span style="font-size: 12px">{{ item.total }} </span>
+              <template v-slot:item.actions="{ item }">
+                <div v-if="item.editable">
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="guardarMaterial(item)"
+                  >
+                    mdi-content-save
+                  </v-icon>
+                  <v-icon
+                    small
+                    @click="eliminarMaterial(item)"
+                  >
+                    mdi-delete {{ item }}
+                  </v-icon>
                 </div>
-              </template></v-data-table>
+                <div v-else>
+                  <v-icon
+                    small
+                    class="mr-2"
+                    @click="abrirDialogMaterial(item)"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                  <v-icon
+                    small
+                    @click="eliminarMaterial(item)"
+                  >
+                    mdi-delete {{ item }}
+                  </v-icon>
+                </div>
+              </template>
+              <template v-slot:no-data>
+                <!-- <v-btn
+          color="primary"
+          @click="initialize"
+        >
+          Reset
+        </v-btn> -->
+                Sin datos
+              </template>
+            </v-data-table>
             <v-row justify="end" height="100">
               <v-col lg="8" md="6" class="py-3">
                 <!-- {{ cpxTotalesItems }} -->
