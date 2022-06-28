@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { getDatosOcConsulta,getEstadosOc } from "../../../graphql/adquisiciones";
+import { getDatosOcConsulta, getEstadosOc } from "../../../graphql/adquisiciones";
 import { getDatosGenerales } from '../../../graphql/configuracion'
 
 export default {
@@ -26,9 +26,9 @@ export default {
       ],
       ocs: [],
       proyectoSeleccionado: "",
-      estadoSeleccionado:"",
+      estadoSeleccionado: "",
       proyectos: [{ id: 0, nombre: 'Todos los Proyectos' }],
-      estadosOc: [{id:0,nombre:'Todos los Estados'}],
+      estadosOc: [{ id: 0, nombre: 'Todos los Estados' }],
       ocsCopy: []
 
     };
@@ -55,12 +55,12 @@ export default {
       }
       console.log('proyectos', this.proyectos)
     },
-    async cargaEstados(){
+    async cargaEstados() {
       const { data: { kangusoft_est_doc } } = await getEstadosOc()
       for (let estado of kangusoft_est_doc) {
         this.estadosOc.push({ id: estado.id, nombre: estado.nombre })
       }
- 
+
     },
     filtroCentroGestion() {
       if (this.proyectoSeleccionado == 0) {
@@ -75,7 +75,7 @@ export default {
         });
       }
     },
-    filtroEstadoOc(){
+    filtroEstadoOc() {
       if (this.estadoSeleccionado == 0) {
         this.ocs = this.ocsCopy
       }
