@@ -11,30 +11,36 @@
       <v-card>
         <!-- users list -->
         <v-row dense class="pa-2 align-center">
-          <v-col cols="6">
-            <v-menu offset-y left>
-              <template v-slot:activator="{ on }">
-                <transition name="slide-fade" mode="out-in">
-                  <v-btn v-show="selectedUsers.length > 0" v-on="on">
-                    Actions
-                    <v-icon right>mdi-menu-down</v-icon>
-                  </v-btn>
-                </transition>
-              </template>
-              <v-list dense>
-                <v-list-item @click>
-                  <v-list-item-title>Verify</v-list-item-title>
-                </v-list-item>
-                <v-list-item @click>
-                  <v-list-item-title>Disable</v-list-item-title>
-                </v-list-item>
-                <v-divider></v-divider>
-                <v-list-item @click>
-                  <v-list-item-title>Delete</v-list-item-title>
-                </v-list-item>
-              </v-list>
-            </v-menu>
-
+          <v-col cols="3">
+            <v-autocomplete
+              v-model="proyectoSeleccionado"
+              :items="proyectos"
+              class="flex-grow-1 mr-md-2"
+              solo
+              hide-details
+              dense
+              item-text="nombre"
+              item-value="id"
+              placeholder="Selecciona el Centro de Gestión de la Oc"
+              @change="filtroCentroGestion()"
+            ></v-autocomplete>
+            
+          </v-col>
+          <v-col cols="3">
+            {{ estadoSeleccionado }}
+            <v-autocomplete
+              v-model="estadoSeleccionado"
+              :items="estadosOc"
+              class="flex-grow-1 mr-md-2"
+              solo
+              hide-details
+              dense
+              item-text="nombre"
+              item-value="id"
+              placeholder="Selecciona el Estado de la Oc"
+              @change="filtroEstadoOc()"
+            ></v-autocomplete>
+            
           </v-col>
           <v-col cols="6" class="d-flex text-right align-center">
             <v-text-field

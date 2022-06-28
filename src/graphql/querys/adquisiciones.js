@@ -44,6 +44,7 @@ query Q_GET_DATOS_OC_CONSULTA{
     pro {
       nombre
       fec_creacion
+      id
     }
     identificacion
     neto
@@ -52,8 +53,25 @@ query Q_GET_DATOS_OC_CONSULTA{
       apellidos
     }
     fec_aprobacion
+    est_doc{
+      nombre
+      id
+    }
+    ent{
+      id
+      rut
+      razon_social
+    }
+  }
+}
+`
+const GET_ESTADO_OC = gql`
+query Q_GET_ESTADO_OC{
+  kangusoft_est_doc{
+    nombre
+    id
   }
 }
 `
 
-export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA }
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA,GET_ESTADO_OC }
