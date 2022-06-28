@@ -37,6 +37,8 @@ query Q_GET_DATOS_OC_CABECERA {
   }
 }
 `
+
+//Comentario
 const GET_DATOS_OC_CONSULTA = gql`
 query Q_GET_DATOS_OC_CONSULTA{
   kangusoft_oc {
