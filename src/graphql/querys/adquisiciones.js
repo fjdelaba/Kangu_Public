@@ -74,4 +74,30 @@ query Q_GET_ESTADO_OC{
 }
 `
 
-export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA,GET_ESTADO_OC }
+const GET_OC_DETALLE = gql`
+query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!) {
+  kangusoft_oc_det(where: {oc_fk: $oc_fk}) {
+    mat {
+      nombre
+      mat_uni {
+        nombre
+      }
+    }
+    cantidad
+    id
+    mat_fk
+    observacion
+    total
+    precio_unitario
+    oc_fk
+    oc_det_pars {
+      cantidad
+      id
+      oc_det_id
+      par_fk
+    }
+  }
+}
+`
+
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE }

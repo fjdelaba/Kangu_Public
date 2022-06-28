@@ -96,7 +96,7 @@ export const getPartidasPorPoroyecto = async (pro_fk) => {
   return await apolloClient.mutate({
     mutation: GET_PARTIDAS,
     variables:{
-      'pro_fk': 1
+      pro_fk
     },
     update: (data) => {
       // console.log('update data getPartidas: ',data)

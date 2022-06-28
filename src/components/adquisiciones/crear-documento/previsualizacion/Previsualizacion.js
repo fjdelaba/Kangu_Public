@@ -13,7 +13,8 @@ export default {
   props: {
     materiales:[],
     cabecera: {},
-    observacion: ''
+    observacion: '',
+    listaPartidas: []
   },
   data() {
     return {
@@ -25,11 +26,14 @@ export default {
           text: 'Material',
           align: 'start',
           sortable: false,
-          value: 'nombre'
+          value: 'mat',
+          width: '400px'
         },
-        { text: 'Cantidad', value: 'cantidad' },
-        { text: 'Precio', value: 'precio_unitario' },
-        { text: 'Subtotal', value: 'total' }
+        // { text: 'C.C', value: 'oc_det_pars', sortable: false, width: '200px' },
+        { text: 'Cant.', value: 'cantidad', width: '100px', sortable: false, align: 'center' },
+        { text: 'P. Unitario', value: 'precio_unitario', width: '100px', sortable: false, align: 'center' },
+        { text: 'Subtotal', value: 'total', width: '100px', sortable: false, align: 'center' }
+        // { text: 'Acciones', value: 'actions', sortable: false }
       ],
       tab: 'documento',
       comentarioAprobadores: '',
@@ -51,9 +55,26 @@ export default {
     clickTab() {
       console.log('click')
       this.cargarAprobadores()
+    },
+    getNombrePartida(idPartida) {
+      const searchObject = this.listaPartidas.find((partida) => {
+        console.log('partida: ', partida)
+        console.log('idPartida: ', idPartida)
+
+        return Number(partida.id) === Number(idPartida)
+      })
+
+      console.log('searchObject: ', searchObject)
+
+      return searchObject.nombre
     }
   },
   mounted() {
     console.log('mounted previsualizacion')
+  },
+  computed: {
+    cpxFecha() {
+      return this.$moment(new Date()).format('DD/MM/yy')
+    }
   }
 }
