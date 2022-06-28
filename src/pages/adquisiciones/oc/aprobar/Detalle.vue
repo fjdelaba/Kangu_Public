@@ -1,8 +1,10 @@
 <template>
-  <div>
-    <h2>Detalle Aprobar</h2>
-    <previsualizacion :materiales="[]" :cabecera="[]" observacion=""></previsualizacion>
-  </div>
+  <v-container>
+    <div>
+      <h2>Detalle Aprobar</h2>
+      <previsualizacion :materiales="[]" :cabecera="[]" observacion=""></previsualizacion>
+    </div>
+  </v-container>
 </template>
 
 <script>

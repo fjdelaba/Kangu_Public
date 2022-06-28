@@ -47,7 +47,8 @@ export const getDetalleOC = async (oc_fk) => {
     variables: {
       oc_fk:{
         _eq: oc_fk
-      }
+      },
+      _eq:oc_fk
     },
     fetchPolicy:'network-only'
   })

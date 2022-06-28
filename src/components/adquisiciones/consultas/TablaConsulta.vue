@@ -65,7 +65,7 @@
             </v-btn>
           </v-col>
         </v-row>
-
+  
         <v-data-table
           v-model="selectedUsers"
           :headers="headers"
@@ -80,7 +80,7 @@
 
           <template v-slot:item.actions="{ item }">
             <div><v-btn
-              v-model="item.actions" 
+              @click="abrirDetalle(item)"
             > Abrir </v-btn>
             </div>
           </template> 

@@ -1,22 +1,11 @@
 <template>
-  <div>
-    <h2>
-      Detalle Consultas
-    </h2>
-    <previsualizacion :materiales="[]" :cabecera="[]" observacion=""></previsualizacion>
-  </div>
-  
+  <v-container>
+    <div>
+      <h2>
+        Detalle Consultas {{ cabeceraOcSeleccionada }}
+      </h2>
+      <previsualizacion :materiales="materialesOcSeleccionada" :cabecera="cabecera" observacion=""></previsualizacion>
+    </div>
+  </v-container>
 </template>
-
-<script>
-import Previsualizacion from '../../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion'
-export default {
-  components: {
-    Previsualizacion
-  }
-}
-</script>
-
-<style>
-
-</style>
+<script src="./detalle/detalle.js"></script>

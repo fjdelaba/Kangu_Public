@@ -43,6 +43,7 @@ const GET_DATOS_OC_CONSULTA = gql`
 query Q_GET_DATOS_OC_CONSULTA{
   kangusoft_oc {
     nombre
+    id
     pro {
       nombre
       fec_creacion
@@ -77,7 +78,7 @@ query Q_GET_ESTADO_OC{
 `
 
 const GET_OC_DETALLE = gql`
-query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!) {
+query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
   kangusoft_oc_det(where: {oc_fk: $oc_fk}) {
     mat {
       nombre
@@ -99,7 +100,45 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!) {
       par_fk
     }
   }
+  kangusoft_oc(where: {id: {_eq: $_eq}}) {
+    id
+    bloqueado
+    comentario
+    comentario_pdf
+    des_tip {
+      nombre
+      id
+    }
+    desp_direccion
+    ent {
+      id
+      razon_social
+      rut
+    }
+    identificacion
+    nombre
+    pro {
+      nombre
+      id
+      direccion
+    }
+    usu {
+      apellidos
+      nombre
+      email
+    }
+    for_pag {
+      nombre
+      id
+    }
+    neto
+    neto_ajustado
+    mon {
+      id
+      nombre
+    }
+  }
 }
 `
 
-export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE }
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC }

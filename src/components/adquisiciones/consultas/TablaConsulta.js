@@ -25,6 +25,7 @@ export default {
 
       ],
       ocs: [],
+      ocSeleccionada:"",
       proyectoSeleccionado: "",
       estadoSeleccionado: "",
       proyectos: [{ id: 0, nombre: 'Todos los Proyectos' }],
@@ -87,7 +88,15 @@ export default {
           );
         });
       }
-    }
+    },
+    abrirDetalle(item){
+
+       this.$router.push({
+        path: "/adquisiciones/oc/consultar/detalle/",
+        query: { id: Number(item.id),}
+    });
+    console.log("proyecto",this.$route)
+     }
 
   }
 }

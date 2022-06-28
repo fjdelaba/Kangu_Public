@@ -1,3 +1,4 @@
+/* eslint-disable */
 import CuadroResumen from '../../../general/cuadro-resumen/CuadroResumen.vue'
 import Pipeline from '../../../general/pipeline/Pipeline.vue'
 import DistribucionLineasPartidas from '../../../adquisiciones/distribucion-lineas-partidas/DistribucionLineasPartidas.vue'
@@ -15,6 +16,9 @@ export default {
     cabecera: {},
     observacion: '',
     listaPartidas: []
+  },
+  mounted() {
+   console.log("PROPS:",this.cabecera)
   },
   data() {
     return {
