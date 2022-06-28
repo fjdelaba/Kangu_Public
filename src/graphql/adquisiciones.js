@@ -12,6 +12,8 @@ export const getDatosOcConsulta = async() => {
     query: GET_DATOS_OC_CONSULTA
   })
 }
+
+//Comentario
 export const postCabeceraOC = async (cabecera) => {
 
   return await apolloClient.mutate({
