@@ -3,6 +3,7 @@ import CuadroResumen from '../../../general/cuadro-resumen/CuadroResumen.vue'
 import Pipeline from '../../../general/pipeline/Pipeline.vue'
 import DistribucionLineasPartidas from '../../../adquisiciones/distribucion-lineas-partidas/DistribucionLineasPartidas.vue'
 import { getAprobadoresProyecto } from '../../../../graphql/aprobaciones'
+import {creaPdfOC} from '../../../../utils/pdf-oc-template.js'
 
 export default {
   name:'Previsualizacion',
@@ -76,11 +77,14 @@ export default {
 
       return searchObject.nombre
     },
-    aprueboOc(){
+    async aprueboOc(){
     this.apruebo = true
     this.respuesta = 'success'
     this.regla = [() => true]
     console.log(" this.apruebo", this.apruebo)
+    },
+    async descargarOcPDF(){
+      await creaPdfOC(this.materiales)
     },
     rechazoOc(){
      this.apruebo = false
