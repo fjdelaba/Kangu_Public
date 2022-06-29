@@ -208,7 +208,7 @@
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
           <div v-if="item.editable">
             <div v-if="item.oc_det_pars.length > 1">
-              <span>{{ item.cantidad }}</span> 
+              <span>{{ item.cantidad | currency }}</span> 
             </div>
             <div v-else>
               <v-text-field
@@ -220,7 +220,7 @@
             </div>
           </div>
           <div v-else>
-            <span>{{ item.cantidad }}</span> 
+            <span>{{ item.cantidad | currency_2 }}</span> 
           </div>
           <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
           <!-- <span> <span style="font-size: 16px">{{ item.nombre }}</span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span>  -->
@@ -237,8 +237,13 @@
             ></v-text-field>
           </div>
           <div v-else>
-            <span>{{ item.precio_unitario }}</span> 
+            <span>{{ item.precio_unitario | currency }}</span> 
           </div>
+        </div>
+      </template>
+      <template v-slot:item.total="{ item }">
+        <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+          <span>{{ item.total | currency }}</span> 
         </div>
       </template>
       <template v-slot:item.actions="{ item }">
@@ -324,7 +329,13 @@
           hide-default-header
           hide-default-footer
           class="elevation-1"
-        ></v-data-table>
+        >
+          <template v-slot:item.valor="{ item }">
+            <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+              <span>{{ item.valor | currency }}</span> 
+            </div>
+          </template>
+        </v-data-table>
       </v-col>
     </v-row>
     <v-dialog

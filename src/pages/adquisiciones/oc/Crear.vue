@@ -9,7 +9,7 @@
         style="min-width: 850px;"
         class="flex-grow-0 flex-shrink-1 w-full"
       >
-        {{ pasoStep }}
+        <!-- {{ pasoStep }} -->
         <v-stepper v-model="pasoStep" class="flex-grow-1">
           <v-stepper-header>
             <v-stepper-step
@@ -72,7 +72,7 @@
             {{ textoAvanzar }}
           </v-btn>
 
-          <v-btn @click="retroceder()">
+          <v-btn v-if="pasoStep > 1" @click="retroceder()">
             Atras
           </v-btn>
         </v-stepper>

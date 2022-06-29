@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="pb-0 mb-0">
-      {{ listaPartidas }}
+      <!-- {{ listaPartidas }} -->
       <v-row justify="center" align="center">
         <!-- {{ material }} -->
         <!-- {{ partidaGeneral }} -->
@@ -211,7 +211,7 @@
                 md="6"
                 class="pb-0 pt-0 mb-0 mt-0"
               >
-                <p class="font-weight-black">Total: {{ material.subtotal }}</p>
+                <p class="font-weight-black">Total: {{ material.subtotal | currency}}</p>
               </v-col>
             </v-row>
           </v-row>
