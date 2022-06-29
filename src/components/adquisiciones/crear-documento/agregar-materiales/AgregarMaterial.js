@@ -1,6 +1,6 @@
 import { getPartidasPorPoroyecto } from '../../../../graphql/general'
 import ModalAgregarMaterial from '../../modal-agregar-material/ModalAgregarMaterial.vue'
-import { postDetalleOC } from '../../../../graphql/adquisiciones'
+import { postDetalleOC, deleteDetalleOC } from '../../../../graphql/adquisiciones'
 import { getDetalleOC } from '../../../../graphql/adquisiciones'
 
 export default {
@@ -291,9 +291,12 @@ export default {
               // const ase = {
               //   oc_fk
               // }
-              const resp = await getDetalleOC(this.oc_id)
+              // const resp = await getDetalleOC(this.oc_id)
 
-              this.lista_detalle = resp.data.kangusoft_oc_det
+              // this.lista_detalle = resp.data.kangusoft_oc_det
+
+              await this.getListaDetalle()
+
               console.log('this.lista_detalle: ', this.lista_detalle)
               // this.materiales.push(materiales)
                 
@@ -308,6 +311,11 @@ export default {
         }
       }
       this.dialogMaterial = false
+    },
+    async getListaDetalle() {
+      const resp = await getDetalleOC(this.oc_id)
+
+      this.lista_detalle = resp.data.kangusoft_oc_det
     },
     getNombreLineaDetalle(item) {
       console.log('item: ', item)
@@ -350,17 +358,22 @@ export default {
         mat.editable = true
       }
     },
-    eliminarMaterial(item) {
-      for (const mat in this.materiales) {
-        // if(mat.mat_fk == item.mat_fk){
-        //   delete mat
-        // }
-        // eslint-disable-next-line eqeqeq
-        if (this.materiales[mat].mat_fk == item.mat_fk) {
-          console.log('this.materiales[mat]: ', this.materiales[mat])
-          this.materiales.splice(mat,1)
-        }
-      }
+    async eliminarMaterial(item) {
+      console.log(item)
+      const resp = await deleteDetalleOC(item.id)
+      
+      console.log('resp: ', resp)
+      await this.getListaDetalle()
+      // for (const mat in this.materiales) {
+      //   // if(mat.mat_fk == item.mat_fk){
+      //   //   delete mat
+      //   // }
+      //   // eslint-disable-next-line eqeqeq
+      //   if (this.materiales[mat].mat_fk == item.mat_fk) {
+      //     console.log('this.materiales[mat]: ', this.materiales[mat])
+      //     this.materiales.splice(mat,1)
+      //   }
+      // }
     },
     guardarMaterial(item) {
       for (const mat in this.materiales) {

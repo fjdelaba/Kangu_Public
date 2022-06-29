@@ -20,8 +20,29 @@ mutation M_INSERT_DETALLE_OCN($detalle: OcDetalleInput!, $detalle_partida: [OcDe
     }
 }
 `
+
+const UPDATE_CABECERA_OC = gql`
+mutation M_UPDATE_CABECERA_OC($cabecera: OcCabeceraInput!) {
+  update_oc_cabecera(cabecera: $cabecera) {
+    id
+    identificacion
+  }
+}
+`
+
+const DELETE_OC_DETALLE = gql`
+mutation M_DELETE_OC_DETALLE($id_det: bigint!) {
+  delete_oc_detalle(id_det: $id_det) {
+    message
+    success
+  }
+}
+
+`
  
 export {
   INSERT_CABECERA_OC,
-  INSERT_DETALLE_OC
+  INSERT_DETALLE_OC,
+  UPDATE_CABECERA_OC,
+  DELETE_OC_DETALLE
 }

@@ -77,7 +77,13 @@
           </v-btn>
         </v-stepper>
       </v-col>
-    </v-row>    
+    </v-row>      
+    <v-dialog
+      v-model="dialogFinal"
+      max-width="550"
+    >
+      <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ZZZZZ fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
+    </v-dialog> 
     <!-- <CrearDocumento/> -->
   </div>
 </template>
@@ -87,20 +93,25 @@ import CrearDocumento from '../../../components/adquisiciones/crear-documento/Cr
 import AgregarMaterial from '../../../components/adquisiciones/crear-documento/agregar-materiales/AgregarMaterial.vue'
 import InformacionGeneral from '../../../components/adquisiciones/crear-documento/informacion-general/InformacionGeneral.vue'
 import Previsualizacion from '../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
-import { postCabeceraOC } from '../../../graphql/adquisiciones'
+import { postCabeceraOC, updateCabeceraOC } from '../../../graphql/adquisiciones'
+import DialogFinalDocumento from '../../../components/adquisiciones/dialog-final-documento/DialogFinalDocumento.vue'
 export default {
   components: {
     // CrearDocumento,
     AgregarMaterial,
     InformacionGeneral,
-    Previsualizacion
+    Previsualizacion,
+    DialogFinalDocumento
   },
   data() {
     return {
       e1: 1,
       pasoStep: 1,
       oc_id: 0,
-      pro_fk: 0
+      pro_fk: 0,
+      dialogFinal: false,
+      identificacion: '',
+      email:''
     }
   },
   computed: {
@@ -119,35 +130,40 @@ export default {
         // this.pasoStep++
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
-          try {
-            const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+          if (this.oc_id > 0) {
+            this.pasoStep++
+          } else {
+            try {
+              const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
-            console.log('cabecera: ', cabecera)
-            const datosCabecera = {
-              des_tip_fk: cabecera.tipoDespacho.id, 
-              doc_tip_fk: cabecera.tipoDocumento.id, 
-              emp_fk: 1, // Cambiar 
-              ent_con_fk: cabecera.contacto.id, 
-              ent_fk: cabecera.proveedor.id, 
-              est_doc_fk: 4, 
-              for_pag_fk: cabecera.formaPago.id, 
-              mon_fk: cabecera.moneda.id, 
-              nombre: cabecera.nombre, 
-              pro_fk: cabecera.proyecto.id, 
-              usu_fk: 3 // Cambiar
+              console.log('cabecera: ', cabecera)
+              const datosCabecera = {
+                des_tip_fk: cabecera.tipoDespacho.id, 
+                doc_tip_fk: cabecera.tipoDocumento.id, 
+                emp_fk: 1, // Cambiar 
+                ent_con_fk: cabecera.contacto.id, 
+                ent_fk: cabecera.proveedor.id, 
+                est_doc_fk: 4, 
+                for_pag_fk: cabecera.formaPago.id, 
+                mon_fk: cabecera.moneda.id, 
+                nombre: cabecera.nombre, 
+                pro_fk: cabecera.proyecto.id, 
+                usu_fk: 3 // Cambiar
+              }
+
+              console.log('datosCabecera: ', datosCabecera)
+
+              const returnPostCabecera = await postCabeceraOC(datosCabecera)
+
+              console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
+              this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
+              this.pro_fk = cabecera.proyecto.id
+              this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id)
+              this.pasoStep++
+            } catch (error) {
+              console.log('error: ', error)
             }
 
-            console.log('datosCabecera: ', datosCabecera)
-
-            const returnPostCabecera = await postCabeceraOC(datosCabecera)
-
-            console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
-            this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
-            this.pro_fk = cabecera.proyecto.id
-            this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id)
-            this.pasoStep++
-          } catch (error) {
-            console.log('error: ', error)
           }
 
         } else {
@@ -161,7 +177,6 @@ export default {
         //   this.pasoStep++
         // }
         // this.pasoStep++
-        console.log('this.$refs.refAgregarMaterial.validarAgregarMaterial()_ ', this.$refs.refAgregarMaterial.validarAgregarMaterial())
         if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
           this.pasoStep = this.pasoStep + 2
         }
@@ -170,7 +185,40 @@ export default {
         this.pasoStep++
         console.log('finalizar')
       } else if (this.pasoStep === 4) {
-        this.pasoStep++
+        this.email = this.$refs.refinformaciongeneraldoc.oc_cab.contacto.email
+        console.log('this.email: ', this.email)
+        const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
+
+        console.log('totales: ', totales)
+        let iva = 0
+        let neto = 0
+
+        for (const tot of totales) {
+          console.log('tot: ', tot)
+          // eslint-disable-next-line eqeqeq
+          if (tot.item == 'Neto') {
+            neto = tot.valor
+          // eslint-disable-next-line eqeqeq
+          } else if (tot.item == 'IVA') {
+            iva = tot.valor
+          }
+        }
+        
+        const obj = {
+          oc_fk: this.oc_id ,	
+          comentario:this.$refs.refAgregarMaterial.comentarioDocumento,
+          est_doc_fk: 1, 
+          pro_fk: this.pro_fk,
+          neto,
+          iva
+        }
+
+        console.log('obj: ', obj)
+        const { data: { update_oc_cabecera: { identificacion } } } = await updateCabeceraOC(obj)
+        
+        this.identificacion = identificacion
+        // this.pasoStep++
+        this.dialogFinal = true
         console.log('finalizar')
       }
     },
@@ -180,6 +228,9 @@ export default {
       } else {
         this.pasoStep--
       }
+    },
+    cerrarModal() {
+      this.dialogFinal = false
     }
   }
 }

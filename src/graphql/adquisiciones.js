@@ -1,6 +1,6 @@
 import { apolloClient } from '../client'
 import { GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC } from './querys/adquisiciones'
-import { INSERT_CABECERA_OC, INSERT_DETALLE_OC } from './mutations/adquisiciones'
+import { INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
   return await apolloClient.query({
@@ -51,5 +51,25 @@ export const getDetalleOC = async (oc_fk) => {
       _eq:oc_fk
     },
     fetchPolicy:'network-only'
+  })
+}
+
+export const updateCabeceraOC = async (cabecera) => {
+
+  return await apolloClient.mutate({
+    mutation: UPDATE_CABECERA_OC,
+    variables: {
+      cabecera
+    }
+  })
+}
+
+export const deleteDetalleOC = async (id_det) => {
+
+  return await apolloClient.mutate({
+    mutation: DELETE_OC_DETALLE,
+    variables: {
+      id_det
+    }
   })
 }

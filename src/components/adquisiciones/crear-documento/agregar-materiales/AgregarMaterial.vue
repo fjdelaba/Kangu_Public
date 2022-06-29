@@ -332,7 +332,7 @@
       persistent
       max-width="600px"
     >
-      <modal-agregar-material v-if="dialogMaterial" :material-edicion="materialEdicion" :cerrar-dialog-material_="cerrarDialogMaterial" :lista-partidas="listaPartidas"></modal-agregar-material></v-dialog>
+      <modal-agregar-material v-if="dialogMaterial" :material-edicion="materialEdicion" :cerrar-dialog-material_="cerrarDialogMaterial" :lista-partidas="JSON.parse(JSON.stringify(listaPartidas))"></modal-agregar-material></v-dialog>
     <v-dialog
       v-model="dialogValidacion"
       persistent
