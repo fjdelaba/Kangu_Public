@@ -37,6 +37,17 @@ mutation M_DELETE_OC_DETALLE($id_det: bigint!) {
     success
   }
 }
+`
+
+const UPDATE_OC_INFORMACION_GENERAL = gql`
+mutation M_UPDATE_OC_INFORMACION_GENERAL($id_oc: bigint = "", $cabecera: kangusoft_oc_set_input!) {
+  update_kangusoft_oc(where: {id: {_eq: $id_oc}}, _set: $cabecera) {
+    affected_rows
+    returning {
+      id
+    }
+  }
+}
 
 `
  
@@ -44,5 +55,6 @@ export {
   INSERT_CABECERA_OC,
   INSERT_DETALLE_OC,
   UPDATE_CABECERA_OC,
-  DELETE_OC_DETALLE
+  DELETE_OC_DETALLE,
+  UPDATE_OC_INFORMACION_GENERAL
 }

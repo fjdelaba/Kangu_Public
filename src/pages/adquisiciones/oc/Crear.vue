@@ -93,7 +93,7 @@ import CrearDocumento from '../../../components/adquisiciones/crear-documento/Cr
 import AgregarMaterial from '../../../components/adquisiciones/crear-documento/agregar-materiales/AgregarMaterial.vue'
 import InformacionGeneral from '../../../components/adquisiciones/crear-documento/informacion-general/InformacionGeneral.vue'
 import Previsualizacion from '../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
-import { postCabeceraOC, updateCabeceraOC } from '../../../graphql/adquisiciones'
+import { postCabeceraOC, updateCabeceraOC, updateOCInformacionGeneral } from '../../../graphql/adquisiciones'
 import DialogFinalDocumento from '../../../components/adquisiciones/dialog-final-documento/DialogFinalDocumento.vue'
 export default {
   components: {
@@ -131,6 +131,24 @@ export default {
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
           if (this.oc_id > 0) {
+            const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+            const datosCabecera = {
+              des_tip_fk: cabecera.tipoDespacho.id, 
+              doc_tip_fk: cabecera.tipoDocumento.id, 
+              emp_fk: 1, // Cambiar 
+              ent_con_fk: cabecera.contacto.id, 
+              ent_fk: cabecera.proveedor.id, 
+              // est_doc_fk: 4, 
+              for_pag_fk: cabecera.formaPago.id, 
+              mon_fk: cabecera.moneda.id, 
+              nombre: cabecera.nombre, 
+              pro_fk: cabecera.proyecto.id, 
+              ped_fk: null
+            }
+
+            const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
+
+            console.log('resp: ', resp)
             this.pasoStep++
           } else {
             try {
