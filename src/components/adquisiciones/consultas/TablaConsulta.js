@@ -5,24 +5,24 @@ import { getDatosGenerales } from '../../../graphql/configuracion'
 export default {
   components: {
   },
+  props: {
+    aprobar:"",
+    consulta:""
+  },
   mounted() {
     this.cargarOc()
     this.cargarProyectos()
     this.cargaEstados()
+    if(this.aprobar == true){
+      this.consulta = false
+    }
+    if(this.consulta == true){
+      this.aprobar = false
+    }
   },
   data() {
     return {
       headers: [
-
-        { text: "Centro de Gestión", value: "pro.nombre", idx: 1 },
-        { text: "ID OC", value: "identificacion", idx: 2 },
-        { text: "Nombre OC", value: "nombre", idx: 3 },
-        { text: "Proveedor", value: "ent.razon_social", sortable: false, idx: 4 },
-        { text: "Fecha Aprobación", value: "fec_creacion", sortable: false, idx: 4 },
-        { text: "Comprador", value: "usu.nombre", sortable: false, idx: 4 },
-        { text: "Monto", value: "neto", sortable: false, idx: 4 },
-        { text: "Acción", value: "actions", sortable: false, idx: 4 }
-
       ],
       ocs: [],
       ocSeleccionada:"",
@@ -35,7 +35,36 @@ export default {
     };
   },
   computed: {
-
+    cpxDinamicHeaders() {
+      if ( this.aprobar == true) {
+        console.log("aprobar")
+        return [
+          ...this.headers,
+          { text: "Centro de Gestión", value: "pro.nombre", idx: 1 },
+          { text: "ID OC", value: "identificacion", idx: 2 },
+          { text: "Nombre OC", value: "nombre", idx: 3 },
+          { text: "Proveedor", value: "ent.razon_social", sortable: false, idx: 4 },
+          { text: "Comprador", value: "usu.nombre", sortable: false, idx: 4 },
+          { text: "Monto", value: "neto", sortable: false, idx: 4 },
+          { text: "Acción", value: "actions", sortable: false, idx: 4 }
+        ]
+      }
+      if ( this.aprobar == false) {
+        console.log("agregar actions")
+        return [
+          ...this.headers,
+          { text: "Centro de Gestión", value: "pro.nombre", idx: 1 },
+          { text: "ID OC", value: "identificacion", idx: 2 },
+          { text: "Nombre OC", value: "nombre", idx: 3 },
+          { text: "Proveedor", value: "ent.razon_social", sortable: false, idx: 4 },
+          { text: "Fecha Aprobación", value: "fec_creacion", sortable: false, idx: 4 },
+          { text: "Comprador", value: "usu.nombre", sortable: false, idx: 4 },
+          { text: "Monto", value: "neto", sortable: false, idx: 4 },
+          { text: "Acción", value: "actions", sortable: false, idx: 4 }
+        ]
+      }
+      return this.headers;
+    },
   },
   methods: {
     async cargarOc() {
@@ -90,12 +119,20 @@ export default {
       }
     },
     abrirDetalle(item){
-
-       this.$router.push({
-        path: "/adquisiciones/oc/consultar/detalle/",
-        query: { id: Number(item.id),}
-    });
-    console.log("proyecto",this.$route)
+      if(this.consulta == true && this.aprobar == false){
+        this.$router.push({
+          path: "/adquisiciones/oc/consultar/detalle/",
+          query: { id: Number(item.id),}
+      });
+      console.log("proyecto",this.$route)
+      } else if(this.aprobar == true && this.consulta == false){
+        this.$router.push({
+          path: "/adquisiciones/oc/aprobar/detalle/",
+          query: { id: Number(item.id),}
+      });
+      console.log("proyecto",this.$route)
+      }
+      
      }
 
   }

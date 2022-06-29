@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p> aprobar:{{ aprobar }} , consulta:{{ consulta }}</p> 
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center py-3">
         <div>
@@ -27,8 +28,8 @@
             
           </v-col>
           <v-col cols="3">
-            {{ estadoSeleccionado }}
             <v-autocomplete
+              v-if="aprobar == false"
               v-model="estadoSeleccionado"
               :items="estadosOc"
               class="flex-grow-1 mr-md-2"
@@ -68,7 +69,7 @@
   
         <v-data-table
           v-model="selectedUsers"
-          :headers="headers"
+          :headers="cpxDinamicHeaders"
           :items="ocs"
           :search="searchQuery"
           class="flex-grow-1"

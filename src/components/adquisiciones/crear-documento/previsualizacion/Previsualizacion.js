@@ -15,13 +15,15 @@ export default {
     materiales:[],
     cabecera: {},
     observacion: '',
-    listaPartidas: []
+    listaPartidas: [],
+    consultas:"",
+    aprobacion:"",
+    regla:[]
   },
-  mounted() {
-   console.log("PROPS:",this.cabecera)
-  },
+
   data() {
     return {
+      icon: "mdiClockTimeEightOutline" ,
       materiales: [],
       cabecera: {},
       logo: 'https://kangufiles.nyc3.digitaloceanspaces.com/kangu/logo_dlb.png',
@@ -41,7 +43,9 @@ export default {
       ],
       tab: 'documento',
       comentarioAprobadores: '',
-      aprobadores:[]
+      aprobadores:[],
+      apruebo:"a",
+      respuesta:"1"
     }},
   methods: {
     async cargarAprobadores() {
@@ -71,14 +75,40 @@ export default {
       console.log('searchObject: ', searchObject)
 
       return searchObject.nombre
+    },
+    aprueboOc(){
+    this.apruebo = true
+    this.respuesta = 'success'
+    this.regla = [() => true]
+    console.log(" this.apruebo", this.apruebo)
+    },
+    rechazoOc(){
+     this.apruebo = false
+     this.respuesta = 'error'
+     this.regla = [() => false]
+     console.log(" this.apruebo", this.cpxvalidacion)
     }
+   
   },
   mounted() {
     console.log('mounted previsualizacion')
+    console.log(" this.res", this.apruebo)
   },
   computed: {
     cpxFecha() {
       return this.$moment(new Date()).format('DD/MM/yy')
+    },
+    cpxvalidacion(){
+     return this.apruebo
+    },
+    cpxColor(){
+      return  this.respuesta
+    },
+    cpxRegla(){
+      return  this.regla
+    },
+    cpxTitulo(){
+      return this.apruebo == true ? "Aprobado" : "Rechazado"
     }
   }
 }

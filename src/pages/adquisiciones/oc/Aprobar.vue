@@ -2,7 +2,7 @@
   <v-container>
     <div>
       <h2>Aprobar OC</h2>
-      <tabla-consulta></tabla-consulta>
+      <tabla-consulta :aprobar="aprobar"></tabla-consulta>
     </div>
   </v-container>
 </template>

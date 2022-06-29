@@ -2,7 +2,7 @@
   <v-container>
     <div>
       <h2>Consultar OC</h2>
-      <tabla-consulta></tabla-consulta>
+      <tabla-consulta :consulta="consulta"></tabla-consulta>
     </div>
   </v-container>
 </template>

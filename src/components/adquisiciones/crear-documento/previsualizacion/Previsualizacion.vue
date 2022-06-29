@@ -1,5 +1,6 @@
 <template>
   <div>
+    <p>consultas?: {{ consultas }}, aprobacion?: {{ aprobacion }}</p> 
     <v-tabs
       v-model="tab"
       grow
@@ -49,7 +50,7 @@
                   <v-list-item-title class="text-h5">
                     Orden de Compra: Borrador
                   </v-list-item-title>
-                  <v-list-item-subtitle class="caption">Fecha: {{cpxFecha}}</v-list-item-subtitle>
+                  <v-list-item-subtitle class="caption">Fecha: {{ cpxFecha }}</v-list-item-subtitle>
                   <v-list-item-subtitle class="caption">Contacto DLB: asdsda</v-list-item-subtitle>
                 </v-list-item-content>
 
@@ -323,16 +324,47 @@
           </v-sheet>
         </v-card>
       </v-tab-item>
+
       <v-tab-item
         value="flujo"
         class="mb-6 pb-6"
       >
-        <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline>
-        <v-textarea
-          v-model="comentarioAprobadores"
-          outlined
-          label="Comentario a los aprobadores"
-        ></v-textarea>
+        <!-- <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline> -->
+        <v-stepper class="mt-5" alt-labels>
+          <v-stepper-header>
+            <v-divider></v-divider>
+            <v-stepper-step
+              step="1"
+              :rules="regla"
+              :complete="cpxvalidacion"
+              :color="cpxColor"
+            >
+              Bastian Medina
+              <small v-if="apruebo== true">{{ cpxTitulo }}</small>
+              <small v-if="apruebo== false">{{ cpxTitulo }}</small>
+              <small></small>
+              <v-row > 
+                <v-col cols="6">
+                  <v-btn
+                    color="success"
+                    @click="aprueboOc()"
+                  >Aprobar
+                  </v-btn>
+                </v-col>
+                <v-col cols="6">
+                  <v-btn
+                    color="error"
+                    @click="rechazoOc()"
+                  >Rechazar
+                  </v-btn>
+                </v-col></v-row>
+            
+            </v-stepper-step>
+
+            <v-divider></v-divider>
+
+          </v-stepper-header>
+        </v-stepper>
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
