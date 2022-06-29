@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { getDatosFormularioCabecera } from '../../../../graphql/adquisiciones'
 import { getProveedores, getContactos, getProyectosPorUsuario } from '../../../../graphql/general'
 import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
@@ -106,10 +107,17 @@ export default {
 
       for (const mon of kangusoft_emp_mon) {
         this.listaMonedas.push({ id: mon.mon.id, nombre:mon.mon.nombre })
+        if (mon.mon.id == 2) {
+          this.oc_cab.moneda = { id: mon.mon.id, nombre:mon.mon.nombre }
+        }
       }
+
       for (const doc_tip of kangusoft_emp_doctip) {
         // console.log('doc_tip.doc_ti: ', doc_tip.doc_tip)
         this.listaTiposDocumento.push({ id: doc_tip.doc_tip.id, nombre:doc_tip.doc_tip.nombre })
+        if (doc_tip.doc_tip.id == 3) {
+          this.oc_cab.tipoDocumento = { id: doc_tip.doc_tip.id, nombre:doc_tip.doc_tip.nombre }
+        }
       }
       this.listaFormasPago = kangusoft_for_pag
       this.listaTiposDespacho = kangusoft_des_tip
