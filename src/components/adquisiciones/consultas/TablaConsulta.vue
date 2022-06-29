@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p> aprobar:{{ aprobar }} , consulta:{{ consulta }}</p> 
+
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center py-3">
         <div>

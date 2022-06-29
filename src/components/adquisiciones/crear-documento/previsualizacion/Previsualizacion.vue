@@ -82,10 +82,53 @@
                 <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera.formaPago.nombre }}</span></v-col>
               </v-row>
             </v-sheet>
-            <v-btn
-              color="success"
-            >Descargar Oc
-            </v-btn>
+            <v-row>
+              <v-col>
+                <v-speed-dial
+                  v-model="fab"
+                  :top="top"
+                  :bottom="bottom"
+                  :right="right"
+                  :left="left"
+                  direction="rigth"
+                  :open-on-hover="hover"
+                  :transition="transition"
+                >
+                  <template v-slot:activator>
+                    <v-btn
+                      v-model="fab"
+                      color="blue darken-2"
+                      dark
+                      fab
+                    >
+                      <v-icon v-if="fab">
+                        mdi-close
+                      </v-icon>
+                      <v-icon v-else>
+                        mdi-file-document-outline
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="green"
+                    @click="descargarOcPDF()"
+                  >
+                    <v-icon>mdi-file-download-outline</v-icon>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="indigo"
+                  >
+                    <v-icon>mdi-share-all</v-icon>
+                  </v-btn>
+                </v-speed-dial>
+              </v-col>
+            </v-row>
             <v-data-table
               :headers="headers"
               :items="materiales"
@@ -333,19 +376,28 @@
         class="mb-6 pb-6"
       >
 
-        <v-btn
-          color="success"
-          @click="aprueboOc()"
-        >Aprobar
-        </v-btn>
-               
-        <v-btn
-          color="error"
-          @click="rechazoOc()"
-        >Rechazar
-        </v-btn>
         <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline>
+        <v-row>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-col cols="2">
+            <v-btn
+              color="success"
+              @click="aprueboOc()"
+            >Aprobar
+            </v-btn>
+            <v-btn
+              class="ml-5"
+              color="error"
+              @click="rechazoOc()"
+            >Rechazar
+            </v-btn>
+          </v-col >
         
+        </v-row>
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
