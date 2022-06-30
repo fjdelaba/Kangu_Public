@@ -74,7 +74,7 @@ export default {
           text: "List",
         },
       ],
-      settings: [],
+      settings: ['switch1', 'switch2' ],
       settings2: [],
       /*selectedItem: 1,
       items2: [
@@ -246,8 +246,7 @@ export default {
         nombre: this.usuario.nombres,
         apellidos: this.usuario.apellidos,
         cargo: this.usuario.cargo,
-        // emp_fk: 1,
-        emp_fk: this.$store.state.app.datosEmpresa.id,
+        emp_fk: 1,
         usu_per_fk: 2,
       };
       if(parametro == 2){
@@ -270,12 +269,19 @@ export default {
       }
     },
 
+    permisoTotales() {
+      if (this.cpxValidarPermisos) {
+        this.alert = true;
+        return;
+      } else {
+      }
+    },
     permisoUsu() {
       this.active = 1;
       this.alert = false;
     },
     eliminarFirma() {
-      this.url2 = null;
+      this.url2 = null
       console.log("eliminar firma");
     },
   },
