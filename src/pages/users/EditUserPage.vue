@@ -121,7 +121,8 @@ export default {
     }
   },
   mounted() {
-    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    // this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    this.usu_id = this.$store.state.app.datosUsuario.user_id
     this.cargarDatosUsuario(this.usu_id)
   },
   methods: {

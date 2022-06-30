@@ -36,7 +36,8 @@ export default {
   mounted(
   ) {
     console.log('MOUNTED CONTACTO')
-    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    // this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    this.usu_id = this.$store.state.app.datosUsuario.user_id
     this.rellenarInputs()
   },
   methods: {
@@ -64,7 +65,8 @@ export default {
     }, 
     async grabarNuevoContacto() {
       // this.snackbar = true
-      this.ent_con.usu_fk = this.usu_id
+      // this.ent_con.usu_fk = this.usu_id
+      this.ent_con.usu_fk = this.$store.state.app.datosUsuario.user_id
       this.ent_con.ent_fk = this.idProveedor
       if ('usu_mov_fk' in this.ent_con) {
         delete this.ent_con.usu_mov_fk

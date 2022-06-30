@@ -25,8 +25,8 @@ export default {
   data() {
     return {
       icon: "mdiClockTimeEightOutline" ,
-      materiales: [],
-      cabecera: {},
+      // materiales: [],
+      // cabecera: {},
       logo: 'https://kangufiles.nyc3.digitaloceanspaces.com/kangu/logo_dlb.png',
       headers: [
         {

@@ -28,6 +28,12 @@ export default {
   setLoading: (state, payload) => {
     state.loading = payload
   },
+  setDatosEmpresa: (state, payload) => {
+    state.datosEmpresa = payload
+  },
+  setDatosUsuario: (state, payload) => {
+    state.datosUsuario = payload
+  },
   /**
    * Theme and Layout
    */

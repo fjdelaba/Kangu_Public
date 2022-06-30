@@ -50,7 +50,7 @@
                     Orden de Compra: Borrador
                   </v-list-item-title>
                   <v-list-item-subtitle class="caption">Fecha: {{ cpxFecha }}</v-list-item-subtitle>
-                  <v-list-item-subtitle class="caption">Contacto DLB: asdsda</v-list-item-subtitle>
+                  <v-list-item-subtitle class="caption">Contacto DLB: {{ $store.state.app.datosEmpresa.email }}</v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-avatar
@@ -62,11 +62,11 @@
               </v-list-item>
 
               <v-row no-gutters>
-                <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera.proveedor.razon_social }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Nombre Documento: asdsadsada</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera.proveedor && cabecera.proveedor.razon_social }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ cabecera.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters>
-                <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor.rut }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor && cabecera.proveedor.rut }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Obra: {{ cabecera.proyecto.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters>
@@ -273,7 +273,7 @@
                 <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
                   <div v-if="item.editable">
                     <div v-if="item.oc_det_pars.length > 1">
-                      <span>{{ item.cantidad }}</span> 
+                      <span>{{ item.cantidad | currency_2 }}</span> 
                     </div>
                     <div v-else>
                       <v-text-field
@@ -285,7 +285,7 @@
                     </div>
                   </div>
                   <div v-else>
-                    <span>{{ item.cantidad }}</span> 
+                    <span>{{ item.cantidad | currency_2 }}</span> 
                   </div>
                   <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
                   <!-- <span> <span style="font-size: 16px">{{ item.nombre }}</span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span>  -->
@@ -302,8 +302,13 @@
                     ></v-text-field>
                   </div>
                   <div v-else>
-                    <span>{{ item.precio_unitario }}</span> 
+                    <span>{{ item.precio_unitario | currency }}</span> 
                   </div>
+                </div>
+              </template>
+              <template v-slot:item.total="{ item }">
+                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+                  <span>{{ item.total | currency }}</span> 
                 </div>
               </template>
               <template v-slot:item.actions="{ item }">

@@ -82,7 +82,7 @@
       v-model="dialogFinal"
       max-width="550"
     >
-      <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ZZZZZ fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
+      <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ${identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
     </v-dialog> 
     <!-- <CrearDocumento/> -->
   </div>
@@ -135,7 +135,8 @@ export default {
             const datosCabecera = {
               des_tip_fk: cabecera.tipoDespacho.id, 
               doc_tip_fk: cabecera.tipoDocumento.id, 
-              emp_fk: 1, // Cambiar 
+              // emp_fk: 1, // Cambiar 
+              emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
               ent_con_fk: cabecera.contacto.id, 
               ent_fk: cabecera.proveedor.id, 
               // est_doc_fk: 4, 
@@ -158,7 +159,8 @@ export default {
               const datosCabecera = {
                 des_tip_fk: cabecera.tipoDespacho.id, 
                 doc_tip_fk: cabecera.tipoDocumento.id, 
-                emp_fk: 1, // Cambiar 
+                // emp_fk: 1, // Cambiar 
+                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
                 ent_con_fk: cabecera.contacto.id, 
                 ent_fk: cabecera.proveedor.id, 
                 est_doc_fk: 4, 
@@ -166,7 +168,8 @@ export default {
                 mon_fk: cabecera.moneda.id, 
                 nombre: cabecera.nombre, 
                 pro_fk: cabecera.proyecto.id, 
-                usu_fk: 3 // Cambiar
+                // usu_fk: 3 // Cambiar
+                usu_fk: this.$store.state.app.datosUsuario.user_id // Cambiar
               }
 
               console.log('datosCabecera: ', datosCabecera)

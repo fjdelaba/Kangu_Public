@@ -372,14 +372,16 @@ export default {
         let finalCelulas = [];
         let finalFlag = [];
         let inf = {
-          emp_fk: this.aut0,
+          // emp_fk: this.aut0,
+          emp_fk: this.$store.state.app.datosEmpresa.id,
           nombre: this.infoGeneralProyecto.nombre,
           pro_est_fk: this.infoGeneralProyecto.estado,
           valor_contractual: Number(this.infoGeneralProyecto.valorC),
           com_fk: this.infoDireccionProyecto.comuna,
           direccion: this.infoDireccionProyecto.direccion,
           ent_fk: this.infoMandanteProyecto.mandante,
-          usu_fk: this.usuLogin,
+          // usu_fk: this.usuLogin,
+          usu_fk: this.$store.state.app.datosUsuario.user_id,
           inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
           codigo: this.infoGeneralProyecto.codigo,
           mon_fk: this.infoGeneralProyecto.monedaGeneral,

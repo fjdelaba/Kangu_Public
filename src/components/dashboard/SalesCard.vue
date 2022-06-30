@@ -9,7 +9,7 @@
     <div v-else class="d-flex flex-column flex-grow-1">
       <v-card-title>
         <div>{{ $t(label) }}</div>
-        <div>{{ $t(kangusoft_mon) }}</div>
+        <!-- <div>{{ $t(kangusoft_mon) }}</div> -->
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click="$emit('action-clicked')">{{
           actionLabel
@@ -19,7 +19,7 @@
       <div class="d-flex flex-column flex-grow-1">
         <div class="pa-2">
           <div class="text-h4">
-            {{ unidades }}
+            <!-- {{ unidades }} -->
             {{ 26358.49 | formatCurrency }}
           </div>
           <div class="primary--text text--lighten-1 mt-1">

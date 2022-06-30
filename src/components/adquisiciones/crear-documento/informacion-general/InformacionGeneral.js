@@ -78,12 +78,11 @@ export default {
     }
   },
   created() {
-    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    // this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
   },
   mounted() {    
-    setTimeout(() => {
-      this.cargarProyectosPorUsuarios()      
-    }, 4000)
+    this.usu_id = this.$store.state.app.datosUsuario.user_id
+    this.cargarProyectosPorUsuarios()      
     this.cargarDatosFormulario()
     
   },
@@ -126,7 +125,8 @@ export default {
       
     },
     async cargarProyectosPorUsuarios() {
-      const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id && this.usu_id)
+      console.log('this.usu_id: ', this.usu_id)
+      const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id)
 
       for (const pro of kangusoft_apr) {
         console.log('pro: ', pro)

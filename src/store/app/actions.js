@@ -38,9 +38,19 @@ const setLoading = ({ state, commit }, payload) => {
   commit('setLoading', payload)
 }
 
+const setDatosEmpresa = ({ state, commit }, payload) => {
+  commit('setDatosEmpresa', payload)
+}
+
+const setDatosUsuario = ({ state, commit }, payload) => {
+  commit('setDatosUsuario', payload)
+}
+
 export default {
   showToast,
   showError,
   showSuccess,
-  setLoading
+  setLoading,
+  setDatosEmpresa,
+  setDatosUsuario
 }

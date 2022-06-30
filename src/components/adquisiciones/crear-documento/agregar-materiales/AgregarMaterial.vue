@@ -10,7 +10,7 @@
           class="mb-2"
           @click="abrirDialogMaterial()"
         >
-          Agregar Material {{ oc_id }}
+          Agregar Material 
         </v-btn>
       </v-col>
       <v-col cols="12" ld="6" md="6" class="py-0 text-right">
@@ -323,7 +323,7 @@
       </v-col>
       <v-col lg="4" md="6" class="py-0 py-3 pr-2">
         <!-- {{ cpxTotalesItems }} -->
-        <v-data-table
+        <!-- <v-data-table
           :headers="totalesHeaders"
           :items="cpxTotalesItems"
           hide-default-header
@@ -335,7 +335,8 @@
               <span>{{ item.valor | currency }}</span> 
             </div>
           </template>
-        </v-data-table>
+        </v-data-table> -->
+        <cuadro-resumen :materiales="lista_detalle"></cuadro-resumen>
       </v-col>
     </v-row>
     <v-dialog
