@@ -10,10 +10,10 @@ import {
 import 'jspdf-autotable'
 
 
-async function creaPdfOC(tablaMateriales) {
+async function creaPdfOC(tablaMateriales,datos) {
 
   // let tiempo = new Date();
-  // console.log("jspd datos: ", datos)
+  console.log("jspd datos: ", datos)
   console.log("jspd tablaMateriales: ", tablaMateriales)
   // console.log("jspd datosEmpresa: ", datosEmpresa)
   // console.log("jspd resumenTotales: ", resumenTotales)
@@ -31,12 +31,12 @@ async function creaPdfOC(tablaMateriales) {
     putOnlyUsedFonts: true,
     floatPrecision: 16 // or "smart", default is 16
   });
-  // doc.addFont('Helvetica');
+   doc.addFont('Helvetica');
   doc.setFillColor(100, 149, 237);
 
-  // doc.setFontSize(30)
-  // doc.setFont('Helvetica');
-  // doc.text(10, 25, 'Orden de compra: 3838383838')
+ doc.setFontSize(30)
+doc.setFont('Helvetica');
+
 
   // let moneda = ""
   // let nombreOc = ""
@@ -86,15 +86,15 @@ async function creaPdfOC(tablaMateriales) {
 
   doc.setFontSize(15)
   doc.setFont('Helvetica', 'bold');
-  // doc.setFontStyle('bold')
+  //  doc.setFontStyle('bold')
   console.log(doc.getFontList())
   doc.text(158, 18, 'Orden de Compra');
-  // doc.text(158, 25, `${ocId}`);
+  doc.text(158, 25, `OC-PRUEBA-01`);
 
   doc.setFontSize(10)
   doc.setFont('Helvetica', 'italic');
   // doc.text(150, 25, 'Obra:');
-  // doc.text(165, 25, `${obra}`);
+  //  doc.text(165, 25, `${datos.proveedor.nombre}`);
 
   // doc.text(150, 30, 'Fecha Creacion:');
   // doc.text(180, 30, `${fechaEmision}`);
@@ -113,56 +113,56 @@ async function creaPdfOC(tablaMateriales) {
   doc.setFont('Helvetica', 'normal');
   doc.setFontSize(8)
   doc.setFont('Helvetica', 'normal');
-  // doc.text(10, 50, 'Razon Social:');
-  // doc.text(30, 50, `${nombreProveedor}`);
+  doc.text(10, 50, 'Razon Social:');
+  doc.text(30, 50, `${datos.proveedor.nombre}`);
 
-  // doc.text(10, 54, 'R.U.T: ');
-  // doc.text(30, 54, `${rut}`);
+  doc.text(10, 54, 'R.U.T: ');
+  doc.text(30, 54, `${datos.proveedor.rut}`);
 
-  // doc.text(10, 58, 'Direccion: ');
-  // doc.text(30, 58, `${direccion}`);
+  doc.text(10, 58, 'Direccion: ');
+  doc.text(30, 58, `aaaaaaaa`);
 
-  // doc.text(10, 62, 'Contacto: ');
-  // doc.text(30, 62, `${vendedor}`);
+  doc.text(10, 62, 'Contacto: ');
+  doc.text(30, 62, `Juan Campos`);
 
   // // doc.text(10, 66, 'Telefono: ');
   // // doc.text(30, 66, '+56 9 7998 9130');
-  // doc.text(10, 66, 'Email: ');
-  // doc.text(30, 66, `${correo}`);
+  doc.text(10, 66, 'Email: ');
+  doc.text(30, 66, `JuanCampos@gmail.com`);
 
   // doc.text(10, 70, 'Email: ');
   // doc.text(30, 70, `${correo}`);
 
   doc.addImage(logo, 10, 10, 45, 20)
-  // doc.text(58, 20, 'Razon Social:');
-//   doc.text(58, 20, `${datosEmpresa.emp_nombre_key}`);
+  doc.text(58, 20, 'Razon Social:');
+  doc.text(77, 20, `DLB`);
 
-//    doc.text(120, 50, 'Nombre del Documento:');
-//    doc.text(155, 50, `${nombreOc}`);
+   doc.text(120, 50, 'Nombre del Documento:');
+   doc.text(155, 50, `Prueba PDF`);
 
-//    doc.text(120, 54, 'Obra:');
-//    doc.text(155, 54, `${obra}`);
+   doc.text(120, 54, 'Obra:');
+   doc.text(155, 54, `AAAAA`);
 
-//    doc.text(120, 58, 'Fecha de Emisón: ');
-//    doc.text(155, 58, `${fechaEmision}`);
+   doc.text(120, 58, 'Fecha de Emisón: ');
+   doc.text(155, 58, `29-06-2022`);
 
-//   doc.text(58, 23, 'R.U.T: ');
-//   doc.text(68, 23, `${datosEmpresa.emp_rut_key}`);
+  doc.text(58, 23, 'R.U.T: ');
+  doc.text(68, 23, `0000000`);
 
-//   doc.text(120, 62, 'Moneda:');
-//   doc.text(155, 62, `${ocCreada.data.moneda.mon_nombre_key}`);
+  doc.text(120, 62, 'Moneda:');
+  doc.text(155, 62, `${datos.moneda.nombre}`);
 
-//  doc.text(120, 66, 'Emitido Por:');
-//  doc.text(155, 66, `${ocCreada.data.usuario_comprador.usu_nombre} ${ocCreada.data.usuario_comprador.usu_apellidos}`);
+ doc.text(120, 66, 'Emitido Por:');
+ doc.text(155, 66, `${datos.contacto.nombre}`);
   
-//   doc.text(58, 26, 'Direccion: ');
-//   doc.text(72, 26, `${datosEmpresa.emp_direccion}`);
+  doc.text(58, 26, 'Direccion: ');
+  doc.text(72, 26, `Ossa 760`);
 
-//    doc.text(120, 70, 'Condiciones de Despacho:');
-//   doc.text(155, 70, `${ocCreada.data.despacho.dti_nombre_key}`);
+   doc.text(120, 70, 'Condiciones de Despacho:');
+  doc.text(155, 70, `${datos.tipoDespacho.nombre}`);
 
-//   doc.text(120, 74, 'Condiciones de Pago:');
-//   doc.text(155, 74, `${ocCreada.data.pago.fpa_nombre}`);
+  doc.text(120, 74, 'Condiciones de Pago:');
+  doc.text(155, 74, `${datos.formaPago.nombre}`);
 
 //   doc.text(120, 70, 'Email: ');
 //  doc.text(140, 70, `${datosEmpresa.emp_email}`);

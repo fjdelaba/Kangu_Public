@@ -84,7 +84,7 @@ export default {
     console.log(" this.apruebo", this.apruebo)
     },
     async descargarOcPDF(){
-      await creaPdfOC(this.materiales)
+      await creaPdfOC(this.materiales,this.cabecera)
     },
     rechazoOc(){
      this.apruebo = false
