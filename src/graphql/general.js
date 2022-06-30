@@ -1,5 +1,5 @@
 import { GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
-  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL } from './querys/general'
+  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA  } from './querys/general'
 import { GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
 
 import { apolloClient } from '../client'
@@ -156,5 +156,16 @@ export const insertEntModal = async (ent,ent_con) => {
 export const getDatosUsuarios = async () => {
   return await apolloClient.query({
     query: GET_UNIDADES_NEGOCIO
+  })
+}
+
+export const getEmpresa = async (emp_id) => {
+  console.log('emp_id: ', emp_id)
+  
+  return await apolloClient.query({
+    query: GET_EMPRESA,
+    variables: {
+      emp_id
+    }
   })
 }

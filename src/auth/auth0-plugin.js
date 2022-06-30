@@ -5,6 +5,9 @@
 import Vue from 'vue'
 import createAuth0Client from '@auth0/auth0-spa-js'
 
+import { getEmpresa } from '../graphql/general'
+
+import store from '../store'
 /**
  *  Vue.js Instance Definition
  */
@@ -42,6 +45,7 @@ export const useAuth0 = ({
         try {
           await this.auth0Client.handleRedirectCallback()
           this.user = await this.auth0Client.getUser()
+          console.log('USER EN AUTH PLUGIN')
           this.isAuthenticated = true
         } catch (error) {
           this.error = error
@@ -94,8 +98,21 @@ export const useAuth0 = ({
       } finally {
         this.isAuthenticated = await this.auth0Client.isAuthenticated()
         this.user = await this.auth0Client.getUser()
+        console.log('USER : ', this.user)
+        console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
+        const val = this.user['https://kangusoft.cl/jwt/hasura'].user_tenant
+
+        console.log('val: ', val)
+
+        store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])
         this.isLoading = false
         localStorage.setItem('tokenxjwt_id', `Bearer ${this.user['https://kangusoft.cl/jwt/hasura'].token}`)
+        const resp = await getEmpresa(val)
+
+        store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
+
+        console.log('resp: ', resp)          
+
       }
     }
   })

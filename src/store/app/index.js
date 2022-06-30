@@ -28,6 +28,12 @@ const state = {
   //loading
   loading: false,
 
+  //datosEmpresa
+  datosEmpresa:{},
+
+  //datosUsuario
+  datosUsuario:{},
+
   // App.vue main toast
   toast: {
     show: false,

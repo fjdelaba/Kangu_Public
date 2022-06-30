@@ -43,6 +43,12 @@ export default {
     'work': 'Trabajo',
     'invoice': 'Factura'
   },
+  'oc': {
+    'sub':'Crear OC'
+  },
+  'ped': {
+    'sub':'Crear Pedido'
+  },
   'todo': {
     'addTask': 'Agregar tarea',
     'tasks': 'Tareas',
@@ -147,9 +153,9 @@ export default {
     'checkout': 'Revisa'
   },
   'menu': {
-    'pedido': 'Pedido',
+    'pedido': 'PEDIDO',
     'cotizacion':'Cotizacion',
-    'oc':'Orden de Compra',
+    'oc':'OC',
     'despacho': 'Despacho',
     'recepcion':'Recepcion',
     'consultas':'Consultar',

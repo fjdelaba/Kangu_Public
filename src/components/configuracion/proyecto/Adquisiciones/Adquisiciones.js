@@ -300,7 +300,8 @@ export default {
         tiempo: this.aprobadorFinal == true ? 0 : this.usuarioAprobador.tiempo,
         usu_apro_fk: this.usuarioAprobador.usuario.id,
         mod_fk: 3,
-        usu_fk: this.usuarioLogin,
+        // usu_fk: this.usuarioLogin,
+        usu_fk: this.$store.state.app.datosUsuario.user_id,
         flujo: true,
         apro_final: this.aprobadorFinal,
       };
@@ -379,7 +380,8 @@ export default {
       const comprador = {
         nombre:this.usuariosCompradores.usuario.nombre + ' ' + this.usuariosCompradores.usuario.apellidos ,
         apr_tip_fk: 3,
-        usu_fk: this.usuarioLogin,
+        // usu_fk: this.usuarioLogin,
+        usu_fk: this.$store.state.app.datosUsuario.user_id,
         pro_fk: 1,
         usu_apro_fk: this.usuariosCompradores.usuario.id,
         monto: this.usuariosCompradores.monto,
@@ -450,7 +452,8 @@ export default {
       let id = this.id
       let aprobadorPed = {
         "usu_apro_fk":this.usuariosPedido.usuAprobador.id,
-        "usu_fk":1,
+        // "usu_fk":1,
+        "usu_fk":this.$store.state.app.datosUsuario.user_id,
         "mod_fk":1,
         "apr_tie_fk": 1,
         "mon_fk":2
@@ -459,11 +462,17 @@ export default {
       console.log("aprobador:", this.usuariosPedido.usuSolicitante)
       console.log("id:", id)
       for(let a of this.tablaAprobador){
-      aprobadores.push({mod_fk:3,apr_tie_fk: 1,monto:a.monto,usu_fk:1,pro_fk:this.id,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
+      aprobadores.push({mod_fk:3,apr_tie_fk: 1,monto:a.monto,
+        // usu_fk:1,
+        usu_fk: this.$store.state.app.datosUsuario.user_id,
+        pro_fk:this.id,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
       console.log("apro:", aprobadores)  
     }
     for(let b of this.tablaCompradores){
-      compradores.push({mod_fk:3,usu_fk:1,pro_fk:this.id,usu_apro_fk:b.usu_apro_fk,monto:b.montox,mon_fk:1})
+      compradores.push({mod_fk:3,
+        // usu_fk:1,
+        usu_fk:this.$store.state.app.datosUsuario.user_id,
+        pro_fk:this.id,usu_apro_fk:b.usu_apro_fk,monto:b.montox,mon_fk:1})
       console.log("b",compradores)
     }
     for(let c of this.usuariosPedido.usuSolicitante){

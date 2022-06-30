@@ -11,7 +11,8 @@ export default {
         email_dte:'',
         rut: '',
         usu_fk:'',
-        emp_fk:1, // cambiar por valor real
+        // emp_fk:1, // cambiar por valor real
+        emp_fk: this.$store.state.app.datosEmpresa.id, // cambiar por valor real
         email_contacto:'',
         giro:''
       },
@@ -47,7 +48,8 @@ export default {
   },
   mounted(
   ) {
-    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    // this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    this.usu_id = this.$store.state.app.datosUsuario.user_id
   },
   methods: {
     cerrarDialogEntidad() {
@@ -57,8 +59,10 @@ export default {
       if (!this.$refs.formCrearEntidad.validate()) {
         return
       }
-      this.ent.usu_fk = this.usu_id
-      this.ent_con.usu_fk = this.usu_id
+      // this.ent.usu_fk = this.usu_id
+      this.ent.usu_fk = this.$store.state.app.datosUsuario.user_id
+      // this.ent_con.usu_fk = this.usu_id
+      this.ent_con.usu_fk = this.$store.state.app.datosUsuario.user_id
       console.log('this.ent: ', this.ent)
       console.log('this.ent_con: ', this.ent_con)
       const { data } = await insertEntModal(this.ent, this.ent_con)

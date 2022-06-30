@@ -9,7 +9,7 @@
         style="min-width: 850px;"
         class="flex-grow-0 flex-shrink-1 w-full"
       >
-        {{ pasoStep }}
+        <!-- {{ pasoStep }} -->
         <v-stepper v-model="pasoStep" class="flex-grow-1">
           <v-stepper-header>
             <v-stepper-step
@@ -72,7 +72,7 @@
             {{ textoAvanzar }}
           </v-btn>
 
-          <v-btn @click="retroceder()">
+          <v-btn v-if="pasoStep > 1" @click="retroceder()">
             Atras
           </v-btn>
         </v-stepper>
@@ -82,7 +82,7 @@
       v-model="dialogFinal"
       max-width="550"
     >
-      <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ZZZZZ fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
+      <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ${identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
     </v-dialog> 
     <!-- <CrearDocumento/> -->
   </div>
@@ -93,7 +93,7 @@ import CrearDocumento from '../../../components/adquisiciones/crear-documento/Cr
 import AgregarMaterial from '../../../components/adquisiciones/crear-documento/agregar-materiales/AgregarMaterial.vue'
 import InformacionGeneral from '../../../components/adquisiciones/crear-documento/informacion-general/InformacionGeneral.vue'
 import Previsualizacion from '../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
-import { postCabeceraOC, updateCabeceraOC } from '../../../graphql/adquisiciones'
+import { postCabeceraOC, updateCabeceraOC, updateOCInformacionGeneral } from '../../../graphql/adquisiciones'
 import DialogFinalDocumento from '../../../components/adquisiciones/dialog-final-documento/DialogFinalDocumento.vue'
 export default {
   components: {
@@ -131,6 +131,25 @@ export default {
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
           if (this.oc_id > 0) {
+            const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+            const datosCabecera = {
+              des_tip_fk: cabecera.tipoDespacho.id, 
+              doc_tip_fk: cabecera.tipoDocumento.id, 
+              // emp_fk: 1, // Cambiar 
+              emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
+              ent_con_fk: cabecera.contacto.id, 
+              ent_fk: cabecera.proveedor.id, 
+              // est_doc_fk: 4, 
+              for_pag_fk: cabecera.formaPago.id, 
+              mon_fk: cabecera.moneda.id, 
+              nombre: cabecera.nombre, 
+              pro_fk: cabecera.proyecto.id, 
+              ped_fk: null
+            }
+
+            const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
+
+            console.log('resp: ', resp)
             this.pasoStep++
           } else {
             try {
@@ -140,7 +159,8 @@ export default {
               const datosCabecera = {
                 des_tip_fk: cabecera.tipoDespacho.id, 
                 doc_tip_fk: cabecera.tipoDocumento.id, 
-                emp_fk: 1, // Cambiar 
+                // emp_fk: 1, // Cambiar 
+                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
                 ent_con_fk: cabecera.contacto.id, 
                 ent_fk: cabecera.proveedor.id, 
                 est_doc_fk: 4, 
@@ -148,7 +168,8 @@ export default {
                 mon_fk: cabecera.moneda.id, 
                 nombre: cabecera.nombre, 
                 pro_fk: cabecera.proyecto.id, 
-                usu_fk: 3 // Cambiar
+                // usu_fk: 3 // Cambiar
+                usu_fk: this.$store.state.app.datosUsuario.user_id // Cambiar
               }
 
               console.log('datosCabecera: ', datosCabecera)
@@ -165,7 +186,7 @@ export default {
             }
 
           }
-
+            
         } else {
           console.log('por aca no')
         }

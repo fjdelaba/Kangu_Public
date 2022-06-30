@@ -14,7 +14,8 @@ query MyQuery($id_usuario: bigint!, $id_flujo_apro: Int!) {
 
 export default {
   created() {
-    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    // this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    this.usu_id = this.$store.state.app.datosUsuario.user_id
   },
   mounted() {
     this.cargarValoresGenerales()

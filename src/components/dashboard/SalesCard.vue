@@ -9,7 +9,7 @@
     <div v-else class="d-flex flex-column flex-grow-1">
       <v-card-title>
         <div>{{ $t(label) }}</div>
-        <div>{{ $t(kangusoft_mon) }}</div>
+        <!-- <div>{{ $t(kangusoft_mon) }}</div> -->
         <v-spacer></v-spacer>
         <v-btn text color="primary" @click="$emit('action-clicked')">{{
           actionLabel
@@ -19,7 +19,7 @@
       <div class="d-flex flex-column flex-grow-1">
         <div class="pa-2">
           <div class="text-h4">
-            {{ unidades }}
+            <!-- {{ unidades }} -->
             {{ 26358.49 | formatCurrency }}
           </div>
           <div class="primary--text text--lighten-1 mt-1">
@@ -75,32 +75,6 @@ function formatDate(date) {
 | your own dashboard component
 |
 */
-
-const GETUNODADES = gql`
-  query {
-    kangusoft_pro_uni {
-      nombre
-      emp_fk
-    }
-  }
-`
-
-const SUBSUNIDADES = gql`
-  subscription {
-    kangusoft_pro_uni {
-      emp_fk
-      nombre
-    }
-  }
-`
-
-const GETMONEDAS = gql`
-query MyQuery {
-kangusoft_mon {
-nombre
-}
-} 
-`
 
 export default {
   components: {
@@ -160,7 +134,6 @@ export default {
   },
   data() {
     return {
-      unidades: []
     }
   },
   // apollo: {
@@ -168,26 +141,6 @@ export default {
   //     query: GETUNODADES
   //   }
   // },
-  apollo: {
-    kangusoft_mon: {
-      query() {
-        return GETMONEDAS
-      },
-      update: (data) => console.log(data)
-    },
-    $subscribe: {
-      // When a tag is added
-      kangusoft_pro_uni: {
-        query: SUBSUNIDADES,
-        // Result hook
-        // Don't forget to destructure `data`
-        result({ data }) {
-          console.log(data.kangusoft_pro_uni)
-          this.unidades = data.kangusoft_pro_uni
-        }
-      }
-    }
-  },
   computed: {
     chartOptions() {
       const primaryColor = this.$vuetify.theme.isDark

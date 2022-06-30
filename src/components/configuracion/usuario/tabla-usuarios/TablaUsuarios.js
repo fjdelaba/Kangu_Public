@@ -246,7 +246,8 @@ export default {
         nombre: this.usuario.nombres,
         apellidos: this.usuario.apellidos,
         cargo: this.usuario.cargo,
-        emp_fk: 1,
+        // emp_fk: 1,
+        emp_fk: this.$store.state.app.datosEmpresa.id,
         usu_per_fk: 2,
       };
       if(parametro == 2){

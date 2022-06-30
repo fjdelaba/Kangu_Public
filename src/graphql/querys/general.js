@@ -120,6 +120,27 @@ query Q_GET_MATERIAL($material: String!) {
 }
 `
 
+const GET_EMPRESA = gql`
+query Q_GET_EMPRESA($emp_id: bigint!) {
+  kangusoft_emp(where: {id: {_eq: $emp_id}}) {
+    activo
+    direccion
+    email
+    com {
+      nombre
+    }
+    giro
+    id
+    logo
+    nombre
+    rut
+    telefono
+    representante
+    usuarios
+  }
+}
+`
+
 // const GET_PARTIDAS = gql`
 // mutation Q_GET_PARTIDAS($pro_fk: bigint!) {
 //   getPartidas(pro_fk: $pro_fk) {
@@ -141,5 +162,6 @@ export {
   GET_CONTACTOS,
   GET_COMUNAS,
   GET_PROYECTOS_POR_USUARIO,
-  GET_MATERIAL
+  GET_MATERIAL,
+  GET_EMPRESA
 }

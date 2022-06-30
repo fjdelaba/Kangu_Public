@@ -1,6 +1,5 @@
 <template>
   <div>
-    <p>consultas?: {{ consultas }}, aprobacion?: {{ aprobacion }}</p> 
     <v-tabs
       v-model="tab"
       grow
@@ -51,7 +50,7 @@
                     Orden de Compra: Borrador
                   </v-list-item-title>
                   <v-list-item-subtitle class="caption">Fecha: {{ cpxFecha }}</v-list-item-subtitle>
-                  <v-list-item-subtitle class="caption">Contacto DLB: asdsda</v-list-item-subtitle>
+                  <v-list-item-subtitle class="caption">Contacto DLB: {{ $store.state.app.datosEmpresa.email }}</v-list-item-subtitle>
                 </v-list-item-content>
 
                 <v-list-item-avatar
@@ -63,11 +62,11 @@
               </v-list-item>
 
               <v-row no-gutters>
-                <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera.proveedor.razon_social }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Nombre Documento: asdsadsada</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera.proveedor && cabecera.proveedor.razon_social }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ cabecera.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters>
-                <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor.rut }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor && cabecera.proveedor.rut }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Obra: {{ cabecera.proyecto.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters>
@@ -83,6 +82,53 @@
                 <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera.formaPago.nombre }}</span></v-col>
               </v-row>
             </v-sheet>
+            <v-row>
+              <v-col>
+                <v-speed-dial
+                  v-model="fab"
+                  :top="top"
+                  :bottom="bottom"
+                  :right="right"
+                  :left="left"
+                  direction="rigth"
+                  :open-on-hover="hover"
+                  :transition="transition"
+                >
+                  <template v-slot:activator>
+                    <v-btn
+                      v-model="fab"
+                      color="blue darken-2"
+                      dark
+                      fab
+                    >
+                      <v-icon v-if="fab">
+                        mdi-close
+                      </v-icon>
+                      <v-icon v-else>
+                        mdi-file-document-outline
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="green"
+                    @click="descargarOcPDF()"
+                  >
+                    <v-icon>mdi-file-download-outline</v-icon>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    color="indigo"
+                  >
+                    <v-icon>mdi-share-all</v-icon>
+                  </v-btn>
+                </v-speed-dial>
+              </v-col>
+            </v-row>
             <v-data-table
               :headers="headers"
               :items="materiales"
@@ -227,7 +273,7 @@
                 <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
                   <div v-if="item.editable">
                     <div v-if="item.oc_det_pars.length > 1">
-                      <span>{{ item.cantidad }}</span> 
+                      <span>{{ item.cantidad | currency_2 }}</span> 
                     </div>
                     <div v-else>
                       <v-text-field
@@ -239,7 +285,7 @@
                     </div>
                   </div>
                   <div v-else>
-                    <span>{{ item.cantidad }}</span> 
+                    <span>{{ item.cantidad | currency_2 }}</span> 
                   </div>
                   <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
                   <!-- <span> <span style="font-size: 16px">{{ item.nombre }}</span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span>  -->
@@ -256,8 +302,13 @@
                     ></v-text-field>
                   </div>
                   <div v-else>
-                    <span>{{ item.precio_unitario }}</span> 
+                    <span>{{ item.precio_unitario | currency }}</span> 
                   </div>
+                </div>
+              </template>
+              <template v-slot:item.total="{ item }">
+                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+                  <span>{{ item.total | currency }}</span> 
                 </div>
               </template>
               <template v-slot:item.actions="{ item }">
@@ -329,42 +380,29 @@
         value="flujo"
         class="mb-6 pb-6"
       >
-        <!-- <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline> -->
-        <v-stepper class="mt-5" alt-labels>
-          <v-stepper-header>
-            <v-divider></v-divider>
-            <v-stepper-step
-              step="1"
-              :rules="regla"
-              :complete="cpxvalidacion"
-              :color="cpxColor"
-            >
-              Bastian Medina
-              <small v-if="apruebo== true">{{ cpxTitulo }}</small>
-              <small v-if="apruebo== false">{{ cpxTitulo }}</small>
-              <small></small>
-              <v-row > 
-                <v-col cols="6">
-                  <v-btn
-                    color="success"
-                    @click="aprueboOc()"
-                  >Aprobar
-                  </v-btn>
-                </v-col>
-                <v-col cols="6">
-                  <v-btn
-                    color="error"
-                    @click="rechazoOc()"
-                  >Rechazar
-                  </v-btn>
-                </v-col></v-row>
-            
-            </v-stepper-step>
 
-            <v-divider></v-divider>
-
-          </v-stepper-header>
-        </v-stepper>
+        <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline>
+        <v-row>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-divider></v-divider>
+          <v-col cols="2">
+            <v-btn
+              color="success"
+              @click="aprueboOc()"
+            >Aprobar
+            </v-btn>
+            <v-btn
+              class="ml-5"
+              color="error"
+              @click="rechazoOc()"
+            >Rechazar
+            </v-btn>
+          </v-col >
+        
+        </v-row>
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"

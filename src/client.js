@@ -9,6 +9,8 @@ import { getMainDefinition } from 'apollo-utilities'
 
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('tokenxjwt_id')
+
+  console.log('token: ', token)
   
   return {
     headers: {

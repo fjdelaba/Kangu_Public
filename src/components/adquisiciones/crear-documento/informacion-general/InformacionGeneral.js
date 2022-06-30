@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 import { getDatosFormularioCabecera } from '../../../../graphql/adquisiciones'
 import { getProveedores, getContactos, getProyectosPorUsuario } from '../../../../graphql/general'
 import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
@@ -77,12 +78,11 @@ export default {
     }
   },
   created() {
-    this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+    // this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
   },
   mounted() {    
-    setTimeout(() => {
-      this.cargarProyectosPorUsuarios()      
-    }, 4000)
+    this.usu_id = this.$store.state.app.datosUsuario.user_id
+    this.cargarProyectosPorUsuarios()      
     this.cargarDatosFormulario()
     
   },
@@ -106,10 +106,17 @@ export default {
 
       for (const mon of kangusoft_emp_mon) {
         this.listaMonedas.push({ id: mon.mon.id, nombre:mon.mon.nombre })
+        if (mon.mon.id == 2) {
+          this.oc_cab.moneda = { id: mon.mon.id, nombre:mon.mon.nombre }
+        }
       }
+
       for (const doc_tip of kangusoft_emp_doctip) {
         // console.log('doc_tip.doc_ti: ', doc_tip.doc_tip)
         this.listaTiposDocumento.push({ id: doc_tip.doc_tip.id, nombre:doc_tip.doc_tip.nombre })
+        if (doc_tip.doc_tip.id == 3) {
+          this.oc_cab.tipoDocumento = { id: doc_tip.doc_tip.id, nombre:doc_tip.doc_tip.nombre }
+        }
       }
       this.listaFormasPago = kangusoft_for_pag
       this.listaTiposDespacho = kangusoft_des_tip
@@ -118,7 +125,8 @@ export default {
       
     },
     async cargarProyectosPorUsuarios() {
-      const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id && this.usu_id)
+      console.log('this.usu_id: ', this.usu_id)
+      const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id)
 
       for (const pro of kangusoft_apr) {
         console.log('pro: ', pro)

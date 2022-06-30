@@ -2,10 +2,12 @@ import { getPartidasPorPoroyecto } from '../../../../graphql/general'
 import ModalAgregarMaterial from '../../modal-agregar-material/ModalAgregarMaterial.vue'
 import { postDetalleOC, deleteDetalleOC } from '../../../../graphql/adquisiciones'
 import { getDetalleOC } from '../../../../graphql/adquisiciones'
+import CuadroResumen from '../../../general/cuadro-resumen/CuadroResumen.vue'
 
 export default {
   components:{
-    ModalAgregarMaterial
+    ModalAgregarMaterial,
+    CuadroResumen
   },
   props: {
     oc_id: 0,
@@ -154,10 +156,10 @@ export default {
     },
     async getPartidas(pro_fk) {
       // console.log('pro_fk: ', this.pro_fk) 
-
+      console.log('INICIO GET PARTIDAS')
       const  { data }   = await getPartidasPorPoroyecto(pro_fk)
       
-      console.log('data: ', data) 
+      console.log('data en getPartidas: ', data) 
       this.listaPartidas = data.getPartidas
       for (const partida of this.listaPartidas) {
         if (partida.path.indexOf('/') > 0) {
@@ -272,7 +274,8 @@ export default {
                 cantidad: Number(total_cantidad),
                 precio_unitario: Number(materiales.precio_unitario),
                 total: Number(total_cantidad) * Number(materiales.precio_unitario),
-                usu_fk:1,
+                // usu_fk:1,
+                usu_fk: this.$store.state.app.datosUsuario.user_id,
                 observacion: materiales.observacion
               }
   
@@ -419,7 +422,6 @@ export default {
     }
   },
   async mounted() {
-    this.getPartidas()
     console.log('mounted Agregar Material')
   },
   computed: {
