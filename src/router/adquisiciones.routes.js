@@ -45,6 +45,14 @@ export default [
     children: [...todoRoutes]
   },
   {
+    path: '/adquisiciones/oc/pendientes',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-todo" */ '@/pages/adquisiciones/oc/Pendientes.vue'
+      ),
+    children: [...todoRoutes]
+  },
+  {
     path: '/adquisiciones/pedido/crear',
     component: () =>
       import(

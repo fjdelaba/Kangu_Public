@@ -186,7 +186,7 @@ export default {
             }
 
           }
-
+            
         } else {
           console.log('por aca no')
         }

@@ -156,7 +156,7 @@ export default {
     },
     async getPartidas(pro_fk) {
       // console.log('pro_fk: ', this.pro_fk) 
-
+      console.log('INICIO GET PARTIDAS')
       const  { data }   = await getPartidasPorPoroyecto(pro_fk)
       
       console.log('data en getPartidas: ', data) 
@@ -422,7 +422,6 @@ export default {
     }
   },
   async mounted() {
-    this.getPartidas()
     console.log('mounted Agregar Material')
   },
   computed: {

@@ -98,14 +98,21 @@ export const useAuth0 = ({
       } finally {
         this.isAuthenticated = await this.auth0Client.isAuthenticated()
         this.user = await this.auth0Client.getUser()
-        console.log('USRE USER USER: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
-        const resp = await getEmpresa(Number(this.user['https://kangusoft.cl/jwt/hasura'].user_tenant))
+        console.log('USER : ', this.user)
+        console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
+        const val = this.user['https://kangusoft.cl/jwt/hasura'].user_tenant
 
-        console.log('resp: ', resp.data.kangusoft_emp[0])
-        store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
+        console.log('val: ', val)
+
         store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])
         this.isLoading = false
         localStorage.setItem('tokenxjwt_id', `Bearer ${this.user['https://kangusoft.cl/jwt/hasura'].token}`)
+        const resp = await getEmpresa(val)
+
+        store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
+
+        console.log('resp: ', resp)          
+
       }
     }
   })

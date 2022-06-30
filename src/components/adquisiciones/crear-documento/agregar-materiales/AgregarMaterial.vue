@@ -1,6 +1,7 @@
 <template>
   <v-card min-width="1000" min-height="500" >
     <!-- {{ lista_detalle }} -->
+    <!-- {{ listaPartidas }} -->
     <v-row>
       <v-col cols="12" ld="6" md="6" class="py-0">
         <v-btn
