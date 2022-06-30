@@ -250,6 +250,7 @@
                                       v-model="settings"
                                       :input-value="active"
                                       color="primary"
+                                      @click="permisoTotales()"
                                     ></v-switch>
                                   </v-list-item-action>
   

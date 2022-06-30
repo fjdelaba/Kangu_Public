@@ -268,13 +268,13 @@ export default {
         this.grabarUsuario(1); //1 = grabar con permiso
       }
     },
-
+    //Metodo de switch all
     permisoTotales() {
-      if (this.cpxValidarPermisos) {
-        this.alert = true;
-        return;
-      } else {
-      }
+    if(this.switchall == false){
+      return cpxValidarPermisos
+    } else 
+      this.switchall == true
+
     },
     permisoUsu() {
       this.active = 1;
