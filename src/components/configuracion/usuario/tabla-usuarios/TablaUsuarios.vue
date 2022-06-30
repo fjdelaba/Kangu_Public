@@ -241,6 +241,25 @@
                         </v-tab-item>
                         <v-tab-item>
                           <v-card flat>
+                            <v-row dense flat>
+                              <v-subheader>Seleccionar todos los permisos</v-subheader>
+                              <v-list-item>
+                                <template v-slot:default="{ active, }">
+                                  <v-list-item-action>
+                                    <v-switch
+                                      v-model="settings"
+                                      :input-value="active"
+                                      color="primary"
+                                      @click="permisoTotales()"
+                                    ></v-switch>
+                                  </v-list-item-action>
+  
+                                  <v-list-item-content>
+                                    <v-list-item-title>Todos los permisos</v-list-item-title>
+                                  </v-list-item-content>
+                                </template>
+                              </v-list-item>
+                            </v-row>
                             <v-row>
                               <v-col>
                                 <v-list
@@ -249,7 +268,7 @@
                                   dense
                                 >
                                   <v-subheader>Panel de Configuraciones</v-subheader>
-  
+                                  
                                   <v-list-item-group
                                     multiple
                                   >

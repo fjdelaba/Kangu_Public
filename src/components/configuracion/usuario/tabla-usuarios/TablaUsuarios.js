@@ -24,8 +24,9 @@ export default {
         imagen: "",
         firma: "",
         select: null,
+        
       },
-      items: ["Admin", "Plebeyo"],
+      items: ["Administrador", "Usuario"],
       usuarioRules: {
         nombresRules: [(v) => !!v || "Nombre obligatorio"],
         apellidosRules: [(v) => !!v || "Apellido obligatorio"],
@@ -61,6 +62,7 @@ export default {
       switch8: false,
       switch9: false,
       switch10: false,
+      switchall:false,
       visible: true,
       breadcrumbs: [
         {
