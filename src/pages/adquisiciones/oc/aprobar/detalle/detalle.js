@@ -21,7 +21,6 @@ export default {
                 rut:""
             },
             proyecto:{
-                nombre:"",
                 direccion:"",
             },
             moneda:{
@@ -50,12 +49,20 @@ export default {
         console.log("MATERIALES:",kangusoft_oc_det)
         this.materialesOcSeleccionada = kangusoft_oc_det
         console.log("OC:", kangusoft_oc[0])
-        this.cabecera.proveedor.nombre = kangusoft_oc[0].ent.nombre
+        this.cabecera.nombre = kangusoft_oc[0].nombre
+        this.cabecera.identificacion = kangusoft_oc[0].identificacion
+        this.cabecera.comentarioPDF = kangusoft_oc[0].comentario_pdf
+        this.cabecera.proveedor.razon_social = kangusoft_oc[0].ent.razon_social
+        this.cabecera.proveedor.email = kangusoft_oc[0].ent_con.email
+        this.cabecera.proveedor.nombreContacto =  kangusoft_oc[0].ent_con.nombre
         this.cabecera.proveedor.rut = kangusoft_oc[0].ent.rut
+        this.cabecera.proveedor.direccion = kangusoft_oc[0].ent.direccion
         this.cabecera.proyecto.nombre = kangusoft_oc[0].pro.nombre
         this.cabecera.proyecto.direccion = kangusoft_oc[0].pro.direccion
         this.cabecera.moneda.nombre = kangusoft_oc[0].mon.nombre
+        this.cabecera.moneda.id = kangusoft_oc[0].mon.id
         this.cabecera.contacto.nombre = kangusoft_oc[0].usu.nombre
+        this.cabecera.contacto.apellidos = kangusoft_oc[0].usu.apellidos
         this.cabecera.contacto.email = kangusoft_oc[0].usu.email
         this.cabecera.formaPago.nombre =  kangusoft_oc[0].for_pag.nombre
         this.cabecera.tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre

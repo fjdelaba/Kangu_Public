@@ -105,6 +105,7 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
     bloqueado
     comentario
     comentario_pdf
+    fec_creacion
     des_tip {
       nombre
       id
@@ -114,6 +115,12 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
       id
       razon_social
       rut
+      email_contacto
+      direccion
+    }
+    ent_con {
+      email
+      nombre
     }
     identificacion
     nombre

@@ -461,26 +461,26 @@ export default {
       console.log("ped",aprobadorPed)
       console.log("aprobador:", this.usuariosPedido.usuSolicitante)
       console.log("id:", id)
-      for(let a of this.tablaAprobador){
-      aprobadores.push({mod_fk:3,apr_tie_fk: 1,monto:a.monto,
+      for(let aprobador of this.tablaAprobador){
+      aprobadores.push({mod_fk:3,apr_tie_fk: 1,monto:aprobador.monto,
         // usu_fk:1,
         usu_fk: this.$store.state.app.datosUsuario.user_id,
-        pro_fk:this.id,flujo:a.flujo,mon_fk:1,usu_apro_fk:a.usu_apro_fk,apro_final:a.apro_final})  
+        pro_fk:this.id,flujo:aprobador.flujo,mon_fk:1,usu_apro_fk:aprobador.usu_apro_fk,apro_final:aprobador.apro_final})  
       console.log("apro:", aprobadores)  
     }
-    for(let b of this.tablaCompradores){
+    for(let comprador of this.tablaCompradores){
       compradores.push({mod_fk:3,
         // usu_fk:1,
         usu_fk:this.$store.state.app.datosUsuario.user_id,
-        pro_fk:this.id,usu_apro_fk:b.usu_apro_fk,monto:b.montox,mon_fk:1})
+        pro_fk:this.id,usu_apro_fk:comprador.usu_apro_fk,monto:comprador.monto,mon_fk:1})
       console.log("b",compradores)
     }
-    for(let c of this.usuariosPedido.usuSolicitante){
-      perfiles.push({usu_per_fk:5,usu_fk:c.id})
+    for(let soliciantePedido of this.usuariosPedido.usuSolicitante){
+      perfiles.push({usu_per_fk:5,usu_fk:soliciantePedido.id})
       console.log("c",perfiles)
     }
-    for(let d of this.otrosUsuarios){
-      perfiles.push({usu_per_fk:7,usu_fk:d.id})
+    for(let otrosUsuario of this.otrosUsuarios){
+      perfiles.push({usu_per_fk:7,usu_fk:otrosUsuario.id})
       console.log("d",perfiles)
     }
     this.active = 3

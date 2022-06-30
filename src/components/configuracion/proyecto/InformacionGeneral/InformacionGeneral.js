@@ -31,7 +31,6 @@ export default {
       proyectoRules: [(v) => !!v || "Este Campo es Obligatorio"],
       codigoRules: [
         (v) => !!v || "Este Campo es Obligatorio",
-        (v) => this.returnValidaCodigo() || "Este Codigo ya EXISTE",
       ],
       celulasRules: [(v) => !!v || "Selecciona una Unidad"],
       fechasRules: [

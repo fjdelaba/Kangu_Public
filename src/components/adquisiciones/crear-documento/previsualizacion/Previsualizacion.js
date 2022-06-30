@@ -24,7 +24,19 @@ export default {
 
   data() {
     return {
+      direction: 'left',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: false,
+      bottom: false,
+      left: true,
+      transition: 'slide-y-reverse-transition',
       icon: "mdiClockTimeEightOutline" ,
+      datosUsuario:"",
+      datosEmpresa:"",
       // materiales: [],
       // cabecera: {},
       logo: 'https://kangufiles.nyc3.digitaloceanspaces.com/kangu/logo_dlb.png',
@@ -46,7 +58,8 @@ export default {
       comentarioAprobadores: '',
       aprobadores:[],
       apruebo:"a",
-      respuesta:"1"
+      respuesta:"1",
+      resumenesTotales:""
     }},
   methods: {
     async cargarAprobadores() {
@@ -84,19 +97,49 @@ export default {
     console.log(" this.apruebo", this.apruebo)
     },
     async descargarOcPDF(){
-      await creaPdfOC(this.materiales,this.cabecera)
+      this.totalesItems()
+      await creaPdfOC(this.materiales,this.cabecera,this.datosEmpresa,this.resumenesTotales)
     },
     rechazoOc(){
      this.apruebo = false
      this.respuesta = 'error'
      this.regla = [() => false]
      console.log(" this.apruebo", this.cpxvalidacion)
+    },
+    totalesItems() {
+      let neto = 0
+      let iva = 0
+      const retencion = 0
+      let total = 0
+      const descuento = 0
+  
+      for (const linea of this.materiales) {
+        console.log('linea: ', linea)
+        neto += Number(linea.total)
+      }
+      iva = neto * 0.19
+      total = iva + neto
+  
+      console.log(neto, iva, total)
+      this.resumenesTotales =  [
+        { item: 'Neto', valor: neto },
+        { item: 'IVA', valor: iva },
+        { item: 'Total', valor: total }
+      ]
+  
+      return [
+        { item: 'Neto', valor: neto },
+        { item: 'IVA', valor: iva },
+        { item: 'Total', valor: total }
+      ]
     }
    
   },
   mounted() {
-    console.log('mounted previsualizacion')
-    console.log(" this.res", this.apruebo)
+    this.datosEmpresa = this.$store.state.app.datosEmpresa
+    this.datosUsuario = this.$store.state.app.datosUsuario
+ 
+    console.log("EMPRESA:",this.datosEmpresa,"USUARIO:",this.datosUsuario)
   },
   computed: {
     cpxFecha() {

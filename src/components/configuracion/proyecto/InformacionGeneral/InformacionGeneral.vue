@@ -35,7 +35,6 @@
             </v-col>
           
             <v-col cols="2" class="pb-0">
-          {{ returnValidaCodigo() }}
               <v-text-field
                 v-if="detalle == false"
                 v-model="infoGeneralProyecto.codigo"

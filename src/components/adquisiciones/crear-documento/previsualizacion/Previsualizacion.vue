@@ -82,15 +82,22 @@
                 <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera.formaPago.nombre }}</span></v-col>
               </v-row>
             </v-sheet>
-            <v-row>
-              <v-col>
+            <v-row v-if="aprobacion == true">
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-divider></v-divider>
+              <v-col >
                 <v-speed-dial
                   v-model="fab"
+       
                   :top="top"
                   :bottom="bottom"
                   :right="right"
                   :left="left"
-                  direction="rigth"
+                  :direction="direction"
                   :open-on-hover="hover"
                   :transition="transition"
                 >
@@ -382,7 +389,7 @@
       >
 
         <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline>
-        <v-row>
+        <v-row v-if="aprobacion == true">
           <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider>
