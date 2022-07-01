@@ -67,9 +67,16 @@
           </v-stepper-items>
           <v-btn
             color="primary"
+            :loading="disabledBotonSiguiente"
+            :disabled="disabledBotonSiguiente"
             @click="avanzar()"
           >
-            {{ textoAvanzar }}
+            {{ cpxTextoAvanzar }}
+            <template v-slot:loader>
+              <span class="custom-loader">
+                <v-icon light>mdi-cached</v-icon>
+              </span>
+            </template>
           </v-btn>
 
           <v-btn v-if="pasoStep > 1" @click="retroceder()">
@@ -81,6 +88,7 @@
     <v-dialog
       v-model="dialogFinal"
       max-width="550"
+      persistent
     >
       <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ${identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
     </v-dialog> 
@@ -111,11 +119,13 @@ export default {
       pro_fk: 0,
       dialogFinal: false,
       identificacion: '',
-      email:''
+      email:'',
+      loader: null,
+      disabledBotonSiguiente: false
     }
   },
   computed: {
-    textoAvanzar() {
+    cpxTextoAvanzar() {
       if (this.pasoStep < 4) {
         return 'Siguiente'
       } else {
@@ -130,27 +140,32 @@ export default {
         // this.pasoStep++
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
+          this.loader = this.disabledBotonSiguiente.toString()
           if (this.oc_id > 0) {
-            const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
-            const datosCabecera = {
-              des_tip_fk: cabecera.tipoDespacho.id, 
-              doc_tip_fk: cabecera.tipoDocumento.id, 
-              // emp_fk: 1, // Cambiar 
-              emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
-              ent_con_fk: cabecera.contacto.id, 
-              ent_fk: cabecera.proveedor.id, 
-              // est_doc_fk: 4, 
-              for_pag_fk: cabecera.formaPago.id, 
-              mon_fk: cabecera.moneda.id, 
-              nombre: cabecera.nombre, 
-              pro_fk: cabecera.proyecto.id, 
-              ped_fk: null
+            try {
+              const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+              const datosCabecera = {
+                des_tip_fk: cabecera.tipoDespacho.id, 
+                doc_tip_fk: cabecera.tipoDocumento.id, 
+                // emp_fk: 1, // Cambiar 
+                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
+                ent_con_fk: cabecera.contacto.id, 
+                ent_fk: cabecera.proveedor.id, 
+                // est_doc_fk: 4, 
+                for_pag_fk: cabecera.formaPago.id, 
+                mon_fk: cabecera.moneda.id, 
+                nombre: cabecera.nombre, 
+                pro_fk: cabecera.proyecto.id, 
+                ped_fk: null
+              }
+
+              const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
+
+              console.log('resp: ', resp)
+              this.pasoStep++ 
+            } catch (error) {
+              console.log('error: ', error)
             }
-
-            const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
-
-            console.log('resp: ', resp)
-            this.pasoStep++
           } else {
             try {
               const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
@@ -186,7 +201,7 @@ export default {
             }
 
           }
-            
+          this.loader = null
         } else {
           console.log('por aca no')
         }
@@ -257,4 +272,41 @@ export default {
 }
 </script>
 
-<style></style>
+<style scoped>
+.custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
