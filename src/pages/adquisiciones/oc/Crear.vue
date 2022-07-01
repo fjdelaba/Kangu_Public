@@ -92,6 +92,13 @@
     >
       <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ${identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
     </v-dialog> 
+    <v-dialog
+      v-model="dialogBorrador"
+      max-width="550"
+      persistent
+    >
+      <DialogBorradorVue :eliminar-borrador="eliminarOcBorrador" :recuperar-borrador="recuperarOcBorrador"></DialogBorradorVue>
+    </v-dialog> 
     <!-- <CrearDocumento/> -->
   </div>
 </template>
@@ -103,13 +110,16 @@ import InformacionGeneral from '../../../components/adquisiciones/crear-document
 import Previsualizacion from '../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
 import { postCabeceraOC, updateCabeceraOC, updateOCInformacionGeneral } from '../../../graphql/adquisiciones'
 import DialogFinalDocumento from '../../../components/adquisiciones/dialog-final-documento/DialogFinalDocumento.vue'
+import DialogBorradorVue from '../../../components/adquisiciones/dialog-borrador/DialogBorrador.vue'
+
 export default {
   components: {
     // CrearDocumento,
     AgregarMaterial,
     InformacionGeneral,
     Previsualizacion,
-    DialogFinalDocumento
+    DialogFinalDocumento,
+    DialogBorradorVue
   },
   data() {
     return {
@@ -121,7 +131,8 @@ export default {
       identificacion: '',
       email:'',
       loader: null,
-      disabledBotonSiguiente: false
+      disabledBotonSiguiente: false,
+      dialogBorrador: true
     }
   },
   computed: {
@@ -133,7 +144,16 @@ export default {
       }   
     }
   },
+  mounted() {
+    console.log('MOUNTED CREAR')
+  },
   methods: {
+    eliminarOcBorrador() {
+      this.dialogBorrador = false
+    },
+    recuperarOcBorrador() {
+      this.dialogBorrador = false
+    },
     async avanzar() {
       if (this.pasoStep === 1) {
         this.$store.dispatch('app/setLoading', true)

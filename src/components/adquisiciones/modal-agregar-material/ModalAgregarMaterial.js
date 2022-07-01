@@ -1,12 +1,16 @@
 /* eslint-disable eqeqeq */
 import { getPartidasPorPoroyecto,getMateriales } from '../../../graphql/general'
 import { v4 as uuidv4 } from 'uuid'
+import ModalNuevoMaterial from '../../general/modal-nuevo-material/ModalNuevoMaterial'
 export default {
   name: 'ModalAgregarMaterial',
   props: {
     cerrarDialogMaterial_: { type: Function },
     materialEdicion: {},
     listaPartidas: []
+  },
+  components: {
+    ModalNuevoMaterial
   },
   data() {
     return {
@@ -18,7 +22,8 @@ export default {
         subtotal: '',
         observacion: '',
         mat_fk: 0,
-        partidas:[{ par: [], par_fk:0, cantidad:0, id:uuidv4(), eliminar: false }]
+        partidas:[{ par: [], par_fk:0, cantidad:0, id:uuidv4(), eliminar: false }],
+        modalNuevoMaterial: false
       },
       rules:{
         material:{
@@ -301,8 +306,9 @@ export default {
       }
 
     },
-    mostrarDialog() {
-
+    mostrarDialogNuevoMaterial() {
+      console.log('mostrar modal')
+      this.modalNuevoMaterial = true
     },
     cargarMateriales() {
       console.log('PASO POR ACÁ !!!!')
@@ -383,7 +389,7 @@ export default {
       if (this.cpxModoEdicion) {
         return 'Edicion de Material'
       } else {
-        return !this.cargaMasiva ? 'Cagar Material' : 'Seleccion multiple de material'
+        return !this.cargaMasiva ? 'Cargar Material' : 'Seleccion multiple de material'
       }
       
     },
