@@ -1,7 +1,8 @@
 <template>
   <div>
     <v-form ref="formPaso1" v-model="valid" lazy-validation>
-      <!-- <v-container class="ma-0 pa-0"> --> {{$store.state.app.datosUsuario.user_id}}
+      <!-- <v-container class="ma-0 pa-0"> --> 
+        <!-- {{$store.state.app.datosUsuario.user_id}} -->
       <p class="ma-0">Informacion General</p> 
       <v-divider></v-divider>
       <v-row >

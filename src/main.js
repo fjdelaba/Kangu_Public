@@ -20,6 +20,7 @@ import './plugins/animate'
 import './plugins/clipboard'
 import './plugins/moment'
 import './plugins/currency'
+import './plugins/vuetify-money'
 
 // FILTERS
 import './filters/capitalize'

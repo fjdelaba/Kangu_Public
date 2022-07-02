@@ -93,7 +93,23 @@ export default {
         { par: [], par_fk:0, cantidad:0, id:uuidv4(), eliminar: false }
       ],
       mostrarAlert: false,
-      textoAlert: ''
+      textoAlert: '',
+
+      //VueMoney
+      value: '',
+      placeholder: ' ',
+      readonly: false,
+      disabled: false,
+      outlined: true,
+      valueWhenIsEmpty: '',
+      options: {
+        prefix: 'R$',
+        length: 11,
+        precision: 2
+      },
+      properties: {
+        dense: true
+      }
     }
   },
   mounted() {

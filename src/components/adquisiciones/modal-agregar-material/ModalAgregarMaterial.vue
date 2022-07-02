@@ -151,14 +151,28 @@
                       </v-tooltip>
                     </template>
                   </v-combobox>
-                  <v-text-field
+                  <!-- <v-text-field
                     v-model="prorateo.cantidad"
                     label="Cantidad"
                     :rules="rules.material.cantidad"
                     outlined
                     dense
                     @input="calcularTotal()"
-                  ></v-text-field>
+                  ></v-text-field> -->
+
+                  <vuetify-money
+                    v-model="value"
+                    :label="label"
+                    :placeholder="placeholder"
+                    :readonly="readonly"
+                    :disabled="disabled"
+                    :outlined="outlined"
+                    :clearable="clearable"
+                    :value-when-is-empty="valueWhenIsEmpty"
+                    :options="options"
+                    :properties="properties"
+                  />
+
                   <!-- v-model="material.cantidad" -->
                   <v-btn
                     v-if="prorateo.eliminar"
@@ -356,7 +370,7 @@
           text
           @click="agregarMaterial()"
         >
-          Guardar {{modalNuevoMaterial}}
+          Guardar {{ modalNuevoMaterial }}
         </v-btn>
       </v-card-actions>
     </v-card>
