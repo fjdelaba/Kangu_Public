@@ -173,6 +173,14 @@
                     :properties="properties"
                   />
 
+                  <v-currency-field 
+                    v-model="rate" 
+                    label="Rate"
+                    dense
+                    :error-messages="errors.rate"
+                    outlined
+                  />
+
                   <!-- v-model="material.cantidad" -->
                   <v-btn
                     v-if="prorateo.eliminar"

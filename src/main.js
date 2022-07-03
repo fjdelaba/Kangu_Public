@@ -102,6 +102,20 @@ import VueApollo from 'vue-apollo'
 //   cache
 // })
 
+import VCurrencyField from 'v-currency-field'
+import { VTextField } from 'vuetify/lib'  //Globally import VTextFieldx
+Vue.component('v-text-field', VTextField)
+Vue.use(VCurrencyField, { 
+  locale: 'pt-BR',
+  decimalLength: 2,
+  autoDecimalMode: true,
+  min: null,
+  max: null,
+  defaultValue: 0,
+  valueAsInteger: false,
+  allowNegative: true
+})
+
 // const apolloProvider = new VueApollo({ defaultClient: apolloClient })
 const apolloProvider = new VueApollo({ defaultClient: apolloClient })
 

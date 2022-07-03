@@ -109,7 +109,9 @@ export default {
       },
       properties: {
         dense: true
-      }
+      },
+      rate: 0,
+      errors: {}
     }
   },
   mounted() {
