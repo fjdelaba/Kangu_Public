@@ -2,6 +2,8 @@
 import { getPartidasPorPoroyecto,getMateriales } from '../../../graphql/general'
 import { v4 as uuidv4 } from 'uuid'
 import ModalNuevoMaterial from '../../general/modal-nuevo-material/ModalNuevoMaterial'
+const numeral = require('numeral')
+
 export default {
   name: 'ModalAgregarMaterial',
   props: {
@@ -14,6 +16,7 @@ export default {
   },
   data() {
     return {
+      amount: 0,
       material:{
         nombre: '',
         partida: '',
@@ -111,7 +114,8 @@ export default {
         dense: true
       },
       rate: 0,
-      errors: {}
+      errors: {},
+      value_: 1234 
     }
   },
   mounted() {
@@ -122,6 +126,9 @@ export default {
     
   },
   methods: {
+    returnCantidadFormat(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+    },
     validarTablaMaterialMasiva() {
 
     },
@@ -403,6 +410,15 @@ export default {
     }
   },
   computed: {
+    amountValue: {
+      get() {
+        return this.amount
+      },
+      set(value) {
+        //this.formData.amount = numeral(value).format('0,0[.]00')
+        this.amount = numeral(value).format('0,0[.]00')
+      }
+    },
     cpxTitulo() {
       if (this.cpxModoEdicion) {
         return 'Edicion de Material'

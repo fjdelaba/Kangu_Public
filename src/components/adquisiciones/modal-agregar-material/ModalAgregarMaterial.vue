@@ -159,7 +159,14 @@
                     dense
                     @input="calcularTotal()"
                   ></v-text-field> -->
-
+                  <!-- <v-text-field
+                    v-model="prorateo.cantidad"
+                    label="Cantidad"
+                    outlined
+                    dense
+                    @input="calcularTotal()"
+                  ></v-text-field> -->
+                  <!-- 
                   <vuetify-money
                     v-model="value"
                     :label="label"
@@ -171,15 +178,25 @@
                     :value-when-is-empty="valueWhenIsEmpty"
                     :options="options"
                     :properties="properties"
-                  />
+                  /> -->
 
                   <v-currency-field 
-                    v-model="rate" 
-                    label="Rate"
+                    v-model="prorateo.cantidad" 
+                    label="Cantidad"
                     dense
                     :error-messages="errors.rate"
                     outlined
+                    @input="calcularTotal()"
                   />
+                  <!-- <v-text-field
+                    v-model="prorateo.cantidad"
+                    label="Cantidad"
+                    outlined
+                    dense
+                    @input="calcularTotal()"
+                  ></v-text-field>
+
+                  <input v-model="amountValue"/> {{amount}} -->
 
                   <!-- v-model="material.cantidad" -->
                   <v-btn
@@ -218,14 +235,14 @@
                 md="6"
                 class="pb-0 pt-0 mb-0 mt-0"
               >
-                <v-text-field
+                <v-currency-field
                   v-model="material.precio_unitario"
                   :rules="rules.material.precio_unitario"
                   label="Precio Unitario"
                   outlined
                   dense
                   @input="calcularTotal()"
-                ></v-text-field>
+                ></v-currency-field>
               </v-col>
               <v-row class="pl-3" align="center">
                 <v-col

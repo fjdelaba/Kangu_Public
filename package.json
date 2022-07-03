@@ -34,6 +34,7 @@
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "moment-timezone": "^0.5.31",
+    "numeral": "^2.0.6",
     "serve-static": "^1.15.0",
     "subscriptions-transport-ws": "^0.11.0",
     "tiptap": "^1.27.1",
