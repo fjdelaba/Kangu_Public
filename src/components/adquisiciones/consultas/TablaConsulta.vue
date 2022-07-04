@@ -3,6 +3,55 @@
 
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center py-3">
+        <v-speed-dial
+          v-model="fab"
+          class="pa-4 align-center"
+          :top="top"
+          :bottom="bottom"
+          :right="right"
+          :left="left"
+          :direction="direction"
+          :open-on-hover="hover"
+          :transition="transition"
+        >
+          <template v-slot:activator>
+            <v-btn
+              v-model="fab"
+              color="blue"
+            >
+              <v-icon v-if="fab" color="white">
+                mdi-close
+              </v-icon>
+              <v-icon v-else color="white">
+                mdi-microsoft-excel
+              </v-icon>
+            </v-btn>
+          </template>
+          <v-btn
+            fab
+            dark
+            small
+            color="green"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            fab
+            dark
+            small
+            color="indigo"
+          >
+            <v-icon>mdi-plus</v-icon>
+          </v-btn>
+          <v-btn
+            fab
+            dark
+            small
+            color="red"
+          >
+            <v-icon>mdi-delete</v-icon>
+          </v-btn>
+        </v-speed-dial>
         <div>
           <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
         </div>

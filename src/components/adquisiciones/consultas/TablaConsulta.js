@@ -22,6 +22,76 @@ export default {
   },
   data() {
     return {
+      direction: 'right',
+      fab: false,
+      fling: false,
+      hover: false,
+      tabs: null,
+      top: false,
+      right: true,
+      bottom: false,
+      left: false,
+      transition: 'slide-y-reverse-transition',
+      headerExcelCabecera: {
+        "Codigo OC": "identificacion_key",
+        "Fecha Creacion": {
+            field: "fec_creacion",
+            callback: value => {
+                return `${this.$moment(value).format("DD/MM/YYYY")}`;
+            }
+        },
+
+        //: "fec_creacion",
+        "Codigo Centro Gestion": "centro_gestion.codigo",
+        "Nombre Centro Gestion": "centro_gestion.nombre",
+        "Nombre OC": "nombre",
+        "Usuario Comprador": {
+            field: "usuario_comprador",
+            callback: value => {
+                return `${value.nombre} ${value.apellidos}`;
+            }
+        },
+        Aprobador: {
+            field: "aprobacion_proceso",
+            callback: value => {
+                let aprobador = "";
+                for (let i = 0; i < value.length; i++) {
+                    console.log("value:", value[i]);
+                    aprobador =
+                        aprobador +
+                        `${value[i].aprobacion.aprobador.nombre} ${value[i].aprobacion.aprobador.apellidos}`;
+                }
+                /*                         for (let i = 0; i < value.length; i++) {
+
+                                                        for (let a = 0; a < value.length[i].aprobacion_proceso.length; a++) {
+
+                                                            aprobador = aprobador + ` - ${value[i].aprobacion_proceso[a].aprobacion.aprobador.nombre} ${value[i].aprobacion_proceso[a].aprobacion.aprobador.apellidos}`;
+                                                        }
+                                                    } */
+                console.log(aprobador);
+                return `${aprobador}`;
+            }
+        }, // ulti
+        "Rut Proveedor": "proveedor.entidad_externa.rut",
+        "Nombre Proveedor": "proveedor.entidad_externa.razon_social",
+        "Neto Original": "neto",
+        IVA: "iva",
+        Estado: "estado.nombre",
+
+        "Tipo OC": {
+            field: "ped_fk",
+            callback: value => {
+                //return `${this.getTipoOC({})}`;
+                console.log("value: ", value);
+                if (value == "") {
+                    return "Directa";
+                } else {
+                    return "Desde Pedido";
+                }
+                //return `${value}`;
+            }
+        }
+    },
       headers: [
       ],
       ocs: [],
@@ -67,6 +137,9 @@ export default {
     },
   },
   methods: {
+    descargarExcel(command) {
+      this.$message("Descargando " + command);
+  },
     async cargarOc() {
       console.log("Cargando Datos")
       const { data } = await getDatosOcConsulta()
