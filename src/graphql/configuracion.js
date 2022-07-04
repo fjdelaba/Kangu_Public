@@ -1,6 +1,6 @@
 import { apolloClient } from '../client'
 import { GET_DATOS_GENERALES, GET_PROYECTO, GET_MATERIALES_PROYECTO, GET_APROBADORES_PROYECTO, GET_USUARIOS_PROYECTO, GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO,GET_EXISTE_USUARIO } from './querys/configuracion'
-import { INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL, INSERT_USUARIO_EMPRESA } from './mutations/configuracion.js'
+import { INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL, INSERT_USUARIO_EMPRESA, UPDATE_ESTADO_USUARIO } from './mutations/configuracion.js'
 
 export const getDatosGenerales = async () => {
   return await apolloClient.query({
@@ -116,4 +116,15 @@ export const getUsuarioExistente = async (email, rut) => {
     }
   })
 }
+
+export const updateEstadoUsuario = async (id_usuario, estado) => {
+  return await apolloClient.mutate({
+    mutation: UPDATE_ESTADO_USUARIO,
+    variables: {
+      id_usuario,
+      estado
+    }
+  })
+}
+
 //paso

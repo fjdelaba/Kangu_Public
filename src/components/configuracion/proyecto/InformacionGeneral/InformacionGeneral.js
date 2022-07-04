@@ -119,7 +119,8 @@ export default {
     idproyecto: Number,
   },
   mounted() {
-  
+    this.datosEmpresa = this.$store.state.app.datosEmpresa
+    this.datosUsuario = this.$store.state.app.datosUsuario
     console.log("datosUsuario", this.datosUsuario)
     console.log("datosEmpresa", this.datosEmpresa)
     setTimeout(() => {
@@ -396,8 +397,6 @@ export default {
 
     async guardarInformacion() {
       this.loading4 = true 
-      this.datosEmpresa = this.$store.state.app.datosEmpresa
-      this.datosUsuario = this.$store.state.app.datosUsuario
       this.$refs.infoGeneral.validate();
       console.log("validacion", this.$refs.infoGeneral.validate());
       if(this.infoGeneralProyecto.ocInicial == 1){
