@@ -19,6 +19,7 @@ export default {
           moneda: [(v) => !!v || "Debes agregar su Moneda"],
         },
       },
+      loading4: false,
       headers1: [
         { text: "Nombre", value: "mat.nombre" },
         { text: "Unidad Formato", value: "mat.mat_uni.nombre" },
@@ -284,7 +285,9 @@ export default {
       }
     },
     async guardarMateriales() {
+      this.loading4 = true    
       for (let a of this.desserts) {
+ 
         console.log("MATERIALES EN ARREGLO", a);
         let cantidad = a.cantidad;
         let mat_fk = a.id;
@@ -301,8 +304,9 @@ export default {
           total,
           valor_unitario
         );
-
+        
         console.log(data);
+       
       }
       this.$notify({
         group: "foo",
@@ -310,6 +314,10 @@ export default {
         text: "Se a Creado con Exito tu Proyecto",
         type: "success",
       });
+      setTimeout(() => {
+        this.loading4 = false
+      }, 4000)
+      
     },
   },
   watch: {

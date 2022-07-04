@@ -108,7 +108,8 @@ export default {
       mostrarDialogCrearEntidad: false,
       proyectosBD: [],
       datosEmpresa:"",
-      datosUsuario:""
+      datosUsuario:"",
+      loading4: false,
 
     };
   },
@@ -394,10 +395,14 @@ export default {
     },
 
     async guardarInformacion() {
+      this.loading4 = true 
       this.datosEmpresa = this.$store.state.app.datosEmpresa
       this.datosUsuario = this.$store.state.app.datosUsuario
       this.$refs.infoGeneral.validate();
       console.log("validacion", this.$refs.infoGeneral.validate());
+      if(this.infoGeneralProyecto.ocInicial == 1){
+        this.infoGeneralProyecto.ocInicial = 0
+      }
       if (this.$refs.infoGeneral.validate() == true) {
         let finalCelulas = [];
         let finalFlag = [];
@@ -443,6 +448,9 @@ export default {
           inf.presupuesto,
           this.infoGeneralProyecto.presupuestoObra
         );
+        setTimeout(() => {
+          this.loading4 = false
+        }, 4000)
       } else {
         this.valid = false;
       }

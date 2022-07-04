@@ -323,7 +323,7 @@
           :search-input.sync="search"
           item-text="razon_social"
           item-value="id"
-          label="Proveedor"
+          label="Mandante"
           :hide-no-data="!mostrarNoData"
           hint="Puedes buscar por nombre o por rut"
           outlined

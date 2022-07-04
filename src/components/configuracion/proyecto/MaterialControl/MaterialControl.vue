@@ -17,7 +17,7 @@
         
         <v-row class="mb-6" no-gutters>
           <v-col>     
-            <h3>MATERIALES A CONTROLAR</h3>
+            <h3>MATERIALES A CONTROLAR </h3>
             <h5 > Estos valores serán ocupados en aprobaciones y al crear ordenes de compra.</h5>
           </v-col>
         </v-row>
@@ -197,6 +197,8 @@
               color="success"
               dark
               large
+              :loading="loading4"
+          
               @click="guardarMateriales()"
             ><v-icon>mdi-content-save-all</v-icon>
               GUARDAR
