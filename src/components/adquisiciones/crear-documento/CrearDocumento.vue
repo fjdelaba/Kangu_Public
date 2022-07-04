@@ -12,7 +12,7 @@
       <v-stepper v-model="pasoStep" class="flex-grow-1">
         <v-stepper-header>
           <!-- -->
-          hhk
+          
           <v-stepper-step
             :rules="[() => validarPasoUno]"
             :complete="pasoStep > 1"
