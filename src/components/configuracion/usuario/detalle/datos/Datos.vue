@@ -2,7 +2,7 @@
   <div class="my-2">
     <div>
       <v-card>
-        {{ user }}
+        
         <!-- <v-card-title>Información del usuario</v-card-title> -->
         <v-card-text>
           <div class="d-flex flex-column flex-sm-row">
