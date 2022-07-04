@@ -66,12 +66,12 @@ export default {
       visible: true,
       breadcrumbs: [
         {
-          text: "Users",
+          text: "Usuarios",
           disabled: false,
-          href: "#",
+          // href: "#",
         },
         {
-          text: "List",
+          text: "Listado",
         },
       ],
       settings: ['switch1', 'switch2' ],
@@ -123,6 +123,10 @@ export default {
   },
 
   methods: {
+    cargarDetalle(id_usuario){
+      console.log('id_usuario: ', id_usuario);
+      this.$router.push({ path: '/configuracion/usuarios/detalle', query: { id: id_usuario }})
+    },
     searchUser() {},
     open() {},
     getEstado(estado) {

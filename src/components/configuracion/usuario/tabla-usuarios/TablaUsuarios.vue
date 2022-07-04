@@ -1,13 +1,12 @@
 <template>
   <div>
     <div>
-      {{ usuario }}
     </div>
     <div class="d-flex flex-column flex-grow-1">
-      <div class="d-flex align-center py-3">
+      <div class="d-flex align-center">
         <div>
-          <div class="display-1">Usuarios</div>
-          <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
+          <!-- <div class="display-1">Usuarios</div> -->
+          <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
         </div>
         
         <v-col cols="auto">
@@ -17,12 +16,8 @@
             transition="dialog-top-transition"
             max-width="650"
           >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
-                color="primary"
-                v-bind="attrs"
-                v-on="on"
-              >Crear Usuario</v-btn>
+            <template v-slot:activator="{ }">
+             
             </template>
             <template >
               <v-form
@@ -457,31 +452,12 @@
         
       <!-- users list -->
         
-      <v-row dense class="pa-2 align-center">
-        <v-col cols="6">
-          <v-menu offset-y left>
-            <template v-slot:activator="{ on }">
-              <transition name="slide-fade" mode="out-in">
-                <v-btn v-show="selectedUsers.length > 0" v-on="on">
-                  Actions
-                  <v-icon right>mdi-menu-down</v-icon>
-                </v-btn>
-              </transition>
-            </template>
-            <v-list dense>
-              <v-list-item @click>
-                <v-list-item-title>Verify</v-list-item-title>
-              </v-list-item>
-              <v-list-item @click>
-                <v-list-item-title>Disable</v-list-item-title>
-              </v-list-item>
-              <v-divider></v-divider>
-              <v-list-item @click>
-                <v-list-item-title>Delete</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </v-col>
+      <v-row dense class="px-2 align-center">
+
+        <v-btn
+          color="primary"
+        >Crear Usuario</v-btn>
+<v-spacer></v-spacer>
         <v-col cols="6" class="d-flex text-right align-center">
           <v-text-field
             v-model="searchQuery"
@@ -494,7 +470,7 @@
             placeholder="p.ej. filtrar por rut, correo electrónico, nombre, etc."
             @keyup.enter="searchUser(searchQuery)"
           ></v-text-field>
-          <v-btn
+          <!-- <v-btn
             :loading="isLoading"
             icon
             small
@@ -502,13 +478,11 @@
             @click
           >
             <v-icon>mdi-refresh</v-icon>
-          </v-btn>
+          </v-btn> -->
         </v-col>
       </v-row>
-
       <v-data-table
         v-model="selectedUsers"
-        show-select
         :headers="headers"
         :items="usuarios"
         :search="searchQuery"
@@ -566,9 +540,9 @@
           <div>{{ item.fec_creacion | formatDate("ll") }}</div>
         </template>
 
-        <template v-slot:item.action="{}">
+        <template v-slot:item.action="{ item }">
           <div class="actions">
-            <v-btn icon to="/users/edit">
+            <v-btn icon @click="cargarDetalle(item.id)">
               <v-icon>mdi-open-in-new</v-icon>
             </v-btn>
           </div>

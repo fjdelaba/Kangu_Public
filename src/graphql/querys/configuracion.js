@@ -157,6 +157,7 @@ query Q_GET_USUARIOS_PROYECTO($id: bigint) {
 const GET_USUARIOS_EMPRESA = gql`
 query Q_GET_USUARIOS_EMPRESA {
   kangusoft_usu {
+    id
     activo
     apellidos
     nombre

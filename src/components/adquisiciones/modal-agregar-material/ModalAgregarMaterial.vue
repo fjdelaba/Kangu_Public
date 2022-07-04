@@ -151,14 +151,53 @@
                       </v-tooltip>
                     </template>
                   </v-combobox>
-                  <v-text-field
+                  <!-- <v-text-field
                     v-model="prorateo.cantidad"
                     label="Cantidad"
                     :rules="rules.material.cantidad"
                     outlined
                     dense
                     @input="calcularTotal()"
+                  ></v-text-field> -->
+                  <!-- <v-text-field
+                    v-model="prorateo.cantidad"
+                    label="Cantidad"
+                    outlined
+                    dense
+                    @input="calcularTotal()"
+                  ></v-text-field> -->
+                  <!-- 
+                  <vuetify-money
+                    v-model="value"
+                    :label="label"
+                    :placeholder="placeholder"
+                    :readonly="readonly"
+                    :disabled="disabled"
+                    :outlined="outlined"
+                    :clearable="clearable"
+                    :value-when-is-empty="valueWhenIsEmpty"
+                    :options="options"
+                    :properties="properties"
+                  /> -->
+
+                  <v-currency-field 
+                    v-model="prorateo.cantidad" 
+                    label="Cantidad"
+                    dense
+                    :error-messages="errors.rate"
+                    outlined
+                    @input="calcularTotal()"
+                  />
+                  <!-- <v-text-field
+                    v-model="prorateo.cantidad"
+                    label="Cantidad"
+                    outlined
+                    dense
+                    @input="calcularTotal()"
                   ></v-text-field>
+
+                  <input v-model="amountValue"/> {{amount}} -->
+
                   <!-- v-model="material.cantidad" -->
                   <v-btn
                     v-if="prorateo.eliminar"
@@ -196,14 +235,14 @@
                 md="6"
                 class="pb-0 pt-0 mb-0 mt-0"
               >
-                <v-text-field
+                <v-currency-field
                   v-model="material.precio_unitario"
                   :rules="rules.material.precio_unitario"
                   label="Precio Unitario"
                   outlined
                   dense
                   @input="calcularTotal()"
-                ></v-text-field>
+                ></v-currency-field>
               </v-col>
               <v-row class="pl-3" align="center">
                 <v-col
@@ -356,7 +395,7 @@
           text
           @click="agregarMaterial()"
         >
-          Guardar {{modalNuevoMaterial}}
+          Guardar {{ modalNuevoMaterial }}
         </v-btn>
       </v-card-actions>
     </v-card>

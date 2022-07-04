@@ -6302,6 +6302,11 @@ num2fraction@^1.2.2:
   resolved "https://registry.yarnpkg.com/num2fraction/-/num2fraction-1.2.2.tgz#6f682b6a027a4e9ddfa4564cd2589d1d4e669ede"
   integrity sha1-b2gragJ6Tp3fpFZM0lidHU5mnt4=
 
+numeral@^2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/numeral/-/numeral-2.0.6.tgz#4ad080936d443c2561aed9f2197efffe25f4e506"
+  integrity sha512-qaKRmtYPZ5qdw4jWJD6bxEf1FJEqllJrwxCLIm0sQU/A7v2/czigzOb+C2uSiFsa9lBUzeH7M1oK+Q+OLxL3kA==
+
 oauth-sign@~0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
@@ -9118,6 +9123,11 @@ uuid@^8.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
   integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
+v-currency-field@^3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/v-currency-field/-/v-currency-field-3.1.1.tgz#d3472aced63008a67d21d249dba5856744d33d48"
+  integrity sha512-1Jlk+RmHTX2uFRmN70hX0R2JOKtlNLNTlQZArrAYrFEWvZR34Cii/kNMXptBS97rVXs31tw5nZ11H6+qJI4gvA==
+
 v8-compile-cache@^2.0.3:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.3.0.tgz#2de19618c66dc247dcfb6f99338035d8245a2cee"
@@ -9324,6 +9334,11 @@ vuetify-loader@^1.7.1:
     decache "^4.6.0"
     file-loader "^6.2.0"
     loader-utils "^2.0.0"
+
+vuetify-money@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/vuetify-money/-/vuetify-money-1.2.0.tgz#8a3e0367e0aa6a2223276fe1f24f06a052a76b9a"
+  integrity sha512-YVxO2bNE9HIgRZmF/d3ol4DJrJrbnptzrd72D5KpUxaSyjx0+8bTxUStGRYIHPoFsnUH/uCJOuZkGSVhbdqf3A==
 
 vuetify@2.5.0:
   version "2.5.0"

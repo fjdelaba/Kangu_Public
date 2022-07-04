@@ -34,11 +34,13 @@
     "lodash": "^4.17.15",
     "moment": "^2.26.0",
     "moment-timezone": "^0.5.31",
+    "numeral": "^2.0.6",
     "serve-static": "^1.15.0",
     "subscriptions-transport-ws": "^0.11.0",
     "tiptap": "^1.27.1",
     "tiptap-extensions": "^1.29.1",
     "uuid": "^8.3.2",
+    "v-currency-field": "^3.1.1",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.3",
     "vue-apollo": "^3.1.0",
@@ -55,6 +57,7 @@
     "vue2-google-maps": "^0.10.7",
     "vuedraggable": "^2.24.0",
     "vuetify": "^2.4.3",
+    "vuetify-money": "^1.2.0",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
