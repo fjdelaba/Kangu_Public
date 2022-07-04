@@ -48,7 +48,7 @@
               <p v-if="detalle == true">{{ proyecto.codigo }}</p>
             </v-col>
             <v-col cols="2" class="pb-0">
-              <v-select
+              <v-autocomplete
                 v-if="detalle == false"
                 v-model="infoGeneralProyecto.celulas"
                 :rules="celulasRules"
@@ -59,7 +59,7 @@
                 dense
                 item-text="nombre"
                 item-value="id"
-              ></v-select>
+              ></v-autocomplete>
               <h4 v-if="detalle == true">Unidades de Trabajo</h4>
               <p v-if="detalle == true">{{ proyecto.prouni.nombre }}</p>
             </v-col>
@@ -271,7 +271,7 @@
     <v-divider></v-divider>
     <v-row>
       <v-col cols="2">
-        <v-select
+        <v-autocomplete
           v-if="detalle == false"
           v-model="infoDireccionProyecto.region"
           :items="listaRegion"
@@ -281,12 +281,12 @@
           item-text="nombre"
           item-value="id"
           @blur="cargarComunas()"
-        ></v-select>
+        ></v-autocomplete>
         <h4 v-if="detalle == true">Region</h4>
         <p v-if="detalle == true">{{ proyecto.com.prov.reg.nombre }}</p>
       </v-col>
       <v-col cols="2">
-        <v-select
+        <v-autocomplete
           v-if="detalle == false"
           v-model="infoDireccionProyecto.comuna"
           :items="listaComunas && listaComunas"
@@ -295,7 +295,7 @@
           dense
           item-text="nombre"
           item-value="id"
-        ></v-select>
+        ></v-autocomplete>
         <h4 v-if="detalle == true">Comuna</h4>
         <p v-if="detalle == true">{{ proyecto.com.nombre }}</p>
       </v-col>
