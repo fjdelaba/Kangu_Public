@@ -30,6 +30,7 @@ query MyQuery($id_usuario: bigint!) {
     cargo
     email
     firma
+    id
     nombre
     rut
     # cgs(where: {estado_fk: {_eq: 1}}) {

@@ -357,7 +357,7 @@
 // import CardProyecto from '../../../components/configuracion/usuario/card-proyecto/CardProyecto.vue'
 import { setTimeout } from 'optimism'
 import CardProyecto from '../../../../configuracion/usuario/card-proyecto/CardProyecto.vue'
-
+import { updateEstadoUsuario } from '../../../../../graphql/configuracion'
 export default {
   components: {
     
@@ -421,14 +421,15 @@ export default {
         this.user.activo = !this.user.activo
       }
     },
-    deshabilitarUsuario() {
+    async deshabilitarUsuario() {
       this.loading4 = true
       this.loader = true
       this.dialogDesactivar = false
-      setTimeout(() => {
-        console.log('object pase por aca')  
-        this.loader = null
-        this.loading4 = false
+      console.log(this.user, this.$store.state.app.datosEmpresa.id)
+      try {
+        const resp = await updateEstadoUsuario(this.user.id, false)
+
+        console.log('resp datos usuario: ', resp)
         this.user.activo = !this.user.activo
         console.log('deshabilitar')
         this.$notify({
@@ -437,7 +438,18 @@ export default {
           text: 'Los datos fueron actualizados exitosamente',
           type: 'success'
         })
-      }, 4000)
+      } catch (error) {
+        this.$notify({
+          group: 'foo',
+          title: 'Edicion de usuario',
+          text: 'Error al grabar los datos, comuniquese con soporte',
+          type: 'error'
+        })
+        console.log('error: ', error)
+      }
+      this.loader = null
+      this.loading4 = false
+      
     }
   }
 }
