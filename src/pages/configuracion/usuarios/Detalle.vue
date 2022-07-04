@@ -1,10 +1,12 @@
 <template>
-  <div>
-    <h2>
-      Detalle Usuario
-    </h2>
-    <detalle-usuario></detalle-usuario>
-  </div>
+  <v-container class="white">
+    <div>
+      <h2>
+        Detalle Usuario
+      </h2>
+      <detalle-usuario :origen="1"></detalle-usuario> <!-- Confoguracion: 1; Mi Perfil :2  -->
+    </div>
+  </v-container>
 
 </template>
 

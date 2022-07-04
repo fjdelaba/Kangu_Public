@@ -3,7 +3,7 @@
     <div class="d-flex align-center">
       <div>
         <!-- <div class="display-1">Edit User {{ `${ usuario && usuario.nombre}  ${ usuario && usuario.apellidos}` }}</div> {{ user.name && `- ${user.name}` }} -->
-        <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
+        <v-breadcrumbs v-if="cpxOrigenConfiguracion" :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
       </div>
       <v-spacer></v-spacer>
       <!-- <v-btn icon @click>
@@ -11,7 +11,7 @@
       </v-btn> -->
     </div>
     <!-- disable  v-card -->
-    <datos ref="tabs-account" :user="usuario"></datos>
+    <datos ref="tabs-account" :user="usuario" :origen="origen"></datos>
   </div>
 </template>
 
@@ -48,6 +48,12 @@ export default {
   components: {
     Datos
   },
+  props:{
+    origen: {
+      type: Number,
+      default: 2
+    }
+  },
   data() {
     return {
       user: {
@@ -78,13 +84,23 @@ export default {
       ]
     }
   },
+  computed:{
+    cpxOrigenConfiguracion() {
+      return this.origen === 1 // origen es configuracion ?
+    }
+  },
   mounted() {
-    console.log('MOUNTED DETALLE USUARIO: ', this.$store.state.app.datosUsuario.user_id)
-    console.log('router: ', this.$route.query.id)
+    // if (this.origen === 'miperfil') {
+    //   this.usu_id = this.$store.state.app.datosUsuario.user_id
+    // } else {
+    //   this.usu_id = this.$store.state.app.datosUsuario.user_id
+    // }
+    console.log('this.origen: ', this.origen)
+    this.usu_id = this.cpxOrigenConfiguracion ? this.$route.query.id : this.$store.state.app.datosUsuario.user_id 
+    this.cargarDatosUsuario(this.usu_id)
+    // console.log('MOUNTED DETALLE USUARIO: ', this.$store.state.app.datosUsuario.user_id)
+    // console.log('router: ', this.$route.query.id)
 
-    // this.usu_id = this.$auth.user['https://kangusoft.cl/jwt/hasura'] && this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
-    this.usu_id = this.$store.state.app.datosUsuario.user_id
-    this.cargarDatosUsuario(this.$route.query.id)
   },
   methods: {
     async cargarDatosUsuario(usu_id) {  

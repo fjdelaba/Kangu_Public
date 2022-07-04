@@ -38,6 +38,11 @@ export const routes = [{
   component: () => import(/* webpackChunkName: "blank" */ '@/pages/BlankPage.vue')
 },
 {
+  path: '/mi_perfil',
+  name: 'miperfil',
+  component: () => import(/* webpackChunkName: "blank" */ '@/pages/MiPerfil.vue')
+},
+{
   path: '*',
   name: 'error',
   component: () => import(/* webpackChunkName: "error" */ '@/pages/error/NotFoundPage.vue'),

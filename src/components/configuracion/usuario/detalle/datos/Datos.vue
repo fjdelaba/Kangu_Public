@@ -2,7 +2,7 @@
   <div class="my-2">
     <div>
       <v-card>
-        <v-card-title>Información del usuario</v-card-title>
+        <!-- <v-card-title>Información del usuario</v-card-title> -->
         <v-card-text>
           <div class="d-flex flex-column flex-sm-row">
             <div>
@@ -22,14 +22,14 @@
                 dense
                 label="Nombre"
                 placeholder="Nombre"
-                readonly
+                :readonly="!edicion"
                 outlined
               ></v-text-field>
               <v-text-field
                 v-model="user.apellidos"
                 label="Apellido"
                 placeholder="Apellido Paterno"
-                readonly
+                :readonly="!edicion"
                 dense
                 outlined
               ></v-text-field>
@@ -37,21 +37,21 @@
                 v-model="user.rut"
                 label="Rut"
                 placeholder="12.345.678-9"
-                readonly
+                :readonly="!edicion"
                 dense
                 outlined
               ></v-text-field>
               <v-text-field
                 v-model="user.cargo"
                 label="Cargo"
-                readonly
+                :readonly="!edicion"
                 dense
                 outlined
               ></v-text-field>
               <v-text-field
                 v-model="user.email"
                 label="Email"
-                readonly
+                :readonly="!edicion"
                 dense
                 outlined
               ></v-text-field>
@@ -80,16 +80,36 @@
                   </v-btn>
                 </div>
               </div> -->
-
-              <div class="mt-2">
-                <v-btn color="primary" small @click>Guardar</v-btn>
-              </div>
-              <div class="mt-2">
-                <v-btn color="primary" small @click>Editar</v-btn>
-              </div>
+              <v-row
+                align="center"
+                justify="space-around"
+              >   
+                <div v-if="cpxOrigenConfiguracion">
+                  <div v-if="edicion" class="mt-2">
+                    <v-btn color="primary" small @click="grabarEdicionUsuario()">Guardar</v-btn>
+                    <v-btn color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
+                  </div>
+                  <div v-else class="mt-2">
+                    <v-btn color="primary" small @click="editarUsuario()">Editar</v-btn>
+                  </div>
+                  <div v-if="cpxOrigenConfiguracion" class="mt-2">
+                    <v-btn
+                      :loading="loading4"
+                      :disabled="loading4"
+                      :color="user.activo ? 'error' : 'success'"
+                      small
+                      @click="cambiarEstadoUsuario()"
+                    > {{ cpxTextoBotonUpdateEstado }}
+                      <template v-slot:loader>
+                        <span class="custom-loader">
+                          <v-icon light>mdi-cached</v-icon>
+                        </span>
+                      </template></v-btn>
+                  </div>
+                </div>
+              </v-row>             
             </div>
-          </div>
-        </v-card-text>
+          </div></v-card-text>
       </v-card>
 
       <v-expansion-panels v-model="panel" multiple class="mt-3">
@@ -297,12 +317,44 @@
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-expansion-panels></div>
+    <v-row justify="center">
+      <v-dialog
+        v-model="dialogDesactivar"
+        persistent
+        max-width="500"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            ¿Deseas deshabilitar este usuario?
+          </v-card-title>
+          <v-card-text>Esta accion tiene efecto inmediato en la aplicion. Si este usuario esta usando la app, sera redirigido al login.</v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="dialogDesactivar = false"
+            >
+              NO
+            </v-btn>
+            <v-btn
+              color="green darken-1"
+              text
+              @click="deshabilitarUsuario()"
+            >
+              Si
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
 <script>
 
 // import CardProyecto from '../../../components/configuracion/usuario/card-proyecto/CardProyecto.vue'
+import { setTimeout } from 'optimism'
 import CardProyecto from '../../../../configuracion/usuario/card-proyecto/CardProyecto.vue'
 
 export default {
@@ -313,6 +365,10 @@ export default {
     user: {
       type: Object,
       default: () => ({})
+    },
+    origen:{
+      type: Number,
+      default: 2
     }
   },
   data() {
@@ -326,9 +382,100 @@ export default {
       switch6: true,
       switch7: true,
       deleteDialog: false,
-      disableDialog: false
-     
+      disableDialog: false,
+      edicion: false,
+      respaldoUsuario: {},
+      dialogDesactivar:false,
+      loading4: false,
+      loader:null
+    }
+  },
+  computed: {
+    cpxTextoBotonUpdateEstado() {
+      return this.user.activo ? 'Deshabilitar Usuario' : 'Habilitar Usuario'
+    },
+    cpxOrigenConfiguracion() {
+      return this.origen === 1 // origen es configuracion ?
+    }
+  },
+  methods: {
+    cancelarEdicionUsuario() {
+      this.user = JSON.parse(JSON.stringify(this.respaldoUsuario))
+      this.edicion = false
+      
+    },
+    editarUsuario() {
+      this.respaldoUsuario = JSON.parse(JSON.stringify( this.user))
+      this.edicion = true
+    },
+    grabarEdicionUsuario() {
+      console.log('grabar: ')
+      this.edicion = false
+    },
+    cambiarEstadoUsuario() {
+      if (this.user.activo) {
+        this.dialogDesactivar = true
+      } else {
+        console.log('else')
+        this.user.activo = !this.user.activo
+      }
+    },
+    deshabilitarUsuario() {
+      this.loading4 = true
+      this.loader = true
+      this.dialogDesactivar = false
+      setTimeout(() => {
+        console.log('object pase por aca')  
+        this.loader = null
+        this.loading4 = false
+        this.user.activo = !this.user.activo
+        console.log('deshabilitar')
+        this.$notify({
+          group: 'foo',
+          title: 'Edicion de usuario',
+          text: 'Los datos fueron actualizados exitosamente',
+          type: 'success'
+        })
+      }, 4000)
     }
   }
 }
 </script>
+<style scoped>
+  .custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+</style>
