@@ -17,7 +17,7 @@
               <v-tab-item >
                 <informacion-general ref="infoGeneral" @id="cambioStep1" ></informacion-general>
               </v-tab-item>
-              <v-tab >
+              <v-tab :disabled="!grabado">
                 Adquisiciones
               </v-tab>
               <v-tab-item >
@@ -29,7 +29,7 @@
               <v-tab-item >
                 <cuenta-costo ref="cuentaCosto"></cuenta-costo>
               </v-tab-item>
-              <v-tab>
+              <v-tab :disabled="!grabado">
                 Control de Materiales
               </v-tab>
               <v-tab-item>

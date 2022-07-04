@@ -107,6 +107,8 @@ export default {
       mostrarNoData: false,
       mostrarDialogCrearEntidad: false,
       proyectosBD: [],
+      datosEmpresa:"",
+      datosUsuario:""
 
     };
   },
@@ -116,6 +118,9 @@ export default {
     idproyecto: Number,
   },
   mounted() {
+  
+    console.log("datosUsuario", this.datosUsuario)
+    console.log("datosEmpresa", this.datosEmpresa)
     setTimeout(() => {
       console.log("this.idproyecto", this.idproyecto);
       if (this.detalle == true) {
@@ -254,6 +259,17 @@ export default {
           console.log("coms", com);
           this.listaComunas.push({ id: com.id, nombre: com.nombre });
         }
+        this.listaComunas = this.listaComunas.sort(function(a,b){
+          if(a.nombre > b.nombre){
+            return 1
+          }
+          if(a.nombre < b.nombre){
+            return -1
+          }
+          if(a.nombre == b.nombre){
+            return 0
+          }
+        })
       }
     },
     cancelarEdicion() {
@@ -351,7 +367,20 @@ export default {
       }
       for (let region of kangusoft_reg) {
         this.listaRegion.push({ id: region.id, nombre: region.nombre });
+       
       }
+      this.listaRegion = this.listaRegion.sort(function(a,b){
+        if(a.nombre > b.nombre){
+          return 1
+        }
+        if(a.nombre < b.nombre){
+          return -1
+        }
+        if(a.nombre == b.nombre){
+          return 0
+        }
+      })
+  
       for (let usu of kangusoft_usu) {
         this.listaUsuarios.push({
           id: usu.id,
@@ -365,6 +394,8 @@ export default {
     },
 
     async guardarInformacion() {
+      this.datosEmpresa = this.$store.state.app.datosEmpresa
+      this.datosUsuario = this.$store.state.app.datosUsuario
       this.$refs.infoGeneral.validate();
       console.log("validacion", this.$refs.infoGeneral.validate());
       if (this.$refs.infoGeneral.validate() == true) {
@@ -372,7 +403,7 @@ export default {
         let finalFlag = [];
         let inf = {
           // emp_fk: this.aut0,
-          emp_fk: this.$store.state.app.datosEmpresa.id,
+          emp_fk: this.datosEmpresa.id,
           nombre: this.infoGeneralProyecto.nombre,
           pro_est_fk: this.infoGeneralProyecto.estado,
           valor_contractual: Number(this.infoGeneralProyecto.valorC),
@@ -380,7 +411,7 @@ export default {
           direccion: this.infoDireccionProyecto.direccion,
           ent_fk: this.infoMandanteProyecto.mandante,
           // usu_fk: this.usuLogin,
-          usu_fk: this.$store.state.app.datosUsuario.user_id,
+          usu_fk: this.datosUsuario.user_id,
           inicio_oc: Number(this.infoGeneralProyecto.ocInicial),
           codigo: this.infoGeneralProyecto.codigo,
           mon_fk: this.infoGeneralProyecto.monedaGeneral,

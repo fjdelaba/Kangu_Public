@@ -11,7 +11,7 @@
     </v-btn>
     <v-row class="mb-6" no-gutters>
       <v-col>
-        <h3>PEDIDOS  {{ usuariosPedido.usuSolicitante }} </h3>
+        <h3>PEDIDOS   </h3>
         <v-divider></v-divider>
        
         <v-row>
@@ -56,7 +56,7 @@
         <v-divider></v-divider>
         <v-row>
           <v-col>
-            <h3>Flujo de Aprobación Orden de Compra {{ cpxUsuariosAprobadoresFiltrados }} </h3>
+            <h3>Flujo de Aprobación Orden de Compra  </h3>
           </v-col>
         </v-row>
         <v-row> </v-row>
