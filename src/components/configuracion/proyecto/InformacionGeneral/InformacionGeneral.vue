@@ -31,7 +31,7 @@
                 dense
               ></v-text-field>
               <h4 v-if="detalle == true">Nombre</h4>
-              <p v-if="detalle == true">{{ proyecto.nombre }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.nombre }}</p>
             </v-col>
           
             <v-col cols="2" class="pb-0">
@@ -45,7 +45,7 @@
                 @blur="validaCodigo1()"
               ></v-text-field>
               <h4 v-if="detalle == true">Código</h4>
-              <p v-if="detalle == true">{{ proyecto.codigo }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.codigo }}</p>
             </v-col>
             <v-col cols="2" class="pb-0">
               <v-autocomplete
@@ -61,7 +61,7 @@
                 item-value="id"
               ></v-autocomplete>
               <h4 v-if="detalle == true">Unidades de Trabajo</h4>
-              <p v-if="detalle == true">{{ proyecto.prouni.nombre }}</p>
+              <p v-if="detalle == true">{{ proyecto.prouni && proyecto.prouni.pro_uni.nombre }}</p>
             </v-col>
             <v-col cols="2" class="pb-0">
               <v-text-field
@@ -74,7 +74,7 @@
                 type="number"
               ></v-text-field>
               <h4 v-if="detalle == true">Valor Contractual</h4>
-              <p v-if="detalle == true">{{ proyecto.valor_contractual }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.valor_contractual }}</p>
             </v-col>
             <v-col cols="2" class="pb-0">
               <v-text-field
@@ -86,7 +86,7 @@
                 dense
               ></v-text-field>
               <h4 v-if="detalle == true">Presupuesto de Obra</h4>
-              <p v-if="detalle == true">{{ proyecto.presupuesto }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.presupuesto }}</p>
             </v-col>
             <v-col cols="2" class="pb-0">
               <v-autocomplete
@@ -101,7 +101,7 @@
                 value="1"
               ></v-autocomplete>
               <h4 v-if="detalle == true">Estado</h4>
-              <p v-if="detalle == true">{{ proyecto.pro_est.nombre }}</p>
+              <p v-if="detalle == true">{{ proyecto.pro_est && proyecto.pro_est.nombre }}</p>
             </v-col>
           </v-row>
           <v-row class="filaContenidoStep3Ste">
@@ -118,7 +118,7 @@
                 item-value="id"
               ></v-autocomplete>
               <h4 v-if="detalle == true">Moneda</h4>
-              <p v-if="detalle == true">{{ proyecto.mon.nombre }}</p>
+              <p v-if="detalle == true">{{ proyecto.mon && proyecto.mon.nombre }}</p>
             </v-col>
             <v-col class="pt-0" cols="2">
               <v-select
@@ -134,7 +134,7 @@
                 item-value="id"
               ></v-select>
               <h4 v-if="detalle == true">Etiquetas</h4>
-              <p v-if="detalle == true">{{ proyecto.usu.flas[2].nombre }}</p>
+              <p v-if="detalle == true">{{ proyecto.fla && proyecto.fla.fla.nombre ? proyecto.fla.fla.nombre : "Sin Etiqueta" }}</p>
             </v-col>
             <v-col class="pt-0" cols="2">
               <v-text-field
@@ -145,7 +145,7 @@
                 dense
               ></v-text-field>
               <h4 v-if="detalle == true">OC Inicial</h4>
-              <p v-if="detalle == true">{{ proyecto.inicio_oc }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.inicio_oc }}</p>
             </v-col>
             <v-col class="pt-0" cols="6">
               <v-textarea
@@ -159,7 +159,7 @@
                 dense
               ></v-textarea>
               <h4 v-if="detalle == true">Descripción</h4>
-              <p v-if="detalle == true">{{ proyecto.descripcion }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.descripcion ? proyecto.descripcion : "Sin Descripción" }}</p>
             </v-col>
           </v-row>
         </v-form>
@@ -242,7 +242,7 @@
             ></v-combobox>
             <h4 v-if="detalle == true">Usuario Administrador</h4>
             <p v-if="detalle == true">
-              {{ proyecto.usu.nombre }}  {{ proyecto.usu.apellidos }}
+              {{ proyecto.usu && proyecto.usu.nombre }}  {{ proyecto.usu && proyecto.usu.apellidos }}
             </p>
           </v-col>
           <v-col cols="4" class="pt-0">
@@ -283,7 +283,7 @@
           @blur="cargarComunas()"
         ></v-autocomplete>
         <h4 v-if="detalle == true">Region</h4>
-        <p v-if="detalle == true">{{ proyecto.com.prov.reg.nombre }}</p>
+        <p v-if="detalle == true">{{ proyecto.com && proyecto.com.prov.reg.nombre }}</p>
       </v-col>
       <v-col cols="2">
         <v-autocomplete
@@ -297,7 +297,7 @@
           item-value="id"
         ></v-autocomplete>
         <h4 v-if="detalle == true">Comuna</h4>
-        <p v-if="detalle == true">{{ proyecto.com.nombre }}</p>
+        <p v-if="detalle == true">{{ proyecto.com && proyecto.com.nombre }}</p>
       </v-col>
       <v-col cols="2">
         <v-text-field
@@ -351,7 +351,7 @@
           </template>
         </v-autocomplete>
         <h4 v-if="detalle == true">Mandante del Proyecto</h4>
-        <p v-if="detalle == true">{{ proyecto.ent.razon_social }}</p>
+        <p v-if="detalle == true">{{ proyecto.ent && proyecto.ent.razon_social }}</p>
       </v-col>
     </v-row>
     <v-row justify="center">
@@ -370,6 +370,7 @@
           color="success"
           dark
           large
+          :loading="loading4"
           @click="guardarInformacion()"
         ><v-icon>mdi-content-save-all</v-icon>
           GUARDAR

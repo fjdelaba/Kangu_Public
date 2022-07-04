@@ -16,7 +16,7 @@ export default {
 
   data() {
     return {
-      mostrarError:false,
+      mostrarError: false,
       date: new Date().toISOString().substr(0, 10),
       date2: "",
       daysOfWeek: ["Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
@@ -107,8 +107,8 @@ export default {
       mostrarNoData: false,
       mostrarDialogCrearEntidad: false,
       proyectosBD: [],
-      datosEmpresa:"",
-      datosUsuario:"",
+      datosEmpresa: "",
+      datosUsuario: "",
       loading4: false,
 
     };
@@ -119,24 +119,21 @@ export default {
     idproyecto: Number,
   },
   mounted() {
-    this.datosEmpresa = this.$store.state.app.datosEmpresa
-    this.datosUsuario = this.$store.state.app.datosUsuario
-    console.log("datosUsuario", this.datosUsuario)
-    console.log("datosEmpresa", this.datosEmpresa)
+
     setTimeout(() => {
       console.log("this.idproyecto", this.idproyecto);
       if (this.detalle == true) {
         this.proyectoSeleccionado = this.idproyecto;
         this.cargarProyecto();
       }
-    }, 5000);
+    }, 10);
 
     this.cargarInformacionGeneral();
     this.aut0 = 1;
     this.usuLogin = 1;
   },
   computed: {
-  
+
     computedDateFormattedMomentjs() {
       return this.date ? moment(this.date).format("DD/MM/yy") : "";
     },
@@ -261,14 +258,14 @@ export default {
           console.log("coms", com);
           this.listaComunas.push({ id: com.id, nombre: com.nombre });
         }
-        this.listaComunas = this.listaComunas.sort(function(a,b){
-          if(a.nombre > b.nombre){
+        this.listaComunas = this.listaComunas.sort(function (a, b) {
+          if (a.nombre > b.nombre) {
             return 1
           }
-          if(a.nombre < b.nombre){
+          if (a.nombre < b.nombre) {
             return -1
           }
-          if(a.nombre == b.nombre){
+          if (a.nombre == b.nombre) {
             return 0
           }
         })
@@ -314,34 +311,40 @@ export default {
         kangusoft_pro_prouni,
         kangusoft_pro_fla
       );
+      if( kangusoft_pro_fla.length > 0){
+        this.proyecto.fla = kangusoft_pro_fla[0];
+      }
+      if( kangusoft_pro_prouni.length > 0){
+        this.proyecto.prouni = kangusoft_pro_prouni[0];
+      }
       this.proyecto = kangusoft_pro[0];
-      this.proyecto.fla = kangusoft_pro_fla[0].fla;
-      this.proyecto.prouni = kangusoft_pro_prouni[0].pro_uni;
+      this.proyecto.fla = kangusoft_pro_fla[0];
+      this.proyecto.prouni = kangusoft_pro_prouni[0];
       console.log("aa2", this.proyecto);
     },
-   returnValidaCodigo(){
-      return this.mostrarError 
+    returnValidaCodigo() {
+      return this.mostrarError
     },
-   async validaCodigo1() {
-     let kangusoft_pro1 = []
+    async validaCodigo1() {
+      let kangusoft_pro1 = []
       let val = this.infoGeneralProyecto.codigo
-      console.log("val",val)
-      if(this.infoGeneralProyecto.codigo.length > 0 && val != undefined){
+      console.log("val", val)
+      if (this.infoGeneralProyecto.codigo.length > 0 && val != undefined) {
         const {
           data: { kangusoft_pro },
         } = await getProyectoCodigoDuplicado(val)
-      console.log("dataaaa",kangusoft_pro)
-      kangusoft_pro1 = kangusoft_pro
-      console.log("dataaaa1",kangusoft_pro1)
-      
-      } 
-      if(kangusoft_pro1.length > 0){
+        console.log("dataaaa", kangusoft_pro)
+        kangusoft_pro1 = kangusoft_pro
+        console.log("dataaaa1", kangusoft_pro1)
+
+      }
+      if (kangusoft_pro1.length > 0) {
         return this.mostrarError = false
-        }else if(kangusoft_pro1.length == 0){
-          return this.mostrarError = true
-        }
-       
-        console.log("error ",this.mostrarError)
+      } else if (kangusoft_pro1.length == 0) {
+        return this.mostrarError = true
+      }
+
+      console.log("error ", this.mostrarError)
     },
     async cargarInformacionGeneral() {
       const {
@@ -369,20 +372,20 @@ export default {
       }
       for (let region of kangusoft_reg) {
         this.listaRegion.push({ id: region.id, nombre: region.nombre });
-       
+
       }
-      this.listaRegion = this.listaRegion.sort(function(a,b){
-        if(a.nombre > b.nombre){
+      this.listaRegion = this.listaRegion.sort(function (a, b) {
+        if (a.nombre > b.nombre) {
           return 1
         }
-        if(a.nombre < b.nombre){
+        if (a.nombre < b.nombre) {
           return -1
         }
-        if(a.nombre == b.nombre){
+        if (a.nombre == b.nombre) {
           return 0
         }
       })
-  
+
       for (let usu of kangusoft_usu) {
         this.listaUsuarios.push({
           id: usu.id,
@@ -396,10 +399,14 @@ export default {
     },
 
     async guardarInformacion() {
-      this.loading4 = true 
+      this.datosEmpresa = this.$store.state.app.datosEmpresa
+      this.datosUsuario = this.$store.state.app.datosUsuario
+      console.log("datosUsuario", this.datosUsuario)
+      console.log("datosEmpresa", this.datosEmpresa)
+      this.loading4 = true
       this.$refs.infoGeneral.validate();
       console.log("validacion", this.$refs.infoGeneral.validate());
-      if(this.infoGeneralProyecto.ocInicial == 1){
+      if (this.infoGeneralProyecto.ocInicial == 1) {
         this.infoGeneralProyecto.ocInicial = 0
       }
       if (this.$refs.infoGeneral.validate() == true) {

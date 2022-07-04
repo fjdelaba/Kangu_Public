@@ -128,6 +128,7 @@ query Q_GET_APROBADORES_PROYECTO($id: bigint) {
   kangusoft_apr(where: {pro_fk: {_eq: $id}}) {
     id
     monto
+    flujo
     pro_fk
     apro_final
     mod_fk

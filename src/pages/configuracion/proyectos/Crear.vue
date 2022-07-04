@@ -17,7 +17,7 @@
               <v-tab-item >
                 <informacion-general ref="infoGeneral" @id="cambioStep1" ></informacion-general>
               </v-tab-item>
-              <v-tab :disabled="!grabado">
+              <v-tab >
                 Adquisiciones
               </v-tab>
               <v-tab-item >
