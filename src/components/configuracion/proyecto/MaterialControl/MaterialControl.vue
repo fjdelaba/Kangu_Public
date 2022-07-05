@@ -168,7 +168,7 @@
                 
                   <p 
                     v-if="item.id != idLinea || editarLinea == false"
-                  >{{ item.cantidad }}</p> 
+                  >{{ item.cantidad | currency_2 }}</p> 
                 </template>
                 <template
                   v-slot:item.valor_unitario="{ item }"
@@ -183,9 +183,17 @@
                 
                   <p 
                     v-if="item.id != idLinea || editarLinea == false"
-                  >{{ item.valor_unitario }}</p> 
+                  >{{ item.valor_unitario | currency }}</p> 
+                </template>
+                <template
+                  v-slot:item.total="{ item }"
+                >
+                  <p 
+                    v-if="item.id != idLinea || editarLinea == false"
+                  >{{ item.total | currency }}</p> 
                 </template></v-data-table>
             </template>
+            
           </v-col>
         </v-row>
         <v-row>

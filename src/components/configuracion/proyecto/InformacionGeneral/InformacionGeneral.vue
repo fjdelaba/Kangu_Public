@@ -74,7 +74,7 @@
                 type="number"
               ></v-text-field>
               <h4 v-if="detalle == true">Valor Contractual</h4>
-              <p v-if="detalle == true">{{ proyecto && proyecto.valor_contractual }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.valor_contractual | currency }}</p>
             </v-col>
             <v-col cols="2" class="pb-0">
               <v-text-field
@@ -86,7 +86,7 @@
                 dense
               ></v-text-field>
               <h4 v-if="detalle == true">Presupuesto de Obra</h4>
-              <p v-if="detalle == true">{{ proyecto && proyecto.presupuesto }}</p>
+              <p v-if="detalle == true">{{ proyecto && proyecto.presupuesto | currency }}</p>
             </v-col>
             <v-col cols="2" class="pb-0">
               <v-autocomplete

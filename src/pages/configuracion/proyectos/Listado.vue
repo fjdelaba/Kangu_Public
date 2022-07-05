@@ -47,7 +47,11 @@
                       ><v-icon left>mdi-eye</v-icon> 
                         Detalle 
                       </v-btn> 
-                    </template></v-data-table>
+                    </template> 
+                    <template v-slot:item.valor_contractual="{item}">
+                      <p>{{ item.valor_contractual | currency }}</p>
+                    </template>
+                  </v-data-table>
                 </template>
               </v-card></v-col>
           </v-col>
