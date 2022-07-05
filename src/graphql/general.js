@@ -1,5 +1,5 @@
 import { GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
-  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA  } from './querys/general'
+  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA, GET_ACCESO_MODULO  } from './querys/general'
 import { GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
 import { SUBS_DATOS_USUARIO } from './subscriptions/general'
 
@@ -178,6 +178,17 @@ export const subsDatosUsuario = async (id_usuario) => {
     query: SUBS_DATOS_USUARIO,
     variables: {
       id_usuario
+    }
+  })
+}
+
+export const getAccesoModulo = async (id_usuario, modulo_fk) => {
+  
+  return await apolloClient.query({
+    query: GET_ACCESO_MODULO,
+    variables: {
+      id_usuario,
+      modulo_fk
     }
   })
 }

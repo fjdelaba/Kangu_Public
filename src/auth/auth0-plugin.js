@@ -41,6 +41,7 @@ export const useAuth0 = ({
     },
     methods: {
       async handleRedirectCallback() {
+        console.log('handleRedirectCallback: ')
         this.isLoading = true
         try {
           await this.auth0Client.handleRedirectCallback()
@@ -55,64 +56,78 @@ export const useAuth0 = ({
       },
 
       loginWithRedirect(options) {
+        console.log('loginWithRedirect: ')
+
         return this.auth0Client.loginWithRedirect(options)
       },
 
       logout(options) {
+        console.log('logout: ')
+
         return this.auth0Client.logout(options)
       },
 
       getTokenSilently(o) {
+        console.log('logout: ')
+
         return this.auth0Client.getTokenSilently(o)
       }
     },
 
     // eslint-disable-next-line vue/order-in-components
     async created() {
-      this.auth0Client = await createAuth0Client({
-        ...pluginOptions,
-
-        // Environment Heroku
-        domain: process.env.VUE_APP_AUTH_DOMAIN || 'kangusoft.us.auth0.com',//pluginOptions.domain,
-        client_id: process.env.VUE_APP_AUTH_CLIENT_ID || 'vrEYoiels6SlT3fgKo1NWso3f9JMU5Z8',//pluginOptions.clientId,
-        audience: pluginOptions.audience,
-        //redirect_uri: redirectUri
-        // redirect_uri: 'http://localhost:8080/dashboard/analytics'
-        redirect_uri: process.env.VUE_APP_URL_POST_LOGIN || 'http://localhost:8080/dashboard/analytics',
-        ui_locales: 'es'
-        // redirect_uri: 'https://kangu.cl/dashboard/analytics'
-
-      })
-
+      console.log('created auth0')
       try {
-        if (
-          window.location.search.includes('code=') &&
-          window.location.search.includes('state=')
-        ) {
-          const { appState } = await this.auth0Client.handleRedirectCallback()
-
-          onRedirectCallback(appState)
+        this.auth0Client = await createAuth0Client({
+          ...pluginOptions,
+  
+          // Environment Heroku
+          domain: process.env.VUE_APP_AUTH_DOMAIN || 'kangusoft.us.auth0.com',//pluginOptions.domain,
+          client_id: process.env.VUE_APP_AUTH_CLIENT_ID || 'vrEYoiels6SlT3fgKo1NWso3f9JMU5Z8',//pluginOptions.clientId,
+          audience: pluginOptions.audience,
+          //redirect_uri: redirectUri
+          // redirect_uri: 'http://localhost:8080/dashboard/analytics'
+          redirect_uri: process.env.VUE_APP_URL_POST_LOGIN || 'http://localhost:8080/dashboard/analytics',
+          ui_locales: 'es'
+          // redirect_uri: 'https://kangu.cl/dashboard/analytics'
+  
+        })
+  
+        try {
+          console.log('try')
+          if (
+            window.location.search.includes('code=') &&
+            window.location.search.includes('state=')
+          ) {
+            const { appState } = await this.auth0Client.handleRedirectCallback()
+  
+            onRedirectCallback(appState)
+          }
+        } catch (error) {
+          console.log('catch')
+          this.error = error
+        } finally {
+          console.log('finally')
+          this.isAuthenticated = await this.auth0Client.isAuthenticated()
+          this.user = await this.auth0Client.getUser()
+          console.log('USER : ', this.user)
+          console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
+          const val = this.user['https://kangusoft.cl/jwt/hasura'].user_tenant
+  
+          console.log('val: ', val)
+  
+          store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])
+          this.isLoading = false
+          localStorage.setItem('tokenxjwt_id', `Bearer ${this.user['https://kangusoft.cl/jwt/hasura'].token}`)
+          const resp = await getEmpresa(val)
+  
+          store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
+  
+          console.log('resp: ', resp)          
+  
         }
       } catch (error) {
-        this.error = error
-      } finally {
-        this.isAuthenticated = await this.auth0Client.isAuthenticated()
-        this.user = await this.auth0Client.getUser()
-        console.log('USER : ', this.user)
-        console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
-        const val = this.user['https://kangusoft.cl/jwt/hasura'].user_tenant
-
-        console.log('val: ', val)
-
-        store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])
-        this.isLoading = false
-        localStorage.setItem('tokenxjwt_id', `Bearer ${this.user['https://kangusoft.cl/jwt/hasura'].token}`)
-        const resp = await getEmpresa(val)
-
-        store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
-
-        console.log('resp: ', resp)          
-
+        console.log('error: ', error)
       }
     }
   })

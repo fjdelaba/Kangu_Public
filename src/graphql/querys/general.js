@@ -120,6 +120,16 @@ query Q_GET_MATERIAL($material: String!) {
 }
 `
 
+const GET_ACCESO_MODULO = gql`
+query Q_GET_ACCESO_MODULO($id_usuario: bigint!, $modulo_fk: bigint = "") {
+  kangusoft_usu_mod(where: {usu_fk: {_eq: $id_usuario}, mod_fk: {_eq: $modulo_fk}}) {
+    mod_fk
+    id
+    usu_fk
+  }
+}
+`
+
 const GET_EMPRESA = gql`
 query Q_GET_EMPRESA($emp_id: bigint!) {
   kangusoft_emp(where: {id: {_eq: $emp_id}}) {
@@ -163,5 +173,6 @@ export {
   GET_COMUNAS,
   GET_PROYECTOS_POR_USUARIO,
   GET_MATERIAL,
-  GET_EMPRESA
+  GET_EMPRESA,
+  GET_ACCESO_MODULO
 }

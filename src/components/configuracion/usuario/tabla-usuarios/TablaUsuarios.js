@@ -52,16 +52,16 @@ export default {
       image: null,
       drawer: false,
       isLoading: false,
-      switch1: false,
-      switch2: false,
-      switch3: false,
-      switch4: false,
-      switch5: false,
-      switch6: false,
-      switch7: false,
-      switch8: false,
-      switch9: false,
-      switch10: false,
+      permisoCentroGestion: false,
+      permisoMateriales: false,
+      permisoEntidadExterna: false,
+      permisoUsuario: false,
+      permisoMatenedores: false,
+      permisoPedidos: false,
+      permisoCotizacion: false,
+      permisoOrdenCompra: false,
+      permisoDespacho: false,
+      permisoRecepcion: false,
       switchall:false,
       visible: true,
       breadcrumbs: [
@@ -74,8 +74,6 @@ export default {
           text: "Listado",
         },
       ],
-      settings: ['switch1', 'switch2' ],
-      settings2: [],
       /*selectedItem: 1,
       items2: [
         { text: 'Real-Time', icon: 'mdi-clock' },
@@ -108,16 +106,16 @@ export default {
   computed: {
     cpxValidarPermisos() {
       return (
-        this.switch1 == false &&
-        this.switch2 == false &&
-        this.switch3 == false &&
-        this.switch4 == false &&
-        this.switch5 == false &&
-        this.switch6 == false &&
-        this.switch7 == false &&
-        this.switch8 == false &&
-        this.switch9 == false &&
-        this.switch10 == false
+        this.permisoCentroGestion == false &&
+        this.permisoMateriales == false &&
+        this.permisoEntidadExterna == false &&
+        this.permisoUsuario == false &&
+        this.permisoMatenedores == false &&
+        this.permisoPedidos == false &&
+        this.permisoCotizacion == false &&
+        this.permisoOrdenCompra == false &&
+        this.permisoDespacho == false &&
+        this.permisoRecepcion == false
       );
     },
   },
@@ -203,43 +201,43 @@ export default {
     async grabarUsuario(parametro) {
       let permisosUsu = [];
       if (parametro == 1) {
-        if (this.switch1 == true) {
+        if (this.permisoCentroGestion == true) {
           //PROYECTOS O CG
           permisosUsu.push({ mod_fk: 7 });
         }
-        if (this.switch2 == true) {
+        if (this.permisoMateriales == true) {
           //MAESTRO DE RECURSOS
           permisosUsu.push({ mod_fk: 8 });
         }
-        if (this.switch3 == true) {
+        if (this.permisoEntidadExterna == true) {
           //ENTIDAD EXTERNA
           permisosUsu.push({ mod_fk: 6 });
         }
-        if (this.switch4 == true) {
+        if (this.permisoUsuario == true) {
           //USUARIO
           permisosUsu.push({ mod_fk: 9 });
         }
-        if (this.switch5 == true) {
+        if (this.permisoMatenedores == true) {
           //MANTENEDORES
           permisosUsu.push({ mod_fk: 10 });
         }
-        if (this.switch6 == true) {
+        if (this.permisoPedidos == true) {
           //PEDIDOS
           permisosUsu.push({ mod_fk: 1 });
         }
-        if (this.switch7 == true) {
+        if (this.permisoCotizacion == true) {
           //COTIZACION
           permisosUsu.push({ mod_fk: 2 });
         }
-        if (this.switch8 == true) {
+        if (this.permisoOrdenCompra == true) {
           //ORDEN DE COMPRA
           permisosUsu.push({ mod_fk: 3 });
         }
-        if (this.switch9 == true) {
+        if (this.permisoDespacho == true) {
           //DESPACHO
           permisosUsu.push({ mod_fk: 4 });
         }
-        if (this.switch10 == true) {
+        if (this.permisoRecepcion == true) {
           //RECEPCION
           permisosUsu.push({ mod_fk: 5 });
         }
@@ -253,9 +251,11 @@ export default {
         emp_fk: 1,
         usu_per_fk: 2,
       };
-      if(parametro == 2){
-        permisosUsu.push({ mod_fk: 0 })
-      }
+      // if(parametro == 2){
+      //   permisosUsu.push({ mod_fk: 0 })
+      // }
+
+      console.log("permisosUsu: ", permisosUsu);
       const { data } = await postUsuarioEsmpresa(usuario,permisosUsu);
       console.log(data);
       this.abrirDialog = false;
@@ -274,11 +274,29 @@ export default {
     },
     //Metodo de switch all
     permisoTotales() {
-    if(this.switchall == false){
-      return cpxValidarPermisos
-    } else 
-      this.switchall == true
-
+if(this.switchall){
+  this.permisoCentroGestion = true 
+  this.permisoMateriales = true 
+  this.permisoEntidadExterna = true 
+  this.permisoUsuario = true 
+  this.permisoMatenedores = true 
+  this.permisoPedidos = true 
+  this.permisoCotizacion = true 
+  this.permisoOrdenCompra = true 
+  this.permisoDespacho = true 
+  this.permisoRecepcion = true
+}else{
+  this.permisoCentroGestion = false 
+  this.permisoMateriales = false 
+  this.permisoEntidadExterna = false 
+  this.permisoUsuario = false 
+  this.permisoMatenedores = false 
+  this.permisoPedidos = false 
+  this.permisoCotizacion = false 
+  this.permisoOrdenCompra = false 
+  this.permisoDespacho = false 
+  this.permisoRecepcion = false
+}
     },
     permisoUsu() {
       this.active = 1;

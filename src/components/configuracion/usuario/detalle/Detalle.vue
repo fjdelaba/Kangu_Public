@@ -33,6 +33,10 @@ query MyQuery($id_usuario: bigint!) {
     id
     nombre
     rut
+      usu_mods {
+      mod_fk
+      id
+    }
     # cgs(where: {estado_fk: {_eq: 1}}) {
     #   nombre
     #   id,

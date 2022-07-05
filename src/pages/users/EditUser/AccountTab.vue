@@ -60,7 +60,7 @@
               </div>
 
               <div class="mt-2">
-                <v-btn color="primary" @click>Guardar</v-btn>
+                <v-btn color="primary">Guardar</v-btn>
               </div>
             </div>
           </div>
@@ -83,47 +83,47 @@
                   :loading="loading"
                   class=" my-1"
                   max-width="400"
-                   outlined
-                   tile
+                  outlined
+                  tile
                 >
                   <v-card-title class="grey lighten-3">Panel de configuración</v-card-title>
-                   <v-container class="grey lighten-4">
+                  <v-container class="grey lighten-4">
   
-                  <v-switch
-                    v-model="switch1"
-                    :label="`Centro de Gestión`"
-                    inset
-                  ></v-switch>
-                  <v-divider class="mx-4"></v-divider>
+                    <v-switch
+                      v-model="switch1"
+                      :label="`Centro de Gestión`"
+                      inset
+                    ></v-switch>
+                    <v-divider class="mx-4"></v-divider>
   
-                  <v-switch
-                    v-model="switch2"
-                    :label="`Maestro de recursos`"
-                    inset
-                  ></v-switch>
-                   <v-divider class="mx-4"></v-divider>
+                    <v-switch
+                      v-model="switch2"
+                      :label="`Maestro de recursos`"
+                      inset
+                    ></v-switch>
+                    <v-divider class="mx-4"></v-divider>
   
-                  <v-switch
-                    v-model="switch3"
-                    :label="`Entidad Externa`"
-                    inset
-                  ></v-switch>
+                    <v-switch
+                      v-model="switch3"
+                      :label="`Entidad Externa`"
+                      inset
+                    ></v-switch>
   
-                  <v-divider class="mx-4"></v-divider>
+                    <v-divider class="mx-4"></v-divider>
   
-                  <v-switch
-                    v-model="switch4"
-                    inset
-                    :label="`Usuarios`"
-                  ></v-switch>
-                   <v-divider class="mx-4"></v-divider>
+                    <v-switch
+                      v-model="switch4"
+                      inset
+                      :label="`Usuarios`"
+                    ></v-switch>
+                    <v-divider class="mx-4"></v-divider>
   
-                  <v-switch
-                    v-model="switch4"
-                    inset
-                    :label="`Mantenedores`"
-                  ></v-switch>
-                   </v-container>
+                    <v-switch
+                      v-model="switch4"
+                      inset
+                      :label="`Mantenedores`"
+                    ></v-switch>
+                  </v-container>
                 </v-card>
               </v-col>
               <v-col md="4"> 
@@ -131,10 +131,8 @@
                   :loading="loading"
                   class="my-1"
                   max-width="250"
-                   outlined=
-                   tile
-                  
-                  >
+                  outlined="tile"
+                >
                   <template slot="progress">
                     <v-progress-linear
                       color="deep-purple"
@@ -142,39 +140,39 @@
                       indeterminate
                     ></v-progress-linear>
                   </template>
-                  <v-card-title  class= "grey lighten-3" >Adquisiciones</v-card-title>
-                   <v-container class="grey lighten-4">
-                  <v-switch
-                    v-model="switch5"
-                     label="Pedidos"
-                    inset
-                  ></v-switch>
-                  <v-divider class="mx-4"></v-divider>
-                  <v-switch
-                    v-model="switch7"
-                    label="Cotización "
-                    inset
-                  ></v-switch>
-                  <v-divider class="mx-4"></v-divider>
-                  <v-switch
-                    v-model="switch7"
-                    label="Orden de compras"
-                    inset
-                  ></v-switch>
-                  <v-divider class="mx-4"></v-divider>
-                  <v-switch
-                    v-model="switch7"
-                    label=" Despacho"
-                    inset
-                  ></v-switch>
-                  <v-divider class="mx-4"></v-divider>
-                  <v-switch
-                    v-model="switch7"
-                    label=" Recepcion"
-                    inset
-                  ></v-switch>
+                  <v-card-title class="grey lighten-3" >Adquisiciones</v-card-title>
+                  <v-container class="grey lighten-4">
+                    <v-switch
+                      v-model="switch5"
+                      label="Pedidos"
+                      inset
+                    ></v-switch>
+                    <v-divider class="mx-4"></v-divider>
+                    <v-switch
+                      v-model="switch7"
+                      label="Cotización "
+                      inset
+                    ></v-switch>
+                    <v-divider class="mx-4"></v-divider>
+                    <v-switch
+                      v-model="switch7"
+                      label="Orden de compras"
+                      inset
+                    ></v-switch>
+                    <v-divider class="mx-4"></v-divider>
+                    <v-switch
+                      v-model="switch7"
+                      label=" Despacho"
+                      inset
+                    ></v-switch>
+                    <v-divider class="mx-4"></v-divider>
+                    <v-switch
+                      v-model="switch7"
+                      label=" Recepcion"
+                      inset
+                    ></v-switch>
                   
-                   </v-container>
+                  </v-container>
                 </v-card>
               </v-col>
             </v-row>

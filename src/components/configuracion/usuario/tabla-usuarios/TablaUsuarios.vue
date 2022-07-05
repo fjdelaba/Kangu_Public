@@ -239,11 +239,10 @@
                             <v-row dense flat>
                               <v-subheader>Seleccionar todos los permisos</v-subheader>
                               <v-list-item>
-                                <template v-slot:default="{ active, }">
+                                <template v-slot:default="{ }">
                                   <v-list-item-action>
                                     <v-switch
-                                      v-model="settings"
-                                      :input-value="active"
+                                      v-model="switchall"
                                       color="primary"
                                       @click="permisoTotales()"
                                     ></v-switch>
@@ -271,7 +270,7 @@
                                       <template v-slot:default="{ active, }">
                                         <v-list-item-action>
                                           <v-switch
-                                            v-model="switch1"
+                                            v-model="permisoCentroGestion"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -287,7 +286,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
-                                            v-model="switch2"
+                                            v-model="permisoMateriales"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -303,7 +302,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
-                                            v-model="switch3"
+                                            v-model="permisoEntidadExterna"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -318,7 +317,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
-                                            v-model="switch4"
+                                            v-model="permisoUsuario"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -333,7 +332,7 @@
                                       <template v-slot:default="{ active }">
                                         <v-list-item-action>
                                           <v-switch
-                                            v-model="switch5"
+                                            v-model="permisoMatenedores"
                                             :input-value="active"
                                             color="primary"
                                           ></v-switch>
@@ -356,7 +355,7 @@
                                     <template v-slot:default="{ active, }">
                                       <v-list-item-action>
                                         <v-switch
-                                          v-model="switch6"
+                                          v-model="permisoPedidos"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -372,7 +371,7 @@
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
                                         <v-switch
-                                          v-model="switch7"
+                                          v-model="permisoCotizacion"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -388,7 +387,7 @@
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
                                         <v-switch
-                                          v-model="switch8"
+                                          v-model="permisoOrdenCompra"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -403,7 +402,7 @@
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
                                         <v-switch
-                                          v-model="switch9"
+                                          v-model="permisoDespacho"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -417,7 +416,7 @@
                                     <template v-slot:default="{ active }">
                                       <v-list-item-action>
                                         <v-switch
-                                          v-model="switch10"
+                                          v-model="permisoRecepcion"
                                           :input-value="active"
                                           color="primary"
                                         ></v-switch>
@@ -456,8 +455,9 @@
 
         <v-btn
           color="primary"
+          @click="abrirDialog = true"
         >Crear Usuario</v-btn>
-<v-spacer></v-spacer>
+        <v-spacer></v-spacer>
         <v-col cols="6" class="d-flex text-right align-center">
           <v-text-field
             v-model="searchQuery"
