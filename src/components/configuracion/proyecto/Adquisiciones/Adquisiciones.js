@@ -16,7 +16,8 @@ export default {
   props: {
     id: Number,
     detalle: Boolean,
-    idproyecto: Number
+    idproyecto: Number,
+    moneda: Number,
   },
   data() {
     return {
@@ -30,6 +31,7 @@ export default {
       headers: [],
       headers2: [],
       desserts: [],
+      loading4: false,
       tablaCompradores: [],
       dialog: false,
       dialogo: false,
@@ -84,7 +86,18 @@ export default {
         this.cargarUsuariosTotal()
       }
     }, 2000);
-
+    if(this.moneda == 1){
+      this.moneda = {id:1,nombre:'UF'}
+    }
+    if(this.moneda == 2){
+      this.moneda = {id:2,nombre:'CLP'}
+    }
+    if(this.moneda == 3){
+      this.moneda = {id:3,nombre:'DOLAR'}
+    }
+    if(this.moneda == 4){
+      this.moneda = {id:4,nombre:'EURO'}
+    }
     this.cargarUsuarios();
     this.usuarioLogin =
       this.$auth && this.$auth.user["https://kangusoft.cl/jwt/hasura"].user_id;
@@ -445,6 +458,7 @@ export default {
     },
 
     async guardarAdquisiciones() {
+      this.loading4 = true
       console.log('this.usuariosPedido.usuAprobador', this.usuariosPedido.usuAprobador)
       let aprobadores = []
       let compradores = []
@@ -493,6 +507,15 @@ export default {
       console.log(data)
       console.log(id, perfiles, aprobadorPed, aprobadores, compradores)
       this.$emit('id', this.active)
+      setTimeout(() => {
+        this.loading4 = false
+      }, 4000)
+      this.$notify({
+        group: "foo",
+        title: "Creacion de Proyecto",
+        text: "Se a Creado con Exito Adquisciones",
+        type: "success",
+      });
     },
 
   }

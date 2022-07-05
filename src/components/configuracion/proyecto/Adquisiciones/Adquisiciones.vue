@@ -1,5 +1,6 @@
 <template>
   <v-container class="white">
+
     <v-btn
       v-if="detalle == true"
       color="success"
@@ -11,7 +12,7 @@
     </v-btn>
     <v-row class="mb-6" no-gutters>
       <v-col>
-        <h3>PEDIDOS   </h3>
+        <h3>PEDIDOS  {{ moneda }} </h3>
         <v-divider></v-divider>
        
         <v-row>
@@ -140,6 +141,7 @@
                            label="Aprobador Final"
                          ></v-checkbox>
                          <p v-if="cpxAprobadorFinal" class="letracolor"><v-icon color="red">mdi-asterisk</v-icon> Estas Agregando al Aprobador Final, esto solo se hace una vez.</p>
+                         <p v-if="!cpxAprobadorFinal" class="letracolor"><v-icon color="red">mdi-asterisk</v-icon> La moneda seleccionada para este proyecto es: {{ moneda.nombre }} la cual se aplicara en el flujo</p>
                          <v-col cols="12" sm="6" md="4"> </v-col>
                        </v-col></v-row>
                    </v-container>
@@ -168,7 +170,7 @@
               <v-icon>mdi-infinity</v-icon> 
             </div>
             <div v-else>
-              <p>${{ item.monto }}</p> 
+              <p>{{ item.monto | currency }}</p> 
             </div>
           
           </template>
@@ -302,7 +304,7 @@
               <v-icon>mdi-infinity</v-icon> 
             </div>
             <div v-else>
-              <p>${{ item.monto }}</p> 
+              <p>{{ item.monto | currency }}</p> 
             </div>
           
           </template>
@@ -328,7 +330,7 @@
                 <h4>Usuarios Observadores</h4>
               </v-col>
               <v-col cols="4" class="pb-0">
-                <v-combobox
+                <v-autocomplete
                   v-model="otrosUsuarios"
                   small-chips 
                   :items="cpxOtrosUsuariosFiltrados"
@@ -340,7 +342,7 @@
                   :item-value="id"
                   :readonly="detalle == true"
                 >
-                </v-combobox>
+                </v-autocomplete>
                
               </v-col>
             </v-row>
@@ -350,6 +352,7 @@
                   color="success"
                   dark
                   large
+                  :loading="loading4"
                   @click="guardarAdquisiciones()"
                 ><v-icon>mdi-content-save-all</v-icon>
                   GUARDAR

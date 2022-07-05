@@ -146,7 +146,6 @@ export default {
       console.log("Ordenes de Compra:", data.kangusoft_oc)
       for (let oc of data.kangusoft_oc) {
         console.log("oc", oc)
-        oc.usu.nombre = oc.usu.nombre + ' ' + oc.usu.apellidos
       }
       this.ocs = data.kangusoft_oc
       this.ocsCopy = data.kangusoft_oc

@@ -9,7 +9,8 @@ export default {
       idPro:'',
       grabado:false,
       active:0,
-      presupuesto:0
+      presupuesto:0,
+      moneda:""
     }
   },
   components: {
@@ -25,6 +26,7 @@ export default {
       this.grabado = this.$refs.infoGeneral.grabado
       this.active = this.$refs.infoGeneral.active
       this.presupuesto = this.$refs.infoGeneral.infoGeneralProyecto.presupuestoObra
+      this.moneda = this.$refs.infoGeneral.infoGeneralProyecto.monedaGeneral
     },
     cambioStep2() {
       this.active = this.$refs.adquisiciones.active

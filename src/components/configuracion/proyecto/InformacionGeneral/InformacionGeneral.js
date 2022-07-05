@@ -447,6 +447,7 @@ export default {
         this.idProyectoCreado = data.insert_pro_informacion.id_proyecto_;
         this.grabado = true;
         this.active = 1;
+        this.monedaPaso2 = this.infoGeneralProyecto.monedaGeneral
         this.$emit(
           "id",
           this.active,
@@ -454,6 +455,12 @@ export default {
           inf.presupuesto,
           this.infoGeneralProyecto.presupuestoObra
         );
+        this.$notify({
+          group: "foo",
+          title: "Creacion de Proyecto",
+          text: "Se a Creado con Exito Informacion General",
+          type: "success",
+        });
         setTimeout(() => {
           this.loading4 = false
         }, 4000)

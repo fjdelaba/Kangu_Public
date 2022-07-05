@@ -17,11 +17,18 @@
               <v-tab-item >
                 <informacion-general ref="infoGeneral" @id="cambioStep1" ></informacion-general>
               </v-tab-item>
-              <v-tab >
+              <v-tab  >
                 Adquisiciones
               </v-tab>
               <v-tab-item >
-                <adquisiciones :id="idPro" ref="adquisiciones" :grabado="idPro" @id="cambioStep2"></adquisiciones>
+                <adquisiciones
+                  :id="idPro"
+                  ref="adquisiciones"
+                  :moneda="moneda"
+                 
+                  :grabado="idPro"
+                  @id="cambioStep2"
+                ></adquisiciones>
               </v-tab-item >
               <v-tab :disabled="!grabado">
                 Cuentas de Costo
