@@ -58,16 +58,49 @@ import config from '../../configs'
 | Quickmenu for user menu shortcuts on the toolbar
 |
 */
+
+import { subsDatosUsuario } from '../../graphql/general'
 export default {
   data() {
     return {
       menu: config.toolbar.user
     }
   },
+  mounted() {
+    this.cargarDatosUsuario()
+  },
   methods: {
     logout() {
       this.$auth.logout()
       // this.$router.push({ path: '/landing' })
+    },
+    async cargarDatosUsuario() {
+      console.log('cargarDatosUsuario Toolbar: ', this.$store.state.app.datosUsuario.user_id)
+      try {
+        const resp = await subsDatosUsuario(this.$store.state.app.datosUsuario.user_id)
+        let activo = false
+
+        console.log('respuesta de suscribe')
+        await resp.subscribe({
+          next (data) {
+            console.log('suscribe datausuario_ ', data.data.kangusoft_usu[0].activo)
+          
+            activo = data.data.kangusoft_usu[0].activo  
+            
+          },
+          error (error) {
+            console.error(error)
+          } 
+        })
+        console.log('activo: ', activo)
+        if (activo === false) {
+          // this.logout()
+        }
+        console.log('resp Toolbar: ', resp)
+      } catch (error) {
+        console.log('error: ', error)
+      }
+
     }
   }
 }

@@ -12,7 +12,6 @@
       <v-stepper v-model="pasoStep" class="flex-grow-1">
         <v-stepper-header>
           <!-- -->
-          
           <v-stepper-step
             :rules="[() => validarPasoUno]"
             :complete="pasoStep > 1"
@@ -260,7 +259,7 @@
                   color="primary"
                   @click="siguiente()"
                 >
-                  Siguiente
+                  siguiente
                 </v-btn>
               </v-col>
               <v-col cols="12" md="4">
@@ -306,7 +305,7 @@
               color="primary"
               @click="pasoStep = 4"
             >
-              Siguiente
+              siguiente
             </v-btn>
 
             <!-- <v-btn text>
@@ -324,7 +323,7 @@
               color="primary"
               @click="pasoStep = 1"
             >
-              Siguiente
+              siguiente
             </v-btn>
 
             <!-- <v-btn text>

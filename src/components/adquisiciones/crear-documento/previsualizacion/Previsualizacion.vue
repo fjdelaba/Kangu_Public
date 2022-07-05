@@ -383,32 +383,35 @@
         </v-card>
       </v-tab-item>
 
+        <v-row dense class="px-7 align-center mt-1">
+            <v-btn
+              color="success"
+              @click="aprueboOc()"
+            >Aprobar
+            </v-btn>
+            <v-spacer></v-spacer>
+            <v-col  cols="1" class="d-flex text-right align-center">
+            <v-btn
+              class="mr-1"
+              color="error"
+              @click="rechazoOc()"
+            >Rechazar
+            </v-btn>
+            </v-col>
+          </v-row >
+
       <v-tab-item
         value="flujo"
         class="mb-6 pb-6"
       >
 
-        <pipeline :aprobadores="aprobadores" class="mt-5"></pipeline>
+        <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
         <v-row v-if="aprobacion == true">
           <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider>
-          <v-col cols="2">
-            <v-btn
-              color="success"
-              @click="aprueboOc()"
-            >Aprobar
-            </v-btn>
-            <v-btn
-              class="ml-5"
-              color="error"
-              @click="rechazoOc()"
-            >Rechazar
-            </v-btn>
-          </v-col >
-        
         </v-row>
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts

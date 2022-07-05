@@ -1,106 +1,108 @@
 <template>
-  <div>
-    <v-row
-      no-gutters
-      style="flex-wrap: nowrap;"
-    >
-      <v-col
-        cols="12"
-        style="min-width: 850px;"
-        class="flex-grow-0 flex-shrink-1 w-full"
+  <v-container>
+    <div>
+      <v-row
+        no-gutters
+        style="flex-wrap: nowrap;"
       >
-        <!-- {{ pasoStep }} -->
-        <v-stepper v-model="pasoStep" class="flex-grow-1">
-          <v-stepper-header>
-            <v-stepper-step
-              :complete="pasoStep > 1"
-              step="1"
+        <v-col
+          cols="12"
+          style="min-width: 850px;"
+          class="flex-grow-0 flex-shrink-1 w-full"
+        >
+          <!-- {{ pasoStep }} -->
+          <v-stepper v-model="pasoStep" class="flex-grow-1">
+            <v-stepper-header>
+              <v-stepper-step
+                :complete="pasoStep > 1"
+                step="1"
+              >
+                Datos Generales
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+              <!-- :complete="pasoStep > 2" -->
+              <v-stepper-step
+                :complete="false"
+                step="2"
+              >
+                Selección de Lineas
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step 
+                :complete="pasoStep > 3"
+                step="3"
+              >
+                Materiales
+              </v-stepper-step>
+
+              <v-divider></v-divider>
+
+              <v-stepper-step step="4">
+                Previsualización
+              </v-stepper-step>
+            </v-stepper-header>
+
+            <v-stepper-items>
+              <v-stepper-content step="1">
+                <informacion-general ref="refinformaciongeneraldoc"></informacion-general>
+              </v-stepper-content>
+
+              <v-stepper-content step="2">
+                <agregar-material ref="refAgregarMaterial" :oc_id="oc_id" :pro_fk="pro_fk"></agregar-material>
+              </v-stepper-content>
+
+              <v-stepper-content step="3">
+                <v-card
+                  class="mb-12"
+                  color="grey lighten-1"
+                  height="200px"
+                ></v-card>
+              </v-stepper-content>
+
+              <v-stepper-content step="4">
+                <previsualizacion :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.listaPartidas" :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista_detalle" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
+              </v-stepper-content>
+            </v-stepper-items>
+            <v-btn
+              color="primary"
+              :loading="disabledBotonSiguiente"
+              :disabled="disabledBotonSiguiente"
+              @click="avanzar()"
             >
-              Datos Generales
-            </v-stepper-step>
+              {{ cpxTextoAvanzar }}
+              <template v-slot:loader>
+                <span class="custom-loader">
+                  <v-icon light>mdi-cached</v-icon>
+                </span>
+              </template>
+            </v-btn>
 
-            <v-divider></v-divider>
-            <!-- :complete="pasoStep > 2" -->
-            <v-stepper-step
-              :complete="false"
-              step="2"
-            >
-              Selección de Lineas
-            </v-stepper-step>
-
-            <v-divider></v-divider>
-
-            <v-stepper-step 
-              :complete="pasoStep > 3"
-              step="3"
-            >
-              Materiales
-            </v-stepper-step>
-
-            <v-divider></v-divider>
-
-            <v-stepper-step step="4">
-              Previsualización
-            </v-stepper-step>
-          </v-stepper-header>
-
-          <v-stepper-items>
-            <v-stepper-content step="1">
-              <informacion-general ref="refinformaciongeneraldoc"></informacion-general>
-            </v-stepper-content>
-
-            <v-stepper-content step="2">
-              <agregar-material ref="refAgregarMaterial" :oc_id="oc_id" :pro_fk="pro_fk"></agregar-material>
-            </v-stepper-content>
-
-            <v-stepper-content step="3">
-              <v-card
-                class="mb-12"
-                color="grey lighten-1"
-                height="200px"
-              ></v-card>
-            </v-stepper-content>
-
-            <v-stepper-content step="4">
-              <previsualizacion :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.listaPartidas" :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista_detalle" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
-            </v-stepper-content>
-          </v-stepper-items>
-          <v-btn
-            color="primary"
-            :loading="disabledBotonSiguiente"
-            :disabled="disabledBotonSiguiente"
-            @click="avanzar()"
-          >
-            {{ cpxTextoAvanzar }}
-            <template v-slot:loader>
-              <span class="custom-loader">
-                <v-icon light>mdi-cached</v-icon>
-              </span>
-            </template>
-          </v-btn>
-
-          <v-btn v-if="pasoStep > 1" @click="retroceder()">
-            Atras
-          </v-btn>
-        </v-stepper>
-      </v-col>
-    </v-row>      
-    <v-dialog
-      v-model="dialogFinal"
-      max-width="550"
-      persistent
-    >
-      <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ${identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
-    </v-dialog> 
-    <v-dialog
-      v-model="dialogBorrador"
-      max-width="550"
-      persistent
-    >
-      <DialogBorradorVue :eliminar-borrador="eliminarOcBorrador" :recuperar-borrador="recuperarOcBorrador"></DialogBorradorVue>
-    </v-dialog> 
+            <v-btn v-if="pasoStep > 1" @click="retroceder()">
+              Atras
+            </v-btn>
+          </v-stepper>
+        </v-col>
+      </v-row>      
+      <v-dialog
+        v-model="dialogFinal"
+        max-width="550"
+        persistent
+      >
+        <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ${identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
+      </v-dialog> 
+      <v-dialog
+        v-model="dialogBorrador"
+        max-width="550"
+        persistent
+      >
+        <DialogBorradorVue :eliminar-borrador="eliminarOcBorrador" :recuperar-borrador="recuperarOcBorrador"></DialogBorradorVue>
+      </v-dialog> 
     <!-- <CrearDocumento/> -->
-  </div>
+    </div>
+  </v-container>
 </template>
 
 <script>
