@@ -36,6 +36,7 @@ query MyQuery($id_usuario: bigint!) {
       usu_mods {
       mod_fk
       id
+      activo
     }
     # cgs(where: {estado_fk: {_eq: 1}}) {
     #   nombre
@@ -114,7 +115,8 @@ export default {
         query: QUERY_USER,
         variables:{
           'id_usuario': usu_id
-        }
+        },
+        fetchPolicy:'network-only'
       })
 
       this.usuario = data.kangusoft_usu[0]

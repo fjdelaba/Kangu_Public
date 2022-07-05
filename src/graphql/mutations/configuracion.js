@@ -49,10 +49,38 @@ mutation M_UPDATE_ESTADO_USUARIO($id_usuario: bigint!, $estado: Boolean!) {
 }
 `
 
+const UPDATE_DATOS_USUARIO = gql`
+  mutation M_UPDATE_DATOS_USUARIO($id_usuario: bigint!, $apellidos: String! $activo: Boolean!, $avatar: String!, $cargo: String!, $email: String!, $firma: String!, $nombre: String!, $rut: String!) {
+  update_kangusoft_usu(where: {id: {_eq: $id_usuario}}, _set: {avatar: $avatar, cargo: $cargo, email: $email, firma: $firma, nombre: $nombre, rut: $rut, apellidos: $apellidos, activo: $activo}) {
+    returning {
+      activo
+      apellidos
+      avatar
+      cargo
+      email
+      firma
+      id
+      nombre
+      rut
+    }
+  }
+}
+`
+
+const UPDATE_PERMISOS_USUARIO = gql`
+ mutation M_UPDATE_PERMISOS_USUARIO($permisos: [kangusoft_usu_mod_insert_input!]!) {
+  insert_kangusoft_usu_mod(objects: $permisos, on_conflict: {constraint: key_umo_usuario_modulo, update_columns: activo}) {
+    affected_rows
+  }
+}
+`
+
 export {
   INSERT_USUARIO_EMPRESA,
   INSERT_PROYECTO_INFORMACION,
   INSERT_PROYECTO_ADQUISICIONES,
   INSERT_PROYECTO_MATERIAL,
-  UPDATE_ESTADO_USUARIO
+  UPDATE_ESTADO_USUARIO,
+  UPDATE_DATOS_USUARIO,
+  UPDATE_PERMISOS_USUARIO
 }

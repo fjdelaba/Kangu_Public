@@ -1,7 +1,7 @@
 <template>
   <div class="my-2">
     <div>
-      <v-card>
+      <v-card :loading="loadingDatosGenerales" :disabled="loadingDatosGenerales">
         
         <!-- <v-card-title>Información del usuario</v-card-title> -->
         <v-card-text>
@@ -11,13 +11,13 @@
                 :src="user.avatar"
                 aspect-ratio="1"
                 class="blue-grey lighten-4 rounded elevation-3"
-                max-width="90"
-                max-height="90"
+                max-width="120"
+                max-height="120"
               ></v-img>
               <v-file-input
                 accept="image/*"
                 label="Avatar"
-                style="width:120px"
+                style="width:150px"
                 prepend-icon=""
                 dense
               ></v-file-input>
@@ -25,14 +25,14 @@
                 :src="user.avatar"
                 aspect-ratio="1"
                 class="blue-grey lighten-4 rounded elevation-3 mt-4"
-                max-width="90"
-                max-height="90"
+                max-width="120"
+                max-height="120"
                 dense
               ></v-img>
               <v-file-input
                 accept="image/*"
                 label="Firma"
-                style="width:120px"
+                style="width:150px"
                 prepend-icon=""
               ></v-file-input>
             </div>
@@ -107,7 +107,13 @@
               >   
                 <div v-if="cpxOrigenConfiguracion">
                   <div v-if="edicion" class="mt-2">
-                    <v-btn color="primary" small @click="grabarEdicionUsuario()">Guardar</v-btn>
+                    <v-btn
+                      color="primary"
+                      :loading="loadingDatosGenerales"
+                      :disabled="loadingDatosGenerales"
+                      small
+                      @click="grabarEdicionUsuario()"
+                    >Guardar</v-btn>
                     <v-btn color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
                   </div>
                   <div v-else class="mt-2">
@@ -377,7 +383,7 @@
 // import CardProyecto from '../../../components/configuracion/usuario/card-proyecto/CardProyecto.vue'
 import { setTimeout } from 'optimism'
 import CardProyecto from '../../../../configuracion/usuario/card-proyecto/CardProyecto.vue'
-import { updateEstadoUsuario } from '../../../../../graphql/configuracion'
+import { updateEstadoUsuario, updateDatosUsuario, updatePermisosUsuario } from '../../../../../graphql/configuracion'
 export default {
   components: {
     
@@ -411,9 +417,11 @@ export default {
       disableDialog: false,
       edicion: false,
       respaldoUsuario: {},
+      objetoUsuarioBase: {},
       dialogDesactivar:false,
       loadingPermisos: false,
       loading4: false,
+      loadingDatosGenerales: false,
       loader:null,
 
       editarPanelPermisos: true
@@ -432,9 +440,9 @@ export default {
   },
   mounted() {
     setTimeout(() => {
+      console.log('Mounted DATOS USUARIO: ', this.user)
       this.asignarPermisos()  
-    }, 1500)
-    console.log('Mounted DATOS USUARIO: ', this.user)
+    }, 2000)
     
     // this.asignarPermisos()
   },
@@ -442,43 +450,65 @@ export default {
     editarPermisos() {
       this.editarPanelPermisos = false
     },
-    guardarPermisos() {
-      this.editarPanelPermisos = true
+    async guardarPermisos() {
+
+      const permisos = []
+
+      // if (this.permisoCentroGestion) {
+      permisos.push({ mod_fk:7, usu_fk: this.user.id, activo: this.permisoCentroGestion })
+      // }
+      permisos.push({ mod_fk:8, usu_fk: this.user.id, activo: this.permisoMateriales })
+      permisos.push({ mod_fk:6, usu_fk: this.user.id, activo: this.permisoEntidadExterna })
+      permisos.push({ mod_fk:9, usu_fk: this.user.id, activo: this.permisoUsuario })
+      permisos.push({ mod_fk:10, usu_fk: this.user.id, activo: this.permisoMantenedores })
+      permisos.push({ mod_fk:1, usu_fk: this.user.id, activo: this.permisoPedidos })
+      permisos.push({ mod_fk:2, usu_fk: this.user.id, activo: this.permisoCotizacion })
+      permisos.push({ mod_fk:3, usu_fk: this.user.id, activo: this.permisoOrdenCompra })
+      permisos.push({ mod_fk:4, usu_fk: this.user.id, activo: this.permisoDespacho })
+      permisos.push({ mod_fk:5, usu_fk: this.user.id, activo: this.permisoRecepcion })
+      
+      console.log('permisos_ ', permisos)
+      const { data } = await updatePermisosUsuario(permisos)
+
+      console.log('datadatos :', data)
+
+      this.editarPanelPermisos = true 
     },
     cancelarEdicionPermisos() {
       this.editarPanelPermisos = true
     },
     asignarPermisos() {
-      console.log('this user en datps: ', this.user.usu_mods)
+      console.log('this user en datps: ', this.user)
       for (const per of this.user.usu_mods) {
-        if (per.mod_fk === 1) { // Pedido
+        console.log('per_ ', per)
+        if (per.mod_fk === 1 && per.activo) { // Pedido
           this.permisoPedidos = true
         }
-        if (per.mod_fk === 2) { // Cotizacion
+        if (per.mod_fk === 2 && per.activo) { // Cotizacion
           this.permisoCotizacion = true
         }
-        if (per.mod_fk === 3) { // Orden de compra
+        if (per.mod_fk === 3 && per.activo) { // Orden de compra
           this.permisoOrdenCompra = true
         }
-        if (per.mod_fk === 4) { // Despacho
+        if (per.mod_fk === 4 && per.activo) { // Despacho
           this.permisoDespacho = true
         }
-        if (per.mod_fk === 5) { // Recepcion
+        if (per.mod_fk === 5 && per.activo) { // Recepcion
           this.permisoRecepcion = true
         }
-        if (per.mod_fk === 6) { // Proveedores
+        if (per.mod_fk === 6 && per.activo) { // Proveedores
           this.permisoEntidadExterna = true
         }
-        if (per.mod_fk === 7) { // Proyectos 
+        if (per.mod_fk === 7 && per.activo) { // Proyectos 
           this.permisoCentroGestion = true
         }
-        if (per.mod_fk === 8) { // Materiales
+        if (per.mod_fk === 8 && per.activo) { // Materiales
           this.permisoMateriales = true
         }
-        if (per.mod_fk === 9) { // Usuarios
+        if (per.mod_fk === 9 && per.activo) { // Usuarios
           this.permisoUsuario = true
         }
-        if (per.mod_fk === 10) { // Mantenedores
+        if (per.mod_fk === 10 && per.activo) { // Mantenedores
           this.permisoMantenedores = true
         }
       }
@@ -491,11 +521,80 @@ export default {
     },
     editarUsuario() {
       this.respaldoUsuario = JSON.parse(JSON.stringify( this.user))
+      this.objetoUsuarioBase = {
+        id_usuario: this.user.id,
+        apellidos: this.user.apellidos,
+        activo: this.user.activo,
+        avatar:this.user.avatar,
+        cargo:this.user.cargo,
+        email:this.user.email,
+        firma:this.user.firma,
+        nombre:this.user.nombre,
+        rut:this.user.rut
+      }
       this.edicion = true
     },
-    grabarEdicionUsuario() {
+    async grabarEdicionUsuario() {
       console.log('grabar: ')
+      this.loadingDatosGenerales = true
+      try {
+        const obj = {
+          id_usuario: this.user.id,
+          apellidos: this.user.apellidos,
+          activo: this.user.activo,
+          avatar:this.user.avatar,
+          cargo:this.user.cargo,
+          email:this.user.email,
+          firma:this.user.firma,
+          nombre:this.user.nombre,
+          rut:this.user.rut
+        }
+
+        if (JSON.stringify(obj) === JSON.stringify(this.objetoUsuarioBase)) {
+          this.$notify({
+            group: 'foo',
+            title: 'Edicion de usuarios',
+            text: 'No existen cambios que guardar',
+            type: 'warn'
+          })
+          this.borrarRespaldos()
+          this.edicion = false
+          this.loadingDatosGenerales = false
+
+          return
+        }
+        
+        const resp = await updateDatosUsuario(this.user.id, obj)
+
+        this.$notify({
+          group: 'foo',
+          title: 'Edicion de usuarios',
+          text: 'Usuario editado exitosamente',
+          type: 'success'
+        })
+        console.log('resp datos usuario: ', resp.data.update_kangusoft_usu.returning[0])
+
+        // eslint-disable-next-line prefer-destructuring
+        const usuarioResp = resp.data.update_kangusoft_usu.returning[0]
+
+        this.user.id = usuarioResp.id
+        this.user.apellidos = usuarioResp.apellidos
+        this.user.activo = usuarioResp.activo
+        this.user.avatar = usuarioResp.avatar
+        this.user.cargo = usuarioResp.cargo
+        this.user.email = usuarioResp.email
+        this.user.firma = usuarioResp.firma
+        this.user.nombre = usuarioResp.nombre
+        this.user.rut = usuarioResp.rut
+      } catch (error) {
+        console.log('error: ', error)
+      }
+      this.loadingDatosGenerales = false
       this.edicion = false
+    },
+    borrarRespaldos() {
+      this.respaldoUsuario = {}
+      this.objetoUsuarioBase = {}
     },
     cambiarEstadoUsuario() {
       if (this.user.activo) {
