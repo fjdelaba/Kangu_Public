@@ -10,9 +10,9 @@ export default {
           text: 'Dessert (100g serving)',
           align: 'start',
           value: 'item',
-          width: '20%'
+          width: '100%'
         },
-        { text: 'Calories', value: 'valor', width: '20%' }
+        { text: 'Calories', value: 'valor', width: '100%' }
       ]
     }
   },

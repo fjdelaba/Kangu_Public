@@ -1,12 +1,14 @@
 <template>
-  <div>
+  <div class="" >
+  <v-card>
     <v-tabs
       v-model="tab"
       grow
+      
     >
       <v-tabs-slider></v-tabs-slider>
 
-      <v-tab href="#documento">
+      <v-tab href="#documento" >
         Documento
       </v-tab>
 
@@ -15,6 +17,7 @@
       </v-tab>
 
     </v-tabs>
+    </v-card>
 
     <!-- <v-tabs
       v-model="tab"
@@ -33,7 +36,7 @@
       <v-tab-item
         value="documento"
       >
-        <v-card flat>
+        <v-card >
           <v-sheet
             class="p-2"
             color="lighten-3"
@@ -43,8 +46,8 @@
               height="100%"
               width="100%"
               class="pb-3"
-            >
-              <v-list-item style="padding-left: 0px">
+            >    
+              <v-list-item style="padding-left: 24px">
                 <v-list-item-content>
                   <v-list-item-title class="text-h5">
                     Orden de Compra: Borrador
@@ -57,27 +60,26 @@
                   tile
                   width="90px"
                 >
-
                   <v-img :src="logo"></v-img></v-list-item-avatar>
               </v-list-item>
-
-              <v-row no-gutters>
+              
+              <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera.proveedor && cabecera.proveedor.razon_social }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ cabecera.nombre }}</span></v-col>
               </v-row>
-              <v-row no-gutters>
+              <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor && cabecera.proveedor.rut }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Obra: {{ cabecera.proyecto.nombre }}</span></v-col>
               </v-row>
-              <v-row no-gutters>
+              <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Direccion: {{ cabecera.proyecto.direccion }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Moneda: {{ cabecera.moneda.nombre }}</span></v-col>
               </v-row>
-              <v-row no-gutters>
+              <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Contacto: {{ cabecera.contacto.nombre }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Despacho: {{ cabecera.tipoDespacho.nombre }}</span></v-col>
               </v-row>
-              <v-row no-gutters>
+              <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Email: {{ cabecera.contacto.email }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera.formaPago.nombre }}</span></v-col>
               </v-row>
@@ -89,52 +91,7 @@
               <v-divider></v-divider>
               <v-divider></v-divider>
               <v-divider></v-divider>
-              <v-col >
-                <v-speed-dial
-                  v-model="fab"
-       
-                  :top="top"
-                  :bottom="bottom"
-                  :right="right"
-                  :left="left"
-                  :direction="direction"
-                  :open-on-hover="hover"
-                  :transition="transition"
-                >
-                  <template v-slot:activator>
-                    <v-btn
-                      v-model="fab"
-                      color="blue darken-2"
-                      dark
-                      fab
-                    >
-                      <v-icon v-if="fab">
-                        mdi-close
-                      </v-icon>
-                      <v-icon v-else>
-                        mdi-file-document-outline
-                      </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-btn
-                    fab
-                    dark
-                    small
-                    color="green"
-                    @click="descargarOcPDF()"
-                  >
-                    <v-icon>mdi-file-download-outline</v-icon>
-                  </v-btn>
-                  <v-btn
-                    fab
-                    dark
-                    small
-                    color="indigo"
-                  >
-                    <v-icon>mdi-share-all</v-icon>
-                  </v-btn>
-                </v-speed-dial>
-              </v-col>
+              
             </v-row>
             <v-data-table
               :headers="headers"
@@ -361,7 +318,7 @@
               </template>
             </v-data-table>
             <v-row justify="end" height="100">
-              <v-col lg="8" md="6" class="py-3">
+              <v-col lg="7" md="5" class="py-3 py-3 pr- pl-5">
                 <!-- {{ cpxTotalesItems }} -->
                 <!-- <v-card
             height="100%"
@@ -374,10 +331,61 @@
                   :readonly="true"
                 ></v-textarea>
               </v-col>
-              <v-col lg="4" md="6" class="py-0 py-3 pr-2">
+              <v-col lg="5" md="5" class="py-3 py-3 pr-5 pl-10">
                 <!-- {{ cpxTotalesItems }} -->
                 <cuadro-resumen :materiales="materiales"></cuadro-resumen>
               </v-col>
+              
+              <v-row justify="end" height="100">
+                <v-col lg="3" md="5" class="py- py- pr- pl-16" >
+                <v-speed-dial
+                  v-model="fab"
+                  :top="top"
+                  :bottom="bottom"
+                  :right="right"
+                  :left="left"
+                  :direction="direction"
+                  :open-on-hover="hover"
+                  :transition="transition"
+                >
+                  <template v-slot:activator>
+                    <v-btn
+                      v-model="fab"
+                      color="blue darken-2"
+                      dark
+                      fab
+                      elevation="24"
+                    >
+                      <v-icon v-if="fab">
+                        mdi-close
+                      </v-icon>
+                      <v-icon v-else>
+                        mdi-file-document-outline
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    elevation="24"
+                    color="green"
+                    @click="descargarOcPDF()"
+                  >
+                    <v-icon>mdi-file-download-outline</v-icon>
+                  </v-btn>
+                  <v-btn
+                    fab
+                    dark
+                    small
+                    elevation="24"
+                    color="indigo"
+                  >
+                    <v-icon>mdi-share-all</v-icon>
+                  </v-btn>
+                </v-speed-dial>
+                </v-col>
+              </v-row>
             </v-row>
           </v-sheet>
         </v-card>
