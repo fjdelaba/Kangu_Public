@@ -51,6 +51,7 @@ export default {
                 return `${value.nombre} ${value.apellidos}`;
             }
         },
+        "Moneda": "mon.nombre",
         "Monto": "neto",
         "Estado de Oc": "est_doc.nombre", 
     },
