@@ -12,7 +12,7 @@
     </v-btn>
     <v-row class="mb-6" no-gutters>
       <v-col>
-        <h3>PEDIDOS  {{ moneda }} </h3>
+        <h3>PEDIDOS </h3>
         <v-divider></v-divider>
        
         <v-row>
@@ -24,7 +24,7 @@
               v-model="usuariosPedido.usuSolicitante"
               small-chips 
               :rules="celulasRules"
-              :items="selectUsuario"
+              :items="cpxUsuariosAprobadoresFiltrados"
               label="Usuario"
               multiple
               dense

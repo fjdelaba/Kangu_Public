@@ -88,13 +88,13 @@ export default {
     }, 2000);
     if(this.moneda == 1){
       this.moneda = {id:1,nombre:'UF'}
-    }
+    }else
     if(this.moneda == 2){
       this.moneda = {id:2,nombre:'CLP'}
-    }
+    }else
     if(this.moneda == 3){
       this.moneda = {id:3,nombre:'DOLAR'}
-    }
+    }else
     if(this.moneda == 4){
       this.moneda = {id:4,nombre:'EURO'}
     }
@@ -171,14 +171,28 @@ export default {
       );
     },
     cpxOtrosUsuariosFiltrados() {
-      return this.tablaOtrosUsuarios.filter(
+    let arreglo1 = this.tablaOtrosUsuarios.filter(
         (obj1) =>
           !this.tablaAprobador.find((obj2) => {
             console.log("obj1:", obj1, "obj2:", obj2);
             return obj1.id == obj2.usu_apro_fk;
           }),
-
-      );
+      )
+     let arreglo2 =  arreglo1.filter(
+      (obj1) =>
+        !this.tablaCompradores.find((obj2) => {
+          console.log("obj1:", obj1, "obj2:", obj2);
+          return obj1.id == obj2.usu_apro_fk;
+        }),
+    ) 
+    let arreglo3 = arreglo2.filter(
+      (obj1) =>
+        !this.selectUsuario.find((obj2) => {
+          console.log("obj1:", obj1, "obj22:", obj2);
+          return obj1.id == obj2.usu_apro_fk;
+        }),
+    ) 
+      return  arreglo3
     },
     cpxDinamicHeaders2() {
       if (this.detalle == true) {
@@ -291,6 +305,7 @@ export default {
 
     agregarAprobador() {
       let validado
+      this.datosUsuario = this.$store.state.app.datosUsuario
       this.$refs.nombreApro.validate()
       this.$refs.montoApro.validate()
       this.$refs.tiempoApro.validate()
@@ -314,7 +329,7 @@ export default {
           usu_apro_fk: this.usuarioAprobador.usuario.id,
           mod_fk: 3,
           // usu_fk: this.usuarioLogin,
-          usu_fk: this.$store.state.app.datosUsuario.user_id,
+          usu_fk: this.datosUsuario.user_id,
           flujo: true,
           apro_final: this.aprobadorFinal,
         };
@@ -394,7 +409,7 @@ export default {
         nombre: this.usuariosCompradores.usuario.nombre + ' ' + this.usuariosCompradores.usuario.apellidos,
         apr_tip_fk: 3,
         // usu_fk: this.usuarioLogin,
-        usu_fk: this.$store.state.app.datosUsuario.user_id,
+        usu_fk: this.datosUsuario.user_id,
         pro_fk: 1,
         usu_apro_fk: this.usuariosCompradores.usuario.id,
         monto: this.usuariosCompradores.monto,
@@ -467,7 +482,7 @@ export default {
       let aprobadorPed = {
         "usu_apro_fk": this.usuariosPedido.usuAprobador.id,
         // "usu_fk":1,
-        "usu_fk": this.$store.state.app.datosUsuario.user_id,
+        "usu_fk": this.datosUsuario.user_id,
         "mod_fk": 1,
         "apr_tie_fk": 1,
         "mon_fk": 2
@@ -479,7 +494,7 @@ export default {
         console.log("Aprobador", aprobador)
         aprobadores.push({
           mod_fk: 3, apr_tie_fk: 1, monto: aprobador.monto,
-          usu_fk: this.$store.state.app.datosUsuario.user_id,
+          usu_fk: this.datosUsuario.user_id,
           pro_fk: this.id, flujo: aprobador.flujo, mon_fk: 1, usu_apro_fk: aprobador.usu_apro_fk, apro_final: aprobador.apro_final
         })
         console.log("apro:", aprobadores)
@@ -488,17 +503,17 @@ export default {
         compradores.push({
           mod_fk: 3,
           // usu_fk:1,
-          usu_fk: this.$store.state.app.datosUsuario.user_id,
+          usu_fk: this.datosUsuario.user_id,
           pro_fk: this.id, usu_apro_fk: comprador.usu_apro_fk, monto: comprador.monto, mon_fk: 1
         })
         console.log("b", compradores)
       }
       for (let soliciantePedido of this.usuariosPedido.usuSolicitante) {
-        perfiles.push({ usu_per_fk: 5, usu_fk: soliciantePedido.id })
+        perfiles.push({ usu_per_fk: 5, usu_fk: this.datosUsuario.user_id })
         console.log("c", perfiles)
       }
       for (let otrosUsuario of this.otrosUsuarios) {
-        perfiles.push({ usu_per_fk: 7, usu_fk: otrosUsuario.id })
+        perfiles.push({ usu_per_fk: 7, usu_fk: this.datosUsuario.user_id })
         console.log("d", perfiles)
       }
       this.active = 3

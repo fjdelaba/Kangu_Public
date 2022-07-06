@@ -65,6 +65,10 @@ query Q_GET_DATOS_OC_CONSULTA{
       rut
       razon_social
     }
+    mon {
+      nombre
+      id
+    }
   }
 }
 `

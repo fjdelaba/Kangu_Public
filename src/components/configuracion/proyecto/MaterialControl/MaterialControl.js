@@ -316,6 +316,7 @@ export default {
       });
       setTimeout(() => {
         this.loading4 = false
+        this.$router.push(`/configuracion/proyectos`)
       }, 4000)
       
     },

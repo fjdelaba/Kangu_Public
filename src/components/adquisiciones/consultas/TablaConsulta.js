@@ -1,6 +1,10 @@
 /* eslint-disable */
 import { getDatosOcConsulta, getEstadosOc } from "../../../graphql/adquisiciones";
 import { getDatosGenerales } from '../../../graphql/configuracion'
+import Vue from "vue";
+import JsonExcel from "vue-json-excel";
+Vue.component("downloadExcel", JsonExcel); 
+
 
 export default {
   components: {
@@ -22,6 +26,8 @@ export default {
   },
   data() {
     return {
+      datosExcelCabecera: {},
+      datosExcelDetalle: {},
       direction: 'right',
       fab: false,
       fling: false,
@@ -33,64 +39,20 @@ export default {
       left: false,
       transition: 'slide-y-reverse-transition',
       headerExcelCabecera: {
-        "Codigo OC": "identificacion_key",
-        "Fecha Creacion": {
-            field: "fec_creacion",
-            callback: value => {
-                return `${this.$moment(value).format("DD/MM/YYYY")}`;
-            }
-        },
-
         //: "fec_creacion",
-        "Codigo Centro Gestion": "centro_gestion.codigo",
-        "Nombre Centro Gestion": "centro_gestion.nombre",
+        "Nombre Centro Gestion": "pro.nombre",
+        "Identificador OC": "identificacion",
         "Nombre OC": "nombre",
+        "Nombre Proveedor": "ent.razon_social",
+        "Rut Proveedor": "ent.rut",
         "Usuario Comprador": {
-            field: "usuario_comprador",
+            field: "usu",
             callback: value => {
                 return `${value.nombre} ${value.apellidos}`;
             }
         },
-        Aprobador: {
-            field: "aprobacion_proceso",
-            callback: value => {
-                let aprobador = "";
-                for (let i = 0; i < value.length; i++) {
-                    console.log("value:", value[i]);
-                    aprobador =
-                        aprobador +
-                        `${value[i].aprobacion.aprobador.nombre} ${value[i].aprobacion.aprobador.apellidos}`;
-                }
-                /*                         for (let i = 0; i < value.length; i++) {
-
-                                                        for (let a = 0; a < value.length[i].aprobacion_proceso.length; a++) {
-
-                                                            aprobador = aprobador + ` - ${value[i].aprobacion_proceso[a].aprobacion.aprobador.nombre} ${value[i].aprobacion_proceso[a].aprobacion.aprobador.apellidos}`;
-                                                        }
-                                                    } */
-                console.log(aprobador);
-                return `${aprobador}`;
-            }
-        }, // ulti
-        "Rut Proveedor": "proveedor.entidad_externa.rut",
-        "Nombre Proveedor": "proveedor.entidad_externa.razon_social",
-        "Neto Original": "neto",
-        IVA: "iva",
-        Estado: "estado.nombre",
-
-        "Tipo OC": {
-            field: "ped_fk",
-            callback: value => {
-                //return `${this.getTipoOC({})}`;
-                console.log("value: ", value);
-                if (value == "") {
-                    return "Directa";
-                } else {
-                    return "Desde Pedido";
-                }
-                //return `${value}`;
-            }
-        }
+        "Monto": "neto",
+        "Estado de Oc": "est_doc.nombre", 
     },
       headers: [
       ],
@@ -137,8 +99,8 @@ export default {
     },
   },
   methods: {
-    descargarExcel(command) {
-      this.$message("Descargando " + command);
+    descargarExcel() {
+     
   },
     async cargarOc() {
       console.log("Cargando Datos")
@@ -164,6 +126,15 @@ export default {
       }
 
     },
+    
+    
+    cargarDataExcelCabecera() {
+      //alert('Se genero el archivo cabeceras_oc.xls')
+
+      console.log("METODO EXCEL:", this.ocs);
+
+      return this.ocs;
+  },
     filtroCentroGestion() {
       if (this.proyectoSeleccionado == 0) {
         this.ocs = this.ocsCopy
@@ -182,7 +153,7 @@ export default {
         this.ocs = this.ocsCopy
       }
       if (this.estadoSeleccionado != "") {
-        this.ocs = this.ocs.filter(item => {
+        this.ocs = this.ocsCopy.filter(item => {
           return (
             item.est_doc.id ==
             this.estadoSeleccionado
