@@ -39,12 +39,13 @@
             <div class="flex-grow-1 pt-2 pa-sm-2">
             
               <v-text-field
-                v-model="user.nombre"
+                v-model="nombre"
                 dense
                 label="Nombre"
                 placeholder="Nombre"
                 :readonly="!edicion"
                 outlined
+                :rules="nombresRules"
               ></v-text-field>
               <v-text-field
                 v-model="user.apellidos"
@@ -53,6 +54,7 @@
                 :readonly="!edicion"
                 dense
                 outlined
+                :rules="apellidosRules"
               ></v-text-field>
               <v-text-field
                 v-model="user.rut"
@@ -61,6 +63,7 @@
                 :readonly="!edicion"
                 dense
                 outlined
+                :rules="rutRules"
               ></v-text-field>
               <v-text-field
                 v-model="user.cargo"
@@ -68,6 +71,7 @@
                 :readonly="!edicion"
                 dense
                 outlined
+                 :rules="cargoRules"
               ></v-text-field>
               <v-text-field
                 v-model="user.email"
@@ -75,6 +79,7 @@
                 :readonly="!edicion"
                 dense
                 outlined
+                :rules="emailRules"
               ></v-text-field>
               <v-text-field
                 v-if="false"
@@ -458,6 +463,7 @@
 import { setTimeout } from 'optimism'
 import CardProyecto from '../../../../configuracion/usuario/card-proyecto/CardProyecto.vue'
 import { updateEstadoUsuario, updateDatosUsuario, updatePermisosUsuario, updateResetPassword } from '../../../../../graphql/configuracion'
+import { validaRut } from '../../../../../utils'
 export default {
   components: {
     
@@ -465,8 +471,11 @@ export default {
   props: {
     user: {
       type: Object,
-      default: () => ({})
+      default: () => ({
+
+      })
     },
+
     origen:{
       type: Number,
       default: 2
@@ -475,6 +484,12 @@ export default {
   data() {
     return {
       panel: [-1],
+
+      nombresRules: [(v) => !!v || 'Nombre obligatorio'],
+      apellidosRules: [(v) => !!v || 'Apellido obligatorio'],
+      cargoRules: [(v) => !!v || 'Cargo obligatorio'],
+      emailRules: [(v) => !!v || 'E-mail es obligatorio', (v) => /.+@.+\..+/.test(v) || 'E-mail debe ser valido'],
+      rutRules: [(v) => !!v || 'Rut es obligatorio', (v) => validaRut(v) || 'Rut NO valido'],
 
       permisoCentroGestion: false,
       permisoMateriales: false,
@@ -510,6 +525,7 @@ export default {
         min: (v) => v.length === 8 || 'La clave debe tener 8 caracteres',
         passwordsMatch: () => this.clave1 === this.clave2 || ('Las claves ingresadas no coinciden')
       }
+    
     }
   },
   computed: {
