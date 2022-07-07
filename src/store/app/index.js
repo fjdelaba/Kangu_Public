@@ -34,6 +34,9 @@ const state = {
   //datosUsuario
   datosUsuario:{},
 
+  //permisos
+  permisosUsuario:{},
+
   // App.vue main toast
   toast: {
     show: false,

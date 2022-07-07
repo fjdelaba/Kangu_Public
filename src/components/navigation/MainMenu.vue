@@ -19,6 +19,26 @@ export default {
       type: Array,
       default: () => []
     }
+  },
+  mounted() {
+    console.log('menu MainMenu: ',this.menu)
+    for (const i in this.menu) {
+      console.log('men: ', i)
+      console.log('men: ', this.menu[i])
+      // eslint-disable-next-line eqeqeq
+      if ( i == 1) {
+        console.log('adquisiciones')
+        for (const men of this.menu[i].items) {
+          console.log('men: ', men)
+          // if(men.ley === 'menu.pedido' &&){
+
+          // }
+        }
+      // eslint-disable-next-line eqeqeq
+      } else if (i == 2) {
+        console.log('configuracion')
+      }
+    }
   }
 }
 </script>

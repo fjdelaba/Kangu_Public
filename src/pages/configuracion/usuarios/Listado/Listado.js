@@ -21,13 +21,14 @@ export default {
   async mounted() {
     setTimeout(() => {
       this.cargarValores()
+      // console.log('auth: ', this.$auth.isLoading);
     }, 2000);
 
   },
   methods: {
     async cargarValores(){
       this.usuario =  await getInstance()
-      console.log('this.usuario_ ', this.usuario.isLoading)
+      // console.log('this.usuario_ ', this.usuario.isLoading)
       this.cargarUsuarios()
       this.validarAccesoModulo()  
     },

@@ -44,7 +44,6 @@
                         <v-row align="center">
                           <v-col class="">
                             Antes de crear este usuario ¿Desea asignarle permisos?
-                            {{ agregarPermiso }}
                           </v-col>
                           <v-col class="shrink">
                             <v-btn @click="permisoUsu()">Si</v-btn>
@@ -77,9 +76,7 @@
                                 v-model="valid"
                               >
                                 <v-row
-                                  :align="align"
                                   no-gutters
-                                  justify="left" 
                                 >
                               
                                   <v-col

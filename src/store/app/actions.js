@@ -46,11 +46,16 @@ const setDatosUsuario = ({ state, commit }, payload) => {
   commit('setDatosUsuario', payload)
 }
 
+const setPermisosUsuario = ({ state, commit }, payload) => {
+  commit('setPermisosUsuario', payload)
+}
+
 export default {
   showToast,
   showError,
   showSuccess,
   setLoading,
   setDatosEmpresa,
-  setDatosUsuario
+  setDatosUsuario,
+  setPermisosUsuario
 }

@@ -172,6 +172,9 @@ export default {
   computed: {
     ...mapState('app', ['product', 'isContentBoxed', 'menuTheme', 'toolbarTheme', 'isToolbarDetached'])
   },
+  mounted() {
+    console.log('config.navigation: ', config.navigation)
+  },
   methods: {
     onKeyup(e) {
       this.$refs.search.focus()

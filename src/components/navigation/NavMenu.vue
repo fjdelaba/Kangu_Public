@@ -3,7 +3,6 @@
     <!-- menu level 1 -->
     <nav-menu-item v-for="(level1Item, level1Index) in menu" :key="level1Index" :menu-item="level1Item">
       <template v-if="level1Item.items">
-
         <!-- menu level 2 -->
         <nav-menu-item
           v-for="(level2Item, level2Index) in level1Item.items"

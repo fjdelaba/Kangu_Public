@@ -75,6 +75,15 @@ const UPDATE_PERMISOS_USUARIO = gql`
 }
 `
 
+const UPDATE_RESET_PASSWORD = gql`
+mutation M_UPDATE_RESET_PASSWORD($clave: ResetPasswordInput = {clave: "", id_usuario: ""}) {
+  reset_password(clave: $clave) {
+    result
+    message
+  }
+}
+`
+
 export {
   INSERT_USUARIO_EMPRESA,
   INSERT_PROYECTO_INFORMACION,
@@ -82,5 +91,6 @@ export {
   INSERT_PROYECTO_MATERIAL,
   UPDATE_ESTADO_USUARIO,
   UPDATE_DATOS_USUARIO,
-  UPDATE_PERMISOS_USUARIO
+  UPDATE_PERMISOS_USUARIO,
+  UPDATE_RESET_PASSWORD
 }
