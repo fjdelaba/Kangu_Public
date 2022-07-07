@@ -161,7 +161,7 @@ export const getDatosUsuarios = async () => {
 }
 
 export const getEmpresa = async (emp_id) => {
-  console.log('emp_id: ', emp_id)
+  // console.log('emp_id: ', emp_id)
   
   return await apolloClient.query({
     query: GET_EMPRESA,

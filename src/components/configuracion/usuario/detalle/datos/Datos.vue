@@ -105,35 +105,37 @@
                 align="center"
                 justify="space-around"
               >   
-                <div v-if="cpxOrigenConfiguracion">
-                  <div v-if="edicion" class="mt-2">
-                    <v-btn
-                      color="primary"
-                      :loading="loadingDatosGenerales"
-                      :disabled="loadingDatosGenerales"
-                      small
-                      @click="grabarEdicionUsuario()"
-                    >Guardar</v-btn>
-                    <v-btn color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
-                  </div>
-                  <div v-else class="mt-2">
-                    <v-btn color="primary" small @click="editarUsuario()">Editar</v-btn>
-                  </div>
-                  <div v-if="cpxOrigenConfiguracion" class="mt-2">
-                    <v-btn
-                      :loading="loading4"
-                      :disabled="loading4"
-                      :color="user.activo ? 'error' : 'success'"
-                      small
-                      @click="cambiarEstadoUsuario()"
-                    > {{ cpxTextoBotonUpdateEstado }}
-                      <template v-slot:loader>
-                        <span class="custom-loader">
-                          <v-icon light>mdi-cached</v-icon>
-                        </span>
-                      </template></v-btn>
-                  </div>
+                <!-- <div v-if="cpxOrigenConfiguracion"> -->
+                <v-btn v-if="cpxOrigenConfiguracion" color="primary" small @click="asignarNuevaPassword()">Asignar nueva contraseña</v-btn>
+                <v-btn v-if="!cpxOrigenConfiguracion" color="primary" small @click="diaglogCambiarPassword = true">Cambiar contraseña</v-btn>
+                <div v-if="edicion" class="mt-2">
+                  <v-btn
+                    color="primary"
+                    :loading="loadingDatosGenerales"
+                    :disabled="loadingDatosGenerales"
+                    small
+                    @click="grabarEdicionUsuario()"
+                  >Guardar</v-btn>
+                  <v-btn color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
                 </div>
+                <div v-else class="mt-2">
+                  <v-btn color="primary" small @click="editarUsuario()">Editar</v-btn>
+                </div>
+                <div v-if="cpxOrigenConfiguracion" class="mt-2">
+                  <v-btn
+                    :loading="loading4"
+                    :disabled="loading4"
+                    :color="user.activo ? 'error' : 'success'"
+                    small
+                    @click="cambiarEstadoUsuario()"
+                  > {{ cpxTextoBotonUpdateEstado }}
+                    <template v-slot:loader>
+                      <span class="custom-loader">
+                        <v-icon light>mdi-cached</v-icon>
+                      </span>
+                    </template></v-btn>
+                </div>
+                <!-- </div> -->
               </v-row>             
             </div>
           </div></v-card-text>
@@ -375,6 +377,78 @@
         </v-card>
       </v-dialog>
     </v-row>
+    <v-row justify="center">
+      <v-dialog
+        v-model="diaglogCambiarPassword"
+        persistent
+        max-width="500"
+      >
+        <v-card>
+          <v-card-title class="text-h5">
+            Cambio de clave
+          </v-card-title>
+          <!-- <v-card-text>Esta accion tiene efecto inmediato en la aplicion. Si este usuario esta usando la app, sera redirigido al login.</v-card-text> -->
+          <v-form ref="formCambioClave" v-model="validCambioClave">
+            <v-container fluid>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
+                  <v-text-field
+                    v-model="clave1"
+                    :append-icon="mostrarClave1 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="[rulesCambioClave.required, rulesCambioClave.min]"
+                    :type="mostrarClave1 ? 'text' : 'password'"
+                    name="input-10-1"
+                    label="Ingresa tu nueva clave"
+                    hint="Debe contener 8 caracteres"
+                    counter
+                    outlined
+                    dense
+                    @click:append="mostrarClave1 = !mostrarClave1"
+                  ></v-text-field>
+                </v-col>
+                <v-col
+                  cols="12"
+                  sm="6"
+                >
+                  <v-text-field
+                    v-model="clave2"
+                    :append-icon="mostrarClave2 ? 'mdi-eye' : 'mdi-eye-off'"
+                    :rules="[rulesCambioClave.required, rulesCambioClave.min, rulesCambioClave.passwordsMatch]"
+                    :type="mostrarClave2 ? 'text' : 'password'"
+                    name="input-10-1"
+                    label="Repite tu nueva clave"
+                    hint="Debe contener 8 caracteres"
+                    counter
+                    outlined
+                    dense
+                    @click:append="mostrarClave2 = !mostrarClave2"
+                  ></v-text-field>
+                </v-col>
+              </v-row></v-container>
+          </v-form>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              color="error"
+              small
+              @click="cerrarCambiarClave()"
+            >
+              Cancelar
+            </v-btn>
+            <v-btn
+              color="success"
+              small
+              @click="cambiarClave()"
+            >
+              Cambiar clave
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 
@@ -383,7 +457,7 @@
 // import CardProyecto from '../../../components/configuracion/usuario/card-proyecto/CardProyecto.vue'
 import { setTimeout } from 'optimism'
 import CardProyecto from '../../../../configuracion/usuario/card-proyecto/CardProyecto.vue'
-import { updateEstadoUsuario, updateDatosUsuario, updatePermisosUsuario } from '../../../../../graphql/configuracion'
+import { updateEstadoUsuario, updateDatosUsuario, updatePermisosUsuario, updateResetPassword } from '../../../../../graphql/configuracion'
 export default {
   components: {
     
@@ -424,7 +498,18 @@ export default {
       loadingDatosGenerales: false,
       loader:null,
 
-      editarPanelPermisos: true
+      editarPanelPermisos: true,
+      diaglogCambiarPassword: false,
+      clave1:'',
+      clave2:'',
+      validCambioClave:true,
+      mostrarClave1: false,
+      mostrarClave2: false,
+      rulesCambioClave: {
+        required: (value) => !!value || 'Este campo es obligatorio.',
+        min: (v) => v.length === 8 || 'La clave debe tener 8 caracteres',
+        passwordsMatch: () => this.clave1 === this.clave2 || ('Las claves ingresadas no coinciden')
+      }
     }
   },
   computed: {
@@ -447,6 +532,58 @@ export default {
     // this.asignarPermisos()
   },
   methods: {
+    cerrarCambiarClave() {
+      this.diaglogCambiarPassword = false
+      this.$refs.formCambioClave.reset()
+    },
+    async cambiarClave() {
+      if (!this.$refs.formCambioClave.validate()) return
+      const obj = {
+        id_usuario:this.user.id,
+        clave:this.clave1
+      }
+
+      const resp = await this.resetPassword(obj)
+
+      console.log('resp cambiarClave: ',resp)
+      this.cerrarCambiarClave()
+    },
+    async asignarNuevaPassword() { 
+      const obj = {
+        id_usuario:this.user.id,
+        clave:''
+      }
+
+      const resp = await this.resetPassword(obj)
+
+      console.log('resp asignarNuevaPassword: ',resp)
+    },
+    async resetPassword(obj) {
+      let resultado = false
+
+      try {
+        const resp = await updateResetPassword(obj)
+
+        resultado = true
+        console.log('resp: ', resp)
+        this.$notify({
+          group: 'foo',
+          title: 'Edicion de Usuario',
+          text: 'Clave enviada',
+          type: 'success'
+        })
+      } catch (error) {
+        console.log('error: ', error)
+        this.$notify({
+          group: 'foo',
+          title: 'Edicion de Usuario',
+          text: 'Error al asignar nueva clave',
+          type: 'error'
+        })
+      }
+
+      return resultado
+    },
     editarPermisos() {
       this.editarPanelPermisos = false
     },

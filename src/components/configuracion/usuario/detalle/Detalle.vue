@@ -101,9 +101,12 @@ export default {
     // } else {
     //   this.usu_id = this.$store.state.app.datosUsuario.user_id
     // }
-    console.log('this.origen: ', this.origen)
-    this.usu_id = this.cpxOrigenConfiguracion ? this.$route.query.id : this.$store.state.app.datosUsuario.user_id 
-    this.cargarDatosUsuario(this.usu_id)
+    setTimeout(() => {
+      console.log('this.origen: ', this.origen)
+      this.usu_id = this.cpxOrigenConfiguracion ? this.$route.query.id : this.$store.state.app.datosUsuario.user_id 
+      this.cargarDatosUsuario(this.usu_id)      
+    }, 1500)
+
     // console.log('MOUNTED DETALLE USUARIO: ', this.$store.state.app.datosUsuario.user_id)
     // console.log('router: ', this.$route.query.id)
 

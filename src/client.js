@@ -10,7 +10,7 @@ import { getMainDefinition } from 'apollo-utilities'
 const authLink = setContext((_, { headers }) => {
   const token = localStorage.getItem('tokenxjwt_id')
 
-  console.log('token: ', token)
+  // console.log('token: ', token)
   
   return {
     headers: {
@@ -26,14 +26,16 @@ const httpLink = createHttpLink({ uri: 'https://above-stag-34.hasura.app/v1/grap
 const wsLink = new WebSocketLink(
   { 
     // uri: 'wss://darling-glider-87.hasura.app/v1/graphql',
+    // uri: 'wss://above-stag-34.hasura.app/v1/graphql',
     uri: 'wss://above-stag-34.hasura.app/v1/graphql',
     options: {
+      timeout: 30000,
+      reconnect: true,
       connectionParams: {
         headers: {
           Authorization: localStorage.getItem('tokenxjwt_id') ? localStorage.getItem('tokenxjwt_id') : null
         }
-      },
-      reconnect: true
+      }
     }
   }
 )

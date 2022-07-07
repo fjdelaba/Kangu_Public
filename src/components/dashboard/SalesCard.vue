@@ -1,10 +1,10 @@
 <template>
   <v-card class="d-flex flex-grow-1 primary darken-4" dark>
+    INFORMACION {{ $store.state.app.permisosUsuario.pedido }}
     <!-- loading spinner -->
     <div v-if="loading" class="d-flex flex-grow-1 align-center justify-center">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>
     </div>
-
     <!-- information -->
     <div v-else class="d-flex flex-column flex-grow-1">
       <v-card-title>

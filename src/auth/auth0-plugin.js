@@ -41,12 +41,10 @@ export const useAuth0 = ({
     },
     methods: {
       async handleRedirectCallback() {
-        console.log('handleRedirectCallback: ')
         this.isLoading = true
         try {
           await this.auth0Client.handleRedirectCallback()
           this.user = await this.auth0Client.getUser()
-          console.log('USER EN AUTH PLUGIN')
           this.isAuthenticated = true
         } catch (error) {
           this.error = error
@@ -56,27 +54,20 @@ export const useAuth0 = ({
       },
 
       loginWithRedirect(options) {
-        console.log('loginWithRedirect: ')
-
         return this.auth0Client.loginWithRedirect(options)
       },
 
       logout(options) {
-        console.log('logout: ')
-
         return this.auth0Client.logout(options)
       },
 
       getTokenSilently(o) {
-        console.log('logout: ')
-
         return this.auth0Client.getTokenSilently(o)
       }
     },
 
     // eslint-disable-next-line vue/order-in-components
     async created() {
-      console.log('created auth0')
       try {
         this.auth0Client = await createAuth0Client({
           ...pluginOptions,
@@ -92,9 +83,7 @@ export const useAuth0 = ({
           // redirect_uri: 'https://kangu.cl/dashboard/analytics'
   
         })
-  
         try {
-          console.log('try')
           if (
             window.location.search.includes('code=') &&
             window.location.search.includes('state=')
@@ -104,17 +93,13 @@ export const useAuth0 = ({
             onRedirectCallback(appState)
           }
         } catch (error) {
-          console.log('catch')
           this.error = error
         } finally {
-          console.log('finally')
           this.isAuthenticated = await this.auth0Client.isAuthenticated()
           this.user = await this.auth0Client.getUser()
-          console.log('USER : ', this.user)
-          console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
+          // console.log('USER : ', this.user)
+          // console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
           const val = this.user['https://kangusoft.cl/jwt/hasura'].user_tenant
-  
-          console.log('val: ', val)
   
           store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])
           this.isLoading = false
@@ -123,7 +108,7 @@ export const useAuth0 = ({
   
           store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
   
-          console.log('resp: ', resp)          
+          // console.log('resp: ', resp)          
   
         }
       } catch (error) {
