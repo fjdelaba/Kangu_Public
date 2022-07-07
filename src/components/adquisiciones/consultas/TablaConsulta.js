@@ -130,9 +130,17 @@ export default {
     
     cargarDataExcelCabecera() {
       //alert('Se genero el archivo cabeceras_oc.xls')
-
       console.log("METODO EXCEL:", this.ocs);
-
+      for(let oc of this.ocs){
+   
+        if(oc.neto != null){
+          console.log("FORMATO:", new Intl.NumberFormat('es-CL').format(oc.neto))
+         oc.neto = new Intl.NumberFormat('es-CL').format(oc.neto)
+        }else if( oc.neto == null){
+          oc.neto = 0
+        }
+       
+      }
       return this.ocs;
   },
     filtroCentroGestion() {
