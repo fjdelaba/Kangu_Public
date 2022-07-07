@@ -13,6 +13,14 @@ export default [
 
   },
   {
+    path: '/configuracion/proyectos/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-email" */ '@/pages/configuracion/proyectos/Detalle.vue'
+      )
+
+  },
+  {
     path: '/configuracion/proyectos/sent',
     component: () =>
       import(
@@ -20,14 +28,14 @@ export default [
       )
 
   },
-  {
-    path: '/configuracion/proyectos/trash',
-    component: () =>
-      import(
-        /* webpackChunkName: "apps-email" */ '@/pages/configuracion/proyectos/Detalle.vue'
-      )
+  // {
+  //   path: '/configuracion/proyectos/trash',
+  //   component: () =>
+  //     import(
+  //       /* webpackChunkName: "apps-email" */ '@/pages/configuracion/proyectos/Detalle.vue'
+  //     )
 
-  },
+  // },
   {
     path: '/configuracion/materiales',
     component: () =>

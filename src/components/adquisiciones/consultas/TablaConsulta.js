@@ -1,8 +1,9 @@
 /* eslint-disable */
-import { getDatosOcConsulta, getEstadosOc } from "../../../graphql/adquisiciones";
+import { getDatosOcConsulta, getEstadosOc, getDetalleOcExcel } from "../../../graphql/adquisiciones";
 import { getDatosGenerales } from '../../../graphql/configuracion'
 import Vue from "vue";
 import JsonExcel from "vue-json-excel";
+import { entries } from "lodash";
 Vue.component("downloadExcel", JsonExcel); 
 
 
@@ -55,6 +56,29 @@ export default {
         "Monto": "neto",
         "Estado de Oc": "est_doc.nombre", 
     },
+    headerExcelDetalle: {
+      //: "fec_creacion",
+      "Nombre Centro Gestion": "oc.pro.nombre",
+      "Identificador OC": "oc.identificacion",
+      "Nombre OC": "oc.nombre",
+      "Nombre Proveedor": "oc.ent.razon_social",
+      "Rut Proveedor": "oc.ent.rut",
+      "Usuario Comprador": {
+        field: "oc.usu",
+        callback: value => {
+            return `${value.nombre} ${value.apellidos}`;
+        }
+    },
+      "Codigo": "mat.id",
+      "Material": "mat.nombre",
+      "Cantdad": "cantidad",
+      "Precio": "precio_unitario",
+      "Total": "total",
+      "Impuestos":"oc.impuestos",
+      "Moneda": "oc.mon.nombre",
+      "Monto Oc": "oc.neto",
+      "Estado de Oc": "oc.est_doc.nombre", 
+  },
       headers: [
       ],
       ocs: [],
@@ -100,9 +124,7 @@ export default {
     },
   },
   methods: {
-    descargarExcel() {
-     
-  },
+
     async cargarOc() {
       console.log("Cargando Datos")
       const { data } = await getDatosOcConsulta()
@@ -127,7 +149,47 @@ export default {
       }
 
     },
-    
+   async cargarDataExcelDetalle() {
+    console.log("Cargando Datos")
+    const { data } = await getDetalleOcExcel()
+   let datosOcDetalle = data.kangusoft_oc_det
+      for(let detalle of datosOcDetalle){
+        console.log("OC", detalle)
+        if(detalle.oc.neto == null){
+          detalle.oc.neto = 0
+        } else if(detalle.oc.neto != null){
+          detalle.oc.neto  = new Intl.NumberFormat('es-CL').format( detalle.oc.neto )
+        }
+        if( detalle.precio_unitario == null){
+          console.log("SI!")
+        } else if(detalle.precio_unitario  != null){
+          detalle.precio_unitario   = new Intl.NumberFormat('es-CL').format(detalle.precio_unitario  )
+        }
+        if( detalle.total == null){
+          console.log("SI2!")
+        } else if(detalle.total != null){
+          detalle.total  = new Intl.NumberFormat('es-CL').format( detalle.total )
+        }
+        if( detalle.cantidad == null){
+          console.log("SI3!")
+        } else if(detalle.cantidad != null){
+          detalle.cantidad  = new Intl.NumberFormat('es-CL').format( detalle.cantidad )
+        }
+        if(detalle.oc.identificacion == "" || detalle.oc.identificacion == null ){
+          detalle.oc.identificacion = "Sin Identificador"
+        }
+        if(detalle.oc.impuestos == null){
+          detalle.oc.impuestos = 0 
+        }else if(detalle.oc.impuestos != null){
+          detalle.oc.impuestos = new Intl.NumberFormat('es-CL').format( detalle.oc.impuestos )
+        }
+        // detalle.precio_unitario = new Intl.NumberFormat('es-CL').format(detalle.precio_unitario)
+        //  detalle.total = new Intl.NumberFormat('es-CL').format(detalle.total)
+        //  detalle.cantidad  = new Intl.NumberFormat('es-CL').format(detalle.cantidad)
+         
+      }
+      return datosOcDetalle;
+  },
     
     cargarDataExcelCabecera() {
       //alert('Se genero el archivo cabeceras_oc.xls')

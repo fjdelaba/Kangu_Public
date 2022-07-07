@@ -1,5 +1,5 @@
 import { apolloClient } from '../client'
-import { GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC } from './querys/adquisiciones'
+import { GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL } from './querys/adquisiciones'
 import { INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
@@ -15,6 +15,11 @@ export const getEstadosOc = async() => {
 export const getDatosOcConsulta = async() => {
   return await apolloClient.query({
     query: GET_DATOS_OC_CONSULTA
+  })
+}
+export const getDetalleOcExcel = async() => {
+  return await apolloClient.query({
+    query: GET_DATOS_OC_DETALLE_EXCEL
   })
 }
 

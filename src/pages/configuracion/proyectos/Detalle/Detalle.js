@@ -6,7 +6,16 @@ import InformacionGeneral from '../../../../components/configuracion/proyecto/In
 export default {
   data() {
     return {
-
+      breadcrumbs: [
+        {
+          text: '',
+          to: '/configuracion/proyectos',
+          exact: true
+        },
+        {
+          text: 'Detalle de Proyecto'
+        }
+      ]
     }
   },
   components: {

@@ -38,7 +38,7 @@ query Q_GET_DATOS_OC_CABECERA {
 }
 `
 
-//Comentario
+//Comentario  
 const GET_DATOS_OC_CONSULTA = gql`
 query Q_GET_DATOS_OC_CONSULTA{
   kangusoft_oc {
@@ -70,6 +70,43 @@ query Q_GET_DATOS_OC_CONSULTA{
       id
     }
   }
+}
+`
+const GET_DATOS_OC_DETALLE_EXCEL = gql`
+query Q_GET_DATOS_OC_DETALLE_EXCEL{
+  kangusoft_oc_det  {
+    cantidad
+    total
+    precio_unitario
+      oc {
+        nombre
+        identificacion
+        ent {
+          razon_social
+          rut
+        }
+        pro {
+          nombre
+        }
+        mon{
+            nombre
+        }
+        est_doc {
+          nombre
+        }
+        usu {
+          apellidos
+          nombre
+        }
+        neto
+        impuestos
+      }
+      mat {
+        nombre
+        id
+      }
+    
+    }
 }
 `
 const GET_ESTADO_OC = gql`
@@ -152,4 +189,4 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
 }
 `
 
-export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC }
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL }

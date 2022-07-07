@@ -44,6 +44,16 @@ export default {
           value: 'actions',
         },
       ],
+      breadcrumbs: [
+        {
+          text: "Proyectos",
+          disabled: false,
+          // href: "#",
+        },
+        {
+          text: "Listado",
+        },
+      ],
       proyectos:[],
       idProyectoSeleccionado:'',
       detalle:false,
@@ -62,9 +72,10 @@ export default {
       }  
   },
   abrirDetalle(item){
-   this.idProyectoSeleccionado = item.id
+  //  this.idProyectoSeleccionado = item.id
    this.detalle = true
-   this.presupuestoProyecto = item.presupuesto
+  //  this.presupuestoProyecto = item.presupuesto
+  this.$router.push({ path: '/configuracion/proyectos/detalle', query: { id: item.id }})
     console.log("proyecto",item)
     // this.$router.push(`/configuracion/proyectos/sent`)
   }

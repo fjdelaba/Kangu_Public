@@ -98,7 +98,7 @@
                 class="btn btn-default"
                 :fetch="cargarDataExcelCabecera"
                 :fields="headerExcelCabecera"
-                worksheet="My Worksheet"
+                worksheet="Mi Listado de Oc"
                 name="cabeceras_oc.xls"
               >Descargar Cabeceras
               </download-excel>
@@ -108,7 +108,14 @@
                 dark
                 small
                 color="indigo"
-              > Descargar Cabecera y Lineas
+              > <download-excel
+                class="btn btn-default"
+                :fetch="cargarDataExcelDetalle"
+                :fields="headerExcelDetalle"
+                worksheet="Mi Listado de Oc"
+                name="lineas_oc.xls"
+              >Descargar Cabeceras y Lineas
+              </download-excel>
               </v-btn>
        
             </v-speed-dial>

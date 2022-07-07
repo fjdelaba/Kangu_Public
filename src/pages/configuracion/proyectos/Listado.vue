@@ -1,6 +1,7 @@
 <template>
 
   <v-container>
+    <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
     <v-row>
       <v-col>
         <h2 v-if="detalle == false">LISTADO DE PROYECTOS</h2>
