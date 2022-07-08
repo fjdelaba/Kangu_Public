@@ -16,10 +16,8 @@
     </div>
   </v-container>
 </template>
-
 <script>
 export default {
-
 }
 </script>
 <style>
@@ -33,12 +31,4 @@ export default {
 h3{
   color: #3b8ac9;
 }
-</style>
-      
-    </div>
-  </v-container>
-</template>
-
-<style>
-
 </style>
