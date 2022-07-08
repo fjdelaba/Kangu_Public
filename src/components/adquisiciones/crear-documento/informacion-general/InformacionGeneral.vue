@@ -2,7 +2,7 @@
   <div>
     <v-form ref="formPaso1" v-model="valid" lazy-validation>
       <!-- <v-container class="ma-0 pa-0"> --> 
-        <!-- {{$store.state.app.datosUsuario.user_id}} -->
+      <!-- {{$store.state.app.datosUsuario.user_id}} -->
       <p class="ma-0">Informacion General</p> 
       <v-divider></v-divider>
       <v-row >
@@ -55,7 +55,7 @@
           md="4"
           class="pb-0"
         >
-        <!-- {{ oc_cab.nombre }} -->
+          <!-- {{ oc_cab.nombre }} -->
           <v-text-field
             v-model="oc_cab.nombre"
             label="Nombre de OC"
@@ -71,7 +71,7 @@
           md="4"
           class="pb-0"
         >
-        <!-- {{ oc_cab.moneda }} -->
+          <!-- {{ oc_cab.moneda }} -->
           <v-autocomplete
             v-model="oc_cab.moneda"
             :rules="rules.oc_cab.moneda"
@@ -93,7 +93,7 @@
           md="6"
           class="pt-0"
         >
-        <!-- {{ oc_cab.tipoDocumento }} -->
+          <!-- {{ oc_cab.tipoDocumento }} -->
           <v-autocomplete
             v-model="oc_cab.tipoDocumento"
             :rules="rules.oc_cab.tipoDocumento"
@@ -205,7 +205,7 @@
           cols="12"
           md="6"
         >
-        <!-- {{ oc_cab.contacto }} -->
+          <!-- {{ oc_cab.contacto }} -->
           <v-autocomplete
             v-model="oc_cab.contacto"
             :rules="rules.oc_cab.contacto"
@@ -286,7 +286,7 @@
           cols="12"
           md="6"
         >
-        <!-- {{ oc_cab.formaPago }} -->
+          <!-- {{ oc_cab.formaPago }} -->
           <v-autocomplete
             v-model="oc_cab.formaPago"
             :rules="rules.oc_cab.formaPago"
@@ -306,7 +306,7 @@
           cols="12"
           md="6"
         >
-        <!-- {{ oc_cab.tipoDespacho }} -->
+          <!-- {{ oc_cab.tipoDespacho }} -->
           <v-autocomplete
             v-model="oc_cab.tipoDespacho"
             :rules="rules.oc_cab.tipoDespacho"

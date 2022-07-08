@@ -122,7 +122,7 @@ export default {
 
   methods: {
     cargarDetalle(id_usuario){
-      console.log('id_usuario: ', id_usuario);
+      // console.log('id_usuario: ', id_usuario);
       this.$router.push({ path: '/configuracion/usuarios/detalle', query: { id: id_usuario }})
     },
     searchUser() {},

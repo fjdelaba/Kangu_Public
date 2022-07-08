@@ -1,6 +1,6 @@
 <template>
   <v-card class="d-flex flex-grow-1 primary darken-4" dark>
-    INFORMACION {{ $store.state.app.permisosUsuario.pedido }}
+    <!-- INFORMACION {{ $store.state.app.permisosUsuario.pedido }} -->
     <!-- loading spinner -->
     <div v-if="loading" class="d-flex flex-grow-1 align-center justify-center">
       <v-progress-circular indeterminate color="primary"></v-progress-circular>

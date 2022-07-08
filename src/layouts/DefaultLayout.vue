@@ -17,7 +17,7 @@
       <!-- Navigation menu info -->
       <template v-slot:prepend>
         <div class="pa-2">
-          <div class="title font-weight-bold text-uppercase primary--text">{{ product.name }}</div>
+          <div class="title font-weight-bold text-uppercase primary--text"><a :href="cpxReturnDireccionHome">{{ product.name }}</a></div>
           <div class="overline grey--text">{{ product.version }}</div>
         </div>
       </template>
@@ -128,7 +128,7 @@
           <slot></slot>
         </v-layout>
       </v-container>
-
+      <!-- {{ $store.state.app.permisosUsuario }} -->
       <v-footer app inset>
         <v-spacer></v-spacer>
         <div class="overline">
@@ -152,6 +152,8 @@ import ToolbarLanguage from '../components/toolbar/ToolbarLanguage'
 import ToolbarCurrency from '../components/toolbar/ToolbarCurrency'
 import ToolbarNotifications from '../components/toolbar/ToolbarNotifications'
 
+import { getPermisos } from '../graphql/configuracion'
+
 export default {
   components: {
     MainMenu,
@@ -170,14 +172,85 @@ export default {
     }
   },
   computed: {
-    ...mapState('app', ['product', 'isContentBoxed', 'menuTheme', 'toolbarTheme', 'isToolbarDetached'])
+    ...mapState('app', ['product', 'isContentBoxed', 'menuTheme', 'toolbarTheme', 'isToolbarDetached']),
+    cpxReturnDireccionHome() {
+      return 'http://localhost:8080/dashboard/analytics'
+    }
+  },
+  watch: {
+    '$auth.isLoading' (newCount, oldCount) {
+      // Our fancy notification (2).
+      console.log(`DEFAULT LAYOUT ${newCount} fruits now, yay!. ${oldCount}`)
+      // this.cargarDatosUsuario()
+      this.cargarPermisos()
+    }
   },
   mounted() {
-    console.log('config.navigation: ', config.navigation)
+    // console.log('config.navigation: ', config.navigation)
+    // console.log('$auth.isLoading default layout: ', this.$auth.isLoading)
+    if (this.$auth.isLoading === false) {
+      this.cargarPermisos()
+    }
   },
   methods: {
     onKeyup(e) {
       this.$refs.search.focus()
+    },
+    async cargarPermisos() {
+      // console.log('cargarPermisos DEFAULT LAYOUT')
+      // console.log('this.$store.state.app.datosUsuario.user_id: ', this.$store.state.app.datosUsuario.user_id)
+      const { data } = await getPermisos(this.$store.state.app.datosUsuario.user_id)
+
+      // store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])   
+      // console.log('resp cargarPermisos: ',  data.kangusoft_usu_mod)
+      const permisos = {
+        pedido: false,
+        cotizacion: false,
+        oc: false,
+        despacho: false,
+        recepcion: false,
+        proveedores: false,
+        proyectos: false,
+        materiales: false,
+        usuarios: false,
+        mantenedores: false
+      }
+
+      for (const per of data.kangusoft_usu_mod) {
+        // console.log('per: ', per)
+        if (per.mod_fk === 1 && per.activo === true) {
+          permisos.pedido = true
+        }
+        if (per.mod_fk === 2 && per.activo === true) {
+          permisos.cotizacion = true
+        }
+        if (per.mod_fk === 3 && per.activo === true) {
+          permisos.oc = true
+        } 
+        if (per.mod_fk === 4 && per.activo === true) {
+          permisos.despacho = true
+        } 
+        if (per.mod_fk === 5 && per.activo === true) {
+          permisos.recepcion = true
+        } 
+        if (per.mod_fk === 6 && per.activo === true) {
+          permisos.proveedores = true
+        }
+        if (per.mod_fk === 7 && per.activo === true) {
+          permisos.proyectos = true
+        }
+        if (per.mod_fk === 8 && per.activo === true) {
+          permisos.materiales = true
+        }
+        if (per.mod_fk === 9 && per.activo === true) {
+          permisos.usuarios = true
+        }
+        if (per.mod_fk === 10 && per.activo === true) {
+          permisos.mantenedores = true
+        }
+      }
+      this.$store.dispatch('app/setPermisosUsuario', permisos)   
+      // console.log('permisos: ', permisos)
     }
   }
 }

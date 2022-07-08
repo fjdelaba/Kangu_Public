@@ -9,7 +9,7 @@ export const INFINITY = '∞'
 export const INFINITY_NUMBER_REPRESENTATION = 2100000000
 // Valida el rut con su cadena completa "XXXXXXXX-X"
 export const validaRut = (rutCompleto) => {
-  console.log ('rut en index: ', rutCompleto)
+  // console.log ('rut en index: ', rutCompleto)
   if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test( rutCompleto ))
     return false
   const tmp 	= rutCompleto.split('-')

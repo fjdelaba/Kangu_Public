@@ -1,7 +1,11 @@
 <template>
   <v-container>
-    <div>
-      <h2>Pendientes</h2>
+    <div v-if="$store.state.app.permisosUsuario.oc">
+      <div>
+        <h2>Pendites de Compra</h2>
+      </div></div>
+    <div v-else>
+      <h2>No tienes permisos para ver esta seccion</h2>
     </div>
   </v-container>
 </template>

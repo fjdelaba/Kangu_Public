@@ -118,6 +118,22 @@ export default {
           this.oc_cab.tipoDocumento = { id: doc_tip.doc_tip.id, nombre:doc_tip.doc_tip.nombre }
         }
       }
+
+      for (const fpag of kangusoft_for_pag) {
+        // console.log('fpag: ', fpag)
+        // this.listaTiposDocumento.push({ id: fpag.doc_tip.id, nombre:fpag.doc_tip.nombre })
+        if (fpag.id == 11) {
+          this.oc_cab.formaPago = { id: fpag.id, nombre:fpag.nombre }
+        }
+      }
+
+      for (const destip of kangusoft_des_tip) {
+        console.log('destip: ', destip)
+        // this.listaTiposDocumento.push({ id: fpag.doc_tip.id, nombre:fpag.doc_tip.nombre })
+        if (destip.id == 1) {
+          this.oc_cab.tipoDespacho = { id: destip.id, nombre:destip.nombre }
+        }
+      }
       this.listaFormasPago = kangusoft_for_pag
       this.listaTiposDespacho = kangusoft_des_tip
       //this.listaImpuesto = kangusoft_emp_imp,
@@ -125,15 +141,15 @@ export default {
       
     },
     async cargarProyectosPorUsuarios() {
-      console.log('this.usu_id: ', this.usu_id)
+      // console.log('this.usu_id: ', this.usu_id)
       const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id)
 
       for (const pro of kangusoft_apr) {
-        console.log('pro: ', pro)
+        // console.log('pro: ', pro)
         // this.listaProyectos.push({ id:pro.pro.id, nombre:`${pro.pro.nombre} (${pro.pro.codigo})` })
         this.listaProyectos.push({ id:pro.pro.id, nombre:pro.pro.nombre, codigo:pro.pro.codigo })
       }
-      console.log('this.listaProyectos: ', this.listaProyectos)
+      // console.log('this.listaProyectos: ', this.listaProyectos)
     },
     fetchEntriesDebounced() {
       console.log('PASO POR ACÁ !!!!')

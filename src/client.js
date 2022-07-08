@@ -29,7 +29,6 @@ const wsLink = new WebSocketLink(
     // uri: 'wss://above-stag-34.hasura.app/v1/graphql',
     uri: 'wss://above-stag-34.hasura.app/v1/graphql',
     options: {
-      timeout: 30000,
       reconnect: true,
       connectionParams: {
         headers: {

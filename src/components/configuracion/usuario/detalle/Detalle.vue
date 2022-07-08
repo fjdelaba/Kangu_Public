@@ -62,19 +62,6 @@ export default {
   },
   data() {
     return {
-      user: {
-        'id':32,
-        'rut':123456789,
-        'email':'bfitchew0@ezinearticles.com',
-        'name':'Bartel ',
-        'lastname':' Fitchew',
-        'verified':false,
-        'created':'2019-08-09T03:14:12Z',
-        'lastSignIn':'2019-08-14T20:00:53Z',
-        'disabled':true,
-        'role':'ADMIN',
-        'avatar':'/images/avatars/avatar1.svg'
-      },
       usu_id: {},
       usuario: {},
       tab: null,
@@ -95,35 +82,35 @@ export default {
       return this.origen === 1 // origen es configuracion ?
     }
   },
+  watch: {
+    '$auth.isLoading' (newCount, oldCount) {
+      console.log(`Listado - We have ${newCount} fruits now, yay!. ${oldCount}`)
+      // eslint-disable-next-line eqeqeq
+      if (newCount == false) {
+        this.cargarDatosUsuario()
+      }
+    }
+  },
   mounted() {
-    // if (this.origen === 'miperfil') {
-    //   this.usu_id = this.$store.state.app.datosUsuario.user_id
-    // } else {
-    //   this.usu_id = this.$store.state.app.datosUsuario.user_id
-    // }
-    setTimeout(() => {
-      console.log('this.origen: ', this.origen)
-      this.usu_id = this.cpxOrigenConfiguracion ? this.$route.query.id : this.$store.state.app.datosUsuario.user_id 
-      this.cargarDatosUsuario(this.usu_id)      
-    }, 1500)
-
-    // console.log('MOUNTED DETALLE USUARIO: ', this.$store.state.app.datosUsuario.user_id)
-    // console.log('router: ', this.$route.query.id)
-
+    // eslint-disable-next-line eqeqeq
+    if (this.$auth.isLoading == false) {
+      this.cargarDatosUsuario()
+    }
   },
   methods: {
-    async cargarDatosUsuario(usu_id) {  
-      console.log('usu_id: ', usu_id)
+    async cargarDatosUsuario() {  
+      // console.log('usu_id: ', usu_id)
+      this.usu_id = this.cpxOrigenConfiguracion ? this.$route.query.id : this.$store.state.app.datosUsuario.user_id 
       const { data }  = await this.$apollo.query({
         query: QUERY_USER,
         variables:{
-          'id_usuario': usu_id
+          'id_usuario': this.usu_id
         },
         fetchPolicy:'network-only'
       })
 
       this.usuario = data.kangusoft_usu[0]
-      console.log('data data: ', data.kangusoft_usu[0])
+      // console.log('data data: ', data.kangusoft_usu[0])
     }
   }
 }

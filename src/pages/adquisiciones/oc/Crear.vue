@@ -1,6 +1,7 @@
 <template>
   <v-container>
-    <div>
+    <h2>Creacion de Orden de Compra</h2>
+    <div v-if="$store.state.app.permisosUsuario.oc">
       <v-row
         no-gutters
         style="flex-wrap: nowrap;"
@@ -102,6 +103,9 @@
       </v-dialog> 
     <!-- <CrearDocumento/> -->
     </div>
+    <div v-else>
+      <h2>No tienes permisos para ver esta seccion</h2>
+    </div>
   </v-container>
 </template>
 
@@ -134,7 +138,7 @@ export default {
       email:'',
       loader: null,
       disabledBotonSiguiente: false,
-      dialogBorrador: true
+      dialogBorrador: false
     }
   },
   computed: {
@@ -162,7 +166,6 @@ export default {
         // this.pasoStep++
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
-          this.loader = this.disabledBotonSiguiente.toString()
           if (this.oc_id > 0) {
             try {
               const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
@@ -190,6 +193,7 @@ export default {
             }
           } else {
             try {
+              this.disabledBotonSiguiente = true
               const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
               console.log('cabecera: ', cabecera)
@@ -217,6 +221,13 @@ export default {
               this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
               this.pro_fk = cabecera.proyecto.id
               this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id)
+              this.disabledBotonSiguiente = false
+              this.$notify({
+                group: 'foo',
+                title: 'Creacion de Orden de Compra',
+                text: 'Grabacion exitosa',
+                type: 'success'
+              })
               this.pasoStep++
             } catch (error) {
               console.log('error: ', error)

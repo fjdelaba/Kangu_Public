@@ -25,13 +25,13 @@ export default {
       const descuento = 0
   
       for (const linea of this.materiales) {
-        console.log('linea: ', linea)
+        // console.log('linea: ', linea)
         neto += Number(linea.total)
       }
       iva = neto * 0.19
       total = iva + neto
   
-      console.log(neto, iva, total)
+      // console.log(neto, iva, total)
   
       return [
         { item: 'Neto', valor: neto },

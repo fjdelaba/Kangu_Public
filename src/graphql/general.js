@@ -81,7 +81,7 @@ export const getComunas = async (idRegion) => {
 }
 
 export const getProyectosPorUsuario = async (id_usuario) => {
-  console.log('id_usuario: ', id_usuario)
+  // console.log('id_usuario: ', id_usuario)
   
   return await apolloClient.query({
     query: GET_PROYECTOS_POR_USUARIO,
@@ -172,7 +172,7 @@ export const getEmpresa = async (emp_id) => {
 }
 
 export const subsDatosUsuario = async (id_usuario) => {
-  console.log('id_usuario subsDatosUsuario: ', id_usuario)
+  // console.log('id_usuario subsDatosUsuario: ', id_usuario)
 
   return apolloClient.subscribe({
     query: SUBS_DATOS_USUARIO,

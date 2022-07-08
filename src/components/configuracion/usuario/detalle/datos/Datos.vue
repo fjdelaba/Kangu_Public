@@ -39,7 +39,7 @@
             <div class="flex-grow-1 pt-2 pa-sm-2">
             
               <v-text-field
-                v-model="nombre"
+                v-model="user.nombre"
                 dense
                 label="Nombre"
                 placeholder="Nombre"
@@ -71,7 +71,7 @@
                 :readonly="!edicion"
                 dense
                 outlined
-                 :rules="cargoRules"
+                :rules="cargoRules"
               ></v-text-field>
               <v-text-field
                 v-model="user.email"
@@ -111,7 +111,14 @@
                 justify="space-around"
               >   
                 <!-- <div v-if="cpxOrigenConfiguracion"> -->
-                <v-btn v-if="cpxOrigenConfiguracion" color="primary" small @click="asignarNuevaPassword()">Asignar nueva contraseña</v-btn>
+                <v-btn
+                  v-if="cpxOrigenConfiguracion"
+                  color="primary"
+                  :loading="loadingAsignarClave"
+                  :disabled="loadingAsignarClave"
+                  small
+                  @click="asignarNuevaPassword()"
+                >Asignar nueva contraseña</v-btn>
                 <v-btn v-if="!cpxOrigenConfiguracion" color="primary" small @click="diaglogCambiarPassword = true">Cambiar contraseña</v-btn>
                 <div v-if="edicion" class="mt-2">
                   <v-btn
@@ -208,7 +215,6 @@
                   :disabled="editarPanelPermisos"
                   class="my-0"
                   max-width="250"
-                  outlined="tile"
                 >
                   <v-card-subtitle class="grey lighten-3" >Adquisiciones</v-card-subtitle>
                   <v-container class="grey lighten-4">
@@ -252,7 +258,14 @@
               justify="space-around"
             >   
               <v-btn v-if="editarPanelPermisos" color="primary" small @click="editarPermisos()">Editar Permisos</v-btn>
-              <v-btn v-if="!editarPanelPermisos" color="primary" small @click="guardarPermisos()">Guardar Permisos</v-btn>
+              <v-btn
+                v-if="!editarPanelPermisos"
+                color="primary"
+                :loading="loadingBotonPermiso"
+                :disabled="loadingBotonPermiso"
+                small
+                @click="guardarPermisos()"
+              >Guardar Permisos</v-btn>
               <v-btn v-if="!editarPanelPermisos" color="primary" small @click="cancelarEdicionPermisos()">Cancelar Edicion</v-btn>
             </v-row>
           </v-expansion-panel-content>
@@ -264,7 +277,6 @@
           <v-expansion-panel-content class="body-2" >
             <!-- <card-proyecto :proyectos="user.cgs"></card-proyecto> -->
             <v-card
-              :loading="loading"
               class=" my-2"
               max-width="200"
             >
@@ -293,7 +305,6 @@
 
               <v-card-text>
                 <v-chip-group
-                  v-model="selection"
                   active-class="deep-gray accent-4 white--text"
                   column
                 >
@@ -512,6 +523,8 @@ export default {
       loading4: false,
       loadingDatosGenerales: false,
       loader:null,
+      loadingAsignarClave:false,
+      loadingBotonPermiso:false,
 
       editarPanelPermisos: true,
       diaglogCambiarPassword: false,
@@ -524,8 +537,8 @@ export default {
         required: (value) => !!value || 'Este campo es obligatorio.',
         min: (v) => v.length === 8 || 'La clave debe tener 8 caracteres',
         passwordsMatch: () => this.clave1 === this.clave2 || ('Las claves ingresadas no coinciden')
-      }
-    
+      },
+      cargarPermisos: true
     }
   },
   computed: {
@@ -539,10 +552,21 @@ export default {
       return this.origen === 1 // origen es configuracion ?
     }
   },
+  watch: {
+    user (newCount, oldCount) {
+      console.log(`Listado - We have ${newCount} fruits now, yay!. ${oldCount}`)
+      // eslint-disable-next-line eqeqeq
+      if (this.cargarPermisos) {
+        this.caaresPermisos = false
+        console.log('CAMBIO USER')
+        this.asignarPermisos()  
+      }
+    }
+  },
   mounted() {
     setTimeout(() => {
-      console.log('Mounted DATOS USUARIO: ', this.user)
-      this.asignarPermisos()  
+      // console.log('Mounted DATOS USUARIO: ', this.user)
+      // this.asignarPermisos()  
     }, 2000)
     
     // this.asignarPermisos()
@@ -559,33 +583,37 @@ export default {
         clave:this.clave1
       }
 
-      const resp = await this.resetPassword(obj)
+      const resp = await this.resetPassword(obj, 1) // 1usuario
 
       console.log('resp cambiarClave: ',resp)
       this.cerrarCambiarClave()
     },
     async asignarNuevaPassword() { 
+      this.loadingAsignarClave = true
       const obj = {
         id_usuario:this.user.id,
         clave:''
       }
 
-      const resp = await this.resetPassword(obj)
+      const resp = await this.resetPassword(obj, 2) // 2 admin
 
+      this.loadingAsignarClave = false
       console.log('resp asignarNuevaPassword: ',resp)
     },
-    async resetPassword(obj) {
+    async resetPassword(obj, modo) {
       let resultado = false
 
       try {
         const resp = await updateResetPassword(obj)
+        // eslint-disable-next-line eqeqeq
+        const texto = modo == 1 ? 'Tu clave fue actualizada con exito' : 'La nueva clave fue enviada al correo del usuario'
 
         resultado = true
-        console.log('resp: ', resp)
+        // console.log('resp: ', resp)
         this.$notify({
           group: 'foo',
           title: 'Edicion de Usuario',
-          text: 'Clave enviada',
+          text: texto,
           type: 'success'
         })
       } catch (error) {
@@ -605,6 +633,7 @@ export default {
     },
     async guardarPermisos() {
 
+      this.loadingBotonPermiso = true
       const permisos = []
 
       // if (this.permisoCentroGestion) {
@@ -626,14 +655,21 @@ export default {
       console.log('datadatos :', data)
 
       this.editarPanelPermisos = true 
+      this.loadingBotonPermiso = false
+      this.$notify({
+        group: 'foo',
+        title: 'Edicion de usuarios',
+        text: 'Permisos modificados exitosamente',
+        type: 'success'
+      })
     },
     cancelarEdicionPermisos() {
       this.editarPanelPermisos = true
     },
     asignarPermisos() {
-      console.log('this user en datps: ', this.user)
+      // console.log('this user en datps: ', this.user)
       for (const per of this.user.usu_mods) {
-        console.log('per_ ', per)
+        // console.log('per_ ', per)
         if (per.mod_fk === 1 && per.activo) { // Pedido
           this.permisoPedidos = true
         }
