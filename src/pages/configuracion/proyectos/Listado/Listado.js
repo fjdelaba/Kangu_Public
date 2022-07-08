@@ -72,12 +72,12 @@ export default {
       }  
   },
   abrirDetalle(item){
-  //  this.idProyectoSeleccionado = item.id
-   this.detalle = true
-  //  this.presupuestoProyecto = item.presupuesto
+  this.idProyectoSeleccionado = item.id
+  this.detalle = true
+  this.presupuestoProyecto = item.presupuesto
   this.$router.push({ path: '/configuracion/proyectos/detalle', query: { id: item.id }})
     console.log("proyecto",item)
-    // this.$router.push(`/configuracion/proyectos/sent`)
+    console.log("detalle", this.detalle)
   }
 },
   mounted() {

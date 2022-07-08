@@ -8,14 +8,16 @@ export default {
     return {
       breadcrumbs: [
         {
-          text: '',
+          text: 'Listado',
           to: '/configuracion/proyectos',
           exact: true
         },
         {
           text: 'Detalle de Proyecto'
         }
-      ]
+      ],
+      idProyecto:"",
+      detalle:""
     }
   },
   components: {
@@ -29,13 +31,14 @@ export default {
 },
 props:{
     detalle: Boolean,
-    idproyecto: Number,
     presupuesto: Number
 },
   mounted() {
-        console.log('detalle', this.detalle)
-        console.log('idproyectoSeleccionado:',this.idproyecto)
-        console.log('detalle', this.presupuesto)
+    this.idProyecto = this.$route.query.id
+      if( this.idProyecto != ""){
+        this.detalle = true
+      }
+      
   }
 
 }

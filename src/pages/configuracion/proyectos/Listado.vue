@@ -57,9 +57,7 @@
               </v-card></v-col>
           </v-col>
           <v-row class="mb-6" no-gutters>
-            <v-col v-if="detalle == true"> 
-              <detalle-proyecto :presupuesto="presupuestoProyecto" :detalle="detalle" :idproyecto="idProyectoSeleccionado" ></detalle-proyecto>
-            </v-col>
+   
           </v-row>
         </v-row></v-col>
     </v-row>
