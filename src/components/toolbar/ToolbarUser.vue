@@ -17,7 +17,6 @@
     </template>
 
     <!-- user menu list -->
-    {{ $auth.isLoading }}
     <v-list dense nav>
       <v-list-item
         v-for="(item, index) in menu"
@@ -32,6 +31,18 @@
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title>{{ item.key ? $t(item.key) : `${item.text}` }}</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+      <v-list-item
+        to="/mi_empresa"
+        :exact="true"
+        :link="true"
+      >
+        <v-list-item-icon>
+          <v-icon small>mdi-office-building-outline</v-icon>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title>Mi Empresa</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
