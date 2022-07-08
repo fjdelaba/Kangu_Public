@@ -11,7 +11,7 @@
          <div class="error_permisos" ><center><h1>OOPS!!!</h1></center> <br>
      <h3>No tienes permisos para ver está página. </h3> <br><h3>Contacta al administrador de Kangusoft si necesitas tener habilitada esta página.</h3> <br><br> </div>
      
-    <v-btn to="/" color="primary">Notificar al administrador</v-btn>
+      <v-btn to="/" color="primary">Notificar al administrador</v-btn>
       </div>
     </div>
   </v-container>
@@ -19,7 +19,6 @@
 
 <script>
 export default {
-
 }
 </script>
 <style>
