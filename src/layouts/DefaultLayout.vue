@@ -191,6 +191,7 @@ export default {
     // console.log('$auth.isLoading default layout: ', this.$auth.isLoading)
     if (this.$auth.isLoading === false) {
       this.cargarPermisos()
+      this.cargarUsuarioLogin()
     }
   },
   methods: {
