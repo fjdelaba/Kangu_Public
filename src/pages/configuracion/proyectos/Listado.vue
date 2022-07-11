@@ -1,12 +1,13 @@
 <template>
 
   <v-container>
-    <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
     <v-row>
       <v-col>
-        <h2 v-if="detalle == false">LISTADO DE PROYECTOS</h2>
-        <h2 v-if="detalle == true">DETALLE DEL PROYECTO SELECCIONADO</h2>
+        <h2>LISTADO DE PROYECTOS</h2>
       </v-col>
+    </v-row>
+    <v-row class="mb-6" no-gutters>
+      <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
     </v-row>
     <v-row class="mb-6" no-gutters>
       <v-col >   

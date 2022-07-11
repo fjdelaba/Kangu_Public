@@ -78,10 +78,9 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      console.log("this.idproyectoSeleccionado", this.idproyecto)
-      console.log("this.idproyectocreado", this.id)
+      console.log("this.idproyectoSeleccionado", this.$route.query.id)
       if (this.detalle == true) {
-        this.proyectoSeleccionado = this.idproyecto
+        this.proyectoSeleccionado = this.$route.query.id
         this.cargarAprobadores()
         this.cargarUsuariosTotal()
       }

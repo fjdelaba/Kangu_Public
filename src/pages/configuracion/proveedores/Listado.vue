@@ -1,15 +1,11 @@
 <template>
-  <h2>
-    Listado Proveedor
-  </h2>
+  <v-container>
+    <h2>
+      Listado Proveedor
+    </h2>
+    <tabla-listado></tabla-listado>
+  </v-container>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
+<script src="./listado/Listado.js"></script>
+<style scoped src="./listado/Listado.css"></style>

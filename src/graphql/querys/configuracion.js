@@ -194,6 +194,18 @@ query Q_GET_PERMISO($id_usuario: bigint!) {
   }
 }
 `
+const GET_PROVEEDORES = gql`
+query Q_GET_PROVEEDORES($emp: bigint!) {
+    kangusoft_ent(where: {emp_fk: {_eq:  $emp}}) {
+    id
+    activo
+    direccion
+    razon_social
+    rut
+    fec_creacion
+  }
+}
+`
 const GET_USUARIO_LOGIN = gql`
 query Q_GET_USUARIO_LOGIN($id_usuario: bigint!) {
   kangusoft_usu(where: {id: {_eq: $id_usuario}}) {
@@ -222,4 +234,4 @@ query Q_GET_USUARIO_LOGIN($id_usuario: bigint!) {
 
 `
  
-export { GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO,GET_EXISTE_USUARIO, GET_PERMISOS, GET_USUARIO_LOGIN }
+export { GET_PROVEEDORES,GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO,GET_EXISTE_USUARIO, GET_PERMISOS, GET_USUARIO_LOGIN }
