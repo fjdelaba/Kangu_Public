@@ -53,6 +53,14 @@ export default [
     children: [...todoRoutes]
   },
   {
+    path: '/configuracion/proveedores/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-todo" */ '@/pages/configuracion/proveedores/Detalle.vue'
+      ),
+    children: [...todoRoutes]
+  },
+  {
     path: '/configuracion/mantenedores',
     component: () =>
       import(
