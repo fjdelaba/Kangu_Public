@@ -6,7 +6,7 @@
       </div></div>
     <div v-else>
       <div class="text-jsutify w-full error-page pa-1">
-        <div class="error_img"><v-img src="../../../assets/images/error.png" max-height="220" contain  /></div>
+        <div class="error_img"><v-img src="../../../assets/images/permiso.png" max-height="220" contain  /></div>
   
          <div class="error_permisos" ><center><h1>OOPS!!!</h1></center> <br>
      <h3>No tienes permisos para ver está página. </h3> <br><h3>Contacta al administrador de Kangusoft si necesitas tener habilitada esta página.</h3> <br><br> </div>
@@ -19,6 +19,7 @@
 
 <script>
 export default {
+
 }
 </script>
 <style>

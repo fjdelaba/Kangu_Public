@@ -1,8 +1,7 @@
 <template>
   <div class="my-2">
     <div>
-      <v-card :loading="loadingDatosGenerales" :disabled="loadingDatosGenerales">
-        
+      <v-card>
         <!-- <v-card-title>Información del usuario</v-card-title> -->
         <v-card-text>
           <div class="d-flex flex-column flex-sm-row">
