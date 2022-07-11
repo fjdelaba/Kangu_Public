@@ -89,9 +89,11 @@
             ></v-text-field>
             <v-row align="center" justify="space-around">
               <div class="mt-2">
-                <v-btn color="primary" small @click="editarUsuario()"
-                  >Editar</v-btn
-                >
+                <v-btn
+                  color="primary"
+                  small
+                  @click="editarUsuario()"
+                >Editar</v-btn>
               </div>
             </v-row>
           </div>
@@ -195,7 +197,7 @@
 <script>
 export default {
   data() {
-    return {};
-  },
-};
+    return {}
+  }
+}
 </script>
