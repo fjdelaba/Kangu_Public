@@ -118,6 +118,16 @@ query Q_GET_ESTADO_OC{
 }
 `
 
+const GET_MONTO_COMPRADOR = gql`
+query Q_GET_MONTO($id_usuario: bigint!, $flujo: Boolean!, $id_proyecto: bigint!) {
+  kangusoft_apr(where: {usu_apro_fk: {_eq: $id_usuario}, flujo: {_eq: $flujo}, pro_fk: {_eq: $id_proyecto}}) {
+    id
+    usu_fk
+    monto
+  }
+}
+`
+
 const GET_OC_DETALLE = gql`
 query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
   kangusoft_oc_det(where: {oc_fk: $oc_fk}) {
@@ -185,8 +195,20 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
       id
       nombre
     }
+    apr_pros {
+      id
+      aprobado
+      comentario
+      apr {
+        usuByUsuAproFk {
+          nombre
+          apellidos
+        }
+        id
+      }
+    }
   }
 }
 `
 
-export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL }
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR }

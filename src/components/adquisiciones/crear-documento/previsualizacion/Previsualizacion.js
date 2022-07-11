@@ -19,7 +19,8 @@ export default {
     listaPartidas: [],
     consultas:"",
     aprobacion:"",
-    regla:[]
+    regla:[],
+    aprobadores:[],
   },
 
   data() {
@@ -56,27 +57,27 @@ export default {
       ],
       tab: 'documento',
       comentarioAprobadores: '',
-      aprobadores:[],
       apruebo:"a",
       respuesta:"1",
-      resumenesTotales:""
+      resumenesTotales:"",
+      comentario: ''
     }},
   methods: {
-    async cargarAprobadores() {
-      this.aprobadores = []
-      const { data:{ kangusoft_apr } } = await getAprobadoresProyecto()
+    // async cargarAprobadores() {
+    //   this.aprobadores = []
+    //   const { data:{ kangusoft_apr } } = await getAprobadoresProyecto()
 
-      for (const apro of kangusoft_apr) {
-        this.aprobadores.push({ nombre:`${apro.usuByUsuAproFk.nombre} ${apro.usuByUsuAproFk.apellidos}`, id:apro.id })
-      }
-      console.log('this.aprobadores: ', this.aprobadores)
-    },
+    //   for (const apro of kangusoft_apr) {
+    //     this.aprobadores.push({ nombre:`${apro.usuByUsuAproFk.nombre} ${apro.usuByUsuAproFk.apellidos}`, id:apro.id })
+    //   }
+    //   console.log('this.aprobadores: ', this.aprobadores)
+    // },
     changeTab() {
       console.log('change')
     },
     clickTab() {
       console.log('click')
-      this.cargarAprobadores()
+      // this.cargarAprobadores()
     },
     getNombrePartida(idPartida) {
       const searchObject = this.listaPartidas.find((partida) => {

@@ -11,7 +11,7 @@
           style="min-width: 850px;"
           class="flex-grow-0 flex-shrink-1 w-full"
         >
-          <!-- {{ pasoStep }} -->
+          {{ pasoStep }}
           <v-stepper v-model="pasoStep" class="flex-grow-1">
             <v-stepper-header>
               <v-stepper-step
@@ -64,7 +64,13 @@
               </v-stepper-content>
 
               <v-stepper-content step="4">
-                <previsualizacion :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.listaPartidas" :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista_detalle" :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab" :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"></previsualizacion>
+                <previsualizacion
+                  :aprobadores="flujoModal"
+                  :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.listaPartidas"
+                  :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista_detalle"
+                  :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab"
+                  :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"
+                ></previsualizacion>
               </v-stepper-content>
             </v-stepper-items>
             <v-btn
@@ -92,7 +98,13 @@
         max-width="550"
         persistent
       >
-        <DialogFinalDocumento :correo="email" :cerrar-dialog="cerrarModal" :titulo="`Orden de compra creda: ${identificacion}`" :texto="`La orden de compra ${identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`"></DialogFinalDocumento>
+        <DialogFinalDocumento
+          :correo="email"
+          :cerrar-dialog="cerrarModal"
+          :titulo="cpxTituloModalFinal"
+          :texto="cpxTextoModalFinal"
+          :aprobada="flujoModal.length > 0"
+        ></DialogFinalDocumento>
       </v-dialog> 
       <v-dialog
         v-model="dialogBorrador"
@@ -114,9 +126,10 @@ import CrearDocumento from '../../../components/adquisiciones/crear-documento/Cr
 import AgregarMaterial from '../../../components/adquisiciones/crear-documento/agregar-materiales/AgregarMaterial.vue'
 import InformacionGeneral from '../../../components/adquisiciones/crear-documento/informacion-general/InformacionGeneral.vue'
 import Previsualizacion from '../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
-import { postCabeceraOC, updateCabeceraOC, updateOCInformacionGeneral } from '../../../graphql/adquisiciones'
+import { getMontoComprador, postCabeceraOC, updateCabeceraOC, updateOCInformacionGeneral } from '../../../graphql/adquisiciones'
 import DialogFinalDocumento from '../../../components/adquisiciones/dialog-final-documento/DialogFinalDocumento.vue'
 import DialogBorradorVue from '../../../components/adquisiciones/dialog-borrador/DialogBorrador.vue'
+import { getFlujoAprobadoresProyecto } from '../../../graphql/aprobaciones'
 
 export default {
   components: {
@@ -138,7 +151,11 @@ export default {
       email:'',
       loader: null,
       disabledBotonSiguiente: false,
-      dialogBorrador: false
+      dialogBorrador: false,
+      iva: 0,
+      neto: 0,
+      flujoModal: [],
+      flujoDocumento: []
     }
   },
   computed: {
@@ -148,6 +165,20 @@ export default {
       } else {
         return 'Enviar'
       }   
+    },
+    cpxTituloModalFinal () {
+      if (this.flujoModal.length > 0) {
+        return 'Orden de compra en espera de aprobacion'
+      } else {
+        return `Orden de compra creda: ${this.identificacion}`
+      }
+    },
+    cpxTextoModalFinal() {
+      if (this.flujoModal.length > 0) {
+        return 'Una vez que que esta orden de compre se aprobada, se te noficará mediante un mensaje en la seccion Notificaciones'
+      } else {
+        return `La orden de compra ${this.identificacion} fue creada exitosamente. Si no deseas hacer un envio inmediato al proveedor, quita la seleccion que esta abajo`
+      }
     }
   },
   mounted() {
@@ -239,6 +270,10 @@ export default {
           console.log('por aca no')
         }
       } else if (this.pasoStep === 2) {
+        this.flujoModal = []
+        this.flujoDocumento = []
+        this.neto = 0
+        this.iva = 0
         // eslint-disable-next-line no-constant-condition
         // if (true) {
         //   this.pasoStep = this.pasoStep + 2
@@ -246,44 +281,96 @@ export default {
         //   this.pasoStep++
         // }
         // this.pasoStep++
+
+        const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
+        
+        console.log('totales: ', totales)
+        for (const tot of totales) {
+          // console.log('tot: ', tot)
+          // eslint-disable-next-line eqeqeq
+          if (tot.item == 'Neto') {
+            this.neto = tot.valor
+          // eslint-disable-next-line eqeqeq
+          } else if (tot.item == 'IVA') {
+            this.iva = tot.valor
+          }
+        }
+
+        const { data: { kangusoft_apr } } = await getMontoComprador(this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false)
+
+        console.log('kangusoft_apr[0].monto: ', kangusoft_apr[0])
+        if (this.neto < kangusoft_apr[0].monto) {
+          console.log('Sin Flujo')
+        } else {
+          console.log('Con Flujo')
+          const aprobadores = await getFlujoAprobadoresProyecto(this.pro_fk, 3)
+
+          console.log('aprobadores.data_ ', aprobadores.data.kangusoft_apr)
+          const arregloAprobadores = aprobadores.data.kangusoft_apr.sort(({ monto:a }, { monto:b }) => a - b)
+
+          console.log('arregloAprobadores: ', arregloAprobadores)
+          // if (arregloAprobadores > 0) {
+          //   for (const apro of arregloAprobadores) {
+          //     console.log(apro)
+          //     if (apro.usu_apro_fk === this.$store.state.app.datosUsuario.user_id) continue
+          //     if (this.neto > apro.monto) {
+          //       this.flujoModal.push({ nombre:`${apro.usuByUsuAproFk.nombre} ${apro.usuByUsuAproFk.apellidos}`, id:apro.id , monto: apro.monto })
+          //     } else if (this.neto < apro.monto) {
+          //       this.flujoModal.push({ nombre:`${apro.usuByUsuAproFk.nombre} ${apro.usuByUsuAproFk.apellidos}`, id:apro.id })
+          //       break
+          //     }
+          //   }
+          // } else {
+          //   console.log('no tiene lineas')
+          // }
+          if (arregloAprobadores.length > 0) {
+            for (const apro in arregloAprobadores) {
+              console.log(arregloAprobadores[apro])
+              if (arregloAprobadores[apro].usu_apro_fk === this.$store.state.app.datosUsuario.user_id) continue
+              if (this.neto > arregloAprobadores[apro].monto) {
+                this.flujoModal.push({ nombre:`${arregloAprobadores[apro].usuByUsuAproFk.nombre} ${arregloAprobadores[apro].usuByUsuAproFk.apellidos}`, id:arregloAprobadores[apro].id , monto: arregloAprobadores[apro].monto })
+                this.flujoDocumento.push({ apr_fk: arregloAprobadores[apro].id, orden: (Number(apro) + 1) })
+              } else if (this.neto < arregloAprobadores[apro].monto) {
+                this.flujoModal.push({ nombre:`${arregloAprobadores[apro].usuByUsuAproFk.nombre} ${arregloAprobadores[apro].usuByUsuAproFk.apellidos}`, id:arregloAprobadores[apro].id })
+                this.flujoDocumento.push({ apr_fk: arregloAprobadores[apro].id, orden: (Number(apro) + 1) })
+                break
+              }
+            }
+          } else {
+            console.log('no tiene lineas')
+          }
+        }
+        console.log('flujoDocumento: ', this.flujoDocumento)
+        console.log('flujoModal: ', this.flujoModal)
+
         if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
           this.pasoStep = this.pasoStep + 2
         }
         console.log('de paso 2 a paso 3')
       } else if (this.pasoStep === 3) {
+        console.log('paso 3')
         this.pasoStep++
         console.log('finalizar')
       } else if (this.pasoStep === 4) {
+        console.log('paso 4')
         this.email = this.$refs.refinformaciongeneraldoc.oc_cab.contacto.email
         console.log('this.email: ', this.email)
-        const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
 
-        console.log('totales: ', totales)
-        let iva = 0
-        let neto = 0
+        // return
 
-        for (const tot of totales) {
-          console.log('tot: ', tot)
-          // eslint-disable-next-line eqeqeq
-          if (tot.item == 'Neto') {
-            neto = tot.valor
-          // eslint-disable-next-line eqeqeq
-          } else if (tot.item == 'IVA') {
-            iva = tot.valor
-          }
-        }
-        
+        // // eslint-disable-next-line no-unreachable
         const obj = {
           oc_fk: this.oc_id ,	
           comentario:this.$refs.refAgregarMaterial.comentarioDocumento,
-          est_doc_fk: 1, 
+          est_doc_fk: this.flujoModal.length > 0 ? 1 : 2, 
           pro_fk: this.pro_fk,
-          neto,
-          iva
+          neto: this.neto,
+          iva: this.iva
         }
 
         console.log('obj: ', obj)
-        const { data: { update_oc_cabecera: { identificacion } } } = await updateCabeceraOC(obj)
+        console.log('this.flujoDocumento: ', this.flujoDocumento)
+        const { data: { update_oc_cabecera: { identificacion } } } = await updateCabeceraOC(obj, this.flujoDocumento)
         
         this.identificacion = identificacion
         // this.pasoStep++

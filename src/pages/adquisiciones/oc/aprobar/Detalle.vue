@@ -11,7 +11,13 @@
       >
         <div>
           <h2>Detalle Aprobar</h2>
-          <previsualizacion :materiales="materialesOcSeleccionada" :cabecera="cabecera" observacion="" :aprobacion="aprobacion"></previsualizacion>
+          <previsualizacion
+            :materiales="materialesOcSeleccionada"
+            :cabecera="cabecera"
+            observacion=""
+            :aprobacion="aprobacion"
+            :aprobadores="aprobadores"
+          ></previsualizacion>
         </div>
       </v-col>
     </v-row>

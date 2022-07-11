@@ -40,13 +40,20 @@ export default {
 
       },
       comentarioOcSeleccionada:"",
-      aprobacion:true
+      aprobacion:true,
+      aprobadores: []
     }
   },
   methods: {
     async cargarMaterialesOc(){
+      this.aprobadores = []
         const { data: {kangusoft_oc_det,kangusoft_oc} } = await getDetalleOC(this.idOcSeleccionada.id)
         console.log("MATERIALES:",kangusoft_oc_det)
+        for(let apro of kangusoft_oc[0].apr_pros){
+          console.log("apro: ", apro)
+          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado})
+        }
+        console.log('this.aprobadores: ', this.aprobadores)
         this.materialesOcSeleccionada = kangusoft_oc_det
         console.log("OC:", kangusoft_oc[0])
         this.cabecera.nombre = kangusoft_oc[0].nombre

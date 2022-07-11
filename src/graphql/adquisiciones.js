@@ -1,5 +1,5 @@
 import { apolloClient } from '../client'
-import { GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL } from './querys/adquisiciones'
+import { GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR } from './querys/adquisiciones'
 import { INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
@@ -59,12 +59,26 @@ export const getDetalleOC = async (oc_fk) => {
   })
 }
 
-export const updateCabeceraOC = async (cabecera) => {
+export const getMontoComprador = async (id_usuario, id_proyecto, flujo) => {
+
+  return await apolloClient.query({
+    query: GET_MONTO_COMPRADOR,
+    variables: {
+      id_usuario,
+      flujo,
+      id_proyecto
+    },
+    fetchPolicy:'network-only'
+  })
+}
+
+export const updateCabeceraOC = async (cabecera, flujoCompra) => {
 
   return await apolloClient.mutate({
     mutation: UPDATE_CABECERA_OC,
     variables: {
-      cabecera
+      cabecera,
+      flujoCompra
     }
   })
 }

@@ -1,22 +1,21 @@
 <template>
   <div class="" >
-  <v-card>
-    <v-tabs
-      v-model="tab"
-      grow
-      
-    >
-      <v-tabs-slider></v-tabs-slider>
+    <v-card>
+      <v-tabs
+        v-model="tab"
+        grow
+      >
+        <v-tabs-slider></v-tabs-slider>
 
-      <v-tab href="#documento" >
-        Documento
-      </v-tab>
+        <v-tab href="#documento" >
+          Documento
+        </v-tab>
 
-      <v-tab href="#flujo" @click="clickTab()" @change="changeTab()">
-        Flujo y Distribucion
-      </v-tab>
+        <v-tab href="#flujo" @click="clickTab()" @change="changeTab()">
+          Flujo y Distribucion
+        </v-tab>
 
-    </v-tabs>
+      </v-tabs>
     </v-card>
 
     <!-- <v-tabs
@@ -338,52 +337,52 @@
               
               <v-row justify="end" height="100">
                 <v-col lg="3" md="5" class="py- py- pr- pl-16" >
-                <v-speed-dial
-                  v-model="fab"
-                  :top="top"
-                  :bottom="bottom"
-                  :right="right"
-                  :left="left"
-                  :direction="direction"
-                  :open-on-hover="hover"
-                  :transition="transition"
-                >
-                  <template v-slot:activator>
+                  <v-speed-dial
+                    v-model="fab"
+                    :top="top"
+                    :bottom="bottom"
+                    :right="right"
+                    :left="left"
+                    :direction="direction"
+                    :open-on-hover="hover"
+                    :transition="transition"
+                  >
+                    <template v-slot:activator>
+                      <v-btn
+                        v-model="fab"
+                        color="blue darken-2"
+                        dark
+                        fab
+                        elevation="24"
+                      >
+                        <v-icon v-if="fab">
+                          mdi-close
+                        </v-icon>
+                        <v-icon v-else>
+                          mdi-file-document-outline
+                        </v-icon>
+                      </v-btn>
+                    </template>
                     <v-btn
-                      v-model="fab"
-                      color="blue darken-2"
-                      dark
                       fab
+                      dark
+                      small
                       elevation="24"
+                      color="green"
+                      @click="descargarOcPDF()"
                     >
-                      <v-icon v-if="fab">
-                        mdi-close
-                      </v-icon>
-                      <v-icon v-else>
-                        mdi-file-document-outline
-                      </v-icon>
+                      <v-icon>mdi-file-download-outline</v-icon>
                     </v-btn>
-                  </template>
-                  <v-btn
-                    fab
-                    dark
-                    small
-                    elevation="24"
-                    color="green"
-                    @click="descargarOcPDF()"
-                  >
-                    <v-icon>mdi-file-download-outline</v-icon>
-                  </v-btn>
-                  <v-btn
-                    fab
-                    dark
-                    small
-                    elevation="24"
-                    color="indigo"
-                  >
-                    <v-icon>mdi-share-all</v-icon>
-                  </v-btn>
-                </v-speed-dial>
+                    <v-btn
+                      fab
+                      dark
+                      small
+                      elevation="24"
+                      color="indigo"
+                    >
+                      <v-icon>mdi-share-all</v-icon>
+                    </v-btn>
+                  </v-speed-dial>
                 </v-col>
               </v-row>
             </v-row>
@@ -391,35 +390,42 @@
         </v-card>
       </v-tab-item>
 
+      <v-tab-item
+        value="flujo"
+        class="mb-6 pb-6"
+      >
         <v-row dense class="px-7 align-center mt-1">
-            <v-btn
-              color="success"
-              @click="aprueboOc()"
-            >Aprobar
-            </v-btn>
-            <v-spacer></v-spacer>
-            <v-col  cols="1" class="d-flex text-right align-center">
+          <v-btn
+            color="success"
+            @click="aprueboOc()"
+          >Aprobar
+          </v-btn>
+          <v-spacer></v-spacer>
+          <v-col cols="1" class="d-flex text-right align-center">
             <v-btn
               class="mr-1"
               color="error"
               @click="rechazoOc()"
             >Rechazar
             </v-btn>
-            </v-col>
-          </v-row >
-
-      <v-tab-item
-        value="flujo"
-        class="mb-6 pb-6"
-      >
-
+          </v-col>
+        </v-row >
+        <v-row dense class="px-7 align-center mt-1">
+          <v-textarea
+            label="Comentario"
+            auto-grow
+            outlined
+            rows="2"
+            row-height="15"
+          ></v-textarea>
+        </v-row>
         <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
         <v-row v-if="aprobacion == true">
           <v-divider></v-divider>
+          <!-- <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider>
-          <v-divider></v-divider>
-          <v-divider></v-divider>
+          <v-divider></v-divider> -->
         </v-row>
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts

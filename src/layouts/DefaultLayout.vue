@@ -152,7 +152,7 @@ import ToolbarLanguage from '../components/toolbar/ToolbarLanguage'
 import ToolbarCurrency from '../components/toolbar/ToolbarCurrency'
 import ToolbarNotifications from '../components/toolbar/ToolbarNotifications'
 
-import { getPermisos } from '../graphql/configuracion'
+import { getPermisos, getUsuarioLogin } from '../graphql/configuracion'
 
 export default {
   components: {
@@ -183,6 +183,7 @@ export default {
       console.log(`DEFAULT LAYOUT ${newCount} fruits now, yay!. ${oldCount}`)
       // this.cargarDatosUsuario()
       this.cargarPermisos()
+      this.cargarUsuarioLogin()
     }
   },
   mounted() {
@@ -196,6 +197,12 @@ export default {
     onKeyup(e) {
       this.$refs.search.focus()
     },
+    async cargarUsuarioLogin() {
+      const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
+
+      console.log('usuarioLogin: ', usuarioLogin.data.kangusoft_usu[0])
+      this.$store.dispatch('app/setUsuario', usuarioLogin.data.kangusoft_usu[0])
+    },  
     async cargarPermisos() {
       // console.log('cargarPermisos DEFAULT LAYOUT')
       // console.log('this.$store.state.app.datosUsuario.user_id: ', this.$store.state.app.datosUsuario.user_id)

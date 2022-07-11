@@ -1,24 +1,32 @@
 <template>
   <div>
-    <!-- apro: {{ aprobadores }} -->
-    <v-stepper alt-labels>
-      <v-stepper-header>
-        <div v-for="(item, index) in aprobadores" :key="index">
-          <v-stepper-step
-            step=""
-            :complete="origen == 1 ? true : item.aprobado"
-          >
-            <!-- <template #icon="step">
+    <v-row
+      v-if="aprobadores.length > 0"
+      align="center"
+      justify="center"
+    >
+      <v-col :cols="12" lg="8" align-self="center">
+        <v-stepper alt-labels>
+          <v-stepper-header>
+            <div v-for="(item, index) in aprobadores" :key="index">
+              <v-stepper-step
+                step=""
+                complete
+                :editable="getAprobadorRechazadoEsperando(item)"
+                :edit-icon="getIconoRechazadoEsperando(item)"
+                complete-icon="check"
+              > 
+                <!-- <template #icon="step">
               <v-icon v-if="step.aprobado">mdi-close</v-icon>
               <v-icon v-else>mdi-plus</v-icon>
               //Etc ...
             </template>
             {{ item.nombre }} {{ step }} -->
-            {{ item.nombre }}
-          </v-stepper-step>
-          <v-divider></v-divider>
-        </div>
-        <!-- <v-stepper-step step="2">
+                {{ item.nombre }}
+              </v-stepper-step>
+              <v-divider></v-divider>
+            </div>
+          <!-- <v-stepper-step step="2">
           Santiago Perez
         </v-stepper-step>
 
@@ -27,9 +35,17 @@
         <v-stepper-step step="3">
           Alex De La Barra
         </v-stepper-step> -->
-      </v-stepper-header> 
-    </v-stepper>
-
+          </v-stepper-header> 
+        </v-stepper>
+      </v-col>
+    </v-row>  
+    <v-row
+      v-else
+      align="center"
+      justify="center"
+    >
+      No existe flujo para esta oc
+    </v-row>
   </div>
 </template>
 

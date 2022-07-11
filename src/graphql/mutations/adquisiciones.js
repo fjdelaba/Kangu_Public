@@ -22,8 +22,8 @@ mutation M_INSERT_DETALLE_OCN($detalle: OcDetalleInput!, $detalle_partida: [OcDe
 `
 
 const UPDATE_CABECERA_OC = gql`
-mutation M_UPDATE_CABECERA_OC($cabecera: OcCabeceraInput!) {
-  update_oc_cabecera(cabecera: $cabecera) {
+mutation M_UPDATE_CABECERA_OC($cabecera: OcCabeceraInput!, $flujoCompra: [FlujoCompraInput]!) {
+  update_oc_cabecera(cabecera: $cabecera, flujoCompra: $flujoCompra) {
     id
     identificacion
   }

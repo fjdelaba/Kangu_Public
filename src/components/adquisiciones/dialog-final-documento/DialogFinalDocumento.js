@@ -4,7 +4,11 @@ export default {
     titulo:String,
     texto: String,
     cerrarDialog: { type: Function },
-    correo: String
+    correo: String,
+    aprobada:{
+      type: Boolean,
+      default: false
+    } 
   },
   data() {
     return {

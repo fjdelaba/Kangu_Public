@@ -9,9 +9,18 @@
           offset-x="10"
           offset-y="10"
         >
-          <v-avatar size="40">
-            <v-img src="/images/avatars/avatar1.svg"></v-img>
-          </v-avatar>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-avatar size="40">
+                <v-img
+                  src="/images/avatars/avatar1.svg"
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-img>
+              </v-avatar>
+            </template>
+            <span> - {{ $store.state.app.usuario.nombre }} {{ $store.state.app.usuario.apellidos }} <br/> - {{$store.state.app.usuario.cargo}}</span>
+          </v-tooltip>
         </v-badge>
       </v-btn>
     </template>

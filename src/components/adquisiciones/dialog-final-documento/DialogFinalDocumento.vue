@@ -8,6 +8,7 @@
       {{ texto }}
       <v-divider></v-divider>
       <v-checkbox
+        v-if="!aprobada"
         v-model="enviarCorreo"
         :label="cpxTextoEnviarCorreo"
       ></v-checkbox>

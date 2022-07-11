@@ -37,6 +37,9 @@ export default {
   setPermisosUsuario: (state, payload) => {
     state.permisosUsuario = payload
   },
+  setUsuario: (state, payload) => {
+    state.usuario = payload
+  },
   /**
    * Theme and Layout
    */

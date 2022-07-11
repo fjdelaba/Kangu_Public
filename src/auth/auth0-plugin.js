@@ -97,7 +97,7 @@ export const useAuth0 = ({
         } finally {
           this.isAuthenticated = await this.auth0Client.isAuthenticated()
           this.user = await this.auth0Client.getUser()
-          // console.log('USER : ', this.user)
+          console.log('USER : ', this.user)
           // console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
           const val = this.user['https://kangusoft.cl/jwt/hasura'].user_tenant
   
