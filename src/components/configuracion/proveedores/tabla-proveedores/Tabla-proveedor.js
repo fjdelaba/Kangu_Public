@@ -33,7 +33,7 @@ export default {
         },
         cargarDetalle(id){
             this.$router.push({
-                path: "configuracion/proveedores/detalle",
+                path: "proveedores/detalle",
                 query: { id: Number(id),}
             });
         }

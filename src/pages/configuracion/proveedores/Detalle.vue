@@ -1,15 +1,12 @@
 <template>
-  <h2>
-    Detalle Proveedor
-  </h2>
+  <v-container>
+    <h2>
+      Detalle Proveedor
+    </h2>
+    <detalle></detalle>
+  </v-container>
+
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
+<script src="./detalle/Detalle.js"></script>
+<style scoped src="./detalle/Detalle.css"></style>
