@@ -1,96 +1,126 @@
 /* eslint-disable */
-import { getProveedorSeleccionado} from '../../../../graphql/configuracion'
+import { getProveedorSeleccionado, updateContactoProveedor, postContactoProveedor } from '../../../../graphql/configuracion'
 export default {
-    components: {
+  components: {
+  },
+  mounted() {
+    this.idProveedor = this.$route.query.id
+    this.cargarDetalleProveedor()
+    this.datosUsuario = this.$store.state.app.datosUsuario.user_id
+  },
+  data() {
+    return {
+      datosUsuario:"",
+      edicion: false,
+      idProveedor: "",
+      proveedor: {
+        razon_social: "",
+        rut: "",
+        activo: "",
+        emailDte: "",
+        emailContacto: "",
+        giro: "",
+        direccion: "",
+      },
+      contactosProveedor: [],
+      proveedorCopy: {},
+      panel: [-1],
+      breadcrumbs: [
+        {
+          text: 'Proveedores',
+          to: '/configuracion/proveedores',
+          exact: true
+        },
+        {
+          text: 'Detalle de Usuario'
+        }
+      ],
+      dialog: false,
+      contactoSeleccionado: {
+        email: "",
+        nombre: "",
+        id: ""
+      },
+      nuevoContactoProveedor: {
+        email: "",
+        nombre: "",
+      },
+      dialogDesactivar: false,
+      dialogCrearContacto: false,
+    };
+  },
+  methods: {
+    //CARGAR DATA PROVEEDOR
+    async cargarDetalleProveedor() {
+      const { data: { kangusoft_ent } } = await getProveedorSeleccionado(this.idProveedor);
+      console.log("Proveedor Seleccionado:", kangusoft_ent[0])
+      this.proveedor.razon_social = kangusoft_ent[0].razon_social
+      this.proveedor.rut = kangusoft_ent[0].rut
+      this.proveedor.activo = kangusoft_ent[0].activo
+      // this.proveedor.emailDte = kangusoft_ent[0].
+      this.proveedor.emailContacto = kangusoft_ent[0].email_contacto
+      if (kangusoft_ent[0].direccion == null) {
+        this.proveedor.direccion = 'Sin Direccion'
+      } else {
+        this.proveedor.direccion = kangusoft_ent[0].direccion
+      }
+      if (kangusoft_ent[0].giro == null) {
+        this.proveedor.giro = 'Sin Giro'
+      } else {
+        this.proveedor.giro = kangusoft_ent[0].giro
+      }
+      this.contactosProveedor = kangusoft_ent[0].ent_cons
+
+      this.proveedorCopy = this.proveedor
+      console.log("COpia", this.contactosProveedor)
     },
-    mounted() {
-      this.idProveedor = this.$route.query.id
+    //EDICION  PROVEEDOR
+    editarProveedor() {
+      this.edicion = true
+      this.proveedorCopy.rut = this.proveedor.rut
+      this.proveedorCopy.razon_social = this.proveedor.razon_social
+    },
+    cancelarEdicionProveedor() {
+      this.edicion = false
       this.cargarDetalleProveedor()
     },
-    data() {
-        return {
-           edicion:false,
-           idProveedor:"",
-           proveedor:{
-            razon_social:"",
-            rut:"",
-            activo:"",
-            emailDte:"",
-            emailContacto:"",
-            giro:"",
-            direccion:"",
-           },
-           contactosProveedor:[],
-           proveedorCopy:{},
-           panel: [-1],
-           breadcrumbs: [
-            {
-              text: 'Proveedores',
-              to: '/configuracion/proveedores',
-              exact: true
-            },
-            {
-              text: 'Detalle de Usuario'
-            }
-          ],
-          dialog:false,
-          contactoSeleccionado:{
-            email:"",
-            nombre:""
-          },
-          dialogDesactivar:false,
-        };
+    cambiarEstadoProvedoor() {
+      this.dialogDesactivar = true
     },
-    methods: {
-        //CARGAR DATA PROVEEDOR
-      async cargarDetalleProveedor(){
-        const {data: { kangusoft_ent } } = await getProveedorSeleccionado(this.idProveedor);
-        console.log("Proveedor Seleccionado:",kangusoft_ent[0])
-        this.proveedor.razon_social = kangusoft_ent[0].razon_social
-        this.proveedor.rut = kangusoft_ent[0].rut
-        this.proveedor.activo = kangusoft_ent[0].activo
-        // this.proveedor.emailDte = kangusoft_ent[0].
-        this.proveedor.emailContacto = kangusoft_ent[0].email_contacto
-        if(kangusoft_ent[0].direccion == null){
-            this.proveedor.direccion = 'Sin Direccion'
-        }else{
-            this.proveedor.direccion = kangusoft_ent[0].direccion
-        }
-        if(kangusoft_ent[0].giro == null){
-            this.proveedor.giro = 'Sin Giro'
-        }else{
-            this.proveedor.giro = kangusoft_ent[0].giro
-        }
-       this.contactosProveedor = kangusoft_ent[0].ent_cons
-
-        this.proveedorCopy = this.proveedor
-        console.log("COpia", this.contactosProveedor)
-      },
-        //EDICION  PROVEEDOR
-      editarProveedor(){
-        this.edicion=true
-        this.proveedorCopy.rut = this.proveedor.rut
-        this.proveedorCopy.razon_social = this.proveedor.razon_social
-      },
-      cancelarEdicionProveedor(){
-        this.edicion = false
-        this.cargarDetalleProveedor()
-      },
-      cambiarEstadoProvedoor(){
-            this.dialogDesactivar  = true  
-      },
-      //EDICION CONTACTO PROVEEDOR
-      editarContacto(item){
-        this.dialog=true
-       console.log("ITEM EDIT",item)
-       this.contactoSeleccionado.email = item.email
-       this.contactoSeleccionado.nombre = item.nombre
-      },
-      guardarEdicionContacto(){
-       console.log(" this.contactoSeleccionado", this.contactoSeleccionado)
-       this.dialog = false
-      },
-
+    //EDICION - CREACION CONTACTO PROVEEDOR
+    editarContacto(item) {
+      this.dialog = true
+      console.log("ITEM EDIT", item)
+      this.contactoSeleccionado.email = item.email
+      this.contactoSeleccionado.nombre = item.nombre
+      this.contactoSeleccionado.id = item.id
+    },
+    async guardarEdicionContacto() {
+      console.log(" this.contactoSeleccionado", this.contactoSeleccionado)
+      this.dialog = false
+      try {
+        const resp = await updateContactoProveedor(this.contactoSeleccionado.id, this.contactoSeleccionado.nombre, this.contactoSeleccionado.email)
+        console.log('resp datos contacto: ', resp)
+      } catch (error) {
+        console.log('error: ', error)
+      }
+    },
+    async crearNuevoContacto() {
+      this.dialogCrearContacto = false
+      try {
+      const { data } = await postContactoProveedor(
+      this.nuevoContactoProveedor.email,
+      this.idProveedor,
+      this.nuevoContactoProveedor.nombre,
+      this.datosUsuario 
+      );
+      console.log(data);
+    } catch (error) {
+      console.log('error: ', error)
+    } 
+    this.contactosProveedor.push(this.nuevoContactoProveedor)
      
     }
+
+  }
 }

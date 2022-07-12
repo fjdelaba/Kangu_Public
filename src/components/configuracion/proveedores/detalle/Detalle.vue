@@ -100,8 +100,13 @@
         <v-expansion-panels v-model="panel" multiple class="mt-3">
           <v-expansion-panel v-model="panel" multiple class="mt-3">
             <v-expansion-panel-header class="title">
-              Contactos     <v-btn color="red" text @click="close"> Agregar Contacto</v-btn></v-expansion-panel-header>
+              Contactos    </v-expansion-panel-header>
             <v-expansion-panel-content class="body-2">
+              <v-btn
+                depressed
+                color="primary"
+                @click="dialogCrearContacto = true"
+              > Agregar Contacto</v-btn> 
               <v-row>
                 <v-col
                   v-for="item in contactosProveedor"
@@ -111,7 +116,7 @@
                 >
                   <v-card
                     class="my-2"
-                    max-width="200"
+                    max-width="290"
                   >
                     <template slot="progress">
                       <v-progress-linear
@@ -147,6 +152,7 @@
                 </v-col>
               </v-row>
               <v-row justify="center">
+                <!--!> DIALOGO PARA EDITAR CONTACTOS <-->
                 <v-dialog v-model="dialog" persistent max-width="500">
                   <v-card>
                     <v-card-title class="text-h5">
@@ -188,11 +194,53 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
+                
+                <!--!>DIALOG CREACION CONTACTO<-->
+                <v-dialog v-model="dialogCrearContacto" persistent max-width="500">
+                  <v-card>
+                    <v-card-title class="text-h5">
+                      Creación de Contacto
+                    </v-card-title>
+                    <v-card-text>Aqui podras crear un nuevo contacto al proveedor seleccionado</v-card-text>
+                    <v-card-actions>
+                      <v-card-text>
+                        <div class="flex-grow-1 pt-2 pa-sm-2">
+                          <v-text-field
+                            v-model="nuevoContactoProveedor.nombre"
+                            dense
+                            label="Nombre"
+                            outlined
+                          ></v-text-field>
+                          <v-text-field
+                            v-model="nuevoContactoProveedor.email"
+                            label="Email"
+                            dense
+                            outlined
+                          ></v-text-field>
+                          <v-btn
+                           
+                            color="green darken-1"
+                            text
+                            @click="dialogCrearContacto = false"
+                          >
+                            Cancelar
+                          </v-btn>
+                          <v-btn
+                            color="green darken-1"
+                            text
+                            @click="crearNuevoContacto()"
+                          >
+                            Agregar
+                          </v-btn></div></v-card-text>
+                      <v-spacer></v-spacer>
+                    
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </v-row>
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-expansion-panels>
-        <!--!> DIALOGO PARA EDITAR CONTACTOS <-->
 
         <!--!> DIALOGO PARA DESHABILITAR PROVEEDOR <-->
       </div>

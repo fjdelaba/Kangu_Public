@@ -37,6 +37,19 @@ mutation M_INSERT_USUARIO_EMPRESA($usu: UsuarioInput!,$modulos:[UsuarioPermisoIn
   }
 }
 `
+const INSERT_CONTACTO_PROVEEDOR = gql`
+mutation M_INSERT_CONTACTO_PROVEEDOR($email: String!, $ent_fk: bigint!, $nombre: String!, $usu_fk: bigint!){
+  insert_kangusoft_ent_con(objects: {email: $email, ent_fk: $ent_fk, nombre: $nombre, usu_fk: $usu_fk}) {
+    returning {
+      email
+      ent_fk
+      id
+      nombre
+      usu_fk
+    }
+  }
+}
+`
 
 const UPDATE_ESTADO_USUARIO = gql`
 mutation M_UPDATE_ESTADO_USUARIO($id_usuario: bigint!, $estado: Boolean!) {
@@ -66,7 +79,17 @@ const UPDATE_DATOS_USUARIO = gql`
   }
 }
 `
-
+const UPDATE_CONTACTO_PROVEEDOR = gql`
+  mutation M_UPDATE_CONTACTO_PROVEEDOR($id: bigint!, $nombre: String!,$email: String! ) {
+    update_kangusoft_ent_con(where: {id: {_eq: $id}}, _set: {nombre: $nombre, email: $email}) {
+    returning {
+      email
+      id
+      nombre
+    }
+  }
+}
+`
 const UPDATE_PERMISOS_USUARIO = gql`
  mutation M_UPDATE_PERMISOS_USUARIO($permisos: [kangusoft_usu_mod_insert_input!]!) {
   insert_kangusoft_usu_mod(objects: $permisos, on_conflict: {constraint: key_umo_usuario_modulo, update_columns: activo}) {
@@ -85,6 +108,7 @@ mutation M_UPDATE_RESET_PASSWORD($clave: ResetPasswordInput = {clave: "", id_usu
 `
 
 export {
+  INSERT_CONTACTO_PROVEEDOR,
   INSERT_USUARIO_EMPRESA,
   INSERT_PROYECTO_INFORMACION,
   INSERT_PROYECTO_ADQUISICIONES,
@@ -92,5 +116,6 @@ export {
   UPDATE_ESTADO_USUARIO,
   UPDATE_DATOS_USUARIO,
   UPDATE_PERMISOS_USUARIO,
-  UPDATE_RESET_PASSWORD
+  UPDATE_RESET_PASSWORD,
+  UPDATE_CONTACTO_PROVEEDOR
 }
