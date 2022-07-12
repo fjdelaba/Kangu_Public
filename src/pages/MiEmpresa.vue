@@ -1,92 +1,138 @@
 <template>
-  <div>
+  <v-container>
     <v-card>
+      <v-card-title> Informacion General </v-card-title>
       <v-card-text>
         <div class="d-flex flex-column flex-sm-row">
           <div>
-            <!--<v-img
-                :src="user.avatar"
+            <v-img
+              
                 aspect-ratio="1"
-                class="blue-grey lighten-4 rounded elevation-3"
-                max-width="120"
-                max-height="120"
+                class="blue-grey lighten-4 rounded elevation-3 mt-2"
+                max-width="115"
+                max-height="115"
               ></v-img>
               <v-file-input
                 accept="image/*"
-                label="Avatar"
+                label="Logo"
                 style="width:150px"
                 prepend-icon=""
                 dense
-              ></v-file-input>-->
+              ></v-file-input>
           </div>
           <div class="flex-grow-1 pt-2 pa-sm-2">
             <v-text-field
+              v-model="usuario.nombre"
               dense
               label="Nombre"
               placeholder="Nombre"
-              :readonly="!edicion"
               outlined
-              :rules="[]"
+              :rules="usuarioRules.nombreRules"
             >
             </v-text-field>
+            <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="6">
             <v-text-field
               label="Rut"
               placeholder="12.345.678-9"
-              :readonly="!edicion"
               dense
               outlined
-              :rules="[]"
+              :rules="usuarioRules.rutRules"
             >
             </v-text-field>
-            <v-text-field
-              label="Dirección"
-              placeholder="Dirección"
-              :readonly="!edicion"
+            </v-col>
+             <v-col
+                  cols="12"
+                  sm="6"
+                  md="6">
+             <v-text-field     
+              v-model="usuario.representante"
+              label="Representante"
               dense
               outlined
-              :rules="[]"
-            >
-            </v-text-field>
+              :rules="usuarioRules.representanteRules"
+            ></v-text-field>
+            </v-col>
+            </v-row>
+            <v-row
+             >
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="6">
             <v-text-field
+              v-model="usuario.telefono"
               label="Telefono"
-              :readonly="!edicion"
               dense
               outlined
-              :rules="[]"
+              :rules="usuarioRules.telefonoRules"
             ></v-text-field>
+            </v-col>
+            <v-col
+                  cols="12"
+                  sm="6"
+                  md="6">
             <v-text-field
+              v-model="usuario.email"
               label="Email"
-              :readonly="!edicion"
               dense
               outlined
-              :rules="[]"
+              :rules="usuarioRules.emailRules"
             ></v-text-field>
+            </v-col>
+            </v-row>
+            <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="6">
             <v-select
               :items="items"
-              :rules="[(v) => !!v || 'Item is required']"
+              :rules="[(v) => !!v || 'La Region es obligatoria']"
               label="Región"
               required
+              dense
+              style="width:100%"
+              outlined
             ></v-select>
+            </v-col>
+           
+            <v-col
+                  cols="12"
+                  sm="6"
+                  md="6">
             <v-select
-              :items="items"
-              :rules="[(v) => !!v || 'Item is required']"
+              :items="items2"
+              :rules="[(v) => !!v || 'La comuna es obligatoria']"
               label="Comuna"
               required
+              dense
+              style="width:100%"
+              outlined
             ></v-select>
+            </v-col>
+            </v-row>
+             <v-text-field
+              v-model="usuario.direccion"
+              label="Dirección"
+              placeholder="Dirección"
+              dense
+              outlined
+              :rules="usuarioRules.direccionRules"
+            >
+            </v-text-field>
             <v-text-field
+              v-model="usuario.giro"
               label="Giro"
-              :readonly="!edicion"
               dense
               outlined
-              :rules="[]"
+              class="mt-2"
+              :rules="usuarioRules.giroRules"
             ></v-text-field>
-            <v-text-field
-              label="representante"
-              :readonly="!edicion"
-              dense
-              outlined
-              :rules="[]"
-            ></v-text-field>
+
             <v-row align="center" justify="space-around">
               <div class="mt-2">
                 <v-btn
@@ -100,20 +146,26 @@
         </div>
       </v-card-text>
     </v-card>
-    <v-expansion-panels>
-      <v-expansion-panel v-for="(item, i) in 5" :key="i">
-        <v-expansion-panel-header> Plan </v-expansion-panel-header>
-        <v-expansion-panel-content>
-          <v-card class="mx-auto" max-width="344">
+  <v-card class="mx-auto mt-3" >
+     <v-card-title> Planes </v-card-title>
+          <v-row
+              v-for="n in 1 "
+              :key="n"
+              :class="n === 1 ? 'my-1' : ''"
+              no-gutters
+            >
+             <v-col md="4">   
+          <v-card class="mx-auto mb-3" max-width="344">
             <v-img
-              src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-              height="200px"
+              src="../assets/images/plan1.png"
+              height="140px"
+              contain
             ></v-img>
 
-            <v-card-title> Plan Basico </v-card-title>
+            <v-card-title> Plan Básico </v-card-title>
 
             <v-card-actions>
-              <v-btn color="orange lighten-2" text> Ver Plan </v-btn>
+              <v-btn color="primary" text> Ver Plan </v-btn>
 
               <v-spacer></v-spacer>
 
@@ -128,76 +180,122 @@
               <div v-show="show">
                 <v-divider></v-divider>
 
-                <v-card-text> </v-card-text>
+                <v-card-text>Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios: </v-card-text>
               </div>
             </v-expand-transition>
           </v-card>
-          <v-card class="mx-auto" max-width="344">
+
+          </v-col>
+          <v-col md="4"> 
+          <v-card class="mx-auto mb-3" max-width="344">
             <v-img
-              src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-              height="200px"
+              src="../assets/images/plan2.png"
+              height="140px"
+              contain
             ></v-img>
 
             <v-card-title> Plan Intermedio </v-card-title>
 
             <v-card-actions>
-              <v-btn color="orange lighten-2" text> Ver Plan </v-btn>
+              <v-btn color="primary" text> Ver Plan </v-btn>
 
               <v-spacer></v-spacer>
 
-              <v-btn icon @click="show = !show">
+              <v-btn icon @click="show1 = !show1">
                 <v-icon>{{
-                  show ? "mdi-chevron-up" : "mdi-chevron-down"
+                  show1 ? "mdi-chevron-up" : "mdi-chevron-down"
                 }}</v-icon>
               </v-btn>
             </v-card-actions>
 
             <v-expand-transition>
-              <div v-show="show">
+              <div v-show="show1">
                 <v-divider></v-divider>
 
-                <v-card-text> </v-card-text>
+                <v-card-text> Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios:</v-card-text>
               </div>
             </v-expand-transition>
           </v-card>
-          <v-card class="mx-auto" max-width="344">
+
+          </v-col>
+          <v-col md="4"> 
+          <v-card class="mx-auto mb-3" max-width="344">
             <v-img
-              src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
-              height="200px"
+              src="../assets/images/plan3.png"
+              height="140px"
+              contain
             ></v-img>
 
             <v-card-title> Plan Avanzado </v-card-title>
 
             <v-card-actions>
-              <v-btn color="orange lighten-2" text> Ver Plan </v-btn>
+              <v-btn color="primary" text> Ver Plan </v-btn>
 
               <v-spacer></v-spacer>
 
-              <v-btn icon @click="show = !show">
+              <v-btn icon @click="show2 = !show2">
                 <v-icon>{{
-                  show ? "mdi-chevron-up" : "mdi-chevron-down"
+                  show2 ? "mdi-chevron-up" : "mdi-chevron-down"
                 }}</v-icon>
               </v-btn>
             </v-card-actions>
 
             <v-expand-transition>
-              <div v-show="show">
+              <div v-show="show2">
                 <v-divider></v-divider>
 
-                <v-card-text> </v-card-text>
+                <v-card-text>Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios: </v-card-text>
               </div>
             </v-expand-transition>
           </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
-    </v-expansion-panels>
-  </div>
+          </v-col>
+         </v-row>
+         </v-card>
+  </v-container>
 </template>
 
 <script>
+import { validaRut } from '../../src/utils/index'
 export default {
   data() {
-    return {}
+    return {
+      usuario: {
+        nombre: '',
+        rut:'',
+        email: '',
+        telefono: '',
+        direccion: '',
+        giro: '',
+        repesentante: '',
+        logo: '',
+        select: null
+      },
+    
+      usuarioRules: {
+        nombreRules: [(v) => !!v || 'Nombre obligatorio'],
+        giroRules: [(v) => !!v || 'Giro obligatorio'],
+        representanteRules: [(v) => !!v || 'Representante obligatorio'],
+        cargoRules: [(v) => !!v || 'Cargo obligatorio'],
+        emailRules: [
+          (v) => !!v || 'E-mail es obligatorio',
+          (v) => /.+@.+\..+/.test(v) || 'E-mail debe ser valido'
+          // (v) => getValidaRutEmail(v,'')
+        ],
+        rutRules: [
+          (v) => !!v || 'Rut es obligatorio',
+          (v) => validaRut(v) || 'Rut NO valido'
+          // (v) => getValidaRutEmail('',v)
+        ],
+        telefonoRules: [(v) => !!v || 'Telefono obligatorio'],
+        direccionRules: [(v) => !!v || 'Direccion obligatorio']
+      },
+      show: true,
+      show1: true,
+      show2: true,
+      items: ['Región de Arica y Parinacota','Región de Tarapacá','Región de Antofagasta','Región de Atacama','Región de Coquimbo','Región de Valparaíso','Región Metropolitana de Santiago','Región del Libertador General Bernardo OHiggins','Región del Maule','Región del Biobío','Región de La Araucanía','Región de Los Ríos','Región de Los Lagos','Región de Aysén del General Carlos Ibáñez del Campo','Región de Magallanes y de la Antártica Chilena'
+      ]
+    }
+
   }
 }
 </script>
