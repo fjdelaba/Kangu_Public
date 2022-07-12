@@ -33,10 +33,16 @@ export default {
               text: 'Detalle de Usuario'
             }
           ],
-          dialog:false
+          dialog:false,
+          contactoSeleccionado:{
+            email:"",
+            nombre:""
+          },
+          dialogDesactivar:false,
         };
     },
     methods: {
+        //CARGAR DATA PROVEEDOR
       async cargarDetalleProveedor(){
         const {data: { kangusoft_ent } } = await getProveedorSeleccionado(this.idProveedor);
         console.log("Proveedor Seleccionado:",kangusoft_ent[0])
@@ -60,18 +66,31 @@ export default {
         this.proveedorCopy = this.proveedor
         console.log("COpia", this.contactosProveedor)
       },
+        //EDICION  PROVEEDOR
       editarProveedor(){
         this.edicion=true
         this.proveedorCopy.rut = this.proveedor.rut
         this.proveedorCopy.razon_social = this.proveedor.razon_social
       },
-      editarContacto(item){
-        this.dialog=true
-       console.log("ITEM EDIT",item)
-      },
       cancelarEdicionProveedor(){
         this.edicion = false
         this.cargarDetalleProveedor()
-      }
+      },
+      cambiarEstadoProvedoor(){
+            this.dialogDesactivar  = true  
+      },
+      //EDICION CONTACTO PROVEEDOR
+      editarContacto(item){
+        this.dialog=true
+       console.log("ITEM EDIT",item)
+       this.contactoSeleccionado.email = item.email
+       this.contactoSeleccionado.nombre = item.nombre
+      },
+      guardarEdicionContacto(){
+       console.log(" this.contactoSeleccionado", this.contactoSeleccionado)
+       this.dialog = false
+      },
+
+     
     }
 }
