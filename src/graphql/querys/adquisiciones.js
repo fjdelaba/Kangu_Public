@@ -175,6 +175,7 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
     }
     identificacion
     nombre
+    est_doc_fk
     pro {
       nombre
       id
@@ -203,6 +204,7 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
         usuByUsuAproFk {
           nombre
           apellidos
+          id
         }
         id
       }

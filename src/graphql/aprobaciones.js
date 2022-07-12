@@ -1,7 +1,7 @@
 import { apolloClient } from '../client'
 
 import { GET_FLUJO_APROBADORES_PROYECTO } from './querys/aprobaciones'
-import { INSERT_FLUJO_APROBACION } from './mutations/aprobaciones'
+import { INSERT_FLUJO_APROBACION, UPDATE_FLUJO_APROBACION } from './mutations/aprobaciones'
 
 export const getFlujoAprobadoresProyecto = async (id_proyecto, id_modulo) => {
   return await apolloClient.query({
@@ -19,6 +19,16 @@ export const insertFlujoAprobacionOC = async (aprobadores) => {
     mutation: INSERT_FLUJO_APROBACION,
     variables: {
       aprobadores
+    }
+  })
+}
+
+export const updateFlujoAprobacionOC = async (aprobacion) => {
+
+  return await apolloClient.mutate({
+    mutation: UPDATE_FLUJO_APROBACION,
+    variables: {
+      aprobacion
     }
   })
 }

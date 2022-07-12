@@ -69,6 +69,7 @@ export const useAuth0 = ({
     // eslint-disable-next-line vue/order-in-components
     async created() {
       try {
+        console.log('try')
         this.auth0Client = await createAuth0Client({
           ...pluginOptions,
   
@@ -84,16 +85,20 @@ export const useAuth0 = ({
   
         })
         try {
+          console.log('try 1')
+          console.log('window.location.: ', window.location)
           if (
             window.location.search.includes('code=') &&
             window.location.search.includes('state=')
           ) {
+            console.log('IF')
             const { appState } = await this.auth0Client.handleRedirectCallback()
   
             onRedirectCallback(appState)
           }
         } catch (error) {
           this.error = error
+          console.log('error: ', error)
         } finally {
           this.isAuthenticated = await this.auth0Client.isAuthenticated()
           this.user = await this.auth0Client.getUser()

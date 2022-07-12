@@ -51,7 +51,7 @@ export default {
         console.log("MATERIALES:",kangusoft_oc_det)
         for(let apro of kangusoft_oc[0].apr_pros){
           console.log("apro: ", apro)
-          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado})
+          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado, id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id})
         }
         console.log('this.aprobadores: ', this.aprobadores)
         this.materialesOcSeleccionada = kangusoft_oc_det
@@ -73,6 +73,8 @@ export default {
         this.cabecera.contacto.email = kangusoft_oc[0].usu.email
         this.cabecera.formaPago.nombre =  kangusoft_oc[0].for_pag.nombre
         this.cabecera.tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre
+        this.cabecera.est_doc_fk = Number(kangusoft_oc[0].est_doc_fk)
+        this.cabecera.id = kangusoft_oc[0].id
     },
   }
 }

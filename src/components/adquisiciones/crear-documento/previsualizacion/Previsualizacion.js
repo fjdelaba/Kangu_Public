@@ -2,7 +2,7 @@
 import CuadroResumen from '../../../general/cuadro-resumen/CuadroResumen.vue'
 import Pipeline from '../../../general/pipeline/Pipeline.vue'
 import DistribucionLineasPartidas from '../../../adquisiciones/distribucion-lineas-partidas/DistribucionLineasPartidas.vue'
-import { getAprobadoresProyecto } from '../../../../graphql/aprobaciones'
+import { getAprobadoresProyecto, updateFlujoAprobacionOC } from '../../../../graphql/aprobaciones'
 import {creaPdfOC} from '../../../../utils/pdf-oc-template.js'
 
 export default {
@@ -18,7 +18,10 @@ export default {
     observacion: '',
     listaPartidas: [],
     consultas:"",
-    aprobacion:"",
+    aprobacion:{
+      type: Boolean,
+      default: false
+    },
     regla:[],
     aprobadores:[],
   },
@@ -58,9 +61,9 @@ export default {
       tab: 'documento',
       comentarioAprobadores: '',
       apruebo:"a",
-      respuesta:"1",
       resumenesTotales:"",
-      comentario: ''
+      comentario: '',
+      mostrarBotones: false
     }},
   methods: {
     // async cargarAprobadores() {
@@ -91,19 +94,51 @@ export default {
 
       return searchObject.nombre
     },
-    async aprueboOc(){
+
+    async desicionFluo(op){
+      try {
+        
+      
     this.apruebo = true
-    this.respuesta = 'success'
-    this.regla = [() => true]
+    // this.regla = [() => true]
     console.log(" this.apruebo", this.apruebo)
+    let id_apro = 0
+    for(let aprpro of this.aprobadores){
+      console.log(aprpro);
+      console.log('Number(this.datosUsuario.user_id): ', Number(this.datosUsuario.user_id));
+      console.log('Number(aprpro.id_user): ', Number(aprpro.id_user));
+      if(Number(this.datosUsuario.user_id) === Number(aprpro.id_user)){
+        id_apro = aprpro.id_apr
+      }
+      console.log('aprpro_ ', aprpro);
+    }
+    const aprobacion = {
+      aprobado: op,
+      comentario: this.comentario,
+      id: id_apro,
+      oc_fk: this.cabecera.id
+    } 
+    console.log('aprobacion: ', aprobacion)
+    const resp = await updateFlujoAprobacionOC(aprobacion)   
+    for(let aprpro of this.aprobadores){
+      console.log('aprpro despues: ', aprpro);
+      if(Number(this.datosUsuario.user_id) === Number(aprpro.id_user)){
+        aprpro.aprobado = op
+      }
+    }
+
+    console.log(resp);
+  } catch (error) {
+          console.log('error');
+  }
     },
+
     async descargarOcPDF(){
       this.totalesItems()
       await creaPdfOC(this.materiales,this.cabecera,this.datosEmpresa,this.resumenesTotales)
     },
     rechazoOc(){
      this.apruebo = false
-     this.respuesta = 'error'
      this.regla = [() => false]
      console.log(" this.apruebo", this.cpxvalidacion)
     },
@@ -133,30 +168,50 @@ export default {
         { item: 'IVA', valor: iva },
         { item: 'Total', valor: total }
       ]
+    },
+    activarPanelAprobacion(){
+      console.log('this.aprobadores: ', this.aprobadores);
+      if (this.aprobadores === undefined || this.aprobadores.length <= 0) return
+      for(let aprpro of this.aprobadores){
+        console.log(aprpro);
+        console.log('Number(this.datosUsuario.user_id): ', Number(this.datosUsuario.user_id));
+        console.log('Number(aprpro.id_user): ', Number(aprpro.id_user));
+        if(Number(this.datosUsuario.user_id) === Number(aprpro.id_user)){
+          console.log('Este es');
+          this.mostrarBotones = true
+        }
+        console.log('aprpro_ ', aprpro);
+      }
     }
    
   },
   mounted() {
-    this.datosEmpresa = this.$store.state.app.datosEmpresa
-    this.datosUsuario = this.$store.state.app.datosUsuario
- 
+    console.log('this.$auth.isLoading: ', this.$auth.isLoading);
+    if (this.$auth.isLoading == false) {
+      this.datosEmpresa = this.$store.state.app.datosEmpresa
+      this.datosUsuario = this.$store.state.app.datosUsuario  
+      this.activarPanelAprobacion()
+    }
     console.log("EMPRESA:",this.datosEmpresa,"USUARIO:",this.datosUsuario)
+  },
+  watch: {
+    '$auth.isLoading' (newCount, oldCount) {
+      console.log(`Listado - We have ${newCount} fruits now, yay!. ${oldCount}`)
+      if(newCount === false){
+        this.datosEmpresa = this.$store.state.app.datosEmpresa
+        this.datosUsuario = this.$store.state.app.datosUsuario
+        console.log("EMPRESA:",this.datosEmpresa,"USUARIO:",this.datosUsuario)
+        this.activarPanelAprobacion()
+      }
+    },
+    aprobadores (newCount, oldCount) {
+      console.log(`provisualizacion :::: - We have ${newCount} fruits now, yay!. ${oldCount}`)
+      this.activarPanelAprobacion()
+    },
   },
   computed: {
     cpxFecha() {
       return this.$moment(new Date()).format('DD/MM/yy')
-    },
-    cpxvalidacion(){
-     return this.apruebo
-    },
-    cpxColor(){
-      return  this.respuesta
-    },
-    cpxRegla(){
-      return  this.regla
-    },
-    cpxTitulo(){
-      return this.apruebo == true ? "Aprobado" : "Rechazado"
     }
   }
 }

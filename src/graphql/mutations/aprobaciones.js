@@ -10,7 +10,16 @@ const INSERT_FLUJO_APROBACION = gql`
     }
   }
   `
+const UPDATE_FLUJO_APROBACION = gql`
+  mutation M_UPDATE_FLUJO_APROBACION($aprobacion: UpdateFlujoAprobacionInput = {}) {
+    update_flujo_aprobacion(aprobacion: $aprobacion) {
+      message
+      result
+  }
+}
+  `
   
 export {
-  INSERT_FLUJO_APROBACION
+  INSERT_FLUJO_APROBACION,
+  UPDATE_FLUJO_APROBACION
 }

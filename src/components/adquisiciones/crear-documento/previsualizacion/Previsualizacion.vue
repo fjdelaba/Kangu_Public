@@ -394,10 +394,11 @@
         value="flujo"
         class="mb-6 pb-6"
       >
-        <v-row dense class="px-7 align-center mt-1">
+        <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
+        <v-row v-if="mostrarBotones && aprobacion" dense class="px-7 align-center mt-1">
           <v-btn
             color="success"
-            @click="aprueboOc()"
+            @click="desicionFluo(true)"
           >Aprobar
           </v-btn>
           <v-spacer></v-spacer>
@@ -405,20 +406,20 @@
             <v-btn
               class="mr-1"
               color="error"
-              @click="rechazoOc()"
+              @click="desicionFluo(false)"
             >Rechazar
             </v-btn>
           </v-col>
+          <v-row dense class="px-7 align-center mt-1">
+            <v-textarea
+              label="Comentario"
+              auto-grow
+              outlined
+              rows="2"
+              row-height="15"
+            ></v-textarea>
+          </v-row>
         </v-row >
-        <v-row dense class="px-7 align-center mt-1">
-          <v-textarea
-            label="Comentario"
-            auto-grow
-            outlined
-            rows="2"
-            row-height="15"
-          ></v-textarea>
-        </v-row>
         <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
         <v-row v-if="aprobacion == true">
           <v-divider></v-divider>
