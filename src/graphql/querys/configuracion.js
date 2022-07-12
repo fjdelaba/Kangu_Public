@@ -209,12 +209,19 @@ query Q_GET_PROVEEDORES($emp: bigint!) {
 const GET_PROVEEDOR_SELECCIONADO = gql`
 query Q_GET_PROVEEDOR_SELECCIONADO($id: bigint!) {
     kangusoft_ent(where: {id: {_eq:  $id}}) {
-    id
+      id
     activo
     direccion
     razon_social
     rut
     fec_creacion
+    email_contacto
+    ent_cons {
+      nombre
+      id
+      email
+    }
+    giro
   }
 }
 `

@@ -18,7 +18,15 @@ export default {
                 { text: "", sortable: false, align: "right", value: "action" },
             ],
             consulta: true,
-            skeleton:true
+            skeleton:true,
+            breadcrumbs: [
+                {
+                  text: 'Proveedores',
+                },
+                {
+                  text: 'Listado'
+                }
+              ]
         };
     },
     methods: {

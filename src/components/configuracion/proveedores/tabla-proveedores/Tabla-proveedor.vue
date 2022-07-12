@@ -1,4 +1,5 @@
 <template>
+
   <div>
     <div v-if="skeleton">
       <v-skeleton-loader
@@ -10,7 +11,6 @@
       <div class="d-flex flex-column flex-grow-1">
         <div class="d-flex align-center">
           <div>
-            <!-- <div class="display-1">Usuarios</div> -->
             <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
           </div>
         
