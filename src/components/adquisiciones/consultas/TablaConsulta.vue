@@ -13,7 +13,7 @@
         <!-- users list -->
         <v-row dense class="pa-2 align-center">
           <v-col cols="3">
-            <v-autocomplete
+            <!-- <v-autocomplete
               v-model="proyectoSeleccionado"
               :items="proyectos"
               class="flex-grow-1 mr-md-2"
@@ -22,10 +22,22 @@
               dense
               item-text="nombre"
               item-value="id"
-              placeholder="Selecciona el Centro de Gestión de la Oc"
+              placeholder="Centro de gestion"
+              hint="Centro de gestion"
+              outlined
               @change="filtroCentroGestion()"
-            ></v-autocomplete>
-            
+            ></v-autocomplete> -->
+            <v-autocomplete
+              v-model="proyectoSeleccionado"
+              :items="proyectos"
+              outlined
+              label="Proyectos"
+              item-text="nombre"
+              item-value="id"
+              hint="Selecciona el proyecto al que asignaras esta OC"
+              dense
+              return-object
+            ></v-autocomplete>  
           </v-col>
           <v-col cols="3">
             <v-autocomplete
@@ -41,7 +53,49 @@
               placeholder="Selecciona el Estado de la Oc"
               @change="filtroEstadoOc()"
             ></v-autocomplete>
-            
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :return-value.sync="date"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="dateRangeText"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  outlined
+                  dense
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="dates"
+                no-title
+                range
+                scrollable
+              >
+                <v-spacer></v-spacer>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="menu = false"
+                >
+                  Cancel
+                </v-btn>
+                <v-btn
+                  text
+                  color="primary"
+                  @click="$refs.menu.save(date)"
+                >
+                  OK
+                </v-btn>
+              </v-date-picker>
+            </v-menu>
           </v-col>
           <v-col cols="6" class="d-flex text-right align-center">
             <!-- <v-text-field
