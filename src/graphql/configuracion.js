@@ -1,6 +1,6 @@
 import { apolloClient } from '../client'
 import { GET_PROVEEDOR_SELECCIONADO,GET_PROVEEDORES,GET_DATOS_GENERALES, GET_PROYECTO, GET_MATERIALES_PROYECTO, GET_APROBADORES_PROYECTO, GET_USUARIOS_PROYECTO, GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO,GET_EXISTE_USUARIO, GET_PERMISOS, GET_USUARIO_LOGIN } from './querys/configuracion'
-import { INSERT_CONTACTO_PROVEEDOR,UPDATE_CONTACTO_PROVEEDOR, INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL, INSERT_USUARIO_EMPRESA, UPDATE_ESTADO_USUARIO, UPDATE_DATOS_USUARIO, UPDATE_PERMISOS_USUARIO, UPDATE_RESET_PASSWORD } from './mutations/configuracion.js'
+import { UPDATE_ESTADO_PROVEEDOR,UPDATE_PROVEEDOR,INSERT_CONTACTO_PROVEEDOR,UPDATE_CONTACTO_PROVEEDOR, INSERT_PROYECTO_INFORMACION, INSERT_PROYECTO_ADQUISICIONES, INSERT_PROYECTO_MATERIAL, INSERT_USUARIO_EMPRESA, UPDATE_ESTADO_USUARIO, UPDATE_DATOS_USUARIO, UPDATE_PERMISOS_USUARIO, UPDATE_RESET_PASSWORD } from './mutations/configuracion.js'
 
 export const getDatosGenerales = async () => {
   return await apolloClient.query({
@@ -145,6 +145,22 @@ export const getUsuarioExistente = async (email, rut) => {
   })
 }
 
+export const updateProveedor = async (direccion,email_contacto,email_dte,id,giro,razon_social,rut,usu_fk) => {
+  return await apolloClient.mutate({
+    mutation: UPDATE_PROVEEDOR,
+    variables: {
+      direccion,
+      email_contacto,
+      email_dte,
+      id,
+      giro,
+      razon_social,
+      rut,
+      usu_fk
+    }
+  })
+}
+
 export const updateContactoProveedor = async (id, nombre,email) => {
   return await apolloClient.mutate({
     mutation: UPDATE_CONTACTO_PROVEEDOR,
@@ -162,6 +178,16 @@ export const updateEstadoUsuario = async (id_usuario, estado) => {
     variables: {
       id_usuario,
       estado
+    }
+  })
+}
+
+export const updateEstadoProveedor = async (id, activo) => {
+  return await apolloClient.mutate({
+    mutation: UPDATE_ESTADO_PROVEEDOR,
+    variables: {
+      id,
+      activo
     }
   })
 }

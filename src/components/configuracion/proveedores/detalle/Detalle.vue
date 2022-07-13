@@ -61,7 +61,7 @@
                       :loading="loadingDatosGenerales"
                       :disabled="loadingDatosGenerales"
                       small
-                      @click="grabarEdicionUsuario()"
+                      @click="grabarEdicionProveedor()"
                     >Guardar</v-btn>
                     <v-btn
                       color="primary"
@@ -84,7 +84,7 @@
                       small
                       @click="cambiarEstadoProvedoor()"
                     >
-                      Desabilitar Proveedor
+                      {{ cpxTextoBotonUpdateEstado }}
                       <template v-slot:loader>
                         <span class="custom-loader">
                           <v-icon light>mdi-cached</v-icon>
@@ -250,7 +250,6 @@
             <v-card-title class="text-h5">
               ¿Deseas deshabilitar este Proveedor?
             </v-card-title>
-            <v-card-text>Esta accion tiene efecto inmediato en la aplicion.</v-card-text>
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn
@@ -260,7 +259,7 @@
               >
                 NO
               </v-btn>
-              <v-btn color="green darken-1" text @click="deshabilitarUsuario()">
+              <v-btn color="green darken-1" text @click="deshabilitarProveedor()">
                 Si
               </v-btn>
             </v-card-actions>

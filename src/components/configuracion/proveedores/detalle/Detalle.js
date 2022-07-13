@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { getProveedorSeleccionado, updateContactoProveedor, postContactoProveedor } from '../../../../graphql/configuracion'
+import { getProveedorSeleccionado, updateContactoProveedor, postContactoProveedor,updateProveedor,updateEstadoProveedor } from '../../../../graphql/configuracion'
 export default {
   components: {
   },
@@ -23,7 +23,6 @@ export default {
         direccion: "",
       },
       contactosProveedor: [],
-      proveedorCopy: {},
       panel: [-1],
       breadcrumbs: [
         {
@@ -49,6 +48,11 @@ export default {
       dialogCrearContacto: false,
     };
   },
+  computed:{
+    cpxTextoBotonUpdateEstado() {
+      return this.proveedor.activo ? 'Deshabilitar Proveedor' : 'Habilitar Proveedor'
+    },
+  },
   methods: {
     //CARGAR DATA PROVEEDOR
     async cargarDetalleProveedor() {
@@ -57,7 +61,7 @@ export default {
       this.proveedor.razon_social = kangusoft_ent[0].razon_social
       this.proveedor.rut = kangusoft_ent[0].rut
       this.proveedor.activo = kangusoft_ent[0].activo
-      // this.proveedor.emailDte = kangusoft_ent[0].
+      this.proveedor.emailDte = kangusoft_ent[0].email_dte
       this.proveedor.emailContacto = kangusoft_ent[0].email_contacto
       if (kangusoft_ent[0].direccion == null) {
         this.proveedor.direccion = 'Sin Direccion'
@@ -75,10 +79,19 @@ export default {
       console.log("COpia", this.contactosProveedor)
     },
     //EDICION  PROVEEDOR
-    editarProveedor() {
+   editarProveedor() {
       this.edicion = true
-      this.proveedorCopy.rut = this.proveedor.rut
-      this.proveedorCopy.razon_social = this.proveedor.razon_social
+    },
+   async grabarEdicionProveedor(){
+      try {
+        console.log("HOLA")
+        const resp = await updateProveedor(this.proveedor.direccion,this.proveedor.emailContacto,this.proveedor.emailDte,this.idProveedor,this.proveedor.giro,this.proveedor.razon_social,this.proveedor.rut,this.datosUsuario)
+        console.log('resp datos contacto: ', resp)
+        this.edicion = true
+        this.dialog = false
+      } catch (error) {
+        console.log('error: ', error)
+      }
     },
     cancelarEdicionProveedor() {
       this.edicion = false
@@ -86,6 +99,16 @@ export default {
     },
     cambiarEstadoProvedoor() {
       this.dialogDesactivar = true
+    },
+    async deshabilitarProveedor(){
+      try {
+        const resp = await updateEstadoProveedor(this.idProveedor, false)
+        console.log('resp datos contacto: ', resp)
+        this.dialogDesactivar = false
+      } catch (error) {
+        console.log('error: ', error)
+      }
+     
     },
     //EDICION - CREACION CONTACTO PROVEEDOR
     editarContacto(item) {
@@ -119,7 +142,6 @@ export default {
       console.log('error: ', error)
     } 
     this.contactosProveedor.push(this.nuevoContactoProveedor)
-     
     }
 
   }

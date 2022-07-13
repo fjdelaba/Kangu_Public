@@ -63,7 +63,7 @@ mutation M_UPDATE_ESTADO_USUARIO($id_usuario: bigint!, $estado: Boolean!) {
 `
 
 const UPDATE_DATOS_USUARIO = gql`
-  mutation M_UPDATE_DATOS_USUARIO($id_usuario: bigint!, $apellidos: String! $activo: Boolean!, $avatar: String!, $cargo: String!, $email: String!, $firma: String!, $nombre: String!, $rut: String!) {
+  mutation M_UPDATE_DATOS_USUARIO($id_usuario: bigint!, $apellidos: String!, $activo: Boolean!, $avatar: String!, $cargo: String!, $email: String!, $firma: String!, $nombre: String!, $rut: String!) {
   update_kangusoft_usu(where: {id: {_eq: $id_usuario}}, _set: {avatar: $avatar, cargo: $cargo, email: $email, firma: $firma, nombre: $nombre, rut: $rut, apellidos: $apellidos, activo: $activo}) {
     returning {
       activo
@@ -86,6 +86,31 @@ const UPDATE_CONTACTO_PROVEEDOR = gql`
       email
       id
       nombre
+    }
+  }
+}
+`
+const UPDATE_PROVEEDOR = gql`
+  mutation M_UPDATE_PROVEEDOR($id: bigint!,$direccion: String!, $email_contacto: String!, $email_dte: String!, $giro: String!, $razon_social: String!, $rut: String!, $usu_fk: bigint!) {
+    update_kangusoft_ent(where: {id: {_eq: $id}}, _set: {direccion: $direccion, email_contacto: $email_contacto, email_dte: $email_dte, giro: $giro, razon_social: $razon_social, rut: $rut, usu_fk: $usu_fk}) {
+    returning {
+      direccion
+      email_contacto
+      email_dte
+      id
+      giro
+      razon_social
+      rut
+    }
+  }
+}
+`
+const UPDATE_ESTADO_PROVEEDOR = gql`
+mutation M_UPDATE_ESTADO_PROVEEDOR($id: bigint!, $activo: Boolean!) {
+  update_kangusoft_ent(where: {id: {_eq: $id}}, _set: {activo: $activo}) {
+    affected_rows
+    returning {
+      id
     }
   }
 }
@@ -117,5 +142,7 @@ export {
   UPDATE_DATOS_USUARIO,
   UPDATE_PERMISOS_USUARIO,
   UPDATE_RESET_PASSWORD,
-  UPDATE_CONTACTO_PROVEEDOR
+  UPDATE_CONTACTO_PROVEEDOR,
+  UPDATE_PROVEEDOR,
+  UPDATE_ESTADO_PROVEEDOR
 }

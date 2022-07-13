@@ -216,6 +216,7 @@ query Q_GET_PROVEEDOR_SELECCIONADO($id: bigint!) {
     rut
     fec_creacion
     email_contacto
+    email_dte
     ent_cons {
       nombre
       id
