@@ -1,7 +1,9 @@
 /* eslint-disable */
 import { getProveedor } from './../../../../graphql/configuracion'
+import ModalEntidad from "../../../general/modal-entidad/ModalEntidad.vue";
 export default {
     components: {
+        ModalEntidad
     },
     mounted() {
         this.cargarProveedores()
@@ -26,7 +28,8 @@ export default {
                 {
                   text: 'Listado'
                 }
-              ]
+              ],
+              abrirDialog:false
         };
     },
     methods: {
