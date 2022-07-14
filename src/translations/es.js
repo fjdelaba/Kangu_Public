@@ -162,6 +162,7 @@ export default {
     'aprobar':'Aprobar',
     'despachar': 'Despachar',
     'pendientes':'Pendientes de Compra',
+    'crear-oc': 'Crear',
     'search': 'Buscar (presione \'ctrl + /\' para enfocar)',
     'dashboard': 'Dashboard',
     'logout': 'Cerrar sesión',

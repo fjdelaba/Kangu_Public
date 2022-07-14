@@ -27,7 +27,8 @@
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:85px">
           <span>{{ item.valor | currency }}</span> 
         </div>
-      </template></v-data-table>
+      </template>
+    </v-data-table>
   </div>
 
 </template>

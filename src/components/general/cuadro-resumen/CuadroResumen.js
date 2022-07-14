@@ -75,6 +75,9 @@ export default {
           { item: 'impuesto', valor:  Math.abs(impuesto) }
         ]
       }
+    },
+    cpxTotalesTablaResumen() {
+      
     }
   },
   methods: {

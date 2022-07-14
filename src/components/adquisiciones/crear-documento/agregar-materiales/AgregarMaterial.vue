@@ -10,7 +10,7 @@
           small
           class="mb-2"
           @click="abrirDialogMaterial()"
-        >tipo doc {{ tipo_documento }}
+        >
           Agregar Material 
         </v-btn>
       </v-col>

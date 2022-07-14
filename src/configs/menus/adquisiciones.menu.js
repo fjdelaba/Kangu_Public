@@ -29,6 +29,7 @@ export default [
     text: 'Orden de Compra',
     link: '/apps/todo',
     items: [
+      { key: 'menu.crear-oc', text: 'Crear', link: '/adquisiciones/oc/crear' },
       { key: 'menu.pendientes', text: 'Pendientes de Compra', link: '/adquisiciones/oc/pendientes' },
       { key: 'menu.consultas', text: 'Consultar', link: '/adquisiciones/oc/consultar' },
       {
