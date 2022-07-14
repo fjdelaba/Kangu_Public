@@ -85,7 +85,7 @@
               >
                 <v-textarea
                   v-model="material.observacion"
-                  label="Obserbacion"
+                  label="Observación"
                   auto-grow
                   outlined
                   rows="2"

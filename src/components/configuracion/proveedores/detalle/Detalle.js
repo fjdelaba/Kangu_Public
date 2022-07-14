@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { getProveedorSeleccionado, updateContactoProveedor, postContactoProveedor,updateProveedor,updateEstadoProveedor } from '../../../../graphql/configuracion'
+
 export default {
   components: {
   },
@@ -10,9 +11,29 @@ export default {
   },
   data() {
     return {
+      valid:true,
       datosUsuario:"",
       edicion: false,
       idProveedor: "",
+      nombreRules: [
+        v => !!v || 'Nombre es requerido',
+      ],
+      razonRules: [
+        v => !!v || 'Razon Social es requerido',
+      ],
+      rutRules: [
+        v => !!v || 'Rut es requerido',
+      ],
+      giroRules: [
+        v => !!v || 'Giro es requerido',
+      ],
+     emailRules: [
+        v => !!v || 'Email es requerido',
+        v => /.+@.+\..+/.test(v) || 'Email invalido',
+      ],
+      direccionRules: [
+        v => !!v || 'Dirección es requerido',
+      ],
       proveedor: {
         razon_social: "",
         rut: "",
@@ -102,9 +123,16 @@ export default {
     },
     async deshabilitarProveedor(){
       try {
-        const resp = await updateEstadoProveedor(this.idProveedor, false)
-        console.log('resp datos contacto: ', resp)
-        this.dialogDesactivar = false
+        if(this.proveedor.activo == true){
+          const resp = await updateEstadoProveedor(this.idProveedor, false)
+          console.log('resp datos contacto: ', resp)
+          this.dialogDesactivar = false
+        }else if(this.proveedor.activo == false){
+          const resp = await updateEstadoProveedor(this.idProveedor, true)
+          console.log('resp datos contacto: ', resp)
+          this.dialogDesactivar = false
+        }
+       
       } catch (error) {
         console.log('error: ', error)
       }

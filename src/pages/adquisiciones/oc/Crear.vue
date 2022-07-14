@@ -11,7 +11,6 @@
           style="min-width: 850px;"
           class="flex-grow-0 flex-shrink-1 w-full"
         >
-          {{ pasoStep }}
           <v-stepper v-model="pasoStep" class="flex-grow-1">
             <v-stepper-header>
               <v-stepper-step
@@ -52,7 +51,7 @@
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <agregar-material ref="refAgregarMaterial" :oc_id="oc_id" :pro_fk="pro_fk"></agregar-material>
+                <agregar-material ref="refAgregarMaterial" :oc_id="oc_id" :pro_fk="pro_fk" :tipo_documento="tipoDocumento"></agregar-material>
               </v-stepper-content>
 
               <v-stepper-content step="3">
@@ -65,19 +64,37 @@
 
               <v-stepper-content step="4">
                 <previsualizacion
+                  ref="refPrevisualizacion"
                   :aprobadores="flujoModal"
                   :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.listaPartidas"
                   :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista_detalle"
                   :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab"
                   :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"
+                  :tipo_documento="tipoDocumento"
                 ></previsualizacion>
               </v-stepper-content>
             </v-stepper-items>
+           <v-row 
+              align="right"
+              justify="space-around"
+              no-gutters>
+              <v-col>
+            
+              <v-btn class="mb-2 ml-10" color="primary" v-if="pasoStep > 1" @click="retroceder()">
+              Atras
+            </v-btn>
+            </v-col>
+            <v-col
+              md="3"
+              offset-md="3">
             <v-btn
+              class="mb-2 ml-15"
+              depressed
               color="primary"
               :loading="disabledBotonSiguiente"
               :disabled="disabledBotonSiguiente"
               @click="avanzar()"
+              
             >
               {{ cpxTextoAvanzar }}
               <template v-slot:loader>
@@ -86,10 +103,8 @@
                 </span>
               </template>
             </v-btn>
-
-            <v-btn v-if="pasoStep > 1" @click="retroceder()">
-              Atras
-            </v-btn>
+            </v-col>
+            </v-row> 
           </v-stepper>
         </v-col>
       </v-row>      
@@ -152,10 +167,12 @@ export default {
       loader: null,
       disabledBotonSiguiente: false,
       dialogBorrador: false,
-      iva: 0,
+      impuesto: 0,
       neto: 0,
       flujoModal: [],
-      flujoDocumento: []
+      flujoDocumento: [],
+      tipoDocumento: 0,
+      tipoDocumentoBoleta: 1
     }
   },
   computed: {
@@ -200,6 +217,8 @@ export default {
           if (this.oc_id > 0) {
             try {
               const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+
+              this.tipoDocumento = cabecera.tipoDocumento.id
               const datosCabecera = {
                 des_tip_fk: cabecera.tipoDespacho.id, 
                 doc_tip_fk: cabecera.tipoDocumento.id, 
@@ -227,6 +246,7 @@ export default {
               this.disabledBotonSiguiente = true
               const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
+              this.tipoDocumento = cabecera.tipoDocumento.id
               console.log('cabecera: ', cabecera)
               const datosCabecera = {
                 des_tip_fk: cabecera.tipoDespacho.id, 
@@ -273,7 +293,7 @@ export default {
         this.flujoModal = []
         this.flujoDocumento = []
         this.neto = 0
-        this.iva = 0
+        this.impuesto = 0
         // eslint-disable-next-line no-constant-condition
         // if (true) {
         //   this.pasoStep = this.pasoStep + 2
@@ -281,18 +301,20 @@ export default {
         //   this.pasoStep++
         // }
         // this.pasoStep++
-
-        const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
+        console.log('this.$refs.refAgregarMaterial: ', this.$refs.refAgregarMaterial)
+        console.log('this.$refs.refPrevisualizacion: ', this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems)
+        // const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
+        const totales = this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems
         
         console.log('totales: ', totales)
         for (const tot of totales) {
-          // console.log('tot: ', tot)
+          console.log('tot: ', tot)
           // eslint-disable-next-line eqeqeq
           if (tot.item == 'Neto') {
             this.neto = tot.valor
           // eslint-disable-next-line eqeqeq
-          } else if (tot.item == 'IVA') {
-            this.iva = tot.valor
+          } else if (tot.item == 'impuesto') {
+            this.impuesto = tot.valor
           }
         }
 
@@ -365,7 +387,7 @@ export default {
           est_doc_fk: this.flujoModal.length > 0 ? 1 : 2, 
           pro_fk: this.pro_fk,
           neto: this.neto,
-          iva: this.iva
+          impuesto: this.impuesto
         }
 
         console.log('obj: ', obj)

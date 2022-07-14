@@ -39,8 +39,8 @@
               return-object
             ></v-autocomplete>  
           </v-col>
-          <v-col cols="3">
-            <v-autocomplete
+          <v-col cols="5">
+            <!-- <v-autocomplete
               v-if="aprobar == false"
               v-model="estadoSeleccionado"
               :items="estadosOc"
@@ -52,7 +52,7 @@
               item-value="id"
               placeholder="Selecciona el Estado de la Oc"
               @change="filtroEstadoOc()"
-            ></v-autocomplete>
+            ></v-autocomplete> -->
             <v-menu
               ref="menu"
               v-model="menu"

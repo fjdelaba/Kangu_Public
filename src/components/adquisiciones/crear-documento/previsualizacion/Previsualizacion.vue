@@ -64,7 +64,7 @@
               
               <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera.proveedor && cabecera.proveedor.razon_social }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ cabecera.nombre }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ cabecera && cabecera.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor && cabecera.proveedor.rut }}</span></v-col>
@@ -332,7 +332,7 @@
               </v-col>
               <v-col lg="5" md="5" class="py-3 py-3 pr-5 pl-10">
                 <!-- {{ cpxTotalesItems }} -->
-                <cuadro-resumen :materiales="materiales"></cuadro-resumen>
+                <cuadro-resumen ref="refcuadroresumen" :materiales="materiales" :tipo_documento="tipo_documento" :mostrar-tipos-documento="false"></cuadro-resumen>
               </v-col>
               
               <v-row justify="end" height="100">

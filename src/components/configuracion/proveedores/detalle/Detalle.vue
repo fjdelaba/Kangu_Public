@@ -11,89 +11,105 @@
           <v-card-text>
             <div class="d-flex flex-column flex-sm-row">
               <div class="flex-grow-1 pt-2 pa-sm-2">
-                <v-text-field
-                  v-model="proveedor.razon_social"
-                  dense
-                  label="Razon Social"
-                  :readonly="!edicion"
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="proveedor.rut"
-                  label="Rut"
-                  :readonly="!edicion"
-                  dense
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="proveedor.giro"
-                  dense
-                  label="Giro"
-                  :readonly="!edicion"
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="proveedor.direccion"
-                  dense
-                  label="Dirección"
-                  :readonly="!edicion"
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="proveedor.emailContacto"
-                  dense
-                  label="Email Contacto"
-                  :readonly="!edicion"
-                  outlined
-                ></v-text-field>
-                <v-text-field
-                  v-model="proveedor.emailDte"
-                  dense
-                  label="Email DTE"
-                  :readonly="!edicion"
-                  outlined
-                ></v-text-field>
-                <v-row align="center" justify="space-around">
-                  <!-- <div v-if="cpxOrigenConfiguracion"> -->
-                  <div v-if="edicion" class="mt-2">
-                    <v-btn
-                      color="primary"
-                      :loading="loadingDatosGenerales"
-                      :disabled="loadingDatosGenerales"
-                      small
-                      @click="grabarEdicionProveedor()"
-                    >Guardar</v-btn>
-                    <v-btn
-                      color="primary"
-                      small
-                      @click="cancelarEdicionProveedor()"
-                    >Cancelar</v-btn>
-                  </div>
-                  <div v-else class="mt-2">
-                    <v-btn
-                      color="primary"
-                      small
-                      @click="editarProveedor()"
-                    >Editar</v-btn>
-                  </div>
-                  <div class="mt-2">
-                    <v-btn
-                      :loading="loading4"
-                      :disabled="loading4"
-                      :color="proveedor.activo ? 'error' : 'success'"
-                      small
-                      @click="cambiarEstadoProvedoor()"
-                    >
-                      {{ cpxTextoBotonUpdateEstado }}
-                      <template v-slot:loader>
-                        <span class="custom-loader">
-                          <v-icon light>mdi-cached</v-icon>
-                        </span>
-                      </template></v-btn>
-                  </div>
+                <v-form
+                  
+                  ref="formEditProveedor"
+                  v-model="valid"
+                  lazy-validation
+                >
+                  <v-text-field
+                    v-model="proveedor.razon_social"
+                    dense
+                    label="Razon Social"
+                    :readonly="!edicion"
+                    outlined
+                    required
+                    :rules="razonRules" 
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="proveedor.rut"
+                    label="Rut"
+                    :readonly="!edicion"
+                    dense
+                    outlined
+                    required
+                    :rules="rutRules" 
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="proveedor.giro"
+                    dense
+                    label="Giro"
+                    :readonly="!edicion"
+                    outlined
+                    required
+                    :rules="giroRules" 
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="proveedor.direccion"
+                    dense
+                    label="Dirección"
+                    :readonly="!edicion"
+                    outlined
+                    required
+                    :rules="direccionRules" 
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="proveedor.emailContacto"
+                    dense
+                    label="Email Contacto"
+                    :readonly="!edicion"
+                    outlined
+                    required
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="proveedor.emailDte"
+                    dense
+                    label="Email DTE"
+                    :readonly="!edicion"
+                    outlined
+                    required
+                  ></v-text-field>
+                  <v-row align="center" justify="space-around">
+                    <!-- <div v-if="cpxOrigenConfiguracion"> -->
+                    <div v-if="edicion" class="mt-2">
+                      <v-btn
+                        color="primary"
+                        :loading="loadingDatosGenerales"
+                        :disabled="loadingDatosGenerales"
+                        small
+                        @click="grabarEdicionProveedor()"
+                      >Guardar</v-btn>
+                      <v-btn
+                        color="primary"
+                        small
+                        @click="cancelarEdicionProveedor()"
+                      >Cancelar</v-btn>
+                    </div>
+                    <div v-else class="mt-2">
+                      <v-btn
+                        color="primary"
+                        small
+                        @click="editarProveedor()"
+                      >Editar</v-btn>
+                    </div>
+                    <div class="mt-2">
+                      <v-btn
+                        :loading="loading4"
+                        :disabled="loading4"
+                        :color="proveedor.activo ? 'error' : 'success'"
+                        small
+                        @click="cambiarEstadoProvedoor()"
+                      >
+                        {{ cpxTextoBotonUpdateEstado }}
+                        <template v-slot:loader>
+                          <span class="custom-loader">
+                            <v-icon light>mdi-cached</v-icon>
+                          </span>
+                        </template></v-btn>
+                    </div>
                   <!-- </div> -->
-                </v-row>
-              </div>
+                  </v-row>
+                </v-form></div>
             </div></v-card-text>
         </v-card>
 
@@ -162,33 +178,42 @@
                     <v-card-actions>
                       <v-card-text>
                         <div class="flex-grow-1 pt-2 pa-sm-2">
-                          <v-text-field
-                            v-model="contactoSeleccionado.nombre"
-                            dense
-                            label="Nombre"
-                            outlined
-                          ></v-text-field>
-                          <v-text-field
-                            v-model="contactoSeleccionado.email"
-                            label="Email"
-                            dense
-                            outlined
-                          ></v-text-field>
-                          <v-btn
+                          <v-form
+                            ref="formEditContacto"
+                            v-model="valid"
+                            lazy-validation
+                          >
+                            <v-text-field
+                              v-model="contactoSeleccionado.nombre"
+                              dense
+                              label="Nombre"
+                              outlined
+                              required
+                              :rules="nombreRules" 
+                            ></v-text-field>
+                            <v-text-field
+                              v-model="contactoSeleccionado.email"
+                              label="Email"
+                              dense
+                              outlined
+                              required
+                              :rules="emailRules"
+                            ></v-text-field>
+                            <v-btn
                            
-                            color="green darken-1"
-                            text
-                            @click="dialog = false"
-                          >
-                            Cancelar
-                          </v-btn>
-                          <v-btn
-                            color="green darken-1"
-                            text
-                            @click="guardarEdicionContacto()"
-                          >
-                            Aceptar
-                          </v-btn></div></v-card-text>
+                              color="green darken-1"
+                              text
+                              @click="dialog = false"
+                            >
+                              Cancelar
+                            </v-btn>
+                            <v-btn
+                              color="green darken-1"
+                              text
+                              @click="guardarEdicionContacto()"
+                            >
+                              Aceptar
+                            </v-btn></v-form></div></v-card-text>
                       <v-spacer></v-spacer>
                     
                     </v-card-actions>
@@ -205,33 +230,42 @@
                     <v-card-actions>
                       <v-card-text>
                         <div class="flex-grow-1 pt-2 pa-sm-2">
-                          <v-text-field
-                            v-model="nuevoContactoProveedor.nombre"
-                            dense
-                            label="Nombre"
-                            outlined
-                          ></v-text-field>
-                          <v-text-field
-                            v-model="nuevoContactoProveedor.email"
-                            label="Email"
-                            dense
-                            outlined
-                          ></v-text-field>
-                          <v-btn
+                          <v-form
+                            ref="formNuevoContacto"
+                            v-model="valid"
+                            lazy-validation
+                          >
+                            <v-text-field
+                              v-model="nuevoContactoProveedor.nombre"
+                              dense
+                              label="Nombre"
+                              outlined
+                              required
+                              :rules="nombreRules"
+                            ></v-text-field>
+                            <v-text-field
+                              v-model="nuevoContactoProveedor.email"
+                              label="Email"
+                              dense
+                              outlined
+                              required
+                              :rules="emailRules"
+                            ></v-text-field>
+                            <v-btn
                            
-                            color="green darken-1"
-                            text
-                            @click="dialogCrearContacto = false"
-                          >
-                            Cancelar
-                          </v-btn>
-                          <v-btn
-                            color="green darken-1"
-                            text
-                            @click="crearNuevoContacto()"
-                          >
-                            Agregar
-                          </v-btn></div></v-card-text>
+                              color="green darken-1"
+                              text
+                              @click="dialogCrearContacto = false"
+                            >
+                              Cancelar
+                            </v-btn>
+                            <v-btn
+                              color="green darken-1"
+                              text
+                              @click="crearNuevoContacto()"
+                            >
+                              Agregar
+                            </v-btn></v-form></div></v-card-text>
                       <v-spacer></v-spacer>
                     
                     </v-card-actions>
@@ -248,7 +282,7 @@
         <v-dialog v-model="dialogDesactivar" persistent max-width="500">
           <v-card>
             <v-card-title class="text-h5">
-              ¿Deseas deshabilitar este Proveedor?
+              ¿Deseas {{ cpxTextoBotonUpdateEstado }} este Proveedor?
             </v-card-title>
             <v-card-actions>
               <v-spacer></v-spacer>
