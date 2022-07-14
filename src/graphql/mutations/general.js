@@ -1,5 +1,23 @@
 import gql from 'graphql-tag'
 
+const UPDATE_EMPRESA = gql`
+mutation M_UPDATE_EMPRESA($id: bigint!,$direccion: String!, $email: String!, $giro: String!, $nombre: String!, $representante: String!, $rut: String!, $telefono: String!, $com_fk: bigint!) {
+  update_kangusoft_emp(where: {id: {_eq: $id}}, _set: {direccion: $direccion, email: $email, giro: $giro, nombre: $nombre, representante: $representante, telefono: $telefono, rut: $rut, com_fk: $com_fk}) {
+  returning {
+    activo
+    direccion
+    email
+    com_fk
+    giro
+    id
+    nombre
+    rut
+    representante
+    telefono
+  }
+}
+}
+`
 const UPDATE_CONTACTO = gql`
 mutation M_UPDATE_CONTACTO($id_contacto: bigint!, $ent_con: kangusoft_ent_con_set_input!) {
   update_kangusoft_ent_con(where: {id: {_eq: $id_contacto}}, _set: $ent_con) {
@@ -41,6 +59,7 @@ mutation M_INSERT_ENT_MODAL($ent: EntInput!, $ent_con: EntConInput!) {
 `
 
 export {
+  UPDATE_EMPRESA,
   UPDATE_CONTACTO,
   GET_PARTIDAS,
   INSERT_CONTACTO,

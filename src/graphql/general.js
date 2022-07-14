@@ -1,6 +1,6 @@
 import { GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
   GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA, GET_ACCESO_MODULO  } from './querys/general'
-import { GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
+import { UPDATE_EMPRESA, GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
 import { SUBS_DATOS_USUARIO } from './subscriptions/general'
 
 import { apolloClient } from '../client'
@@ -113,6 +113,34 @@ export const getMateriales = async (material) => {
     variables: {
       material
     }
+  })
+}
+export const updateEmpresa = async (id, direccion,email,giro,nombre,representante,rut,telefono,com_fk) => {
+  console.log('id_contacto, ent_con: ',
+    direccion,
+    email,
+    com_fk,
+    giro,
+    id,
+    nombre,
+    rut,
+    representante,
+    telefono)
+  
+  return await apolloClient.mutate({
+    mutation: UPDATE_EMPRESA,
+    variables:{
+      direccion,
+      email,
+      com_fk,
+      giro,
+      id,
+      nombre,
+      rut,
+      representante,
+      telefono
+    },
+    update: (data) => {console.log('update data updateContactos: ',data)} 
   })
 }
 

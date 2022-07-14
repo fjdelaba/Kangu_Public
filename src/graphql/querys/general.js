@@ -138,6 +138,13 @@ query Q_GET_EMPRESA($emp_id: bigint!) {
     email
     com {
       nombre
+      id
+      prov {
+        reg {
+          id
+          nombre
+        }
+      }
     }
     giro
     id

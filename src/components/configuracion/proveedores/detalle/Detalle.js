@@ -108,7 +108,7 @@ export default {
         console.log("HOLA")
         const resp = await updateProveedor(this.proveedor.direccion,this.proveedor.emailContacto,this.proveedor.emailDte,this.idProveedor,this.proveedor.giro,this.proveedor.razon_social,this.proveedor.rut,this.datosUsuario)
         console.log('resp datos contacto: ', resp)
-        this.edicion = true
+        this.edicion = false
         this.dialog = false
       } catch (error) {
         console.log('error: ', error)
