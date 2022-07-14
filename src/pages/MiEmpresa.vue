@@ -163,7 +163,7 @@
               </div>
             </v-expand-transition>
               <div 
-             class="text-center">
+             class="text-right">
           <v-btn
             text
             color="primary"

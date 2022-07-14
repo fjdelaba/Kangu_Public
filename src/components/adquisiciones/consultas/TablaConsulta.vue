@@ -61,7 +61,6 @@
               transition="scale-transition"
               offset-y
               min-width="auto"
-              dense
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
@@ -97,10 +96,6 @@
                 </v-btn>
               </v-date-picker>
             </v-menu>
-            <!-- <v-checkbox
-      v-model="aprobacionesPendientes"
-      :label="`Mis pendientes`"
-    ></v-checkbox> -->
           </v-col>
           <v-col cols="6" class="d-flex text-right align-center">
             <!-- <v-text-field

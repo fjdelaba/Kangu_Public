@@ -74,11 +74,27 @@
                 ></previsualizacion>
               </v-stepper-content>
             </v-stepper-items>
+           <v-row 
+              align="right"
+              justify="space-around"
+              no-gutters>
+              <v-col>
+            
+              <v-btn class="mb-2 ml-10" color="primary" v-if="pasoStep > 1" @click="retroceder()">
+              Atras
+            </v-btn>
+            </v-col>
+            <v-col
+              md="3"
+              offset-md="3">
             <v-btn
+              class="mb-2 ml-15"
+              depressed
               color="primary"
               :loading="disabledBotonSiguiente"
               :disabled="disabledBotonSiguiente"
               @click="avanzar()"
+              
             >
               {{ cpxTextoAvanzar }}
               <template v-slot:loader>
@@ -87,10 +103,8 @@
                 </span>
               </template>
             </v-btn>
-
-            <v-btn v-if="pasoStep > 1" @click="retroceder()">
-              Atras
-            </v-btn>
+            </v-col>
+            </v-row> 
           </v-stepper>
         </v-col>
       </v-row>      

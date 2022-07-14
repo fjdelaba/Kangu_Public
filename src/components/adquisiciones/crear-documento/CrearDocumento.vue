@@ -255,12 +255,14 @@
                   Atras
                 </v-btn>
                 <v-spacer></v-spacer>
+                <div></div>
                 <v-btn
                   color="primary"
                   @click="siguiente()"
                 >
                   siguiente
                 </v-btn>
+                
               </v-col>
               <v-col cols="12" md="4">
 
