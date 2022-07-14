@@ -24,6 +24,10 @@ export default {
     },
     regla:[],
     aprobadores:[],
+    tipo_documento:{
+      type: Number,
+      default: 0
+    }
   },
 
   data() {
@@ -143,31 +147,31 @@ export default {
      console.log(" this.apruebo", this.cpxvalidacion)
     },
     totalesItems() {
-      let neto = 0
-      let iva = 0
-      const retencion = 0
-      let total = 0
-      const descuento = 0
+      // let neto = 0
+      // let iva = 0
+      // const retencion = 0
+      // let total = 0
+      // const descuento = 0
   
-      for (const linea of this.materiales) {
-        console.log('linea: ', linea)
-        neto += Number(linea.total)
-      }
-      iva = neto * 0.19
-      total = iva + neto
+      // for (const linea of this.materiales) {
+      //   console.log('linea: ', linea)
+      //   neto += Number(linea.total)
+      // }
+      // iva = neto * 0.19
+      // total = iva + neto
   
-      console.log(neto, iva, total)
-      this.resumenesTotales =  [
-        { item: 'Neto', valor: neto },
-        { item: 'IVA', valor: iva },
-        { item: 'Total', valor: total }
-      ]
+      // console.log(neto, iva, total)
+      // this.resumenesTotales =  [
+      //   { item: 'Neto', valor: neto },
+      //   { item: 'IVA', valor: iva },
+      //   { item: 'Total', valor: total }
+      // ]
   
-      return [
-        { item: 'Neto', valor: neto },
-        { item: 'IVA', valor: iva },
-        { item: 'Total', valor: total }
-      ]
+      // return [
+      //   { item: 'Neto', valor: neto },
+      //   { item: 'IVA', valor: iva },
+      //   { item: 'Total', valor: total }
+      // ]
     },
     activarPanelAprobacion(){
       console.log('this.aprobadores: ', this.aprobadores);

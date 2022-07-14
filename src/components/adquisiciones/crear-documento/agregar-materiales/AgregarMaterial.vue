@@ -10,7 +10,7 @@
           small
           class="mb-2"
           @click="abrirDialogMaterial()"
-        >
+        >tipo doc {{ tipo_documento }}
           Agregar Material 
         </v-btn>
       </v-col>
@@ -337,7 +337,7 @@
             </div>
           </template>
         </v-data-table> -->
-        <cuadro-resumen :materiales="lista_detalle"></cuadro-resumen>
+        <cuadro-resumen :materiales="lista_detalle" :oc="{}" :tipo_documento="tipo_documento" :mostrar-tipos-documento="true"></cuadro-resumen>
       </v-col>
     </v-row>
     <v-dialog

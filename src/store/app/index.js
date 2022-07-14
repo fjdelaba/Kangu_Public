@@ -40,6 +40,9 @@ const state = {
   //usuario
   usuario: {},
 
+  //usuario
+  tipoBoleta: 1,
+
   // App.vue main toast
   toast: {
     show: false,

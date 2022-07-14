@@ -40,6 +40,9 @@ export default {
   setUsuario: (state, payload) => {
     state.usuario = payload
   },
+  setTipoBoleta: (state, payload) => {
+    state.tipoBoleta = payload
+  },
   /**
    * Theme and Layout
    */

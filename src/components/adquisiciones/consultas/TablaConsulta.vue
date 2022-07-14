@@ -40,7 +40,7 @@
             ></v-autocomplete>  
           </v-col>
           <v-col cols="5">
-            <v-autocomplete
+            <!-- <v-autocomplete
               v-if="aprobar == false"
               v-model="estadoSeleccionado"
               :items="estadosOc"
@@ -52,7 +52,7 @@
               item-value="id"
               placeholder="Selecciona el Estado de la Oc"
               @change="filtroEstadoOc()"
-            ></v-autocomplete>
+            ></v-autocomplete> -->
             <v-menu
               ref="menu"
               v-model="menu"
@@ -97,10 +97,10 @@
                 </v-btn>
               </v-date-picker>
             </v-menu>
-            <v-checkbox
+            <!-- <v-checkbox
       v-model="aprobacionesPendientes"
       :label="`Mis pendientes`"
-    ></v-checkbox>
+    ></v-checkbox> -->
           </v-col>
           <v-col cols="6" class="d-flex text-right align-center">
             <!-- <v-text-field
