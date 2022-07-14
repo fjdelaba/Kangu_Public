@@ -11,7 +11,11 @@ export default {
   },
   props: {
     oc_id: 0,
-    pro_fk: 0
+    pro_fk: 0,
+    tipo_documento:{
+      type: Number,
+      default: 0
+    }
   },
   data: () => ({
     dialogMaterial: false,
@@ -423,30 +427,31 @@ export default {
   },
   async mounted() {
     console.log('mounted Agregar Material')
+    console.log('mounted agregarMaterial this.$paren: ', this.$parent.$children)
+    
   },
   computed: {
     cpxTotalesItems() {
-      let neto = 0
-      let iva = 0
-      const retencion = 0
-      let total = 0
-      const descuento = 0
+      // let neto = 0
+      // let iva = 0
+      // const retencion = 0
+      // let total = 0
+      // const descuento = 0
+      
+      // for (const linea of this.lista_detalle) {
+      //   console.log('linea: ', linea)
+      //   neto += Number(linea.total)
+      // }
+      // iva = neto * 0.19
+      // total = iva + neto
 
-      // for (const linea of this.materiales) {
-      for (const linea of this.lista_detalle) {
-        console.log('linea: ', linea)
-        neto += Number(linea.total)
-      }
-      iva = neto * 0.19
-      total = iva + neto
+      // console.log(neto, iva, total)
 
-      console.log(neto, iva, total)
-
-      return [
-        { item: 'Neto', valor: neto },
-        { item: 'IVA', valor: iva },
-        { item: 'Total', valor: total }
-      ]
+      // return [
+      //   { item: 'Neto', valor: neto },
+      //   { item: 'IVA', valor: iva },
+      //   { item: 'Total', valor: total }
+      // ]
     }
   }
 }

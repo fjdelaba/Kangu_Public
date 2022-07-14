@@ -35,7 +35,19 @@
           >Crear Proveedor</v-btn>
           <v-spacer></v-spacer>
           <v-col cols="6" class="d-flex text-right align-center">
-            <v-text-field
+            <v-autocomplete
+              v-model="proveedorSeleccionado"
+              class="flex-grow-1 mr-md-2"
+              :items="razonSocial"
+              outlined
+              label="Busca por la Razon Social"
+              item-text="razon_social"
+              item-value="id"
+              dense
+              return-object
+              @change="filtroProveedor()"
+            ></v-autocomplete>  
+            <!-- <v-text-field
       
               append-icon="mdi-magnify"
               class="flex-grow-1 mr-md-2"
@@ -45,7 +57,7 @@
               clearable
               placeholder="p.ej. filtrar por rut, correo electrónico, nombre, etc."
               @keyup.enter="searchUser(searchQuery)"
-            ></v-text-field>
+            ></v-text-field> -->
           <!-- <v-btn
             :loading="isLoading"
             icon
@@ -56,6 +68,7 @@
             <v-icon>mdi-refresh</v-icon>
           </v-btn> -->
           </v-col>
+          
         </v-row>
    
         <v-data-table

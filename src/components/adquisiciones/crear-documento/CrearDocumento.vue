@@ -8,7 +8,7 @@
       style="min-width: 600px;"
       class="flex-grow-0 flex-shrink-1 w-full"
     >
-
+  
       <v-stepper v-model="pasoStep" class="flex-grow-1">
         <v-stepper-header>
           <!-- -->

@@ -88,8 +88,10 @@ export default {
       proyectos: [{ id: 0, nombre: 'Todos los Proyectos' }],
       estadosOc: [{ id: 0, nombre: 'Todos los Estados' }],
       ocsCopy: [],
-      dates: ['2019-09-10', '2019-09-20']
+      dates: ['2019-09-10', '2019-09-20'],
+      aprobacionesPendientes: true,
     };
+    
   },
   computed: {
     dateRangeText () {
