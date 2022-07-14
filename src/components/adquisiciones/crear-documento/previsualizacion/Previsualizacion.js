@@ -139,7 +139,19 @@ export default {
 
     async descargarOcPDF(){
       this.totalesItems()
-      await creaPdfOC(this.materiales,this.cabecera,this.datosEmpresa,this.resumenesTotales)
+      const totalesCuadroResumen = await this.$refs.refcuadroresumen.cpxTotalesItems
+      const tot = []
+      console.log(this.$refs.refcuadroresumen.cpxTotalesItems);
+      for(let lineaCuadroResumen of totalesCuadroResumen){
+        console.log(lineaCuadroResumen);
+        if(lineaCuadroResumen.item === "impuesto"){
+          continue
+        }else{
+          tot.push(lineaCuadroResumen)
+        }
+      }
+      console.log(tot)
+      await creaPdfOC(this.materiales,this.cabecera,this.datosEmpresa, tot)
     },
     rechazoOc(){
      this.apruebo = false

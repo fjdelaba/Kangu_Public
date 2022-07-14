@@ -41,7 +41,8 @@ export default {
       },
       comentarioOcSeleccionada:"",
       aprobacion:true,
-      aprobadores: []
+      aprobadores: [],
+      tipo_documento: 1
     }
   },
   methods: {
@@ -75,6 +76,7 @@ export default {
         this.cabecera.tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre
         this.cabecera.est_doc_fk = Number(kangusoft_oc[0].est_doc_fk)
         this.cabecera.id = kangusoft_oc[0].id
+        this.tipo_documento = kangusoft_oc[0].doc_tip_fk
     },
   }
 }

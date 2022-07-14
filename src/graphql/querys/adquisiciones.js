@@ -162,6 +162,7 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
       id
     }
     desp_direccion
+    doc_tip_fk
     ent {
       id
       razon_social
