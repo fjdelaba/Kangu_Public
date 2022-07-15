@@ -87,9 +87,8 @@
                 outlined
                 item-text="nombre"
                 item-value="id"
-                @blur="cargarComuna()"
+                @blur="cargarComuna(empresa.region)"
               ></v-autocomplete>
-
               <v-autocomplete
                 v-model="empresa.comuna"
                 :readonly="!edicion"
@@ -329,6 +328,8 @@ export default {
         },
         select: null
       },
+      copyComuna:{ id:'',
+          nombre:''},
       edicion:false,
       datosEmpresa:'',
       datosUsuario:'',
@@ -396,10 +397,12 @@ export default {
       this.empresa.telefono = kangusoft_emp[0].telefono
       this.empresa.logo = kangusoft_emp[0].logo
       this.empresa.direccion = kangusoft_emp[0].direccion
-      this.empresa.region = kangusoft_emp[0].com.prov.reg
+      this.empresa.region = kangusoft_emp[0].com.prov.reg.id
       this.empresa.comuna.id = kangusoft_emp[0].com.id
       this.empresa.comuna.nombre = kangusoft_emp[0].com.nombre
-      this.comuna.push({id:this.empresa.comuna.id , nombre: this.empresa.comuna.nombre})
+      this.cargarComuna(this.empresa.region)
+      this.copyComuna.id = kangusoft_emp[0].com.id
+      this.copyComuna.nombre =  kangusoft_emp[0].com.nombre
     },
     async cargarRegion(){
       const {
@@ -426,21 +429,31 @@ export default {
      cancelarEdicionEmpresa() {
       this.edicion = false
       this.cargarEmpresa()
+      this.empresa.comuna = this.copyComuna
     },
      async grabarEdicionEmpresa(){
       try {
+        if(this.copyComuna.id == this.empresa.comuna.id){
         console.log("HOLA")
+        const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna.id)
+        console.log('resp datos contacto: ', resp)
+        this.edicion = false
+        }else if(this.copyComuna.id != this.empresa.comuna.id){
+           console.log("HOLA")
         const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna)
         console.log('resp datos contacto: ', resp)
         this.edicion = false
+        }
+       
       } catch (error) {
         console.log('error: ', error)
       }
     },
-    async cargarComuna(){
+    async cargarComuna(id){
+       this.comuna = []
       const {
         data: { kangusoft_prov },
-      } = await getComunas(this.empresa.region);
+      } = await getComunas(id);
       console.log("COMUNAS:",kangusoft_prov)
        for (let prov of kangusoft_prov) {
         for (let com of prov.coms) {
