@@ -201,35 +201,35 @@
                     </v-chip>
                   </div>
                 </div>
-                <!-- <div v-if="item.editable">
-          <v-combobox
-            v-model="item.par"
-            :items="listaPartidas"
-            label="Selecciona la partida"
-            v-bind="attrs"
-            item-text="nombre"
-            item-value="id"
-            outlined
-            dense
-            :return-object="true"
-          >
-            <template #item="data">
-              <v-tooltip bottom>
-                <template #activator="{ on, attrs }">
-                  <v-layout wrap v-bind="attrs" v-on="on">
-                    <v-list-item-content>
-                      <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
-                    </v-list-item-content>
-                  </v-layout>
-                </template>
-                <span>{{ `${data.item.path}` }}</span>
-              </v-tooltip>
-            </template>
-          </v-combobox>
-        </div>
-        <div v-else>
-          <span>{{ item.par.nombre }}</span> 
-        </div> -->
+                          <!-- <div v-if="item.editable">
+                    <v-combobox
+                      v-model="item.par"
+                      :items="listaPartidas"
+                      label="Selecciona la partida"
+                      v-bind="attrs"
+                      item-text="nombre"
+                      item-value="id"
+                      outlined
+                      dense
+                      :return-object="true"
+                    >
+                      <template #item="data">
+                        <v-tooltip bottom>
+                          <template #activator="{ on, attrs }">
+                            <v-layout wrap v-bind="attrs" v-on="on">
+                              <v-list-item-content>
+                                <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
+                              </v-list-item-content>
+                            </v-layout>
+                          </template>
+                          <span>{{ `${data.item.path}` }}</span>
+                        </v-tooltip>
+                      </template>
+                    </v-combobox>
+                  </div>
+                  <div v-else>
+                    <span>{{ item.par.nombre }}</span> 
+                  </div> -->
         
               </template>
               <template v-slot:item.cantidad="{ item }">
@@ -307,12 +307,12 @@
                 </div>
               </template>
               <template v-slot:no-data>
-                <!-- <v-btn
-          color="primary"
-          @click="initialize"
-        >
-          Reset
-        </v-btn> -->
+                                    <!-- <v-btn
+                              color="primary"
+                              @click="initialize"
+                            >
+                              Reset
+                            </v-btn> -->
                 Sin datos
               </template>
             </v-data-table>
@@ -322,7 +322,7 @@
                 <!-- <v-card
             height="100%"
             elevation="2"
-          >{{ observacion }}</v-card> -->
+            >{{ observacion }}</v-card> -->
                 <v-textarea
                   outlined
                   label="Comentario al proveedor"
@@ -391,43 +391,85 @@
       </v-tab-item>
 
       <v-tab-item
-        value="flujo"
-        class="mb-6 pb-6"
-      >
+        value="flujo" >
+      <v-card class="mx-auto">
+        
+      <div>
+        <v-row>
+          <v-col lg="5" md="5" class="py-3 py-3 pr-5 pl-10">
         <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
-        <v-row v-if="mostrarBotones && aprobacion" dense class="px-7 align-center mt-1">
-          <v-btn
+        <div class="text-center pt-5"> <v-list-item-title class="text-h4 font-weight-bold ">NETO: $1.00.000</v-list-item-title>
+        <v-list-item-subtitle>TOTAL: $1.904.000</v-list-item-subtitle>
+        <div class="text-center">
+            <v-chip
+              class="ma-2"
+              color="success"
+              outlined
+            >
+              <v-icon left>
+                mdi-cash-plus
+              </v-icon>
+              Pesos
+            </v-chip>
+              <v-chip
+              class="ma-2"
+              color="primary"
+              outlined
+            >
+              <v-icon left>
+                mdi-book-plus
+              </v-icon>
+              Documento
+            </v-chip>
+            <v-chip
+              class="ma-2"
+              color="deep-purple accent-4"
+              outlined
+            >
+              <v-icon left>
+                 mdi-account-outline
+              </v-icon>
+              Proveedor
+            </v-chip>
+
+          </div>
+        <v-row v-if="mostrarBotones && aprobacion" dense class="px-7 align-center "  justify="space-around">
+           <v-btn
             color="success"
             @click="desicionFluo(true)"
           >Aprobar
           </v-btn>
-          <v-spacer></v-spacer>
-          <v-col cols="1" class="d-flex text-right align-center">
             <v-btn
               class="mr-1"
               color="error"
               @click="desicionFluo(false)"
             >Rechazar
             </v-btn>
-          </v-col>
-          <v-row dense class="px-7 align-center mt-1">
+        </v-row >
+        </div>
+        </v-col>
+       
+        <v-row justify="center" height="max-height">
+          <v-col lg="7" md="5" class="py-3  pr-5 ">
             <v-textarea
               label="Comentario"
               auto-grow
               outlined
-              rows="2"
+              rows="18"
               row-height="15"
             ></v-textarea>
+            </v-col>
           </v-row>
-        </v-row >
-        <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
+          </v-row>
+    </div>
         <v-row v-if="aprobacion == true">
-          <v-divider></v-divider>
+          
           <!-- <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider> -->
         </v-row>
+        <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
@@ -436,11 +478,19 @@
           :options="pie"
           auto-resize
         /> -->
+        
+        </v-card>
       </v-tab-item>
+      
     </v-tabs-items>
 
   </div>
 </template>
+<style scoped>
+.text-h4 {
+color: #1565C0;
+}
+</style>
 
 <script src="./Previsualizacion.js"></script>
 
