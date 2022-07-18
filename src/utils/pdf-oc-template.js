@@ -37,6 +37,9 @@ async function creaPdfOC(tablaMateriales,datos,datosEmpresa,resumenTotales) {
  doc.setFontSize(30)
 doc.setFont('Helvetica');
 
+if(datos.proveedor.direccion == null){
+  datos.proveedor.direccion = 'Sin Dirección'
+}
 
   // let moneda = ""
   // let nombreOc = ""

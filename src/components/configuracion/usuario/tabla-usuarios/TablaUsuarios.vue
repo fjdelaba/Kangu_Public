@@ -1,7 +1,6 @@
 <template>
   <div>
     <div>
-      {{ usuarios[19] }}
     </div>
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center">

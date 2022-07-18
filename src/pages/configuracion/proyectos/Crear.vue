@@ -7,6 +7,9 @@
       </v-col>
     </v-row>
     <v-row class="mb-6" no-gutters>
+      <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
+    </v-row>
+    <v-row class="mb-6" no-gutters>
       <v-col>   
         <v-row class="mb-6" no-gutters>
           <v-col> 

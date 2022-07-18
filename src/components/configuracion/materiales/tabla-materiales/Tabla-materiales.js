@@ -43,11 +43,11 @@ export default {
             }
             this.skeleton = false
         },
-        cargarDetalle(id){
-            this.$router.push({
-                path: "proveedores/detalle",
-                query: { id: Number(id),}
-            });
-        }
+        // cargarDetalle(id){
+        //     this.$router.push({
+        //         path: "proveedores/detalle",
+        //         query: { id: Number(id),}
+        //     });
+        // }
     }
 }
