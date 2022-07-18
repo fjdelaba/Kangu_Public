@@ -3,50 +3,49 @@ import gql from 'graphql-tag'
 
 const QUERY_FORMA_PAGO = gql`
   query {
-    kangusoft_forma_pago {
+    kangusoft_for_pag {
       nombre
       id
       activo
+      fec_creacion
     }
   }
 `
 const GETDESPACHO = gql`
  query MyQuery {
   
-  kangusoft_desp_tipo {
-    nombre
+  kangusoft_des_tip {
     id
+    nombre
     activo
+    fec_creacion
   }
 }
 `;
 const GETMONEDA = gql`
  query {
-  kangusoft_moneda {
-    activo
+  kangusoft_mon {
     id
     nombre
+    activo
   }
 }
 `;
 const GETCELULAS = gql`
   query {
-  kangusoft_cg_unidad {
-    activa
-    fec_creacion
+    kangusoft_pro_uni {
     id
     nombre
-    usu_creacion_fk
     activo
+    fec_creacion
   }
 }
 `;
 const GETCGESTADO = gql`
 query {
-  kangusoft_cg_estado {
+  kangusoft_pro_est {
     id
     nombre
-    activo
   }
 }`
 const GETBOTONES = gql`
@@ -64,6 +63,6 @@ async function getFormaPago() {
     query: QUERY_FORMA_PAGO
   })
 
-  return data.data.kangusoft_forma_pago
+  return data.data.kangusoft_for_pag
 }
 export { QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO, getFormaPago }

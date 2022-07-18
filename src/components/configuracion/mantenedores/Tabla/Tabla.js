@@ -3,7 +3,7 @@ import  {QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACH
 import gql from "graphql-tag";
 const UPDATE_MONEDA = gql`
  mutation update_moneda($id_moneda: bigint!, $activo: Boolean!) {
-  update_kangusoft_moneda(where: {id: {_eq: $id_moneda}}, _set: {activo: $activo}) {
+  update_kangusoft_mon(where: {id: {_eq: $id_moneda}}, _set: {activo: $activo}) {
     affected_rows
     returning {
       activo
@@ -12,7 +12,7 @@ const UPDATE_MONEDA = gql`
 }`;
 const UPDATE_CGESTADO = gql`
 mutation update_cgestado($id_cgestado: bigint!, $activo: Boolean!) {
-  update_kangusoft_cg_estado(where: {id: {_eq: $id_cgestado}}, _set: {activo: $activo}) {
+  update_kangusoft_pro_est(where: {id: {_eq: $id_cgestado}}, _set: {activo: $activo}) {
     affected_rows
     returning {
       id
@@ -22,7 +22,7 @@ mutation update_cgestado($id_cgestado: bigint!, $activo: Boolean!) {
 }`
 const UPDATE_TDESPACHO = gql`
 mutation update_tdespacho($id_tdespacho: bigint!, $nombre: String!, $activo: Boolean!){
-  update_kangusoft_desp_tipo(where: {id: {_eq: $id_tdespacho}}, _set: {nombre: $nombre, activo: $activo}) {
+  update_kangusoft_des_tip(where: {id: {_eq: $id_tdespacho}}, _set: {nombre: $nombre, activo: $activo}) {
     affected_rows
     returning {
       id
@@ -33,7 +33,7 @@ mutation update_tdespacho($id_tdespacho: bigint!, $nombre: String!, $activo: Boo
 }`
 const UPDATE_FPAGO = gql `
 mutation update_fpago($id_fpago: bigint!, $nombre: String!, $activo: Boolean!){
-  update_kangusoft_forma_pago(where: {id: {_eq: $id_fpago}}, _set: {nombre: $nombre, activo: $activo}) {
+  update_kangusoft_for_pag(where: {id: {_eq: $id_fpago}}, _set: {nombre: $nombre, activo: $activo}) {
     affected_rows
     returning {
       id
@@ -44,7 +44,7 @@ mutation update_fpago($id_fpago: bigint!, $nombre: String!, $activo: Boolean!){
 }`
 const UPDATE_CGUNIDAD = gql`
 mutation update_cgunidad($id_cgunidad: bigint!, $nombre: String!, $activo: Boolean!){
-  update_kangusoft_cg_unidad(where: {id: {_eq: $id_cgunidad}}, _set: {activo: $activo, nombre: $nombre}) {
+  update_kangusoft_pro_uni(where: {id: {_eq: $id_cgunidad}}, _set: {activo: $activo, nombre: $nombre}) {
     affected_rows
     returning {
       id
@@ -56,7 +56,7 @@ mutation update_cgunidad($id_cgunidad: bigint!, $nombre: String!, $activo: Boole
 //TODO INSERTS
 const INSERT_FPAGO = gql`
 mutation insert_fpago($id_emp: bigint!, $nombre: String!, $activo: Boolean!) {
-  insert_kangusoft_forma_pago(objects: {nombre:  $nombre, emp_fk: $id_emp, activo: $activo}){
+  insert_kangusoft_for_pag(objects: {nombre:  $nombre, emp_fk: $id_emp, activo: $activo}){
     affected_rows
     returning {
       id
@@ -68,7 +68,7 @@ mutation insert_fpago($id_emp: bigint!, $nombre: String!, $activo: Boolean!) {
 `
 const INSERT_TDESPACHO = gql`
 mutation insert_tdespacho($id_emp: bigint!, $nombre: String!, $activo: Boolean!) {
-  insert_kangusoft_desp_tipo(objects: {nombre: $nombre, emp_fk: $id_emp, activo: $activo}){
+  insert_kangusoft_des_tip(objects: {nombre: $nombre, emp_fk: $id_emp, activo: $activo}){
     affected_rows
     returning {
       id
@@ -80,7 +80,7 @@ mutation insert_tdespacho($id_emp: bigint!, $nombre: String!, $activo: Boolean!)
 `
 const INSERT_CGUNIDAD = gql`
 mutation insert_cgunidad($id_emp: bigint!, $nombre: String!, $activo: Boolean!,$activa: bpchar!,$usu_creacion_fk: bigint!,$fec_creacion: timestamp!) {
-  insert_kangusoft_cg_unidad(objects: {activo: $activo, emp_fk: $id_emp, nombre: $nombre, activa:$activa, usu_creacion_fk: $usu_creacion_fk, fec_creacion:$fec_creacion}){
+  insert_kangusoft_pro_uni(objects: {activo: $activo, emp_fk: $id_emp, nombre: $nombre, activa:$activa, usu_creacion_fk: $usu_creacion_fk, fec_creacion:$fec_creacion}){
     affected_rows
     returning {
       id
@@ -93,7 +93,7 @@ mutation insert_cgunidad($id_emp: bigint!, $nombre: String!, $activo: Boolean!,$
 //TODO DELETE
 const DELETE_CGUNIDAD = gql`
 mutation delete_cgunidad($id_cgunidad: bigint!) {
-  delete_kangusoft_cg_unidad(where: {id: {_eq: $id_cgunidad}}) {
+  delete_kangusoft_pro_uni(where: {id: {_eq: $id_cgunidad}}) {
     affected_rows
     returning {
       id
@@ -103,7 +103,7 @@ mutation delete_cgunidad($id_cgunidad: bigint!) {
 `
 const DELETE_TDESPACHO = gql`
 mutation delete_tdespacho($id_tdespacho: bigint!) {
-  delete_kangusoft_desp_tipo(where: {id: {_eq: $id_tdespacho}}) {
+  delete_kangusoft_des_tip(where: {id: {_eq: $id_tdespacho}}) {
     affected_rows
     returning {
       id
@@ -113,7 +113,7 @@ mutation delete_tdespacho($id_tdespacho: bigint!) {
 `
 const DELETE_FPAGO = gql`
 mutation delete_cgunidad($id_fpago: bigint!) {
-  delete_kangusoft_forma_pago(where: {id: {_eq: $id_fpago}}) {
+  delete_kangusoft_for_pag(where: {id: {_eq: $id_fpago}}) {
     affected_rows
     returning {
       id
@@ -310,7 +310,7 @@ export default {
        this.aux = data
        console.log("data", data)
         this.close();
-        this.lista.push(data.insert_kangusoft_forma_pago.returning[0])
+        this.lista.push(data.insert_kangusoft_for_pag.returning[0])
         this.habilitar = false
       }else{
        console.log("no entre")
@@ -330,7 +330,7 @@ export default {
        this.aux = data
        console.log("data", data)
        this.close();
-       this.lista.push(data.insert_kangusoft_desp_tipo.returning[0])
+       this.lista.push(data.insert_kangusoft_des_tip.returning[0])
         this.habilitar = false
       }else{
        console.log("no entre")
@@ -352,7 +352,7 @@ export default {
        this.aux = data
        console.log("data", data)
        this.close();
-       this.lista.push(data.insert_kangusoft_cg_unidad.returning[0])
+       this.lista.push(data.insert_kangusoft_pro_uni.returning[0])
        this.habilitar = false
       }else{
        console.log("no entre")
@@ -377,8 +377,8 @@ export default {
        this.aux = data
        console.log("data", data)
        
-        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_forma_pago.returning[0].nombre);
-        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_forma_pago.returning[0].activo);
+        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_for_pag.returning[0].nombre);
+        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_for_pag.returning[0].activo);
         this.close();
       }else{
        console.log("no entre")
@@ -397,8 +397,8 @@ export default {
        this.aux = data
        console.log("data", data)
        
-        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_desp_tipo.returning[0].nombre);
-        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_desp_tipo.returning[0].activo);
+        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_des_tip.returning[0].nombre);
+        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_des_tip.returning[0].activo);
       }else{
        console.log("no entre")
       }
@@ -417,8 +417,8 @@ export default {
      this.aux = data
      console.log("data", data)
      
-      this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_cg_unidad.returning[0].nombre);
-      this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_cg_unidad.returning[0].activo);
+      this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_pro_uni.returning[0].nombre);
+      this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_pro_uni.returning[0].activo);
     }else{
      console.log("no entre")
     }
