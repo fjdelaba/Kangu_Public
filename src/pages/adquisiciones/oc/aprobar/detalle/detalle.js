@@ -69,9 +69,8 @@ export default {
         this.cabecera.proyecto.direccion = kangusoft_oc[0].pro.direccion
         this.cabecera.moneda.nombre = kangusoft_oc[0].mon.nombre
         this.cabecera.moneda.id = kangusoft_oc[0].mon.id
-        this.cabecera.contacto.nombre = kangusoft_oc[0].usu.nombre
-        this.cabecera.contacto.apellidos = kangusoft_oc[0].usu.apellidos
-        this.cabecera.contacto.email = kangusoft_oc[0].usu.email
+        this.cabecera.contacto.nombre = kangusoft_oc[0].ent_con.nombre
+        this.cabecera.contacto.email = kangusoft_oc[0].ent_con.email
         this.cabecera.formaPago.nombre =  kangusoft_oc[0].for_pag.nombre
         this.cabecera.tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre
         this.cabecera.est_doc_fk = Number(kangusoft_oc[0].est_doc_fk)

@@ -3,7 +3,7 @@
     <div v-if="$store.state.app.permisosUsuario.oc">
       <div>
         <h2>Aprobar OC</h2>
-        <tabla-consulta :aprobar="aprobar"></tabla-consulta>
+        <tabla-consulta :aprobar="aprobar" :origen="1"></tabla-consulta>
       </div>
     </div>
     <div v-else>

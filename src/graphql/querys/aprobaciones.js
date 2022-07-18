@@ -6,6 +6,7 @@ query Q_GET_APROBADORES_PROYECTO($id_proyecto: bigint!, $id_modulo: bigint!) {
     id
     usu_apro_fk
     monto
+    apro_final
     usuByUsuAproFk {
       apellidos
       nombre

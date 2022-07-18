@@ -43,6 +43,12 @@ const state = {
   //usuario
   tipoBoleta: 1,
 
+  //Tipos Documento
+  tiposDocumento: [],
+
+  //Monedas
+  monedas: [],
+
   // App.vue main toast
   toast: {
     show: false,

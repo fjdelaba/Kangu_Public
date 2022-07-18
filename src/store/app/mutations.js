@@ -43,6 +43,12 @@ export default {
   setTipoBoleta: (state, payload) => {
     state.tipoBoleta = payload
   },
+  setTiposDocumeto: (state, payload) => {
+    state.tiposDocumento = payload
+  },
+  setMonedas: (state, payload) => {
+    state.monedas = payload
+  },
   /**
    * Theme and Layout
    */

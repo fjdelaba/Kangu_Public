@@ -7,10 +7,12 @@
       @change="seleccionTipoBoleta()"
     >
       <v-radio
+        v-if="false"
         label="Liquido"
         :value="1"
       ></v-radio>
       <v-radio
+      
         label="Bruto"
         :value="2"
       ></v-radio>

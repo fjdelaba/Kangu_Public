@@ -214,4 +214,31 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
 }
 `
 
-export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR }
+const GET_OC_CONSULTAS = gql`
+query Q_GET_OC_CONSULTAS($datos: getOcsInput!) {
+  getOcs(datos: $datos) {
+    ocs {
+      doc_tip_fk
+      ent_fk
+      fec_apro
+      fec_creacion
+      identificacion
+      mon_fk
+      neto
+      oc_nombre
+      pro_nombre
+      razon_social
+      usu_apellidos
+      usu_nombre
+      id
+      mon_nombre
+      est_nombre
+      rut
+    }
+    success
+    error
+  }
+}
+`
+
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS }
