@@ -393,12 +393,19 @@
       <v-tab-item
         value="flujo" >
       <v-card class="mx-auto">
-        
-      <div>
+       
         <v-row>
-          <v-col lg="5" md="5" class="py-3 py-3 pr-5 pl-10">
+          <v-col  class="py-3 py-3 pr-5 pl-10 pt-5">
+             <template>
+          <v-card
+              class="mx-auto"
+              color="#FAFAFA"
+              dark
+              max-width="600"
+            >
         <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
-        <div class="text-center pt-10"> <v-list-item-title class="text-h4 font-weight-bold ">NETO: $1.00.000</v-list-item-title>
+        
+        <div class="text-center pt-5 pb-5"> <v-list-item-title class="text-h4 font-weight-bold ">NETO: $1.00.000</v-list-item-title>
         <v-list-item-subtitle>TOTAL: $1.904.000</v-list-item-subtitle>
         <div class="text-center">
             <v-chip
@@ -433,7 +440,7 @@
             </v-chip>
              <v-chip
              class="ma-2"
-              color="gris accent-4"
+              color="teal accent-4"
               outlined
             >
               <v-icon left>
@@ -443,21 +450,24 @@
             </v-chip>
           </div>
         <v-row v-if="mostrarBotones && aprobacion" dense class="px-7 align-center "  justify="space-around">
+         <v-col class="pr-5">
            <v-btn
             color="success"
             @click="desicionFluo(true)"
           >Aprobar
           </v-btn>
             <v-btn
-              class="mr-1"
+               class="ml-5"
               color="error"
               @click="desicionFluo(false)"
             >Rechazar
             </v-btn>
+            </v-col>
         </v-row >
         </div>
+        </v-card>
+       </template>
         </v-col>
-       
        <!--  <v-row justify="center" height="max-height">
           <v-col lg="7" md="5" class="py-3  pr-5 ">
             <v-textarea
@@ -470,7 +480,6 @@
             </v-col>
           </v-row>-->
           </v-row>
-    </div>
         <v-row v-if="aprobacion == true">
           
           <!-- <v-divider></v-divider>
@@ -478,6 +487,7 @@
           <v-divider></v-divider>
           <v-divider></v-divider> -->
         </v-row>
+
         <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
