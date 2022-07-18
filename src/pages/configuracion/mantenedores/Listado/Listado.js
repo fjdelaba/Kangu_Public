@@ -35,14 +35,14 @@ export default {
           let data  = await this.$apollo.query({
             query: QUERY_FORMA_PAGO,
           });
-          this.listaMantenedor = data.data.kangusoft_forma_pago;
+          this.listaMantenedor = data.data.kangusoft_for_pag;
           console.log(data);
           break;
         case 2:
           let data1 = await this.$apollo.query({
             query: GETDESPACHO,
           });
-          this.listaMantenedor = data1.data.kangusoft_desp_tipo;
+          this.listaMantenedor = data1.data.kangusoft_desp_tip;
           console.log(data1)
           console.log(this.listaMantenedor);
           break;
@@ -50,7 +50,7 @@ export default {
           let data2 = await this.$apollo.query({
             query: GETMONEDA,
           });
-          this.listaMantenedor = data2.data.kangusoft_moneda;
+          this.listaMantenedor = data2.data.kangusoft_mon;
           console.log("aaa",this.listaMantenedor);
           break;
           case 4:

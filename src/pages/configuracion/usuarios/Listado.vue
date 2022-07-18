@@ -6,7 +6,7 @@
           type="card-avatar, article, actions"
         ></v-skeleton-loader>
       </div>
-      <div>
+      <div v-if="!skeleton">
         <h2>
           Listado Usuario
         </h2>

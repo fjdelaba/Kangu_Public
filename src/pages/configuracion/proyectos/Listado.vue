@@ -13,31 +13,36 @@
       <v-col >   
         <v-row class="mb-6" no-gutters>
           <v-col v-if="detalle == false" cols="12"> 
-            <v-btn
-              color="success"
-              dark
-              large
-              @click="$router.push(`/configuracion/proyectos/sent`)"
-            ><v-icon size="30" left>mdi-folder-plus-outline </v-icon> 
-              CREAR PROYECTO
-            </v-btn> 
+           
             <v-col> 
               <v-card>
                 <v-card-title>
                   <v-text-field
-                    v-model="search"
+                    v-model="searchQuery"
                     append-icon="mdi-magnify"
-                    label="Search"
-                    single-line
+                    class="flex-grow-1 mr-md-2"
+                    solo
                     hide-details
+                    dense---
+                    clearable
+                    placeholder="p.ej. filtrar por codigo, nombre proyecto, mandante, monto y estado"
+                    @keyup.enter="searchUser(searchQuery)"
                   ></v-text-field>
+                  <v-btn
+                    color="success"
+                    dark
+                    large
+                    @click="$router.push(`/configuracion/proyectos/sent`)"
+                  ><v-icon size="30" left>mdi-folder-plus-outline </v-icon> 
+                    CREAR PROYECTO
+                  </v-btn> 
                 </v-card-title>
                 <template>
                   <v-data-table
                     :headers="headers"
                     :items="proyectos"
                     :items-per-page="10"
-                    :search="search"
+                    :search="searchQuery"
                     class="elevation-1"
                     loading="true"
                   >

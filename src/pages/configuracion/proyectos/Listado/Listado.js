@@ -4,7 +4,7 @@ import DetalleProyecto from './../Detalle.vue'
 export default {
   data() {
     return {
-      search: '',
+      searchQuery:"",
       headers: [
         {
           text: 'Código',
@@ -64,6 +64,7 @@ export default {
    DetalleProyecto
   },
   methods:{
+    searchUser() {},
     async cargarProyectos() {
       const { data: {kangusoft_pro} } = await getDatosGenerales()
       for(let pro of kangusoft_pro){
