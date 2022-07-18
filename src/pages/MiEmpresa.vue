@@ -1,306 +1,316 @@
 <template>
   <v-container>
-    <v-card>
-      <v-card-title> Informacion General </v-card-title>
-      <v-card-text>
-        <div class="d-flex flex-column flex-sm-row">
-          <div>
-            <v-img
-              v-model="empresa.logo"
-              aspect-ratio="1"
-              class="blue-grey lighten-4 rounded elevation-3 mt-2"
-              max-width="115"
-              max-height="115"
-            ></v-img>
-            <v-file-input
-              accept="image/*"
-              label="Logo"
-              style="width:150px"
-              prepend-icon=""
-              dense
-            ></v-file-input>
-          </div>
-          <div class="flex-grow-1 pt-2 pa-sm-2">
-            <v-text-field
-              v-model="empresa.nombre"
-              :readonly="!edicion"
-              dense
-              label="Nombre"
-              placeholder="Nombre"
-              outlined
-              :rules="usuarioRules.nombreRules"
-            >
-            </v-text-field>
-            <v-row> 
-              <v-text-field
-                v-model="empresa.rut"
-                :readonly="!edicion"
-                label="Rut"
-                placeholder="12.345.678-9"
-                dense
-                outlined
-                class="pl-3 pr-2"
-                :rules="usuarioRules.rutRules"
-              >
-              </v-text-field>
+    <div>
+      <div v-if="skeleton">
+        <v-skeleton-loader
+          type="card-avatar, article, actions"
+        ></v-skeleton-loader>
+        
+      </div>
+      <div v-if="!skeleton" >
+        <v-card>
+          <v-card-title> Informacion General </v-card-title>
+          <v-card-text>
+            <div class="d-flex flex-column flex-sm-row">
+              <div>
+                <v-img
+                  :src="empresa.logo"
+                  aspect-ratio="2"
+                  class="blue-grey lighten-4 rounded elevation-3 mt-2"
+                  max-width="200"
+                  max-height="200"
+                ></v-img>
+                <v-file-input
+                  :disabled="!edicion"
+                  accept="image/*"
+                  label="Logo de la Empresa"
+                  style="width:150px"
+                  prepend-icon=""
+                  dense
+                ></v-file-input>
+              </div>
+              <div class="flex-grow-1 pt-2 pa-sm-2">
+                <v-text-field
+                  v-model="empresa.nombre"
+                  :readonly="!edicion"
+                  dense
+                  label="Nombre"
+                  placeholder="Nombre"
+                  outlined
+                  :rules="usuarioRules.nombreRules"
+                >
+                </v-text-field>
+                <v-row> 
+                  <v-text-field
+                    v-model="empresa.rut"
+                    :readonly="!edicion"
+                    label="Rut"
+                    placeholder="12.345.678-9"
+                    dense
+                    outlined
+                    class="pl-3 pr-2"
+                    :rules="usuarioRules.rutRules"
+                  >
+                  </v-text-field>
             
-              <v-text-field
-                v-model="empresa.representante"     
-                :readonly="!edicion"
-                label="Representante"
-                dense
-                outlined
-                class="pl-2 pr-3"
-                :rules="usuarioRules.representanteRules"
-              ></v-text-field>
-            </v-row>
+                  <v-text-field
+                    v-model="empresa.representante"     
+                    :readonly="!edicion"
+                    label="Representante"
+                    dense
+                    outlined
+                    class="pl-2 pr-3"
+                    :rules="usuarioRules.representanteRules"
+                  ></v-text-field>
+                </v-row>
 
-            <v-row>
-              <v-text-field
-                v-model="empresa.telefono"
-                :readonly="!edicion"
-                label="Telefono"
-                dense
-                class="pl-3 pr-2"
-                outlined
-                :rules="usuarioRules.telefonoRules"
-              ></v-text-field>
-              <v-text-field
-                v-model="empresa.email"
-                :readonly="!edicion"
-                label="Email"
-                dense
-                class="pl-2 pr-3"
-                outlined
-                :rules="usuarioRules.emailRules"
-              ></v-text-field>
-            </v-row>
-            <v-row>
-              <v-autocomplete
-                v-model="empresa.region"
-                :readonly="!edicion"
-                :items="region"
-                :rules="[(v) => !!v || 'La Region es obligatoria']"
-                label="Región"
-                dense
-                class="pl-3 pr-2"
-                outlined
-                item-text="nombre"
-                item-value="id"
-                @blur="cargarComuna(empresa.region)"
-              ></v-autocomplete>
-              <v-autocomplete
-                v-model="empresa.comuna"
-                :readonly="!edicion"
-                :items="comuna"
-                :rules="[(v) => !!v || 'La comuna es obligatoria']"
-                label="Comuna"
-                required
-                dense
-                class="pl-2 pr-3"
-                outlined
-                item-text="nombre"
-                item-value="id"
-              ></v-autocomplete>
-            </v-row>
-            <v-text-field
-              v-model="empresa.direccion"
-              :readonly="!edicion"
-              label="Dirección"
-              placeholder="Dirección"
-              dense
-              outlined
-              :rules="usuarioRules.direccionRules"
-            >
-            </v-text-field>
-            <v-text-field
-              v-model="empresa.giro"
-              :readonly="!edicion"
-              label="Giro"
-              dense
-              outlined
-              :rules="usuarioRules.giroRules"
-            ></v-text-field>
+                <v-row>
+                  <v-text-field
+                    v-model="empresa.telefono"
+                    :readonly="!edicion"
+                    label="Telefono"
+                    dense
+                    class="pl-3 pr-2"
+                    outlined
+                    :rules="usuarioRules.telefonoRules"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="empresa.email"
+                    :readonly="!edicion"
+                    label="Email"
+                    dense
+                    class="pl-2 pr-3"
+                    outlined
+                    :rules="usuarioRules.emailRules"
+                  ></v-text-field>
+                </v-row>
+                <v-row>
+                  <v-autocomplete
+                    v-model="empresa.region"
+                    :readonly="!edicion"
+                    :items="region"
+                    :rules="[(v) => !!v || 'La Region es obligatoria']"
+                    label="Región"
+                    dense
+                    class="pl-3 pr-2"
+                    outlined
+                    item-text="nombre"
+                    item-value="id"
+                    @blur="cargarComuna(empresa.region)"
+                  ></v-autocomplete>
+                  <v-autocomplete
+                    v-model="empresa.comuna"
+                    :readonly="!edicion"
+                    :items="comuna"
+                    :rules="[(v) => !!v || 'La comuna es obligatoria']"
+                    label="Comuna"
+                    required
+                    dense
+                    class="pl-2 pr-3"
+                    outlined
+                    item-text="nombre"
+                    item-value="id"
+                  ></v-autocomplete>
+                </v-row>
+                <v-text-field
+                  v-model="empresa.direccion"
+                  :readonly="!edicion"
+                  label="Dirección"
+                  placeholder="Dirección"
+                  dense
+                  outlined
+                  :rules="usuarioRules.direccionRules"
+                >
+                </v-text-field>
+                <v-text-field
+                  v-model="empresa.giro"
+                  :readonly="!edicion"
+                  label="Giro"
+                  dense
+                  outlined
+                  :rules="usuarioRules.giroRules"
+                ></v-text-field>
 
-            <v-row align="center" justify="space-around">
-              <div v-if="!edicion" class="mt-2">
-                <v-btn
-                  color="primary"
-                  small
-                  @click="edicion = true"
-                >Editar</v-btn>
+                <v-row align="center" justify="space-around">
+                  <div v-if="!edicion" class="mt-2">
+                    <v-btn
+                      color="primary"
+                      small
+                      @click="edicion = true"
+                    >Editar</v-btn>
+                  </div>
+                  <div v-if="edicion" class="mt-2">
+                    <v-btn
+                      color="primary"
+                      small
+                      @click="grabarEdicionEmpresa()"
+                    >Guardar</v-btn>
+                    <v-btn
+                      color="primary"
+                      small
+                      @click="cancelarEdicionEmpresa()"
+                    >Cancelar</v-btn>
+                  </div>
+                </v-row>
               </div>
-              <div v-if="edicion" class="mt-2">
-                <v-btn
-                  color="primary"
-                  small
-                  @click="grabarEdicionEmpresa()"
-                >Guardar</v-btn>
-                <v-btn
-                  color="primary"
-                  small
-                  @click="cancelarEdicionEmpresa()"
-                >Cancelar</v-btn>
-              </div>
-            </v-row>
-          </div>
-        </div>
-      </v-card-text>
-    </v-card>
-    <v-card class="mx-auto mt-3" >
-      <v-card-title> Planes </v-card-title>
-      <v-row
-        v-for="n in 1 "
-        :key="n"
-        :class="n === 1 ? 'my-1' : ''"
-        no-gutters
-      >
-        <v-col md="4">   
-          <v-card class="mx-auto mb-3 py-2" max-width="344">
-            <v-img
-              src="../assets/images/plan1.png"
-              max-height="140px"
-              contain
-            ></v-img>
+            </div>
+          </v-card-text>
+        </v-card>
+        <v-card class="mx-auto mt-3" >
+          <v-card-title> Planes </v-card-title>
+          <v-row
+            v-for="n in 1 "
+            :key="n"
+            :class="n === 1 ? 'my-1' : ''"
+            no-gutters
+          >
+            <v-col md="4">   
+              <v-card class="mx-auto mb-3 py-2" max-width="344">
+                <v-img
+                  src="../assets/images/plan1.png"
+                  max-height="140px"
+                  contain
+                ></v-img>
 
-            <v-card-title> Plan Básico </v-card-title>
-            <v-divider class="mx-5"></v-divider>
-            <v-card-text>
-              <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus hic amet laudantium labore voluptates, laborum, magnam reprehenderit in corrupti, molestias perferendis repellat! Voluptas aliquam rem illo culpa ab? Molestiae, iure.</div>
-            </v-card-text>
+                <v-card-title> Plan Básico </v-card-title>
+                <v-divider class="mx-5"></v-divider>
+                <v-card-text>
+                  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus hic amet laudantium labore voluptates, laborum, magnam reprehenderit in corrupti, molestias perferendis repellat! Voluptas aliquam rem illo culpa ab? Molestiae, iure.</div>
+                </v-card-text>
              
-            <v-card-actions>
-              <v-btn color="primary" text> Ver Plan </v-btn>
+                <v-card-actions>
+                  <v-btn color="primary" text> Ver Plan </v-btn>
 
-              <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
 
-              <v-btn icon @click="show = !show">
-                <v-icon>{{
-                  show ? "mdi-chevron-up" : "mdi-chevron-down"
-                }}</v-icon>
-              </v-btn>
-            </v-card-actions>
+                  <v-btn icon @click="show = !show">
+                    <v-icon>{{
+                      show ? "mdi-chevron-up" : "mdi-chevron-down"
+                    }}</v-icon>
+                  </v-btn>
+                </v-card-actions>
 
-            <v-expand-transition>
-              <div v-show="show">
-                <v-divider></v-divider>
+                <v-expand-transition>
+                  <div v-show="show">
+                    <v-divider></v-divider>
 
-                <v-card-text class="font-weight-bold">Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios: </v-card-text>
-              </div>
-            </v-expand-transition>
-            <div 
-              class="text-right"
-            >
-              <v-btn
-                text
-                color="primary"
-                @click="reveal = false"
-              >
-                Seleccionar
-              </v-btn>
-            </div>
-          </v-card>
+                    <v-card-text class="font-weight-bold">Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios: </v-card-text>
+                  </div>
+                </v-expand-transition>
+                <div 
+                  class="text-right"
+                >
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="reveal = false"
+                  >
+                    Seleccionar
+                  </v-btn>
+                </div>
+              </v-card>
 
-        </v-col>
-        <v-col md="4"> 
-          <v-card class="mx-auto mb-3 py-2" max-width="344">
-            <v-img
-              class=" m-y 2"
-              src="../assets/images/plan2.png"
-              height="140px"
-              contain
-            ></v-img>
+            </v-col>
+            <v-col md="4"> 
+              <v-card class="mx-auto mb-3 py-2" max-width="344">
+                <v-img
+                  class=" m-y 2"
+                  src="../assets/images/plan2.png"
+                  height="140px"
+                  contain
+                ></v-img>
 
-            <v-card-title> Plan Intermedio </v-card-title>
-            <v-divider class="mx-5"></v-divider>
-            <v-card-text>
-              <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus hic amet laudantium labore voluptates, laborum, magnam reprehenderit in corrupti, molestias perferendis repellat! Voluptas aliquam rem illo culpa ab? Molestiae, iure.</div>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn color="primary" text> Ver Plan </v-btn>
+                <v-card-title> Plan Intermedio </v-card-title>
+                <v-divider class="mx-5"></v-divider>
+                <v-card-text>
+                  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus hic amet laudantium labore voluptates, laborum, magnam reprehenderit in corrupti, molestias perferendis repellat! Voluptas aliquam rem illo culpa ab? Molestiae, iure.</div>
+                </v-card-text>
+                <v-card-actions>
+                  <v-btn color="primary" text> Ver Plan </v-btn>
 
-              <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
 
-              <v-btn icon @click="show1 = !show1">
-                <v-icon>{{
-                  show1 ? "mdi-chevron-up" : "mdi-chevron-down"
-                }}</v-icon>
-              </v-btn>
-            </v-card-actions>
+                  <v-btn icon @click="show1 = !show1">
+                    <v-icon>{{
+                      show1 ? "mdi-chevron-up" : "mdi-chevron-down"
+                    }}</v-icon>
+                  </v-btn>
+                </v-card-actions>
 
-            <v-expand-transition>
-              <div v-show="show1">
-                <v-divider></v-divider>
+                <v-expand-transition>
+                  <div v-show="show1">
+                    <v-divider></v-divider>
 
-                <v-card-text class="font-weight-bold"> Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios:</v-card-text>
-              </div>
-            </v-expand-transition>
-            <div 
-              class="text-center"
-            >
-              <v-btn
-                text
-                color="primary"
-                @click="reveal = false"
-              >
-                Seleccionar
-              </v-btn>
-            </div>
-          </v-card>
+                    <v-card-text class="font-weight-bold"> Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios:</v-card-text>
+                  </div>
+                </v-expand-transition>
+                <div 
+                  class="text-center"
+                >
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="reveal = false"
+                  >
+                    Seleccionar
+                  </v-btn>
+                </div>
+              </v-card>
 
-        </v-col>
-        <v-col md="4"> 
-          <v-card class="mx-auto mb-3 py-2" max-width="344">
-            <v-img
+            </v-col>
+            <v-col md="4"> 
+              <v-card class="mx-auto mb-3 py-2" max-width="344">
+                <v-img
               
-              src="../assets/images/plan3.png"
-              height="140px"
-              contain
-              class=" m-y 2"
-            ></v-img>
+                  src="../assets/images/plan3.png"
+                  height="140px"
+                  contain
+                  class=" m-y 2"
+                ></v-img>
 
-            <v-card-title> Plan Avanzado </v-card-title>
-            <v-divider class="mx-5"></v-divider>
-            <v-card-text>
-              <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus hic amet laudantium labore voluptates, laborum, magnam reprehenderit in corrupti, molestias perferendis repellat! Voluptas aliquam rem illo culpa ab? Molestiae, iure.</div>
-            </v-card-text>
+                <v-card-title> Plan Avanzado </v-card-title>
+                <v-divider class="mx-5"></v-divider>
+                <v-card-text>
+                  <div>Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus hic amet laudantium labore voluptates, laborum, magnam reprehenderit in corrupti, molestias perferendis repellat! Voluptas aliquam rem illo culpa ab? Molestiae, iure.</div>
+                </v-card-text>
 
-            <v-card-actions>
-              <v-btn color="primary" text> Ver Plan </v-btn>
+                <v-card-actions>
+                  <v-btn color="primary" text> Ver Plan </v-btn>
 
-              <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
 
-              <v-btn icon @click="show2 = !show2">
-                <v-icon>{{
-                  show2 ? "mdi-chevron-up" : "mdi-chevron-down"
-                }}</v-icon>
-              </v-btn>
-            </v-card-actions>
+                  <v-btn icon @click="show2 = !show2">
+                    <v-icon>{{
+                      show2 ? "mdi-chevron-up" : "mdi-chevron-down"
+                    }}</v-icon>
+                  </v-btn>
+                </v-card-actions>
 
-            <v-expand-transition>
-              <div v-show="show2">
-                <v-divider></v-divider>
+                <v-expand-transition>
+                  <div v-show="show2">
+                    <v-divider></v-divider>
 
-                <v-card-text class="font-weight-bold">Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios: </v-card-text>
-              </div>
-            </v-expand-transition>
+                    <v-card-text class="font-weight-bold">Cantidad de usuarios: <br><br>Cantidad de usuarios concurrentes: <br><br> Modulos: <br> <br> Precios: </v-card-text>
+                  </div>
+                </v-expand-transition>
            
-            <div 
-              class="text-center"
-            >
-              <v-btn
-                text
-                color="primary"
-                @click="reveal = false"
-              >
-                Seleccionar
-              </v-btn>
-            </div>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-card>
-  </v-container>
+                <div 
+                  class="text-center"
+                >
+                  <v-btn
+                    text
+                    color="primary"
+                    @click="reveal = false"
+                  >
+                    Seleccionar
+                  </v-btn>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </div>
+    </div></v-container>
 </template>
 
 <script>
@@ -311,6 +321,7 @@ import { validaRut } from '../../src/utils/index'
 export default {
   data() {
     return {
+      skeleton:true,
       empresa: {
         id:'',
         nombre: '',
@@ -384,6 +395,7 @@ export default {
     async cargarEmpresa() {
       const { data: { kangusoft_emp } } = await getEmpresa(this.datosEmpresa.id)
       console.log('DATA EMP:',kangusoft_emp)
+      this.skeleton = false
       this.empresa.id = kangusoft_emp[0].id
       this.empresa.nombre = kangusoft_emp[0].nombre
       this.empresa.rut =  kangusoft_emp[0].rut

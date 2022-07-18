@@ -50,15 +50,15 @@ query {
   }
 }`
 const GETBOTONES = gql`
-  query {
-    kangusoft_mantendores {
+  query Q_GET_BOTONES {
+    kangusoft_man {
       icono
       id
       link
       nombre
     }
   }
-`;
+`
 async function getFormaPago() {
   const data  = await this.$apollo.query({
     query: QUERY_FORMA_PAGO

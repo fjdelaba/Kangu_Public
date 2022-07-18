@@ -2,7 +2,7 @@
 import BotonMantenedor from "../../../../components/configuracion/mantenedores/Boton/Boton.vue";
 import TablaMantenedor from "../../../../components/configuracion/mantenedores/Tabla/Tabla.vue";
 import  {QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO,getFormaPago}  from "../../../../components/graphql/querys/configuracion.js"
-import gql from "graphql-tag";
+
 
 export default {
   mounted() {
@@ -22,7 +22,7 @@ export default {
       const { data } = await this.$apollo.query({
         query: GETBOTONES,
       });
-      this.listaMantenedores = data.kangusoft_mantendores;
+      this.listaMantenedores = data.kangusoft_man;
       console.log(this.listaMantenedores);
     },
     async cargarMantenedor(mantenedor) {

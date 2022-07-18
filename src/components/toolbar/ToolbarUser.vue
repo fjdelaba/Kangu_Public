@@ -13,7 +13,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-avatar size="40">
                 <v-img
-                  src="/images/avatars/avatar1.svg"
+                  :src="$store.state.app.usuario.avatar"
                   v-bind="attrs"
                   v-on="on"
                 ></v-img>

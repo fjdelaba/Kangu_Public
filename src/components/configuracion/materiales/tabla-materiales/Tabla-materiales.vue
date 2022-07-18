@@ -32,7 +32,7 @@
           <v-btn
             color="primary"
             @click="abrirDialog = true"
-          >Crear Proveedor</v-btn>
+          >Crear Material</v-btn>
           <v-spacer></v-spacer>
           <v-col cols="6" class="d-flex text-right align-center">
             <v-text-field
@@ -43,7 +43,7 @@
               hide-details
               dense---
               clearable
-              placeholder="p.ej. filtrar por rut, correo electrónico, nombre, etc."
+              placeholder="p.ej. filtrar por codigo, nombre material y unidad"
               @keyup.enter="searchUser(searchQuery)"
             ></v-text-field>
           </v-col>
@@ -52,9 +52,8 @@
    
         <v-data-table
           v-if="!skeleton"
-          v-model="selectedUsers"
           :headers="headers"
-          :items="proveedores"
+          :items="materiales"
           :search="searchQuery"
           class="flex-grow-1"
         >
@@ -93,5 +92,5 @@
   
 </template>
 
-<script src="./Tabla-proveedor.js"></script>
-<style scoped src="./Tabla-proveedor.css"></style>
+<script src="./Tabla-materiales.js"></script>
+<style scoped src="./Tabla-materiales.css"></style>

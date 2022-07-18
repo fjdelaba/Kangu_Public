@@ -127,8 +127,7 @@ export default {
     console.log("CREATED");
   },
   mounted() {
-    this.aut0 = this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_tenant
-    this.usuLogin = this.$auth.user['https://kangusoft.cl/jwt/hasura'].user_id
+
     this.fecha = this.$moment(new Date()).format()
     console.log(this.fecha)
   },

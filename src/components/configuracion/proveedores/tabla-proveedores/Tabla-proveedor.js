@@ -12,7 +12,6 @@ export default {
         return {
             datosEmpresa: "",
             proveedores:[],
-            razonSocial:[{id:0, razon_social: 'Todos los proveedores'}],
             proveedorSeleccionado:"",
             headers: [
                 { text: "Razon Social", align: "left", value: "razon_social" },
@@ -32,10 +31,12 @@ export default {
                 }
               ],
               abrirDialog:false,
-              copyProveedores:[]
+              copyProveedores:[],
+              searchQuery:""
         };
     },
     methods: {
+      searchUser() {},
         async cargarProveedores() {
             this.datosEmpresa = this.$store.state.app.datosEmpresa
             const {data: { kangusoft_ent } } = await getProveedor(this.datosEmpresa.id);
@@ -43,23 +44,9 @@ export default {
             for(let prov of kangusoft_ent){
                 this.proveedores.push(prov)
                 this.copyProveedores.push(prov)
-                this.razonSocial.push({razon_social:prov.razon_social,id:prov.id})
             }
             this.skeleton = false
         },
-        filtroProveedor() {
-            if (this.proveedorSeleccionado.id == 0) {
-                this.proveedores = this.copyProveedores
-              }
-            if (this.proveedorSeleccionado.id != "") {
-              this.proveedores = this.copyProveedores.filter(item => {
-                return (
-                  item.razon_social ==
-                  this.proveedorSeleccionado.razon_social
-                );
-              });
-            }
-          },
         cargarDetalle(id){
             this.$router.push({
                 path: "proveedores/detalle",

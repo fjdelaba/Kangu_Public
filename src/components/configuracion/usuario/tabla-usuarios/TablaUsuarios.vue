@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+      {{ usuarios[19] }}
     </div>
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center">
@@ -504,7 +505,7 @@
         <template v-slot:item.email="{ item }">
           <div class="d-flex align-center py-1">
             <v-avatar size="32" class="elevation-1 grey lighten-3">
-              <v-img :src="item.avatar" />
+              <v-img :src="item.avatar"></v-img>
             </v-avatar>
             <div class="ml-1 caption font-weight-bold">
               <copy-label :text="item.email" />

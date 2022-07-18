@@ -11,6 +11,7 @@ export default {
   },
   data() {
     return {
+      skeleton:true,
       valid:true,
       datosUsuario:"",
       edicion: false,
@@ -79,6 +80,7 @@ export default {
     async cargarDetalleProveedor() {
       const { data: { kangusoft_ent } } = await getProveedorSeleccionado(this.idProveedor);
       console.log("Proveedor Seleccionado:", kangusoft_ent[0])
+      this.skeleton = false
       this.proveedor.razon_social = kangusoft_ent[0].razon_social
       this.proveedor.rut = kangusoft_ent[0].rut
       this.proveedor.activo = kangusoft_ent[0].activo
