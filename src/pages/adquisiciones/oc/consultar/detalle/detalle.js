@@ -41,7 +41,8 @@ export default {
 
       },
       comentarioOcSeleccionada:"",
-      consulta:true
+      consulta:true,
+      tipo_documento: 0
     }
   },
   methods: {
@@ -59,6 +60,7 @@ export default {
         this.cabecera.contacto.email = kangusoft_oc[0].usu.email
         this.cabecera.formaPago.nombre =  kangusoft_oc[0].for_pag.nombre
         this.cabecera.tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre
+        this.tipo_documento = kangusoft_oc[0].doc_tip_fk
     },
   }
 }

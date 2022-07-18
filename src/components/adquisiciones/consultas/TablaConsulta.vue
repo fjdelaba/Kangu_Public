@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <!-- {{ dates }} -->
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center">
         <div>
@@ -8,12 +8,11 @@
         </div>
         <v-spacer></v-spacer>
       </div>
-
+     <!-- {{ocs}} -->
       <v-card>
         <!-- users list -->
         <v-row dense class="pa-2 align-center">
-          <v-col cols="3">
-            <!-- <v-autocomplete
+          <!-- <v-autocomplete
               v-model="proyectoSeleccionado"
               :items="proyectos"
               class="flex-grow-1 mr-md-2"
@@ -27,20 +26,19 @@
               outlined
               @change="filtroCentroGestion()"
             ></v-autocomplete> -->
-            <v-autocomplete
-              v-model="proyectoSeleccionado"
-              :items="proyectos"
-              outlined
-              label="Proyectos"
-              item-text="nombre"
-              item-value="id"
-              hint="Selecciona el proyecto al que asignaras esta OC"
-              dense
-              return-object
-            ></v-autocomplete>  
-          </v-col>
-          <v-col cols="5">
-            <!-- <v-autocomplete
+          <v-autocomplete
+            v-model="proyecto"
+            :items="listadoProyectosAprobar"
+            outlined
+            label="Proyectos"
+            item-text="nombre"
+            item-value="id"
+            hint="Selecciona el proyecto al que asignaras esta OC"
+            dense
+            return-object
+          ></v-autocomplete>  
+      
+          <!-- <v-autocomplete
               v-if="aprobar == false"
               v-model="estadoSeleccionado"
               :items="estadosOc"
@@ -53,50 +51,75 @@
               placeholder="Selecciona el Estado de la Oc"
               @change="filtroEstadoOc()"
             ></v-autocomplete> -->
-            <v-menu
-              ref="menu"
-              v-model="menu"
-              :close-on-content-click="false"
-              :return-value.sync="date"
-              transition="scale-transition"
-              offset-y
-              min-width="auto"
+          <v-menu
+            ref="menu"
+            v-model="menu"
+            :close-on-content-click="false"
+            transition="scale-transition"
+            offset-y
+            dense
+            min-width="auto"
+            label="Fechas"
+          ><!--  :return-value.sync="date"-->
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="dateRangeText"
+                prepend-icon="mdi-calendar"
+                readonly
+                outlined
+                dense
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="dates"
+              no-title
+              range
+              scrollable
+              dense
+              :first-day-of-week="1"
+              @change="cargarOcs()"
             >
-              <template v-slot:activator="{ on, attrs }">
-                <v-text-field
-                  v-model="dateRangeText"
-                  prepend-icon="mdi-calendar"
-                  readonly
-                  outlined
-                  dense
-                  v-bind="attrs"
-                  v-on="on"
-                ></v-text-field>
-              </template>
-              <v-date-picker
-                v-model="dates"
-                no-title
-                range
-                scrollable
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                color="primary"
+                dense
+                @click="menu = false"
               >
-                <v-spacer></v-spacer>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="menu = false"
-                >
-                  Cancel
-                </v-btn>
-                <v-btn
-                  text
-                  color="primary"
-                  @click="$refs.menu.save(date)"
-                >
-                  OK
-                </v-btn>
-              </v-date-picker>
-            </v-menu>
-          </v-col>
+                Cancel
+              </v-btn>
+              <v-btn
+                text
+                color="primary"
+                dense
+                @click="$refs.menu.save(date)"
+              >
+                OK
+              </v-btn>
+            </v-date-picker>
+          </v-menu>
+          <v-autocomplete
+            v-model="tipoDocumento"
+            :items="listaTiposDocumentos"
+            outlined
+            label="Tipo Documento"
+            item-text="nombre"
+            item-value="id"
+            dense
+            @change="cargarOcs()"
+          ></v-autocomplete>  
+          <v-autocomplete
+            v-model="moneda"
+            :items="listaMonedas"
+            outlined
+            label="Moneda"
+            item-text="nombre"
+            item-value="id"
+            dense
+            @change="cargarOcs()"
+          ></v-autocomplete> 
           <v-col cols="6" class="d-flex text-right align-center">
             <!-- <v-text-field
               v-model="searchQuery"
@@ -119,7 +142,7 @@
               <v-icon>mdi-refresh</v-icon>
             </v-btn> -->
             <v-speed-dial 
-              v-if="aprobar == false"
+              v-if="origen == 2"
               v-model="fab"
               class="pa-4 align-center"
               :top="top"
@@ -176,19 +199,21 @@
         </v-row>
        
         <v-data-table
-          v-model="selectedUsers"
           :headers="cpxDinamicHeaders"
           :items="ocs"
-          :search="searchQuery"
           class="flex-grow-1"
-        >
+          dense
+          :loading="loadingTabla"
+          loading-text="Buscando ordenes de compra"
+        ><!-- v-model="selectedUsers" -->
 
           <template v-slot:item.nombre="{ item }">
-            <div class="font-weight-bold"> <div>{{ item.nombre }}</div></div>
+            <div class="font-weight-bold"> <div>{{ item.usu_nombre }}</div></div>
           </template>
 
           <template v-slot:item.actions="{ item }">
             <div><v-btn
+              x-small
               @click="abrirDetalle(item)"
             > Abrir </v-btn>
             </div>

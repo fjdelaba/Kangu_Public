@@ -27,6 +27,15 @@ const GET_MONEDAS = gql`
 }
 `
 
+const GET_TIPO_DOCUMENTO = gql`
+  query Q_GET_MONEDAS {
+    kangusoft_mon {
+    id
+    nombre
+  }
+}
+`
+
 const GET_ESTADOS_PROYECTO = gql`
   query Q_GET_ESTADOS_PROYECTO {
     kangusoft_fla {
@@ -158,6 +167,50 @@ query Q_GET_EMPRESA($emp_id: bigint!) {
 }
 `
 
+const GET_PROYECTOS_USUARIO_APROBADOR = gql`
+query Q_GET_PROYECTOS_USUARIO_CONSULTAS($usu_fk: bigint = "") {
+  getProyectosUsuarioAprobar(datos: {usu_fk: $usu_fk}) {
+    proyectos_aprobador {
+      id
+      nombre
+    }
+    success
+    error
+  }
+}
+`
+
+//Se debe asignar
+const GET_VALORES_FILTROS_CONSULTA = gql`
+query Q_GET_VALORES_FILTROS_CONSULTA($emp_fk: bigint!) {
+  getValoresFiltrosConsultas(datos: {emp_fk: $emp_fk}) {
+    documento_estado {
+      id
+      nombre
+    }
+    forma_pago {
+      id
+      nombre
+    }
+    error
+    monedas {
+      id
+      nombre
+    }
+    success
+    tipos_despacho {
+      id
+      nombre
+    }
+    tipos_documentos {
+      id
+      nombre
+    }
+  }
+}
+
+`
+
 // const GET_PARTIDAS = gql`
 // mutation Q_GET_PARTIDAS($pro_fk: bigint!) {
 //   getPartidas(pro_fk: $pro_fk) {
@@ -181,5 +234,8 @@ export {
   GET_PROYECTOS_POR_USUARIO,
   GET_MATERIAL,
   GET_EMPRESA,
-  GET_ACCESO_MODULO
+  GET_ACCESO_MODULO,
+  GET_PROYECTOS_USUARIO_APROBADOR,
+  GET_TIPO_DOCUMENTO,
+  GET_VALORES_FILTROS_CONSULTA
 }

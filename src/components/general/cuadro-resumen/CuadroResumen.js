@@ -23,7 +23,7 @@ export default {
         },
         { text: 'Calories', value: 'valor', width: '100%' }
       ],
-      tipoBoleta: 1 // 1: Liquido, 2: Bruto
+      tipoBoleta: 2 // 1: Liquido, 2: Bruto
     }
   },
   computed: {
@@ -77,7 +77,7 @@ export default {
       }
     },
     cpxTotalesTablaResumen() {
-      
+
     }
   },
   methods: {
