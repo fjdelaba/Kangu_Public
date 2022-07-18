@@ -332,7 +332,7 @@ export default {
           const arregloAprobadores = aprobadores.data.kangusoft_apr.sort(({ monto:a }, { monto:b }) => a - b)
 
           console.log('arregloAprobadores antes: ', arregloAprobadores)
-          if (aprobadores[0].apro_final === true) {
+          if (arregloAprobadores[0].apro_final === true) {
             const aproFinal = arregloAprobadores.shift()
 
             arregloAprobadores.push(aproFinal)

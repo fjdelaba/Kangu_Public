@@ -210,7 +210,7 @@ export default {
     },
 
     async getProyectosUsuarioAprobar() {
-      const {data: {getProyectosUsuarioAprobar:{proyectos_aprobador}}} = await getProyectosUsuarioAprobador(5)
+      const {data: {getProyectosUsuarioAprobar:{proyectos_aprobador}}} = await getProyectosUsuarioAprobador(this.$store.state.app.datosUsuario.user_id)
       console.log('proyectos_aprobador: ', proyectos_aprobador);
       this.listadoProyectosAprobar.push(...proyectos_aprobador)
     },
