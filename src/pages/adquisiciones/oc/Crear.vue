@@ -333,7 +333,7 @@ export default {
 
           console.log('arregloAprobadores antes: ', arregloAprobadores)
           if (aprobadores[0].apro_final === true) {
-            const aproFinal = arregloAprobadores.pop()
+            const aproFinal = arregloAprobadores.shift()
 
             arregloAprobadores.push(aproFinal)
           }
