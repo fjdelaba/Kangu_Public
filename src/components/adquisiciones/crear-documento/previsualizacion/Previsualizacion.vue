@@ -31,7 +31,7 @@
       </v-tab>
     </v-tabs> -->
 
-    <v-tabs-items v-model="tab">
+    <v-tabs-items v-model="tab" >
       <v-tab-item
         value="documento"
       >
@@ -391,21 +391,22 @@
       </v-tab-item>
 
       <v-tab-item
-        value="flujo" >
-      <v-card class="mx-auto">
+        value="flujo"  >
+      <v-card class="mx-auto" tile>
        
         <v-row>
-          <v-col  class="py-3 py-3 pr-5 pl-10 pt-5">
+          <v-col  class="py-3 py-3 pr-5 pl-10 pt-5 rounded-0">
              <template>
           <v-card
               class="mx-auto"
               color="#FAFAFA"
-              dark
               max-width="600"
+              elevation="2"
+              tile
             >
         <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
         
-        <div class="text-center pt-5 pb-5"> <v-list-item-title class="text-h4 font-weight-bold ">NETO: $1.00.000</v-list-item-title>
+        <div class="text-center pt-5 pb-5 rounded-0"> <v-list-item-title class="text-h4 font-weight-bold ">NETO: $1.000.000</v-list-item-title>
         <v-list-item-subtitle>TOTAL: $1.904.000</v-list-item-subtitle>
         <div class="text-center">
             <v-chip
@@ -487,8 +488,74 @@
           <v-divider></v-divider>
           <v-divider></v-divider> -->
         </v-row>
+        
+<template>
+  <v-row>
+    <v-col>
+  <v-card
+    max-width="270"
+    class="mx-auto"
+  >
+    <v-img
+      src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Felipe_Camiroaga.jpg"
+      height="200px"
+      dark
+    >
+    </v-img>
+    <div class="text-center">
+    <v-list >
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>Felipe de la Barra</v-list-item-title>
+          <v-list-item-subtitle>Administrador</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
 
-        <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
+      <v-list-item>
+        <v-list-item-action></v-list-item-action>
+        <v-list-item-icon>
+        <v-icon color="primary" class="pl-6">mdi-thumb-up</v-icon>
+        </v-list-item-icon>
+      </v-list-item>
+    </v-list>
+    </div>
+  </v-card>
+  </v-col>
+  <!--separacion card-->
+  <v-col>
+  <v-card
+    max-width="270"
+    class="mx-auto"
+  >
+    <v-img
+      src="https://static.13.cl/7/sites/default/files/esports/articulos/field-image/portadakeznit.jpg"
+      height="200px"
+      dark
+    >
+    </v-img>
+    <div class="text-center">
+      <v-list >
+      <v-list-item>
+        <v-list-item-content>
+          <v-list-item-title>Bastian Medina</v-list-item-title>
+          <v-list-item-subtitle>Administrador</v-list-item-subtitle>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-list-item>
+        <v-list-item-action></v-list-item-action>
+        <v-list-item-icon>
+        <v-icon color="red lighten-2"  class="pl-6" >mdi-thumb-down</v-icon>
+        </v-list-item-icon>
+      </v-list-item>
+      </v-list>
+      </div>
+  </v-card>
+  </v-col>
+  </v-row>
+</template>
+
+        <!--<pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>-->
         <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
