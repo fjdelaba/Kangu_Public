@@ -6,7 +6,7 @@
       justify="center"
     >
       <v-col :cols="12" lg="8" align-self="center">
-        <v-stepper alt-labels>
+        <v-stepper alt-labels class="elevation-0">
           <v-stepper-header>
             <div v-for="(item, index) in aprobadores" :key="index">
               <v-stepper-step
@@ -51,4 +51,6 @@
 
 <script src="./Pipeline.js"></script>
 
-<style scoped src="./Pipeline.css"></style>
+<style scoped>
+
+</style>
