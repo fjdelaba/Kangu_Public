@@ -30,7 +30,7 @@ export default {
       this.mostrarTablaMantendedor = false
       console.log("ESTOY EN MANTENEDOR", mantenedor);
       switch (mantenedor.id) {
-        case 1:
+        case 2:
           console.log( this.listaMantenedor);
           let data  = await this.$apollo.query({
             query: QUERY_FORMA_PAGO,
@@ -38,34 +38,34 @@ export default {
           this.listaMantenedor = data.data.kangusoft_for_pag;
           console.log(data);
           break;
-        case 2:
+        case 3:
           let data1 = await this.$apollo.query({
             query: GETDESPACHO,
           });
-          this.listaMantenedor = data1.data.kangusoft_desp_tip;
+          this.listaMantenedor = data1.data.kangusoft_des_tip;
           console.log(data1)
           console.log(this.listaMantenedor);
           break;
-        case 3:
+        case 4:
           let data2 = await this.$apollo.query({
             query: GETMONEDA,
           });
           this.listaMantenedor = data2.data.kangusoft_mon;
           console.log("aaa",this.listaMantenedor);
           break;
-          case 4:
+          case 5:
           let data4 = await this.$apollo.query({
             query:  GETCGESTADO,
           });
-          this.listaMantenedor = data4.data.kangusoft_cg_estado;
+          this.listaMantenedor = data4.data.kangusoft_pro_est;
           console.log("aaa",this.listaMantenedor);
           break;
-        case 5:
+        case 6:
          
           let data3 = await this.$apollo.query({
             query: GETCELULAS,
           });
-          this.listaMantenedor = data3.data.kangusoft_cg_unidad;
+          this.listaMantenedor = data3.data.kangusoft_pro_uni;
           console.log(this.listaMantenedor);
           break;
         default:

@@ -20,7 +20,7 @@
       <v-dialog v-model="dialog" max-width="500px">
         <template v-slot:activator="{ on, attrs }">
           <v-btn
-            v-if="idMantenedor == 1"
+            v-if="idMantenedor == 2"
             color="primary"
             dark
             class="mb-2"
@@ -30,7 +30,7 @@
             Nueva Forma de Pago
           </v-btn>
           <v-btn
-            v-else-if="idMantenedor == 2"
+            v-else-if="idMantenedor == 3"
             color="primary"
             dark
             class="mb-2"
@@ -40,7 +40,7 @@
             Nuevo Tipo de Despacho
           </v-btn>
           <v-btn
-            v-else-if="idMantenedor == 5"
+            v-else-if="idMantenedor == 6"
             color="primary"
             dark
             class="mb-2"
@@ -51,13 +51,13 @@
           </v-btn>
         </template>
         <v-card>
-          <v-card-title v-if="idMantenedor == 1">
+          <v-card-title v-if="idMantenedor == 2">
             <span class="text-h5">Nueva Forma de Pago</span>
           </v-card-title>
-          <v-card-title v-else-if="idMantenedor == 2">
+          <v-card-title v-else-if="idMantenedor == 3">
             <span class="text-h5">Nuevo Tipo de Despacho</span>
           </v-card-title>
-          <v-card-title v-else-if="idMantenedor == 5">
+          <v-card-title v-else-if="idMantenedor == 6">
             <span class="text-h5">Nueva Unidad de Negocio</span>
           </v-card-title>
 
@@ -121,7 +121,7 @@
           </template>
           <template v-slot:item.activo="{ item }">
             <v-switch
-              v-if="idMantenedor == 3 || idMantenedor == 4"
+              v-if="idMantenedor == 4 || idMantenedor == 5"
               v-model="item.activo"
               color="success"
               :value="item.activo"
@@ -130,25 +130,25 @@
             ></v-switch>
             <v-simple-checkbox
               v-if="
-                (item.id === editedItem.id && idMantenedor == 1) ||
-                  item.id === editedItem.id && idMantenedor == 2 ||
-                  item.id === editedItem.id && idMantenedor == 5
+                (item.id === editedItem.id && idMantenedor == 2) ||
+                  item.id === editedItem.id && idMantenedor == 3 ||
+                  item.id === editedItem.id && idMantenedor == 6
               "
               v-model="editedItem.activo"
               :disabled="item.id != editedItem.id"
             ></v-simple-checkbox>
             <v-simple-checkbox
               v-else-if="
-                (item.id != editedItem.id && idMantenedor == 1) ||
-                  item.id != editedItem.id && idMantenedor == 2 ||
-                  item.id != editedItem.id && idMantenedor == 5
+                (item.id != editedItem.id && idMantenedor == 2) ||
+                  item.id != editedItem.id && idMantenedor == 3 ||
+                  item.id != editedItem.id && idMantenedor == 6
               "
               v-model="item.activo"
               :disabled="item.id != editedItem.id"
             ></v-simple-checkbox>
           </template>
           <template
-            v-if="idMantenedor == 1 || idMantenedor == 2 || idMantenedor == 5"
+            v-if="idMantenedor == 2 || idMantenedor == 3 || idMantenedor == 6"
             v-slot:item.actions="{ item }"
           >
             <v-icon
