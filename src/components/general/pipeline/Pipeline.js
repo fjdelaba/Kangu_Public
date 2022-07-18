@@ -12,6 +12,9 @@ export default {
       default: 1
     }
   },
+  mounted() {
+    console.log('aprobadores:', aprobadores)
+  },
   methods: {
     getAprobadorAprobado(item) {
       console.log('item: ', item)

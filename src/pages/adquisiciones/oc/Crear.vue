@@ -74,36 +74,37 @@
                 ></previsualizacion>
               </v-stepper-content>
             </v-stepper-items>
-           <v-row 
+            <v-row 
               align="right"
               justify="space-around"
-              no-gutters>
+              no-gutters
+            >
               <v-col>
             
-              <v-btn class="mb-2 ml-10" color="primary" v-if="pasoStep > 1" @click="retroceder()">
-              Atras
-            </v-btn>
-            </v-col>
-            <v-col
-              md="3"
-              offset-md="3">
-            <v-btn
-              class="mb-2 ml-15"
-              depressed
-              color="primary"
-              :loading="disabledBotonSiguiente"
-              :disabled="disabledBotonSiguiente"
-              @click="avanzar()"
-              
-            >
-              {{ cpxTextoAvanzar }}
-              <template v-slot:loader>
-                <span class="custom-loader">
-                  <v-icon light>mdi-cached</v-icon>
-                </span>
-              </template>
-            </v-btn>
-            </v-col>
+                <v-btn v-if="pasoStep > 1" class="mb-2 ml-10" color="primary" @click="retroceder()">
+                  Atras
+                </v-btn>
+              </v-col>
+              <v-col
+                md="3"
+                offset-md="3"
+              >
+                <v-btn
+                  class="mb-2 ml-15"
+                  depressed
+                  color="primary"
+                  :loading="disabledBotonSiguiente"
+                  :disabled="disabledBotonSiguiente"
+                  @click="avanzar()"
+                >
+                  {{ cpxTextoAvanzar }}
+                  <template v-slot:loader>
+                    <span class="custom-loader">
+                      <v-icon light>mdi-cached</v-icon>
+                    </span>
+                  </template>
+                </v-btn>
+              </v-col>
             </v-row> 
           </v-stepper>
         </v-col>
@@ -330,7 +331,13 @@ export default {
           console.log('aprobadores.data_ ', aprobadores.data.kangusoft_apr)
           const arregloAprobadores = aprobadores.data.kangusoft_apr.sort(({ monto:a }, { monto:b }) => a - b)
 
-          console.log('arregloAprobadores: ', arregloAprobadores)
+          console.log('arregloAprobadores antes: ', arregloAprobadores)
+          if (aprobadores[0].apro_final === true) {
+            const aproFinal = arregloAprobadores.pop()
+
+            arregloAprobadores.push(aproFinal)
+          }
+          console.log('arregloAprobadores despues: ', arregloAprobadores)
           // if (arregloAprobadores > 0) {
           //   for (const apro of arregloAprobadores) {
           //     console.log(apro)
