@@ -11,8 +11,9 @@
         
         <v-col cols="auto">
           <v-dialog
-
             v-model="abrirDialog"
+
+            persistent
             transition="dialog-top-transition"
             max-width="650"
           >
@@ -164,6 +165,7 @@
                                     sm="6"
                                     md="6"
                                   >
+                                  
                                     <v-select
                                       v-model="usuario.perfil"
                                       :items="items"

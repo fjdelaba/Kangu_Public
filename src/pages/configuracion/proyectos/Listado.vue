@@ -9,7 +9,13 @@
     <v-row class="mb-6" no-gutters>
       <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
     </v-row>
-    <v-row class="mb-6" no-gutters>
+    <div v-if="skeleton">
+      <v-skeleton-loader
+        type="card-avatar, article, actions"
+      ></v-skeleton-loader>
+        
+    </div>
+    <v-row v-if="!skeleton" class="mb-6" no-gutters>
       <v-col >   
         <v-row class="mb-6" no-gutters>
           <v-col v-if="detalle == false" cols="12"> 
@@ -29,7 +35,7 @@
                     @keyup.enter="searchUser(searchQuery)"
                   ></v-text-field>
                   <v-btn
-                    color="success"
+                    color="blue"
                     dark
                     large
                     @click="$router.push(`/configuracion/proyectos/sent`)"
@@ -48,7 +54,7 @@
                   >
                     <template v-slot:item.actions="{item}">
                       <v-btn
-                        color="success"
+                        color="blue"
                         dark
                         @click="abrirDetalle(item)"
                       ><v-icon left>mdi-eye</v-icon> 

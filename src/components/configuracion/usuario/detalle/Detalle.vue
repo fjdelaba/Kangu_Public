@@ -1,6 +1,11 @@
 <template>
   <div class="flex-grow-1">
-    <div class="d-flex align-center">
+    <div v-if="skeleton">
+      <v-skeleton-loader
+        type="card-avatar, article, actions"
+      ></v-skeleton-loader>
+    </div>
+    <div v-if="!skeleton" class="d-flex align-center">
       <div>
         <!-- <div class="display-1">Edit User {{ `${ usuario && usuario.nombre}  ${ usuario && usuario.apellidos}` }}</div> {{ user.name && `- ${user.name}` }} -->
         <v-breadcrumbs v-if="cpxOrigenConfiguracion" :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
@@ -11,7 +16,7 @@
       </v-btn> -->
     </div>
     <!-- disable  v-card -->
-    <datos ref="tabs-account" :user="usuario" :origen="origen"></datos>
+    <datos v-if="!skeleton" ref="tabs-account" :user="usuario" :origen="origen"></datos>
   </div>
 </template>
 
@@ -62,6 +67,7 @@ export default {
   },
   data() {
     return {
+      skeleton:true,
       usu_id: {},
       usuario: {},
       tab: null,
@@ -108,8 +114,9 @@ export default {
         },
         fetchPolicy:'network-only'
       })
-
+      
       this.usuario = data.kangusoft_usu[0]
+      this.skeleton = false
       // console.log('data data: ', data.kangusoft_usu[0])
     }
   }
