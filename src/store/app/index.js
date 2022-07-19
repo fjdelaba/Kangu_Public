@@ -41,7 +41,7 @@ const state = {
   usuario: {},
 
   //usuario
-  tipoBoleta: 1,
+  tipoBoleta: 2,
 
   //Tipos Documento
   tiposDocumento: [],
