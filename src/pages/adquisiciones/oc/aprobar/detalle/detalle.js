@@ -58,6 +58,9 @@ export default {
         this.materialesOcSeleccionada = kangusoft_oc_det
         console.log("OC:", kangusoft_oc[0])
         this.cabecera.nombre = kangusoft_oc[0].nombre
+        this.cabecera.impuestos = kangusoft_oc[0].impuestos
+        this.cabecera.neto = kangusoft_oc[0].neto
+        this.cabecera.tipoDocumento = kangusoft_oc[0].doc_tip.nombre
         this.cabecera.identificacion = kangusoft_oc[0].identificacion
         this.cabecera.comentarioPDF = kangusoft_oc[0].comentario_pdf
         this.cabecera.proveedor.razon_social = kangusoft_oc[0].ent.razon_social

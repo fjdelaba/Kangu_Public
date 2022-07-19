@@ -49,6 +49,9 @@ const state = {
   //Monedas
   monedas: [],
 
+  //Indicadores
+  indicadores: [],
+
   // App.vue main toast
   toast: {
     show: false,

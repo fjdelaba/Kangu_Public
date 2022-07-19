@@ -201,7 +201,7 @@
                     </v-chip>
                   </div>
                 </div>
-                          <!-- <div v-if="item.editable">
+                <!-- <div v-if="item.editable">
                     <v-combobox
                       v-model="item.par"
                       :items="listaPartidas"
@@ -307,7 +307,7 @@
                 </div>
               </template>
               <template v-slot:no-data>
-                                    <!-- <v-btn
+                <!-- <v-btn
                               color="primary"
                               @click="initialize"
                             >
@@ -392,85 +392,90 @@
       </v-tab-item>
 
       <v-tab-item
-        value="flujo"  >
-      <v-card class="mx-auto" tile>
+        value="flujo"
+      >
+        <v-card class="mx-auto" tile>
        
-        <v-row>
-          <v-col  class="py-3 py-3 pr-5 pl-10 pt-5 rounded-0">
-             <template>
-          <v-card
-              class="mx-auto"
-              color="#FAFAFA"
-              max-width="600"
-              elevation="2"
-              tile
-            >
-        <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
-        
-        <div class="text-center pt-5 pb-5 rounded-0"> <v-list-item-title class="text-h4 font-weight-bold ">NETO: $1.000.000</v-list-item-title>
-        <v-list-item-subtitle>TOTAL: $1.904.000</v-list-item-subtitle>
-        <div class="text-center">
-            <v-chip
-              class="ma-2"
-              color="success"
-              outlined
-            >
-              <v-icon left>
-                mdi-cash-plus
-              </v-icon>
-              Pesos
-            </v-chip>
-              <v-chip
-              class="ma-2"
-              color="primary"
-              outlined
-            >
-              <v-icon left>
-                mdi-book-plus
-              </v-icon>
-              Documento
-            </v-chip>
-            <v-chip
-              class="ma-2"
-              color="deep-purple accent-4"
-              outlined
-            >
-              <v-icon left>
-                 mdi-account-outline
-              </v-icon>
-              Proveedor
-            </v-chip>
-             <v-chip
-             class="ma-2"
-              color="teal accent-4"
-              outlined
-            >
-              <v-icon left>
-                 mdi-book-plus
-              </v-icon>
-              Comentario
-            </v-chip>
-          </div>
-        <v-row v-if="mostrarBotones && aprobacion" dense class="px-7 align-center "  justify="space-around">
-         <v-col class="pr-5">
-           <v-btn
-            color="success"
-            @click="desicionFluo(true)"
-          >Aprobar
-          </v-btn>
-            <v-btn
-               class="ml-5"
-              color="error"
-              @click="desicionFluo(false)"
-            >Rechazar
-            </v-btn>
+          <v-row>
+            <v-col class="py-3 py-3 pr-5 pl-10 pt-5 rounded-0">
+              <template>
+                <v-card
+                  class="mx-auto"
+                  color="#FAFAFA"
+                  max-width="800"
+                  elevation="2"
+                  tile
+                >
+                  <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
+                  <!-- {{ cabecera }} -->
+                  <div class="text-center pt-5 pb-5 rounded-0"> <v-list-item-title class="text-h4 font-weight-bold ">Total: {{ Number(cabecera.neto + cabecera.impuestos) | currency }}</v-list-item-title>
+                    <v-list-item-subtitle class="py-3 text-h5">Impuestos: {{ cabecera.impuestos | currency }} - Neto: {{ cabecera.neto | currency }}</v-list-item-subtitle>
+                    <div class="text-center">
+                      
+                      <v-chip
+                        class="ma-2"
+                        color="teal"
+                        text-color="white"
+                      >
+                        <v-avatar left>
+                          <!-- <v-icon>mdi-checkbox-marked-circle</v-icon> -->
+                          <v-icon>mdi-cash-multiple</v-icon>
+                        </v-avatar>
+                         {{ cabecera.moneda.nombre }}
+                      </v-chip>
+                      <v-chip
+                        class="ma-2"
+                        color="teal"
+                        text-color="white"
+                      >
+                        <v-avatar left>
+                          <!-- <v-icon>mdi-checkbox-marked-circle</v-icon> -->
+                          <v-icon>mdi-file-document</v-icon>
+                        </v-avatar>
+                        {{ cabecera.tipoDocumento }}
+                      </v-chip>
+                      <v-chip
+                        class="ma-2"
+                        color="teal"
+                        text-color="white"
+                      >
+                        <v-avatar left>
+                          <!-- <v-icon>mdi-checkbox-marked-circle</v-icon> -->
+                          <v-icon>mdi-office-building-outline</v-icon>
+                        </v-avatar>
+                         {{ cabecera.proveedor.razon_social }}
+                      </v-chip>
+                      <v-chip
+                        class="ma-2"
+                        color="teal accent-4"
+                        outlined
+                      >
+                        <v-icon left>
+                          mdi-book-plus
+                        </v-icon>
+                        Comentario
+                      </v-chip>
+                    </div>
+                    <v-row v-if="mostrarBotones && aprobacion" dense class="px-7 align-center py-5" justify="space-around">
+                      <v-col class="pr-5">
+                        <v-btn
+                          color="success"
+                          @click="desicionFluo(true)"
+                        >Aprobar
+                        </v-btn>
+                        <v-btn
+                          class="ml-5"
+                          color="error"
+                          @click="desicionFluo(false)"
+                        >Rechazar
+                        </v-btn>
+                      </v-col>
+                    </v-row >
+                  </div>
+                </v-card>
+              </template>
             </v-col>
-        </v-row >
-        </div>
-        </v-card>
-       </template>
-        </v-col>
-       <!--  <v-row justify="center" height="max-height">
+            <!--  <v-row justify="center" height="max-height">
           <v-col lg="7" md="5" class="py-3  pr-5 ">
             <v-textarea
               label="Comentario"
@@ -482,14 +487,14 @@
             </v-col>
           </v-row>-->
           </v-row>
-        <v-row v-if="aprobacion == true">
+          <v-row v-if="aprobacion == true">
           
           <!-- <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider>
           <v-divider></v-divider> -->
-        </v-row>
-        
+          </v-row>
+          <!--         
 <template>
   <v-row>
     <v-col>
@@ -521,9 +526,9 @@
     </v-list>
     </div>
   </v-card>
-  </v-col>
-  <!--separacion card-->
-  <v-col>
+  </v-col> -->
+          <!--separacion card-->
+          <!-- <v-col>
   <v-card
     max-width="270"
     class="mx-auto"
@@ -554,10 +559,10 @@
   </v-card>
   </v-col>
   </v-row>
-</template>
+</template> -->
 
-        <!--<pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>-->
-        <distribucion-lineas-partidas></distribucion-lineas-partidas>
+          <pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>
+          <distribucion-lineas-partidas></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
           style="width: 100%; top: -60px "

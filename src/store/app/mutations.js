@@ -49,6 +49,9 @@ export default {
   setMonedas: (state, payload) => {
     state.monedas = payload
   },
+  setIndicadores: (state, payload) => {
+    state.indicadores = payload
+  },
   /**
    * Theme and Layout
    */

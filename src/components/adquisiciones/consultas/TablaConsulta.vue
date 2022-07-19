@@ -28,7 +28,7 @@
             ></v-autocomplete> -->
           <v-autocomplete
             v-model="proyecto"
-            :items="listadoProyectosAprobar"
+            :items="listadoProyectos"
             outlined
             label="Proyectos"
             item-text="nombre"

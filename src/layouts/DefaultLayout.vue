@@ -189,12 +189,34 @@ export default {
   mounted() {
     // console.log('config.navigation: ', config.navigation)
     // console.log('$auth.isLoading default layout: ', this.$auth.isLoading)
+    this.cargarIndicadores()
     if (this.$auth.isLoading === false) {
       this.cargarPermisos()
       this.cargarUsuarioLogin()
     }
   },
   methods: {
+    async cargarIndicadores() {
+      try {
+        console.log('adasd')
+        const { data } = await this.axios.get('https://mindicador.cl/api')    
+        const datosEconomicos = {
+          uf: data.uf.valor,
+          dolar: data.dolar.valor,
+          euro: data.euro.valor
+        }
+
+        console.log('datosEconomicos: ', datosEconomicos)
+        this.$store.dispatch('app/setIndicadores', datosEconomicos)
+      } catch (error) {
+        console.log('error: ', error)
+      }
+
+      // this.axios.get('https://mindicador.cl/api').then((response) => {
+      //   console.log(response.data.uf)
+
+      // })
+    },
     onKeyup(e) {
       this.$refs.search.focus()
     },

@@ -4,7 +4,7 @@ import { getDatosGenerales } from '../../../graphql/configuracion'
 import Vue from "vue";
 import JsonExcel from "vue-json-excel";
 import { entries } from "lodash";
-import { getProyectosUsuarioAprobador, getFiltrosConsultas } from "../../../graphql/general";
+import { getProyectosUsuarioAprobador, getFiltrosConsultas, getProyectosUsuarioConsultar } from "../../../graphql/general";
 Vue.component("downloadExcel", JsonExcel); 
 
 
@@ -31,7 +31,7 @@ export default {
     // }
     console.log(this.$auth.isLoading);
     if (this.$auth.isLoading == false) {
-      this.getProyectosUsuarioAprobar()
+      this.cargarListaProyecto()
       this.getValoresFiltros()
     }
   },
@@ -39,7 +39,7 @@ export default {
     '$auth.isLoading' (newCount, oldCount) {
       console.log(`tabla consultas - We have ${newCount} fruits now, yay!. ${oldCount}`)
       if(newCount == false){
-        this.getProyectosUsuarioAprobar()
+        this.cargarListaProyecto()
         this.getValoresFiltros()
       }
     }
@@ -114,7 +114,7 @@ export default {
       dates: [ this.$moment(new Date()).subtract(7, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).format('yy-MM-DD').toString()],
       // dates: ['2019-09-10', '2019-09-20'],
       aprobacionesPendientes: true,
-      listadoProyectosAprobar:[{ id: 0, nombre: 'Todos' }],
+      listadoProyectos:[{ id: 0, nombre: 'Todos' }],
       listaDocumentoEstado:[{id: 0, nombre: 'Todos'}],
       listaFormaPago:[{id: 0, nombre: 'Todos'}],
       listaMonedas: [{id: 0, nombre: 'Todos'}],
@@ -196,6 +196,13 @@ export default {
     },
   },
   methods: {
+    cargarListaProyecto(){
+      if(this.origen === 1){
+        this.getProyectosUsuarioAprobar()
+      }else if(this.origen === 2){
+        this.getProyectosUsuarioConsultas()
+      }
+    },
     async getValoresFiltros() {
       const emp_fk =  this.$store.state.app.datosUsuario.user_tenant
       console.log('emp_fk: ', emp_fk);
@@ -212,7 +219,12 @@ export default {
     async getProyectosUsuarioAprobar() {
       const {data: {getProyectosUsuarioAprobar:{proyectos_aprobador}}} = await getProyectosUsuarioAprobador(this.$store.state.app.datosUsuario.user_id)
       console.log('proyectos_aprobador: ', proyectos_aprobador);
-      this.listadoProyectosAprobar.push(...proyectos_aprobador)
+      this.listadoProyectos.push(...proyectos_aprobador)
+    },
+    async getProyectosUsuarioConsultas() {
+      const {data: {getProyectosUsuarioConsulta:{proyectos_consultar}}} = await getProyectosUsuarioConsultar(this.$store.state.app.datosUsuario.user_id)
+      console.log('proyectos_consultar: ', proyectos_consultar);
+      this.listadoProyectos.push(...proyectos_consultar)
     },
     async cargarOcs() {
       this.loadingTabla = true

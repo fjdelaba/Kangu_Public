@@ -168,9 +168,22 @@ query Q_GET_EMPRESA($emp_id: bigint!) {
 `
 
 const GET_PROYECTOS_USUARIO_APROBADOR = gql`
-query Q_GET_PROYECTOS_USUARIO_CONSULTAS($usu_fk: bigint = "") {
+query Q_GET_PROYECTOS_USUARIO_APROBADOR($usu_fk: bigint = "") {
   getProyectosUsuarioAprobar(datos: {usu_fk: $usu_fk}) {
     proyectos_aprobador {
+      id
+      nombre
+    }
+    success
+    error
+  }
+}
+`
+
+const GET_PROYECTOS_USUARIO_CONSULTA = gql`
+query Q_GET_PROYECTOS_USUARIO_CONSULTA($usu_fk: bigint!) {
+  getProyectosUsuarioConsulta(datos: {usu_fk: $usu_fk}) {
+    proyectos_consultar {
       id
       nombre
     }
@@ -237,5 +250,6 @@ export {
   GET_ACCESO_MODULO,
   GET_PROYECTOS_USUARIO_APROBADOR,
   GET_TIPO_DOCUMENTO,
-  GET_VALORES_FILTROS_CONSULTA
+  GET_VALORES_FILTROS_CONSULTA,
+  GET_PROYECTOS_USUARIO_CONSULTA
 }

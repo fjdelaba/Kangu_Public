@@ -1,7 +1,7 @@
 <template>
   <v-card min-width="1000" min-height="500" >
     <!-- {{ lista_detalle }} -->
-    <!-- {{ listaPartidas }} -->
+    <!-- {{ moneda }} -->
     <v-row>
       <v-col cols="12" ld="6" md="6" class="py-0">
         <v-btn
@@ -345,7 +345,13 @@
       persistent
       max-width="600px"
     >
-      <modal-agregar-material v-if="dialogMaterial" :material-edicion="materialEdicion" :cerrar-dialog-material_="cerrarDialogMaterial" :lista-partidas="JSON.parse(JSON.stringify(listaPartidas))"></modal-agregar-material></v-dialog>
+      <modal-agregar-material
+        v-if="dialogMaterial"
+        :material-edicion="materialEdicion"
+        :cerrar-dialog-material_="cerrarDialogMaterial"
+        :lista-partidas="JSON.parse(JSON.stringify(listaPartidas))"
+        :moneda="moneda"
+      ></modal-agregar-material></v-dialog>
     <v-dialog
       v-model="dialogValidacion"
       persistent

@@ -210,6 +210,10 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
         id
       }
     }
+    doc_tip {
+      nombre
+    }
+    impuestos
   }
 }
 `

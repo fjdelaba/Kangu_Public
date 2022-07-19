@@ -15,7 +15,8 @@ export default {
     tipo_documento:{
       type: Number,
       default: 0
-    }
+    },
+    moneda:{}
   },
   data: () => ({
     dialogMaterial: false,

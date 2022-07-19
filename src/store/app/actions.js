@@ -66,6 +66,10 @@ const setMonedas = ({ state, commit }, payload) => {
   commit('setMonedas', payload)
 }
 
+const setIndicadores = ({ state, commit }, payload) => {
+  commit('setIndicadores', payload)
+}
+
 export default {
   showToast,
   showError,
@@ -77,5 +81,6 @@ export default {
   setUsuario,
   setTipoBoleta,
   setTiposDocumento,
-  setMonedas
+  setMonedas,
+  setIndicadores
 }

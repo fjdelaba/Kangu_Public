@@ -9,7 +9,8 @@ export default {
   props: {
     cerrarDialogMaterial_: { type: Function },
     materialEdicion: {},
-    listaPartidas: []
+    listaPartidas: [],
+    moneda: {}
   },
   components: {
     ModalNuevoMaterial
@@ -123,7 +124,7 @@ export default {
     if (this.materialEdicion !== undefined) {
       this.cargarDatosEdicion()
     }
-    
+    console.log('refs: ', this.$parent)
   },
   methods: {
     returnCantidadFormat(x) {

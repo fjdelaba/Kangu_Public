@@ -17,7 +17,7 @@
                 :complete="pasoStep > 1"
                 step="1"
               >
-                Datos Generales
+                Datos Generales {{ $store.state.app.indicadores }}
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -51,7 +51,13 @@
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <agregar-material ref="refAgregarMaterial" :oc_id="oc_id" :pro_fk="pro_fk" :tipo_documento="tipoDocumento"></agregar-material>
+                <agregar-material
+                  ref="refAgregarMaterial"
+                  :oc_id="oc_id"
+                  :pro_fk="pro_fk"
+                  :tipo_documento="tipoDocumento"
+                  :moneda="moneda"
+                ></agregar-material>
               </v-stepper-content>
 
               <v-stepper-content step="3">
@@ -173,7 +179,8 @@ export default {
       flujoModal: [],
       flujoDocumento: [],
       tipoDocumento: 0,
-      tipoDocumentoBoleta: 1
+      tipoDocumentoBoleta: 1,
+      moneda: {}
     }
   },
   computed: {
@@ -215,6 +222,7 @@ export default {
         // this.pasoStep++
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
+          this.moneda =  this.$refs.refinformaciongeneraldoc.oc_cab.moneda
           if (this.oc_id > 0) {
             try {
               const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
@@ -295,6 +303,9 @@ export default {
         this.flujoDocumento = []
         this.neto = 0
         this.impuesto = 0
+        let totalPesos = 0
+        // const { moneda } = this.$refs.refinformaciongeneraldoc.oc_cab
+
         // eslint-disable-next-line no-constant-condition
         // if (true) {
         //   this.pasoStep = this.pasoStep + 2
@@ -321,8 +332,28 @@ export default {
 
         const { data: { kangusoft_apr } } = await getMontoComprador(this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false)
 
+        console.log('moneda: ', this.moneda.id)
+        
+        switch (this.moneda.id) {
+        case 1: //UF
+          totalPesos = this.neto * this.$store.state.app.indicadores.uf
+          break
+        case 2: // CLP
+          totalPesos = this.neto
+          break
+        case 3: // DOLAR
+          totalPesos = this.neto * this.$store.state.app.indicadores.dolar
+          break
+        case 4: // EURO
+          totalPesos = this.neto * this.$store.state.app.indicadores.euro
+          break
+        default:
+          break
+        }
+        console.log('totalPesos: ', totalPesos)
         console.log('kangusoft_apr[0].monto: ', kangusoft_apr[0])
-        if (this.neto < kangusoft_apr[0].monto) {
+        // if (this.neto < kangusoft_apr[0].monto) {
+        if (totalPesos < kangusoft_apr[0].monto) {
           console.log('Sin Flujo')
         } else {
           console.log('Con Flujo')
@@ -338,28 +369,16 @@ export default {
             arregloAprobadores.push(aproFinal)
           }
           console.log('arregloAprobadores despues: ', arregloAprobadores)
-          // if (arregloAprobadores > 0) {
-          //   for (const apro of arregloAprobadores) {
-          //     console.log(apro)
-          //     if (apro.usu_apro_fk === this.$store.state.app.datosUsuario.user_id) continue
-          //     if (this.neto > apro.monto) {
-          //       this.flujoModal.push({ nombre:`${apro.usuByUsuAproFk.nombre} ${apro.usuByUsuAproFk.apellidos}`, id:apro.id , monto: apro.monto })
-          //     } else if (this.neto < apro.monto) {
-          //       this.flujoModal.push({ nombre:`${apro.usuByUsuAproFk.nombre} ${apro.usuByUsuAproFk.apellidos}`, id:apro.id })
-          //       break
-          //     }
-          //   }
-          // } else {
-          //   console.log('no tiene lineas')
-          // }
           if (arregloAprobadores.length > 0) {
             for (const apro in arregloAprobadores) {
               console.log(arregloAprobadores[apro])
               if (arregloAprobadores[apro].usu_apro_fk === this.$store.state.app.datosUsuario.user_id) continue
-              if (this.neto > arregloAprobadores[apro].monto) {
+              // if (this.neto > arregloAprobadores[apro].monto) {
+              if (totalPesos > arregloAprobadores[apro].monto) {
                 this.flujoModal.push({ nombre:`${arregloAprobadores[apro].usuByUsuAproFk.nombre} ${arregloAprobadores[apro].usuByUsuAproFk.apellidos}`, id:arregloAprobadores[apro].id , monto: arregloAprobadores[apro].monto })
                 this.flujoDocumento.push({ apr_fk: arregloAprobadores[apro].id, orden: (Number(apro) + 1) })
-              } else if (this.neto < arregloAprobadores[apro].monto) {
+              // } else if (this.neto < arregloAprobadores[apro].monto) {
+              } else if (totalPesos < arregloAprobadores[apro].monto) {
                 this.flujoModal.push({ nombre:`${arregloAprobadores[apro].usuByUsuAproFk.nombre} ${arregloAprobadores[apro].usuByUsuAproFk.apellidos}`, id:arregloAprobadores[apro].id })
                 this.flujoDocumento.push({ apr_fk: arregloAprobadores[apro].id, orden: (Number(apro) + 1) })
                 break

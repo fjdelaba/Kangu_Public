@@ -258,7 +258,7 @@
                   md="6"
                   class="pb-0 pt-0 mb-0 mt-0"
                 >
-                  <p class="font-weight-black">Total: {{ material.subtotal | currency }}</p>
+                  <p class="font-weight-black">Total: {{ material.subtotal | currency }} {{ moneda.nombre }}</p>
                 </v-col>
               </v-row>
             </v-row>

@@ -21,6 +21,7 @@ import './plugins/clipboard'
 import './plugins/moment'
 import './plugins/currency'
 import './plugins/vuetify-money'
+import './plugins/axios'
 
 // FILTERS
 import './filters/capitalize'
