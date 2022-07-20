@@ -1,6 +1,11 @@
 <template>
   <v-container>
-    <div>
+     <div v-if="skeleton">
+      <v-skeleton-loader
+        type="card-avatar, article, actions"
+      ></v-skeleton-loader>
+    </div>
+    <div  v-if="!skeleton">
       <h2>
         Detalle Consultas {{ cabeceraOcSeleccionada }}
       </h2>

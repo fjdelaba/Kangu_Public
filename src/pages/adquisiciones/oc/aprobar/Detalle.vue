@@ -1,6 +1,12 @@
 <template>
   <v-container>
+    <div v-if="skeleton">
+      <v-skeleton-loader
+        type="card-avatar, article, actions"
+      ></v-skeleton-loader>
+    </div>
     <v-row
+      v-if="!skeleton"
       no-gutters
       style="flex-wrap: nowrap;"
     >

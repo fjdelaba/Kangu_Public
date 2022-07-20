@@ -11,6 +11,7 @@ export default {
   },
   data() {
     return {
+      skeleton:true,
       idOcSeleccionada:'',
       detalleOcSeleccionada:'',
       materialesOcSeleccionada:[],
@@ -62,6 +63,7 @@ export default {
         this.cabecera.formaPago.nombre =  kangusoft_oc[0].for_pag.nombre
         this.cabecera.tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre
         this.tipo_documento = kangusoft_oc[0].doc_tip_fk
+        this.skeleton = false
     },
   }
 }

@@ -1,4 +1,6 @@
+/* eslint-disable */
 import { insertEntModal }  from '../../../graphql/general'
+import { validaRut } from "../../../utils/index"
 export default {
   name: 'ModalEntidad',
   props: {
@@ -8,7 +10,7 @@ export default {
     return {
       ent:{  
         razon_social: '',
-        email_dte:'',
+        email_dte:'Sin Direccion',
         rut: '',
         usu_fk:'',
         // emp_fk:1, // cambiar por valor real
@@ -24,7 +26,8 @@ export default {
           giro:[
             (v) => !!v || 'Debes el giro del proveedor'
           ],
-          rut: [(v) => !!v || 'El RUT es fundamental, por favor ingresalo'],
+          rut: [(v) => !!v || 'El RUT es fundamental, por favor ingresalo',
+          (v) => validaRut(v) || "Rut NO valido"],
           email_dte:[(v) => !!v || 'A que correo llegarán los documentos',(v) => /.+@.+\..+/.test(v) || 'Ingresa un email correcto'],
           usu_fk:''
         },
@@ -52,6 +55,9 @@ export default {
     this.usu_id = this.$store.state.app.datosUsuario.user_id
   },
   methods: {
+    validarFomatoRut() {
+      console.log(validaRut(this.ent.rut));
+    },
     cerrarDialogEntidad() {
       this.cerrarDialog()
     }, 

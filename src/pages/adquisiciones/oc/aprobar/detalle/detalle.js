@@ -14,6 +14,7 @@ export default {
       idOcSeleccionada:'',
       detalleOcSeleccionada:'',
       materialesOcSeleccionada:[],
+      skeleton:true,
     
         cabecera:{
             proveedor:{
@@ -79,6 +80,7 @@ export default {
         this.cabecera.est_doc_fk = Number(kangusoft_oc[0].est_doc_fk)
         this.cabecera.id = kangusoft_oc[0].id
         this.tipo_documento = kangusoft_oc[0].doc_tip_fk
+        this.skeleton = false
     },
   }
 }

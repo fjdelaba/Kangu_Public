@@ -20,7 +20,7 @@ export default {
         email: "",
         cargo: "",
         rut: "",
-        perfil: "",
+        perfil: "Usuario",
         imagen: "",
         firma: "",
         select: null,
@@ -194,9 +194,10 @@ export default {
     },
 
     reset() {
-      this.$refs.form.reset();
+      this.$refs.datosUsuario.reset()
       this.abrirDialog = false;
       this.alert = false;
+      
     },
     async grabarUsuario(parametro) {
       let permisosUsu = [];

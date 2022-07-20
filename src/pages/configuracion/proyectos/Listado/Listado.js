@@ -4,6 +4,7 @@ import DetalleProyecto from './../Detalle.vue'
 export default {
   data() {
     return {
+      skeleton:true,
       searchQuery:"",
       headers: [
         {
@@ -71,6 +72,7 @@ export default {
        console.log("proyect:", pro)
        this.proyectos.push(pro)
       }  
+      this.skeleton = false
   },
   abrirDetalle(item){
   this.idProyectoSeleccionado = item.id

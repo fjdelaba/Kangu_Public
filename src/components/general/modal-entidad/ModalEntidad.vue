@@ -44,8 +44,8 @@
             </v-col>
             <v-col
               cols="12"
-              sm="6"
-              md="5"
+              sm="12"
+              md="12"
               class="pt-0"
             >
               <v-text-field
@@ -55,9 +55,10 @@
                 dense
                 outlined  
                 required
+                @input="validarFomatoRut()"
               ></v-text-field>
             </v-col>
-            <v-col
+            <!-- <v-col
               cols="12"
               sm="6"
               md="7"
@@ -71,7 +72,7 @@
                 outlined
                 dense
               ></v-text-field>
-            </v-col>
+            </v-col> -->
             <v-col cols="12" class="pt-0">
               <v-text-field
                 v-model="ent_con.nombre"

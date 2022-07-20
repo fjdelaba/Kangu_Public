@@ -17,7 +17,7 @@
                 :complete="pasoStep > 1"
                 step="1"
               >
-                Datos Generales {{ $store.state.app.indicadores }}
+                Datos Generales 
               </v-stepper-step>
 
               <v-divider></v-divider>
