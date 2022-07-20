@@ -1,5 +1,10 @@
 <template>
-  <div>
+
+  <v-container>  
+    <h2>
+      Listado Mantenedores
+    </h2>
+   
     <boton-mantenedor
       ref="botonMantenedor"
       :botones="listaMantenedores"
@@ -10,8 +15,7 @@
       ref="tablaMantenedor"
       :id-mantenedor="idMantenedor"
       :lista="listaMantenedor.length > 0 && listaMantenedor"
-    ></tabla-mantenedor>
-  </div>
+    ></tabla-mantenedor></v-container>
 </template>
 
 <style src="./Listado/Listado.css"></style>

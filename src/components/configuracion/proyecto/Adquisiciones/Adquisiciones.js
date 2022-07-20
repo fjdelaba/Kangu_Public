@@ -63,6 +63,7 @@ export default {
         usuario: "",
         monto: "",
       },
+      loadingAdquisiciones:false,
       tablaAprobador: [],
       tablaAprobadorFinal: [],
       aprobadorFinal: true,
@@ -303,6 +304,7 @@ export default {
     },
 
     agregarAprobador() {
+      this.loadingAdquisiciones = true
       let validado
       this.datosUsuario = this.$store.state.app.datosUsuario
       this.$refs.nombreApro.validate()
@@ -341,6 +343,7 @@ export default {
         }
         this.limpiarFormUsuarios();
         this.close()
+        this.loadingAdquisiciones = false
       }
     },
 

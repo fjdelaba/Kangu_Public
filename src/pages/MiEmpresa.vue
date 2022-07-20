@@ -143,6 +143,8 @@
                     <v-btn
                       color="primary"
                       small
+                      :loading="loadingEdicionEmpresa"
+                      :disabled="loadingEdicionEmpresa"
                       @click="grabarEdicionEmpresa()"
                     >Guardar</v-btn>
                     <v-btn
@@ -339,6 +341,7 @@ export default {
         },
         select: null
       },
+      loadingEdicionEmpresa:false,
       copyComuna:{ id:'',
           nombre:''},
       edicion:false,
@@ -444,6 +447,7 @@ export default {
       this.empresa.comuna = this.copyComuna
     },
      async grabarEdicionEmpresa(){
+      this.loadingEdicionEmpresa = true
       try {
         if(this.copyComuna.id == this.empresa.comuna.id){
         console.log("HOLA")
@@ -456,10 +460,11 @@ export default {
         console.log('resp datos contacto: ', resp)
         this.edicion = false
         }
-       
+         this.loadingEdicionEmpresa = false
       } catch (error) {
         console.log('error: ', error)
       }
+    
     },
     async cargarComuna(id){
        this.comuna = []

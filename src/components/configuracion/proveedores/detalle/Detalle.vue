@@ -81,8 +81,8 @@
                       <div v-if="edicion" class="mt-2">
                         <v-btn
                           color="primary"
-                          :loading="loadingDatosGenerales"
-                          :disabled="loadingDatosGenerales"
+                          :loading="loadingEdicionProveedor"
+                          :disabled="loadingEdicionProveedor"
                           small
                           @click="grabarEdicionProveedor()"
                         >Guardar</v-btn>
@@ -208,14 +208,16 @@
                               ></v-text-field>
                               <v-btn
                            
-                                color="green darken-1"
+                                color="blue"
                                 text
                                 @click="dialog = false"
                               >
                                 Cancelar
                               </v-btn>
                               <v-btn
-                                color="green darken-1"
+                                :loading="loadingEdicionContacto"
+                                :disabled="loadingEdicionContacto"
+                                color="blue"
                                 text
                                 @click="guardarEdicionContacto()"
                               >

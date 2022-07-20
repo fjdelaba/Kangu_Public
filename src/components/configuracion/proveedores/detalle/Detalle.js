@@ -44,6 +44,8 @@ export default {
         giro: "",
         direccion: "",
       },
+      loadingEdicionProveedor:false,
+      loadingEdicionContacto:false,
       contactosProveedor: [],
       panel: [-1],
       breadcrumbs: [
@@ -107,11 +109,13 @@ export default {
     },
    async grabarEdicionProveedor(){
       try {
+        this.loadingEdicionProveedor = true
         console.log("HOLA")
         const resp = await updateProveedor(this.proveedor.direccion,this.proveedor.emailContacto,this.proveedor.emailDte,this.idProveedor,this.proveedor.giro,this.proveedor.razon_social,this.proveedor.rut,this.datosUsuario)
         console.log('resp datos contacto: ', resp)
         this.edicion = false
         this.dialog = false
+        this.loadingEdicionProveedor = false
       } catch (error) {
         console.log('error: ', error)
       }
@@ -149,11 +153,13 @@ export default {
       this.contactoSeleccionado.id = item.id
     },
     async guardarEdicionContacto() {
+      this.loadingEdicionContacto = true
       console.log(" this.contactoSeleccionado", this.contactoSeleccionado)
       this.dialog = false
       try {
         const resp = await updateContactoProveedor(this.contactoSeleccionado.id, this.contactoSeleccionado.nombre, this.contactoSeleccionado.email)
         console.log('resp datos contacto: ', resp)
+        this.loadingEdicionContacto = false
       } catch (error) {
         console.log('error: ', error)
       }

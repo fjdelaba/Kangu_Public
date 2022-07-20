@@ -82,6 +82,7 @@ export default {
         descripcion: "",
         imagen: "",
       },
+      loadingInfoGeneral:false,
       infoDireccionProyecto: {
         region: "",
         comuna: "",
@@ -399,6 +400,7 @@ export default {
     },
 
     async guardarInformacion() {
+      this.loadingInfoGeneral = true
       this.datosEmpresa = this.$store.state.app.datosEmpresa
       this.datosUsuario = this.$store.state.app.datosUsuario
       console.log("datosUsuario", this.datosUsuario)
@@ -463,6 +465,7 @@ export default {
         setTimeout(() => {
           this.loading4 = false
         }, 4000)
+        this.loadingInfoGeneral = false
       } else {
         this.valid = false;
       }

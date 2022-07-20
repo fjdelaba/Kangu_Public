@@ -7,8 +7,7 @@
             v-for="n in 1"
             :key="n"
             class="d-flex child-flex"
-            cols="4"
-            style="min-width: 600px"
+            cols="6"
           > 
             <div v-for="item in botones" :key="item" style="min-width: 100px">
               <v-btn
