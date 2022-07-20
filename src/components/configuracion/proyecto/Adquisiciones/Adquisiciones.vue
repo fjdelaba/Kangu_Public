@@ -153,6 +153,7 @@
                    <v-btn
                      color="success"
                      text
+                     :loading="loadingAdquisiciones"
                      :disabled="habilitar != false"
                      @click="agregarAprobador()"
                    >

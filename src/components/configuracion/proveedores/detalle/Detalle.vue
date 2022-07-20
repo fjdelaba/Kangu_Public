@@ -81,8 +81,8 @@
                       <div v-if="edicion" class="mt-2">
                         <v-btn
                           color="primary"
-                          :loading="loadingDatosGenerales"
-                          :disabled="loadingDatosGenerales"
+                          :loading="loadingEdicionProveedor"
+                          :disabled="loadingEdicionProveedor"
                           small
                           @click="grabarEdicionProveedor()"
                         >Guardar</v-btn>
@@ -207,15 +207,16 @@
                                 :rules="emailRules"
                               ></v-text-field>
                               <v-btn
-                           
-                                color="green darken-1"
+
                                 text
                                 @click="dialog = false"
                               >
                                 Cancelar
                               </v-btn>
                               <v-btn
-                                color="green darken-1"
+                                :loading="loadingEdicionContacto"
+                                :disabled="loadingEdicionContacto"
+                                color="blue"
                                 text
                                 @click="guardarEdicionContacto()"
                               >
@@ -260,15 +261,16 @@
                               ></v-text-field>
                               <v-btn
                            
-                                color="green darken-1"
                                 text
                                 @click="dialogCrearContacto = false"
                               >
                                 Cancelar
                               </v-btn>
                               <v-btn
-                                color="green darken-1"
+                                color="blue"
                                 text
+                                :loading="loadingCrearContacto"
+                                :disabled="loadingCrearContacto"
                                 @click="crearNuevoContacto()"
                               >
                                 Agregar
@@ -294,13 +296,18 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="green darken-1"
                   text
                   @click="dialogDesactivar = false"
                 >
                   NO
                 </v-btn>
-                <v-btn color="green darken-1" text @click="deshabilitarProveedor()">
+                <v-btn 
+                  :loading="loadingDeshabilitar"
+                  :disabled="loadingDeshabilitar"
+                  color="blue" 
+                  text 
+                  @click="deshabilitarProveedor()"
+                >
                   Si
                 </v-btn>
               </v-card-actions>

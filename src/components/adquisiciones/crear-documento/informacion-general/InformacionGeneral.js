@@ -71,7 +71,7 @@ export default {
       mostrarNoData:false,
       mostrarDialogCrearEntidad: false,
       valid: true,
-
+      skeleton:true,
       mostrarModalContacto: false,
       datosContacto: [],
       crearContacto: false
@@ -103,7 +103,8 @@ export default {
     async cargarDatosFormulario() {
       console.log('cargarDatosFormulario')
       const { data:{ kangusoft_emp_imp, kangusoft_emp_doctip, kangusoft_des_tip, kangusoft_emp_mon, kangusoft_fla, kangusoft_for_pag } } = await getDatosFormularioCabecera()
-
+      
+      this.skeleton = false
       for (const mon of kangusoft_emp_mon) {
         this.listaMonedas.push({ id: mon.mon.id, nombre:mon.mon.nombre })
         if (mon.mon.id == 2) {

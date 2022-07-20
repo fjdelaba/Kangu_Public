@@ -370,7 +370,8 @@
           color="success"
           dark
           large
-          :loading="loading4"
+          :loading="loadingInfoGeneral"
+          :disabled="loadingInfoGeneral"
           @click="guardarInformacion()"
         ><v-icon>mdi-content-save-all</v-icon>
           GUARDAR

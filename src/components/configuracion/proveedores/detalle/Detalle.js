@@ -44,6 +44,9 @@ export default {
         giro: "",
         direccion: "",
       },
+      loadingEdicionProveedor:false,
+      loadingEdicionContacto:false,
+      loadingCrearContacto:false,
       contactosProveedor: [],
       panel: [-1],
       breadcrumbs: [
@@ -62,6 +65,7 @@ export default {
         nombre: "",
         id: ""
       },
+      loadingDeshabilitar:false,
       nuevoContactoProveedor: {
         email: "",
         nombre: "",
@@ -107,11 +111,13 @@ export default {
     },
    async grabarEdicionProveedor(){
       try {
+        this.loadingEdicionProveedor = true
         console.log("HOLA")
         const resp = await updateProveedor(this.proveedor.direccion,this.proveedor.emailContacto,this.proveedor.emailDte,this.idProveedor,this.proveedor.giro,this.proveedor.razon_social,this.proveedor.rut,this.datosUsuario)
         console.log('resp datos contacto: ', resp)
         this.edicion = false
         this.dialog = false
+        this.loadingEdicionProveedor = false
       } catch (error) {
         console.log('error: ', error)
       }
@@ -125,13 +131,16 @@ export default {
     },
     async deshabilitarProveedor(){
       try {
+        this.loadingDeshabilitar = true
         if(this.proveedor.activo == true){
           const resp = await updateEstadoProveedor(this.idProveedor, false)
           console.log('resp datos contacto: ', resp)
+          this.loadingDeshabilitar = false
           this.dialogDesactivar = false
         }else if(this.proveedor.activo == false){
           const resp = await updateEstadoProveedor(this.idProveedor, true)
           console.log('resp datos contacto: ', resp)
+          this.loadingDeshabilitar = false
           this.dialogDesactivar = false
         }
        
@@ -149,17 +158,22 @@ export default {
       this.contactoSeleccionado.id = item.id
     },
     async guardarEdicionContacto() {
+      this.loadingEdicionContacto = true
       console.log(" this.contactoSeleccionado", this.contactoSeleccionado)
-      this.dialog = false
+      
       try {
         const resp = await updateContactoProveedor(this.contactoSeleccionado.id, this.contactoSeleccionado.nombre, this.contactoSeleccionado.email)
         console.log('resp datos contacto: ', resp)
+        this.loadingEdicionContacto = false
+        this.dialog = false
       } catch (error) {
         console.log('error: ', error)
       }
+      
     },
     async crearNuevoContacto() {
-      this.dialogCrearContacto = false
+      this.loadingCrearContacto = true
+      
       try {
       const { data } = await postContactoProveedor(
       this.nuevoContactoProveedor.email,
@@ -168,6 +182,8 @@ export default {
       this.datosUsuario 
       );
       console.log(data);
+      this.loadingCrearContacto = false
+      this.dialogCrearContacto = false
     } catch (error) {
       console.log('error: ', error)
     } 

@@ -384,6 +384,8 @@
             <v-btn
               color="green darken-1"
               text
+              :loading="loadingDeshabilitar"
+              :disabled="loadingDeshabilitar"
               @click="deshabilitarUsuario()"
             >
               Si
@@ -524,6 +526,7 @@ export default {
       loader:null,
       loadingAsignarClave:false,
       loadingBotonPermiso:false,
+      loadingDeshabilitar:false,
 
       editarPanelPermisos: true,
       diaglogCambiarPassword: false,
@@ -793,7 +796,7 @@ export default {
       }
     },
     async deshabilitarUsuario() {
-      this.loading4 = true
+      this.loadingDeshabilitar = true
       this.loader = true
       this.dialogDesactivar = false
       console.log(this.user, this.$store.state.app.datosEmpresa.id)
@@ -819,7 +822,7 @@ export default {
         console.log('error: ', error)
       }
       this.loader = null
-      this.loading4 = false
+      this.loadingDeshabilitar = false
       
     }
   }
