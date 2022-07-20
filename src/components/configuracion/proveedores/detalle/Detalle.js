@@ -46,6 +46,7 @@ export default {
       },
       loadingEdicionProveedor:false,
       loadingEdicionContacto:false,
+      loadingCrearContacto:false,
       contactosProveedor: [],
       panel: [-1],
       breadcrumbs: [
@@ -64,6 +65,7 @@ export default {
         nombre: "",
         id: ""
       },
+      loadingDeshabilitar:false,
       nuevoContactoProveedor: {
         email: "",
         nombre: "",
@@ -129,13 +131,16 @@ export default {
     },
     async deshabilitarProveedor(){
       try {
+        this.loadingDeshabilitar = true
         if(this.proveedor.activo == true){
           const resp = await updateEstadoProveedor(this.idProveedor, false)
           console.log('resp datos contacto: ', resp)
+          this.loadingDeshabilitar = false
           this.dialogDesactivar = false
         }else if(this.proveedor.activo == false){
           const resp = await updateEstadoProveedor(this.idProveedor, true)
           console.log('resp datos contacto: ', resp)
+          this.loadingDeshabilitar = false
           this.dialogDesactivar = false
         }
        
@@ -155,17 +160,20 @@ export default {
     async guardarEdicionContacto() {
       this.loadingEdicionContacto = true
       console.log(" this.contactoSeleccionado", this.contactoSeleccionado)
-      this.dialog = false
+      
       try {
         const resp = await updateContactoProveedor(this.contactoSeleccionado.id, this.contactoSeleccionado.nombre, this.contactoSeleccionado.email)
         console.log('resp datos contacto: ', resp)
         this.loadingEdicionContacto = false
+        this.dialog = false
       } catch (error) {
         console.log('error: ', error)
       }
+      
     },
     async crearNuevoContacto() {
-      this.dialogCrearContacto = false
+      this.loadingCrearContacto = true
+      
       try {
       const { data } = await postContactoProveedor(
       this.nuevoContactoProveedor.email,
@@ -174,6 +182,8 @@ export default {
       this.datosUsuario 
       );
       console.log(data);
+      this.loadingCrearContacto = false
+      this.dialogCrearContacto = false
     } catch (error) {
       console.log('error: ', error)
     } 

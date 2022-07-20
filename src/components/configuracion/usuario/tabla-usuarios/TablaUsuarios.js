@@ -5,6 +5,7 @@ import { validaRut } from "../../../../utils";
 import {
   postUsuarioEsmpresa,
   getUsuarioExistente,
+  getPerfilUsuario
 } from "../../../../graphql/configuracion";
 
 export default {
@@ -20,13 +21,13 @@ export default {
         email: "",
         cargo: "",
         rut: "",
-        perfil: "Usuario",
+        perfil: "",
         imagen: "",
         firma: "",
         select: null,
         
       },
-      items: ["Administrador", "Usuario"],
+      items: [],
       usuarioRules: {
         nombresRules: [(v) => !!v || "Nombre obligatorio"],
         apellidosRules: [(v) => !!v || "Apellido obligatorio"],
@@ -80,6 +81,7 @@ export default {
         { text: 'Audience', icon: 'mdi-account' },
         { text: 'Conversions', icon: 'mdi-flag' }
       ],*/
+      loadingCrearUsu:false,
       active: 0,
       searchQuery: "",
       selectedUsers: [],
@@ -103,6 +105,9 @@ export default {
   watch: {
     selectedUsers(val) {},
   },
+  mounted() {
+    this.cargarUsuarioPerfil()
+  },
   computed: {
     cpxValidarPermisos() {
       return (
@@ -121,6 +126,10 @@ export default {
   },
 
   methods: {
+    async cargarUsuarioPerfil(){
+      const { data: { kangusoft_usu_per } } = await getPerfilUsuario();
+      this.items = kangusoft_usu_per
+    },
     cargarDetalle(id_usuario){
       // console.log('id_usuario: ', id_usuario);
       this.$router.push({ path: '/configuracion/usuarios/detalle', query: { id: id_usuario }})
@@ -200,6 +209,7 @@ export default {
       
     },
     async grabarUsuario(parametro) {
+      this.loadingCrearUsu = true
       let permisosUsu = [];
       if (parametro == 1) {
         if (this.permisoCentroGestion == true) {
@@ -249,8 +259,8 @@ export default {
         nombre: this.usuario.nombres,
         apellidos: this.usuario.apellidos,
         cargo: this.usuario.cargo,
-        emp_fk: 1,
-        usu_per_fk: 2,
+        emp_fk: this.$store.state.app.datosUsuario.user_tenant,
+        usu_per_fk: this.usuario.perfil,
       };
       // if(parametro == 2){
       //   permisosUsu.push({ mod_fk: 0 })
@@ -259,12 +269,14 @@ export default {
       console.log("permisosUsu: ", permisosUsu);
       const { data } = await postUsuarioEsmpresa(usuario,permisosUsu);
       console.log(data);
+      this.loadingCrearUsu = false
       this.abrirDialog = false;
       this.alert = false;
       this.$refs.datosUsuario.reset();
     },
 
     async crearUsu() {
+      
       if (!this.$refs.datosUsuario.validate()) return;
       if (this.cpxValidarPermisos) {
         this.alert = true;

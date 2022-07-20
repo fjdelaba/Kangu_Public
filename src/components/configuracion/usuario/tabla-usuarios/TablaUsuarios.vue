@@ -165,7 +165,7 @@
                                     sm="6"
                                     md="6"
                                   >
-                                  
+                                    {{ usuario.perfil }}
                                     <v-select
                                       v-model="usuario.perfil"
                                       :items="items"
@@ -177,6 +177,8 @@
                                       label="Perfil"
                                       data-vv-name="select"
                                       required
+                                      item-text="nombre"
+                                      item-value="id"
                                       :rules="[v => !!v || 'Se requiere seleccionar un perfil']"
                                     ></v-select>
                                   </v-col>
@@ -433,7 +435,9 @@
                         <v-btn text tabindex="9" @click="reset()">Cerrar</v-btn>
                         
                         <v-btn
-                          color="primary"
+                          :loading="loadingCrearUsu"
+                          :disabled="loadingCrearUsu"
+                          color="blue"
                           text
                           tabindex="10"
                           @click="crearUsu()"

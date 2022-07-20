@@ -207,8 +207,7 @@
                                 :rules="emailRules"
                               ></v-text-field>
                               <v-btn
-                           
-                                color="blue"
+
                                 text
                                 @click="dialog = false"
                               >
@@ -262,15 +261,16 @@
                               ></v-text-field>
                               <v-btn
                            
-                                color="green darken-1"
                                 text
                                 @click="dialogCrearContacto = false"
                               >
                                 Cancelar
                               </v-btn>
                               <v-btn
-                                color="green darken-1"
+                                color="blue"
                                 text
+                                :loading="loadingCrearContacto"
+                                :disabled="loadingCrearContacto"
                                 @click="crearNuevoContacto()"
                               >
                                 Agregar
@@ -296,13 +296,18 @@
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
-                  color="green darken-1"
                   text
                   @click="dialogDesactivar = false"
                 >
                   NO
                 </v-btn>
-                <v-btn color="green darken-1" text @click="deshabilitarProveedor()">
+                <v-btn 
+                  :loading="loadingDeshabilitar"
+                  :disabled="loadingDeshabilitar"
+                  color="blue" 
+                  text 
+                  @click="deshabilitarProveedor()"
+                >
                   Si
                 </v-btn>
               </v-card-actions>
