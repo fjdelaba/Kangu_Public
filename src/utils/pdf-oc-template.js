@@ -126,12 +126,13 @@ if(datos.proveedor.direccion == null){
   doc.text(30, 58, `${datos.proveedor.direccion}`);
 
   doc.text(10, 62, 'Contacto: ');
-  doc.text(30, 62, `${datos.proveedor.nombreContacto}`);
+  // doc.text(30, 62, `${datos.proveedor.nombreContacto}`);
+  doc.text(30, 62, `${datos.contacto.nombre}`);
 
   // // doc.text(10, 66, 'Telefono: ');
   // // doc.text(30, 66, '+56 9 7998 9130');
   doc.text(10, 66, 'Email: ');
-  doc.text(30, 66, `${datos.proveedor.email}`);
+  doc.text(30, 66, `${datos.contacto.email}`);
 
   // doc.text(10, 70, 'Email: ');
   // doc.text(30, 70, `${correo}`);

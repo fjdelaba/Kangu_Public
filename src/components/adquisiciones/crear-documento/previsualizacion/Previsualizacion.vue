@@ -575,7 +575,14 @@
       </v-tab-item>
       
     </v-tabs-items>
-
+      <v-dialog
+        v-model="dialogDesicion"
+        max-width="550"
+        persistent
+      >
+        <!-- <DialogBorradorVue :eliminar-borrador="eliminarOcBorrador" :recuperar-borrador="recuperarOcBorrador"></DialogBorradorVue> -->
+        <h2>Hola</h2>
+      </v-dialog> 
   </div>
 </template>
 <style scoped>
