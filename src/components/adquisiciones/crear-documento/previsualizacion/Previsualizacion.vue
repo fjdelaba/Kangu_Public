@@ -407,7 +407,7 @@
                   tile
                 >
                   <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
-                  <!-- {{ cabecera }} -->
+                  {{ cabecera }}
                   <div class="text-center pt-5 pb-5 rounded-0"> <v-list-item-title class="text-h4 font-weight-bold ">Total: {{ Number(cabecera.neto + cabecera.impuestos) | currency }}</v-list-item-title>
                     <v-list-item-subtitle class="py-3 text-h5">Impuestos: {{ cabecera.impuestos | currency }} - Neto: {{ cabecera.neto | currency }}</v-list-item-subtitle>
                     <div class="text-center">

@@ -77,7 +77,19 @@ export default {
       }
     },
     cpxTotalesTablaResumen() {
+      const copyCpxTotalesItems = JSON.parse(JSON.stringify(this.cpxTotalesItems))
 
+      console.log('copyCpxTotalesItems: ', copyCpxTotalesItems)
+
+      for (const lineaResumen in copyCpxTotalesItems) {
+        console.log('lineaResumen - : ', lineaResumen)
+        if (copyCpxTotalesItems[lineaResumen].item === 'impuesto') {
+          delete copyCpxTotalesItems[lineaResumen]
+        }
+      }
+      console.log('copyCpxTotalesItems_ ', copyCpxTotalesItems)
+      
+      return copyCpxTotalesItems
     }
   },
   methods: {

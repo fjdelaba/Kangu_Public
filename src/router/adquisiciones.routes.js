@@ -117,6 +117,14 @@ export default [
     children: [...todoRoutes]
   },
   {
+    path: '/adquisiciones/recepcion/listado',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-todo" */ '@/pages/adquisiciones/recepcion/Listado.vue'
+      ),
+    children: [...todoRoutes]
+  },
+  {
     path: '/adquisiciones/recepcion/consultar',
     component: () =>
       import(

@@ -55,7 +55,7 @@ export default [
     text: 'Recepcion',
     regex: /^\/ecommerce/,
     items: [
-      { key: 'menu.recepcionar', text: 'Recepcionar', link: '/adquisiciones/recepcion/crear' },
+      { key: 'menu.recepcionar', text: 'Recepcionar', link: '/adquisiciones/recepcion/listado' },
       { key: 'menu.consultas', text: 'Consultar', link: '/adquisiciones/recepcion/consultar' }
     ]
   }
