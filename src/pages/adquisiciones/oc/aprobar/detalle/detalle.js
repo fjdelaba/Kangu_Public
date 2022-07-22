@@ -64,6 +64,7 @@ export default {
         this.cabecera.tipoDocumento = kangusoft_oc[0].doc_tip.nombre
         this.cabecera.identificacion = kangusoft_oc[0].identificacion
         this.cabecera.comentarioPDF = kangusoft_oc[0].comentario_pdf
+        this.cabecera.comentario = kangusoft_oc[0].comentario
         this.cabecera.proveedor.razon_social = kangusoft_oc[0].ent.razon_social
         this.cabecera.proveedor.email = kangusoft_oc[0].ent_con.email
         this.cabecera.proveedor.nombreContacto =  kangusoft_oc[0].ent_con.nombre

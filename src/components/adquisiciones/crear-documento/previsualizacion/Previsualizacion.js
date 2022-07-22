@@ -2,6 +2,7 @@
 import CuadroResumen from "../../../general/cuadro-resumen/CuadroResumen.vue";
 import Pipeline from "../../../general/pipeline/Pipeline.vue";
 import DistribucionLineasPartidas from "../../../adquisiciones/distribucion-lineas-partidas/DistribucionLineasPartidas.vue";
+import ModalFinalAprobacion from "../../../adquisiciones/modal-final-aprobacion/ModalFinalAprobacion.vue"
 import {
   getAprobadoresProyecto,
   updateFlujoAprobacionOC,
@@ -14,6 +15,7 @@ export default {
     CuadroResumen,
     Pipeline,
     DistribucionLineasPartidas,
+    ModalFinalAprobacion
   },
   props: {
     materiales: [],
@@ -90,6 +92,7 @@ export default {
       comentario: "",
       mostrarBotones: false,
       dialogDesicion: false,
+      id_apro:0
     };
   },
   methods: {
@@ -123,12 +126,10 @@ export default {
     },
 
     async desicionFluo(op) {
-      this.dialogDesicion = true;
       try {
         this.apruebo = true;
         // this.regla = [() => true]
         console.log(" this.apruebo", this.apruebo);
-        let id_apro = 0;
         for (let aprpro of this.aprobadores) {
           console.log(aprpro);
           console.log(
@@ -137,14 +138,14 @@ export default {
           );
           console.log("Number(aprpro.id_user): ", Number(aprpro.id_user));
           if (Number(this.datosUsuario.user_id) === Number(aprpro.id_user)) {
-            id_apro = aprpro.id_apr;
+            this.id_apro = aprpro.id_apr;
           }
           console.log("aprpro_ ", aprpro);
         }
         const aprobacion = {
           aprobado: op,
           comentario: this.comentario,
-          id: id_apro,
+          id: this.id_apro,
           oc_fk: this.cabecera.id,
         };
         console.log("aprobacion: ", aprobacion);
@@ -160,9 +161,11 @@ export default {
       } catch (error) {
         console.log("error");
       }
-      this.dialogDesicion = false;
+      this.dialogDesicion = true;
     },
-
+    redirigirListadoAprobaciones() {
+      this.$router.push({path:'/adquisiciones/oc/aprobar'});
+    },
     async descargarOcPDF() {
       this.totalesItems();
       const totalesCuadroResumen = await this.$refs.refcuadroresumen
@@ -229,6 +232,9 @@ export default {
     },
   },
   mounted() {
+    if(this.aprobacion){
+      this.tab = 'flujo'
+    }
     console.log("this.$auth.isLoading: ", this.$auth.isLoading);
     if (this.$auth.isLoading == false) {
       this.datosEmpresa = this.$store.state.app.datosEmpresa;

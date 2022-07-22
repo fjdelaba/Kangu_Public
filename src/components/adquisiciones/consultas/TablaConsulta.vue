@@ -11,7 +11,7 @@
       <!-- {{ocs}} -->
       <v-card>
         <!-- users list -->
-        <v-row dense class="pa-2 align-center">
+        <v-row dense class="pa-2 align-center" v-if="false">
           <!-- <v-autocomplete
               v-model="proyectoSeleccionado"
               :items="proyectos"

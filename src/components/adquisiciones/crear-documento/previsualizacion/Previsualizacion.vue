@@ -8,11 +8,11 @@
         <v-tabs-slider></v-tabs-slider>
 
         <v-tab href="#documento" >
-          Documento
+          Ver Documento
         </v-tab>
 
         <v-tab href="#flujo" @click="clickTab()" @change="changeTab()">
-          Flujo y Distribucion
+          Aprobar
         </v-tab>
 
       </v-tabs>
@@ -407,7 +407,7 @@
                   tile
                 >
                   <!-- {{ aprobadores }} - {{ cabecera }} - {{ $auth.isLoading }} -->
-                  {{ cabecera }}
+                  <!-- {{ cabecera }} -->
                   <div class="text-center pt-5 pb-5 rounded-0"> <v-list-item-title class="text-h4 font-weight-bold ">Total: {{ Number(cabecera.neto + cabecera.impuestos) | currency }}</v-list-item-title>
                     <v-list-item-subtitle class="py-3 text-h5">Impuestos: {{ cabecera.impuestos | currency }} - Neto: {{ cabecera.neto | currency }}</v-list-item-subtitle>
                     <div class="text-center">
@@ -421,7 +421,7 @@
                           <!-- <v-icon>mdi-checkbox-marked-circle</v-icon> -->
                           <v-icon>mdi-cash-multiple</v-icon>
                         </v-avatar>
-                         {{ cabecera.moneda.nombre }}
+                        {{ cabecera.moneda.nombre }}
                       </v-chip>
                       <v-chip
                         class="ma-2"
@@ -443,16 +443,31 @@
                           <!-- <v-icon>mdi-checkbox-marked-circle</v-icon> -->
                           <v-icon>mdi-office-building-outline</v-icon>
                         </v-avatar>
-                         {{ cabecera.proveedor.razon_social }}
+                        {{ cabecera.proveedor.razon_social }}
                       </v-chip>
+                      
                       <v-chip
+                        v-if="cabecera.comentario && cabecera.comentario.length > 0"
                         class="ma-2"
                         color="teal accent-4"
                         outlined
                       >
-                        <v-icon left>
-                          mdi-book-plus
-                        </v-icon>
+                        <v-tooltip
+                          v-model="show"
+                          top
+                        >
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              icon
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              <v-icon left>
+                                mdi-book-plus
+                              </v-icon>
+                            </v-btn></template>
+                          <span>{{ cabecera.comentario }}</span>
+                        </v-tooltip>
                         Comentario
                       </v-chip>
                     </div>
@@ -475,7 +490,7 @@
                 </v-card>
               </template>
             </v-col>
-           <!-- <v-row justify="center" height="max-height">
+            <!-- <v-row justify="center" height="max-height">
           <v-col lg="7" md="5" class="py-3  pr-5 ">
             <v-textarea
               label="Comentario"
@@ -495,68 +510,69 @@
           <v-divider></v-divider> -->
           </v-row>
            
-<template>
-  <v-row>
-    <v-col
-     v-for="n in 4"
-        :key="n"
-        class="d-flex child-flex"
-        cols="3">
-  <v-card
-    max-width="180"
-    class="mx-auto"
-  >
-    <v-img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsbc3nYXHYzE9WxzdCE-8pWLeTp4gPEnA0RA2MaykvlsMk01s45Ji-V5IBRZr9y8aVnak&usqp=CAU"
-      height="150px"
-      dark
-    >
-    <template v-slot:placeholder>
-            <v-row
-              class="fill-height ma-0"
-              align="center"
-              justify="center"
-            >
-              <v-progress-circular
-                indeterminate
-                color="grey lighten-5"
-              ></v-progress-circular>
-            </v-row>
-          </template>
-          <v-avatar size="120" class="ml-4 mt-2">
-              <img
-                alt="user"
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSPRIMCWe8gvtzKvKQoFOX3M31DzIy_3HkLA&usqp=CAU"
+          <template v-if="false">
+            <v-row>
+              <v-col
+                v-for="n in 4"
+                :key="n"
+                class="d-flex child-flex"
+                cols="3"
               >
-            </v-avatar>
-    </v-img>
-    <div class="text-center">
-    <v-list >
-      <v-list-item>
-        <v-list-item-content>
-          <v-list-item-title>Keznit</v-list-item-title>
+                <v-card
+                  max-width="180"
+                  class="mx-auto"
+                >
+                  <v-img
+                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsbc3nYXHYzE9WxzdCE-8pWLeTp4gPEnA0RA2MaykvlsMk01s45Ji-V5IBRZr9y8aVnak&usqp=CAU"
+                    height="150px"
+                    dark
+                  >
+                    <template v-slot:placeholder>
+                      <v-row
+                        class="fill-height ma-0"
+                        align="center"
+                        justify="center"
+                      >
+                        <v-progress-circular
+                          indeterminate
+                          color="grey lighten-5"
+                        ></v-progress-circular>
+                      </v-row>
+                    </template>
+                    <v-avatar size="120" class="ml-4 mt-2">
+                      <img
+                        alt="user"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSPRIMCWe8gvtzKvKQoFOX3M31DzIy_3HkLA&usqp=CAU"
+                      >
+                    </v-avatar>
+                  </v-img>
+                  <div class="text-center">
+                    <v-list >
+                      <v-list-item>
+                        <v-list-item-content>
+                          <v-list-item-title>Keznit</v-list-item-title>
           
-    <v-divider class="mx-5 mt-2 mb-2" ></v-divider>
-          <p class="text-body-2 text--primary text-justify">Se Aprueba la Orden de compra porque hay plata.</p>
-        </v-list-item-content>
-      </v-list-item>
+                          <v-divider class="mx-5 mt-2 mb-2" ></v-divider>
+                          <p class="text-body-2 text--primary text-justify">Se Aprueba la Orden de compra porque hay plata.</p>
+                        </v-list-item-content>
+                      </v-list-item>
 
-      <v-list-item>
-        <v-list-item-action></v-list-item-action>
-        <v-list-item-icon>
-        <v-icon color="primary" x-large class="pl- pb-2">mdi-checkbox-marked-circle</v-icon>
-        </v-list-item-icon>
-      </v-list-item>
-    </v-list>
-    </div>
-  </v-card>
-  </v-col> 
-          <!--separacion card-->
-  </v-row>
-</template> 
+                      <v-list-item>
+                        <v-list-item-action></v-list-item-action>
+                        <v-list-item-icon>
+                          <v-icon color="primary" x-large class="pl- pb-2">mdi-checkbox-marked-circle</v-icon>
+                        </v-list-item-icon>
+                      </v-list-item>
+                    </v-list>
+                  </div>
+                </v-card>
+              </v-col> 
+              <!--separacion card-->
+            </v-row>
+          </template> 
 
-         <!--<pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>-->
-          <distribucion-lineas-partidas></distribucion-lineas-partidas>
+          <!--<pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>-->
+          <distribucion-lineas-partidas v-if="false"></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
           style="width: 100%; top: -60px "
@@ -569,14 +585,13 @@
       </v-tab-item>
       
     </v-tabs-items>
-      <v-dialog
-        v-model="dialogDesicion"
-        max-width="550"
-        persistent
-      >
-        <!-- <DialogBorradorVue :eliminar-borrador="eliminarOcBorrador" :recuperar-borrador="recuperarOcBorrador"></DialogBorradorVue> -->
-        <h2>Hola</h2>
-      </v-dialog> 
+    <v-dialog
+      v-model="dialogDesicion"
+      max-width="550"
+      persistent
+    >
+      <modal-final-aprobacion :_redirigir="redirigirListadoAprobaciones" :mod_fk="3" :id_doc="cabecera.id" :id_apro="id_apro"></modal-final-aprobacion>
+    </v-dialog> 
   </div>
 </template>
 <style scoped>
