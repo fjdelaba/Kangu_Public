@@ -333,7 +333,13 @@
               <v-col lg="5" md="5" class="py-3 py-3 pr-5 pl-10">
                 <!-- {{ cpxTotalesItems }} -->
                 <!-- {{materiales}}-{{tipo_documento}} -->
-                <cuadro-resumen ref="refcuadroresumen" :materiales="materiales" :tipo_documento="tipo_documento" :mostrar-tipos-documento="false"></cuadro-resumen>
+                <cuadro-resumen
+                  ref="refcuadroresumen"
+                  :oc="cabecera"
+                  :materiales="materiales"
+                  :tipo_documento="tipo_documento"
+                  :mostrar-tipos-documento="false"
+                ></cuadro-resumen>
               </v-col>
               
               <v-row justify="end" height="100">

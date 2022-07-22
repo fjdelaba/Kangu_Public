@@ -11,7 +11,7 @@
       <!-- {{ocs}} -->
       <v-card>
         <!-- users list -->
-        <v-row dense class="pa-2 align-center" v-if="false">
+        <v-row v-if="false" dense class="pa-2 align-center">
           <!-- <v-autocomplete
               v-model="proyectoSeleccionado"
               :items="proyectos"
@@ -208,6 +208,7 @@
           >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
+                v-if="origen == 2"
                 class="deep-orange"
                 color="primary"
                 dark

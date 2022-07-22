@@ -17,6 +17,7 @@
         :value="2"
       ></v-radio>
     </v-radio-group>
+    {{ oc.moneda.nombre }}
     <v-data-table
       :headers="totalesHeaders"
       :items="cpxTotalesItems"

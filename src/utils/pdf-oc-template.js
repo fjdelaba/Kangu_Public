@@ -472,7 +472,7 @@ if(datos.proveedor.direccion == null){
 
 
 
-  let resumenHeader = ["Item", "Valor"];
+  let resumenHeader = ["Item", "Valor",''];
   let resumenValores = []
 
 //   if(ocCreada.data.moneda.mon_nombre_key == "CLP" ){
@@ -482,7 +482,7 @@ if(datos.proveedor.direccion == null){
     let valor = `${element.valor}`;
     let options = { style: 'currency', currency: 'CLP' }
     let formatoCL = new Intl.NumberFormat('es-CL', options)
-    var temp = [element.item, formatoCL.format(valor)];
+    var temp = [element.item, formatoCL.format(valor),datos.moneda.nombre];
     resumenValores.push(temp);
   });
 
