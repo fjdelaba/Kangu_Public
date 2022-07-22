@@ -3,6 +3,7 @@
     <div v-if="$store.state.app.permisosUsuario.recepcion">
       <div>
         <h2>Crear Recepcion</h2>
+        <crear-recepcion></crear-recepcion>
       </div>
     </div>
     <div v-else>
@@ -11,12 +12,4 @@
   </v-container>
 </template>
 
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
+<script src="./crear/Crear.js"></script>
