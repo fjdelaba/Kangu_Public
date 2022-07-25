@@ -1,27 +1,14 @@
 /* eslint-disable */
-import breadcrumPedido from "../../../general/breadcrum/breadcrum-pedido.vue";
-import cabeceraPedidos from "./cabecera-pedidos/cabecera-pedidos.vue";
-import tablaPedidos from "./tabla-pedidos/tabla-pedidos.vue";
-import comentarioComprador from "./comentario-comprador/comentario-comprador.vue";
-import DialogFinal from "./../../dialog-final-documento/DialogFinalDocumento.vue"
+
 
 export default {
     components: {
-      breadcrumPedido,
-      cabeceraPedidos,
-      tablaPedidos,
-      comentarioComprador,
-      DialogFinal
       },
     mounted() {
     },
     data() {
       return {
-        mostrar:false,
-        dialogDelete:true,
         cantidad:"",
-        a:'',
-        lol:'',
         headers: [
             {
               text: "Material",

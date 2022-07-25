@@ -1,10 +1,6 @@
 <template>
   <v-container>
-    <breadcrum-pedido></breadcrum-pedido>
-  
-      <v-dialog v-model="mostrar" persistent max-width="500px">
-          <dialog-final></dialog-final>
-      </v-dialog>
+    {{ dialog }}
     <v-dialog v-model="dialogDelete" persistent max-width="500px">
       <v-card>
         <v-card-title class="text-h5">Antes de Comenzar</v-card-title>
@@ -36,50 +32,10 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="red" text @click="dialogDelete = false">Cancelar</v-btn>
-          <v-btn color="blue" text @click="dialogDelete = false">Siguiente</v-btn>
+          <v-btn color="blue" text @click="dialogDelete = false">Finalizar</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-card >
-      <v-sheet
-        class=" mt-3"
-        color="lighten-3"
-      >
-        <v-sheet
-          :elevation="2"
-          height="100%"
-          width="100%"
-          class="pb-3 pt-3"
-        >    
-          <cabecera-pedidos></cabecera-pedidos>
-        </v-sheet>
-        <v-row>
-          <v-col cols="12">
-            <tabla-pedidos></tabla-pedidos>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <comentario-comprador></comentario-comprador>
-          </v-col></v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-btn @click="mostrar = true">Crear Pedido</v-btn>
-           
-          </v-col></v-row>
-        <v-row>
-        </v-row></v-sheet></v-card>
- 
   </v-container>
 </template>
- 
-<style scoped>
-.text-h4 {
-color: #0096C7;
-}
-</style>
-
-<script src="./Crear.js"></script>
-
-<style scoped src="./Crear.css"></style>
