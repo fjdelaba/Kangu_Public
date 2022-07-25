@@ -1,8 +1,17 @@
 <template>
   <v-container>
+  
     <v-row>
-      <v-col cols="12">
-        <v-btn>Agregar Material</v-btn>
+{{ pro_fk }}{{ id_pro }}
+      <v-dialog v-if="agregar" v-model="agregar" max-width="500px">
+        <agregar-material :cerrar-dialog-material_="abrirMaterial" :moneda="moneda" :lista-partidas="listaPartidas" :material-edicion="undefined"></agregar-material>
+      </v-dialog>
+
+    </v-row>
+    <v-row>
+     
+      <v-col >
+        <v-btn @click="agregarMat()">Agregar Material {{ agregar }}</v-btn>
       </v-col></v-row>
     <v-row>
       <v-col cols="12">

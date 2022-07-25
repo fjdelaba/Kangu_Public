@@ -2,9 +2,10 @@
   <v-container>
     <breadcrum-pedido></breadcrum-pedido>
   
-      <v-dialog v-model="mostrar" persistent max-width="500px">
-          <dialog-final></dialog-final>
-      </v-dialog>
+    <v-dialog v-model="mostrar" persistent max-width="500px">
+      <dialog-final></dialog-final>
+    </v-dialog>
+  
     <v-dialog v-model="dialogDelete" persistent max-width="500px">
       <v-card>
         <v-card-title class="text-h5">Antes de Comenzar</v-card-title>
@@ -24,7 +25,7 @@
           <v-col cols="12" lg="12">  <p class="text-h6 text--primary">Selecciona el Proyecto: </p></v-col>
           <v-autocomplete
             v-model="lol"
-            :items="listaCelulas"
+            :items="listaProyectos"
             label="Proyecto del Pedido"
             persistent-hint
             outlined
@@ -56,7 +57,7 @@
         </v-sheet>
         <v-row>
           <v-col cols="12">
-            <tabla-pedidos></tabla-pedidos>
+            <tabla-pedidos :pro_fk="lol"></tabla-pedidos>
           </v-col>
         </v-row>
         <v-row>
