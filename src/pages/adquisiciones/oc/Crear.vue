@@ -454,7 +454,8 @@ export default {
             est_doc_fk: this.flujoModal.length > 0 ? 1 : 2,
             pro_fk: this.pro_fk,
             neto: this.neto,
-            impuesto: this.impuesto
+            impuesto: this.impuesto,
+            est_lin_fk: 1
           }
 
           console.log('obj: ', obj)
