@@ -317,7 +317,7 @@
               </template>
             </v-data-table>
             <v-row justify="end" height="100">
-              <v-col lg="7" md="5" class="py-3 py-3 pr- pl-5">
+              <v-col lg="5" md="5" class="py-3 py-3 pr- pl-5">
                 <!-- {{ cpxTotalesItems }} -->
                 <!-- <v-card
             height="100%"
@@ -329,6 +329,29 @@
                   :value="observacion"
                   :readonly="true"
                 ></v-textarea>
+              </v-col>
+              <v-col lg="2" md="5" class="py-3 py-3 pr- pl-5">
+                <v-list dense>
+                  <v-subheader>Archivos</v-subheader>
+                  <v-list-item-group
+                    v-model="selectedItem"
+                    color="primary"
+                  >
+                    <v-list-item
+                      v-for="(item, i) in cabecera.adjuntos"
+                      :key="i"
+                      :href="item.url"
+                      target="_blank"
+                    >
+                      <!-- <v-list-item-icon>
+                        <v-icon v-text="item.icon"></v-icon>
+                      </v-list-item-icon> -->
+                      <v-list-item-content>
+                        <v-list-item-title v-text="item.nombre"></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
               </v-col>
               <v-col lg="5" md="5" class="py-3 py-3 pr-5 pl-10">
                 <!-- {{ cpxTotalesItems }} -->

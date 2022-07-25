@@ -7,6 +7,7 @@
           <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
         </div>
         <v-spacer></v-spacer>
+        <!-- {{ filtros }} -->
       </div>
       <!-- {{ocs}} -->
       <v-card>
@@ -246,16 +247,15 @@
           <v-spacer></v-spacer>
           <v-col cols="7" class="d-flex text-right align-center">
             <v-text-field
-              v-model="searchQuery"
+              v-model="buscarOcs"
               append-icon="mdi-magnify"
               class="flex-grow-1 mr-md-2"
               solo
               hide-details
               dense
               clearable
-              placeholder="Busca"
-              @keyup.enter="searchUser(searchQuery)"
-            ></v-text-field>
+              placeholder="Buscar"
+            ></v-text-field><!--@keyup.enter="searchUser(searchQuery)"-->
             <v-menu
               ref="menu"
               v-model="menu"
@@ -306,6 +306,26 @@
                 </v-btn>
               </v-date-picker>
             </v-menu>
+            <v-badge
+              bordered
+              color="error"
+              icon="mdi-check"
+              overlap
+              :value="cpxMostrarBadge"
+            >
+              <v-btn
+                dark
+                small
+                class="mx-1"
+                color="primary"
+                @click="mostrarModalFiltros = true"
+              >
+                Filtros
+                <v-icon dark>
+                  mdi-chart-gantt
+                </v-icon>
+              </v-btn>
+            </v-badge>
           <!-- <v-btn
             :loading="isLoading"
             icon
@@ -319,13 +339,112 @@
         </v-row>
         <v-data-table
           :headers="cpxDinamicHeaders"
-          :items="ocs"
+          :items="cpxDatosTabla"
           class="flex-grow-1"
           dense
           :loading="loadingTabla"
           loading-text="Buscando ordenes de compra"
+          :search="buscarOcs"
         ><!-- v-model="selectedUsers" -->
-
+          <template v-slot:header.pro_nombre="{ header }">
+            {{ header.text }}
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon small>
+                    mdi-filter
+                  </v-icon>
+                </v-btn>
+              </template>
+              <div style="background-color: white; width: 280px">
+                <v-autocomplete
+                  v-model="filtros.proyectos"
+                  :items="valoresFiltros._listaProyectos"
+                  outlined
+                  dense
+                  chips
+                  label="Selecciona los proyectos"
+                  small-chips
+                  multiple
+                  item-text="nombre"
+                  item-value="id"
+                ></v-autocomplete>
+                <v-btn
+                  small
+                  text
+                  color="primary"
+                  class="ml-2 mb-2"
+                  @click="dessertName = ''"
+                >Limpiar</v-btn>
+              </div>
+            </v-menu>
+          </template>
+          <template v-slot:header.razon_social="{ header }">
+            {{ header.text }}
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon small>
+                    mdi-filter
+                  </v-icon>
+                </v-btn>
+              </template>
+              <div style="background-color: white; width: 280px">
+                <v-autocomplete
+                  v-model="filtros.proveedores"
+                  :items="valoresFiltros._listaProveedores"
+                  outlined
+                  dense
+                  chips
+                  small-chips
+                  multiple
+                  label="Selecciona los proveedores"
+                  item-text="nombre"
+                  item-value="id"
+                ></v-autocomplete>
+                <v-btn
+                  small
+                  text
+                  color="primary"
+                  class="ml-2 mb-2"
+                  @click="dessertName = ''"
+                >Limpiar</v-btn>
+              </div>
+            </v-menu>
+          </template>
+           <template v-slot:header.usu_nombre="{ header }">
+            {{ header.text }}
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon small>
+                    mdi-filter
+                  </v-icon>
+                </v-btn>
+              </template>
+              <div style="background-color: white; width: 280px">
+                <v-autocomplete
+                  v-model="filtros.compradores"
+                  :items="valoresFiltros._listaCompradores"
+                  outlined
+                  dense
+                  chips
+                  small-chips
+                  multiple
+                  label="Selecciona los compradores"
+                  item-text="nombre"
+                  item-value="id"
+                ></v-autocomplete>
+                <v-btn
+                  small
+                  text
+                  color="primary"
+                  class="ml-2 mb-2"
+                  @click="dessertName = ''"
+                >Limpiar</v-btn>
+              </div>
+            </v-menu>
+          </template>
           <template v-slot:item.nombre="{ item }">
             <div class="font-weight-bold"> <div>{{ item.usu_nombre }}</div></div>
           </template>
@@ -347,6 +466,14 @@
       </v-card>
       
     </div>
+    <v-dialog
+      v-if="mostrarModalFiltros"
+      v-model="mostrarModalFiltros"
+      persistent
+      max-width="580"
+    >
+      <modal-filtros :_aplicar-filtros="mostrarFiltros" :_valores-filtros="valoresFiltros" :_filtros="filtros"></modal-filtros>
+    </v-dialog>
   </div>
 </template>
 

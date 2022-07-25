@@ -5,34 +5,26 @@ import Vue from "vue";
 import JsonExcel from "vue-json-excel";
 import { entries } from "lodash";
 import { getProyectosUsuarioAprobador, getFiltrosConsultas, getProyectosUsuarioConsultar } from "../../../graphql/general";
+import ModalFiltros from '../modal-filtros/ModalFiltros.vue'
 Vue.component("downloadExcel", JsonExcel); 
 
 
 export default {
   components: {
+    ModalFiltros
   },
   props: {
-    // aprobar:"",
-    // consulta:"",
     origen: {
       type:Number,
       default: 2 // 1 = Aprobacion, 2 = Consultas
     }
   },
   mounted() {
-    // this.cargarOc()
-    // this.cargarProyectos()
-    // this.cargaEstados()
-    // if(this.aprobar == true){
-    //   this.consulta = false
-    // }
-    // if(this.consulta == true){
-    //   this.aprobar = false
-    // }
     console.log(this.$auth.isLoading);
     if (this.$auth.isLoading == false) {
       this.cargarListaProyecto()
-      this.getValoresFiltros()
+      // this.getValoresFiltros()
+      this.cargarOcs()
     }
   },
   watch: {
@@ -40,7 +32,8 @@ export default {
       console.log(`tabla consultas - We have ${newCount} fruits now, yay!. ${oldCount}`)
       if(newCount == false){
         this.cargarListaProyecto()
-        this.getValoresFiltros()
+        // this.getValoresFiltros()
+        this.cargarOcs()
       }
     }
   },
@@ -110,9 +103,7 @@ export default {
       estadosOc: [{ id: 0, nombre: 'Todos los Estados' }],
       ocsCopy: [],
       menu:false,
-      // dates: [ this.$moment(new Date()).format('DD/MM/yy').toString(), this.$moment(new Date()).format('DD/MM/yy').toString()],
-      dates: [ this.$moment(new Date()).subtract(7, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).format('yy-MM-DD').toString()],
-      // dates: ['2019-09-10', '2019-09-20'],
+      dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
       aprobacionesPendientes: true,
       listadoProyectos:[{ id: 0, nombre: 'Todos' }],
       listaDocumentoEstado:[{id: 0, nombre: 'Todos'}],
@@ -127,10 +118,73 @@ export default {
       tipoDespacho: 0,
       tipoDocumento: 0,
       listaOcs: [],
-      loadingTabla: false
+      loadingTabla: false,
+      mostrarModalFiltros: false,
+      buscarOcs: '',
+      valoresFiltros: {
+        _listaEstados:[],
+        _listaMonedas:[],
+        _listaDespachos:[],
+        _listaFormasPago:[],
+        _listaEstadoLineas:[],
+        _listaTiposDocumento:[],
+        _listaProyectos: [], // Este filtro no viene desde el modal
+        _listaProveedores: [], // Este filtro no viene desde el modal
+        _listaCompradores: [] // Este filtro no viene desde el modal
+      },
+      filtros:{
+        estados: [],
+        monedas: [],
+        despachos: [],
+        formasPago: [],
+        estadoLineas: [],
+        tiposDocumento: [],
+        proyectos: [], // Este filtro no viene desde el modal
+        proveedores: [], // Este filtro no viene desde el modal
+        compradores: [] // Este filtro no viene desde el modal
+      },
+      mostrarBudgeFiltros: false
     }
   },
   computed: {
+    cpxDatosTabla() {
+      return this.ocs.filter(oc => {
+        let agregar = true;
+        console.log('OC: ', oc);
+        if (this.filtros.estados.length > 0) {
+          agregar = agregar && this.filtros.estados.includes(oc.est_doc_fk)
+        }
+        if (this.filtros.monedas.length > 0) {
+          agregar = agregar && this.filtros.monedas.includes(oc.mon_fk)
+        }
+        if (this.filtros.despachos.length > 0) {
+          agregar = agregar && this.filtros.despachos.includes(oc.des_tip_fk)
+        }
+        if (this.filtros.formasPago.length > 0) {
+          agregar = agregar && this.filtros.formasPago.includes(oc.for_pag_fk)
+        }
+        if (this.filtros.estadoLineas.length > 0) {
+          agregar = agregar && this.filtros.estadoLineas.includes(oc.est_lin_fk)
+        }
+        if (this.filtros.tiposDocumento.length > 0) {
+          agregar = agregar && this.filtros.tiposDocumento.includes(oc.doc_tip_fk)
+        }
+        if (this.filtros.proyectos.length > 0) {
+          agregar = agregar && this.filtros.proyectos.includes(oc.pro_fk)
+        }
+        if (this.filtros.proveedores.length > 0) {
+          agregar = agregar && this.filtros.proveedores.includes(oc.ent_fk)
+        }
+        if (this.filtros.compradores.length > 0) {
+          agregar = agregar && this.filtros.compradores.includes(oc.usu_fk)
+        }
+        return agregar;
+      });
+    },
+    cpxMostrarBadge(){
+      return this.filtros.estados.length > 0 || this.filtros.monedas.length > 0 || this.filtros.despachos.length > 0 || this.filtros.formasPago.length > 0
+      || this.filtros.estadoLineas.length > 0 || this.filtros.tiposDocumento.length > 0
+    },
     dateRangeText () {
       const datePivot = []
       console.log('this.dates_ ', this.dates);
@@ -140,12 +194,10 @@ export default {
       datePivot.join(' ~ ')
       console.log('datePivot: ', datePivot);
       return datePivot.join(' ~ ')
-      // return this.dates.join(' ~ ')
     },
     cpxDinamicHeaders() {
       if(this.origen === 1){
        return [
-          // ...this.headers,
           { text: "Centro de Gestión", value: "pro_nombre", idx: 1 },
           { text: "ID OC", value: "identificacion", idx: 2 },
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
@@ -165,33 +217,6 @@ export default {
           { text: "Acción", value: "actions", sortable: false, idx: 4 }
         ]
       }
-      // if ( this.aprobar == true) {
-      //   console.log("aprobar")
-      //   return [
-      //     ...this.headers,
-      //     { text: "Centro de Gestión", value: "pro.nombre", idx: 1 },
-      //     { text: "ID OC", value: "identificacion", idx: 2 },
-      //     { text: "Nombre OC", value: "nombre", idx: 3 },
-      //     { text: "Proveedor", value: "ent.razon_social", sortable: false, idx: 4 },
-      //     { text: "Comprador", value: "usu.nombre", sortable: false, idx: 4 },
-      //     { text: "Monto", value: "neto", sortable: false, idx: 4 },
-      //     { text: "Acción", value: "actions", sortable: false, idx: 4 }
-      //   ]
-      // }
-      // if ( this.aprobar == false) {
-      //   console.log("agregar actions")
-      //   return [
-      //     ...this.headers,
-      //     { text: "Centro de Gestión", value: "pro.nombre", idx: 1 },
-      //     { text: "ID OC", value: "identificacion", idx: 2 },
-      //     { text: "Nombre OC", value: "nombre", idx: 3 },
-      //     { text: "Proveedor", value: "ent.razon_social", sortable: false, idx: 4 },
-      //     { text: "Fecha Aprobación", value: "fec_creacion", sortable: false, idx: 4 },
-      //     { text: "Comprador", value: "usu.nombre", sortable: false, idx: 4 },
-      //     { text: "Monto", value: "neto", sortable: false, idx: 4 },
-      //     { text: "Acción", value: "actions", sortable: false, idx: 4 }
-      //   ]
-      // }
       return this.headers;
     },
   },
@@ -203,18 +228,18 @@ export default {
         this.getProyectosUsuarioConsultas()
       }
     },
-    async getValoresFiltros() {
-      const emp_fk =  this.$store.state.app.datosUsuario.user_tenant
-      console.log('emp_fk: ', emp_fk);
-      const {data} = await getFiltrosConsultas(emp_fk)
-      console.log('resp getValoresFiltrosConsultas: ', data.getValoresFiltrosConsultas);
-      this.listaDocumentoEstado.push(...data.getValoresFiltrosConsultas.documento_estado)
-      this.listaFormaPago = [...data.getValoresFiltrosConsultas.forma_pago]
-      this.listaMonedas.push(...data.getValoresFiltrosConsultas.monedas)
-      this.listaTiposDespacho = data.getValoresFiltrosConsultas.tipos_despacho
-      this.listaTiposDocumentos.push(...data.getValoresFiltrosConsultas.tipos_documentos);
-      this.cargarOcs()
-    },
+    // async getValoresFiltros() {
+    //   const emp_fk =  this.$store.state.app.datosUsuario.user_tenant
+    //   console.log('emp_fk: ', emp_fk);
+    //   const {data} = await getFiltrosConsultas(emp_fk)
+    //   console.log('resp getValoresFiltrosConsultas: ', data.getValoresFiltrosConsultas);
+    //   this.listaDocumentoEstado.push(...data.getValoresFiltrosConsultas.documento_estado)
+    //   this.listaFormaPago = [...data.getValoresFiltrosConsultas.forma_pago]
+    //   this.listaMonedas.push(...data.getValoresFiltrosConsultas.monedas)
+    //   this.listaTiposDespacho = data.getValoresFiltrosConsultas.tipos_despacho
+    //   this.listaTiposDocumentos.push(...data.getValoresFiltrosConsultas.tipos_documentos);
+    //   this.cargarOcs()
+    // },
 
     async getProyectosUsuarioAprobar() {
       const {data: {getProyectosUsuarioAprobar:{proyectos_aprobador}}} = await getProyectosUsuarioAprobador(this.$store.state.app.datosUsuario.user_id)
@@ -228,7 +253,14 @@ export default {
     },
     async cargarOcs() {
       this.loadingTabla = true
+
+   
+
       try {
+        this.valoresFiltros._listaProyectos = []
+        this.valoresFiltros._listaProveedores = []
+        this.valoresFiltros._listaCompradores = []
+
         console.log('this.dates: ', this.dates);
         this.listaOcs = []
         const datos = {
@@ -247,37 +279,45 @@ export default {
         const {data:{getOcs: {ocs}}} = await getOcConsultas(datos)
         console.log('ocs: ', ocs);
         // this.listaOcs = ocs
-        this.ocs= ocs  
+        this.ocs= JSON.parse(JSON.stringify(ocs))
+        let monedas = [... new Set(ocs.map(x=> ({nombre: x.mon_nombre, id: x.mon_fk})))];
+        let formasPago = [... new Set(ocs.map(x=> ({nombre: x.fp_nombre, id: x.for_pag_fk})))];
+        let tiposDespacho = [... new Set(ocs.map(x=> ({nombre: x.desp_nombre, id: x.des_tip_fk})))];
+        let tiposDocumento = [... new Set(ocs.map(x=> ({nombre: x.dt_nombre, id: x.doc_tip_fk})))];
+        let estadosDocumento = [... new Set(ocs.map(x=> ({nombre: x.est_nombre, id: x.est_doc_fk})))];
+        let estadosLineas = [... new Set(ocs.map(x=> ({nombre: x.el_nombre, id: x.est_lin_fk})))];
+        let proyectos = [... new Set(ocs.map(x=> ({nombre: x.pro_nombre, id: x.pro_fk})))];
+        let proveedores = [... new Set(ocs.map(x=> ({nombre: x.razon_social, id: x.ent_fk})))];
+        let compradores = [... new Set(ocs.map(x=> ({nombre: `${x.usu_nombre} ${x.usu_apellidos}`, id: x.usu_fk})))];
+        
+        this.valoresFiltros._listaMonedas = [...new Set(monedas.map(JSON.stringify))].map(JSON.parse);
+        this.valoresFiltros._listaFormasPago = [...new Set(formasPago.map(JSON.stringify))].map(JSON.parse); 
+        this.valoresFiltros._listaDespachos = [...new Set(tiposDespacho.map(JSON.stringify))].map(JSON.parse);
+        this.valoresFiltros._listaTiposDocumento = [...new Set(tiposDocumento.map(JSON.stringify))].map(JSON.parse);
+        this.valoresFiltros._listaEstados = [...new Set(estadosDocumento.map(JSON.stringify))].map(JSON.parse);
+        this.valoresFiltros._listaEstadoLineas = [...new Set(estadosLineas.map(JSON.stringify))].map(JSON.parse);
+        this.valoresFiltros._listaProyectos = [...new Set(proyectos.map(JSON.stringify))].map(JSON.parse);
+        this.valoresFiltros._listaProveedores = [...new Set(proveedores.map(JSON.stringify))].map(JSON.parse);
+        this.valoresFiltros._listaCompradores = [...new Set(compradores.map(JSON.stringify))].map(JSON.parse);
+
+
+
+        console.log('_listaMonedas: ', this.valoresFiltros._listaMonedas);
+        console.log('_listaFormasPago: ', this.valoresFiltros._listaFormasPago);
+        console.log('_listaDespachos: ', this.valoresFiltros._listaDespachos);
+        console.log('_listaTiposDocumento: ', this.valoresFiltros._listaTiposDocumento);
+        console.log('_listaEstados: ', this.valoresFiltros._listaEstados);
+        console.log('_listaEstadoLineas: ', this.valoresFiltros._listaEstadoLineas);
+        console.log('_listaProyectos: ', this.valoresFiltros._listaProyectos);
+        console.log('_listaProveedores: ', this.valoresFiltros._listaProveedores);
+        console.log('_listaCompradores: ', this.valoresFiltros._listaCompradores);
+
       } catch (error) {
         console.log('error: ', error);
       }
       this.loadingTabla = false
       
     },
-    // async cargarOc() {
-    //   console.log("Cargando Datos")
-    //   const { data } = await getDatosOcConsulta()
-    //   console.log("Ordenes de Compra:", data.kangusoft_oc)
-    //   for (let oc of data.kangusoft_oc) {
-    //     // console.log("oc", oc)
-    //   }
-    //   this.ocs = data.kangusoft_oc
-    //   this.ocsCopy = data.kangusoft_oc
-    // },
-    // async cargarProyectos() {
-    //   const { data: { kangusoft_pro } } = await getDatosGenerales()
-    //   for (let proyectos of kangusoft_pro) {
-    //     this.proyectos.push({ id: proyectos.id, nombre: proyectos.nombre })
-    //   }
-    //   console.log('proyectos', this.proyectos)
-    // },
-    // async cargaEstados() {
-    //   const { data: { kangusoft_est_doc } } = await getEstadosOc()
-    //   for (let estado of kangusoft_est_doc) {
-    //     this.estadosOc.push({ id: estado.id, nombre: estado.nombre })
-    //   }
-
-   // },
    async cargarDataExcelDetalle() {
     console.log("Cargando Datos")
     const { data } = await getDetalleOcExcel()
@@ -323,7 +363,8 @@ export default {
     cargarDataExcelCabecera() {
       //alert('Se genero el archivo cabeceras_oc.xls')
       console.log("METODO EXCEL:", this.ocs);
-      for(let oc of this.ocs){
+      const ocExcel = [...this.cpxDatosTabla]
+      for(let oc of ocExcel){
    
         if(oc.neto != null){
           console.log("FORMATO:", new Intl.NumberFormat('es-CL').format(oc.neto))
@@ -333,48 +374,31 @@ export default {
         }
        
       }
-      return this.ocs;
+      return ocExcel;
   },
-    // filtroCentroGestion() {
-    //   if (this.proyectoSeleccionado == 0) {
-    //     this.ocs = this.ocsCopy
-    //   }
-    //   if (this.proyectoSeleccionado != "") {
-    //     this.ocs = this.ocsCopy.filter(item => {
-    //       return (
-    //         item.pro.id ==
-    //         this.proyectoSeleccionado
-    //       );
-    //     });
-    //   }
-    // },
-    // filtroEstadoOc() {
-    //   if (this.estadoSeleccionado == 0) {
-    //     this.ocs = this.ocsCopy
-    //   }
-    //   if (this.estadoSeleccionado != "") {
-    //     this.ocs = this.ocsCopy.filter(item => {
-    //       return (
-    //         item.est_doc.id ==
-    //         this.estadoSeleccionado
-    //       );
-    //     });
-    //   }
-    // },
+  mostrarFiltros(filtros){
+    console.log('filtros: ', filtros);
+    if(Object.keys(filtros).length === 0){
+      this.mostrarBudgeFiltros = false
+      this.filtros.estados = []
+      this.filtros.monedas = [],
+      this.filtros.despachos = [],
+      this.filtros.formasPago = [],
+      this.filtros.estadoLineas = [],
+      this.filtros.tiposDocumento = []
+    }else{
+      this.mostrarBudgeFiltros = true
+      this.filtros.estados = [...filtros.estados]
+      this.filtros.monedas = [...filtros.monedas],
+      this.filtros.despachos = [...filtros.despachos],
+      this.filtros.formasPago = [...filtros.formasPago],
+      this.filtros.estadoLineas = [...filtros.estadoLineas],
+      this.filtros.tiposDocumento = [...filtros.tiposDocumento]
+    }
+    
+    this.mostrarModalFiltros = false
+  },
     abrirDetalle(item){
-      // if(this.consulta == true && this.aprobar == false){
-      //   this.$router.push({
-      //     path: "/adquisiciones/oc/consultar/detalle/",
-      //     query: { id: Number(item.id),}
-      // });
-      // console.log("proyecto",this.$route)
-      // } else if(this.aprobar == true && this.consultaz == false){
-      //   this.$router.push({
-      //     path: "/adquisiciones/oc/aprobar/detalle/",
-      //     query: { id: Number(item.id),}
-      // });
-      // console.log("proyecto",this.$route)
-      // }
       console.log('object: ', item);
       const path = this.origen === 1 ? '/adquisiciones/oc/aprobar/detalle/' : '/adquisiciones/oc/consultar/detalle/'
       this.$router.push({

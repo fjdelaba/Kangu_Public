@@ -72,13 +72,17 @@ export const getMontoComprador = async (id_usuario, id_proyecto, flujo) => {
   })
 }
 
-export const updateCabeceraOC = async (cabecera, flujoCompra) => {
+export const updateCabeceraOC = async (cabecera, flujoCompra, adjuntos) => {
+  console.log('cabecera graph: ', cabecera)
+  console.log('flujoCompra graph: ', flujoCompra)
+  console.log('adjuntos graph: ', adjuntos)
 
   return await apolloClient.mutate({
     mutation: UPDATE_CABECERA_OC,
     variables: {
       cabecera,
-      flujoCompra
+      flujoCompra,
+      adjuntos
     }
   })
 }

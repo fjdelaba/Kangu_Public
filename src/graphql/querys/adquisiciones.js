@@ -214,6 +214,15 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
       nombre
     }
     impuestos
+    oc_adjs {
+      id
+      fec_creacion
+      nombre
+      oc_fk
+      tipo
+      url
+      usu_fk
+    }
   }
 }
 `
@@ -238,6 +247,22 @@ query Q_GET_OC_CONSULTAS($datos: getOcsInput!) {
       mon_nombre
       est_nombre
       rut
+      comentario
+      des_tip_fk
+      dt_nombre
+      ec_nombre
+      el_nombre
+      ent_con_fk
+      est_doc_fk
+      est_lin_fk
+      fp_nombre
+      for_pag_fk
+      neto_ajustado
+      iva_ajustado
+      impuestos
+      usu_fk
+      pro_fk
+      desp_nombre
     }
     success
     error

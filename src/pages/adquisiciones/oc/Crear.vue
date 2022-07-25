@@ -17,7 +17,7 @@
                 :complete="pasoStep > 1"
                 step="1"
               >
-                Datos Generales 
+                Datos Generales
               </v-stepper-step>
 
               <v-divider></v-divider>
@@ -31,7 +31,7 @@
 
               <v-divider></v-divider>
 
-              <v-stepper-step 
+              <v-stepper-step
                 :complete="pasoStep > 3"
                 step="3"
               >
@@ -80,13 +80,13 @@
                 ></previsualizacion>
               </v-stepper-content>
             </v-stepper-items>
-            <v-row 
+            <v-row
               align="right"
               justify="space-around"
               no-gutters
             >
               <v-col>
-            
+
                 <v-btn v-if="pasoStep > 1" class="mb-2 ml-10" color="primary" @click="retroceder()">
                   Atras
                 </v-btn>
@@ -111,10 +111,10 @@
                   </template>
                 </v-btn>
               </v-col>
-            </v-row> 
+            </v-row>
           </v-stepper>
         </v-col>
-      </v-row>      
+      </v-row>
       <v-dialog
         v-model="dialogFinal"
         max-width="550"
@@ -127,14 +127,14 @@
           :texto="cpxTextoModalFinal"
           :aprobada="flujoModal.length > 0"
         ></DialogFinalDocumento>
-      </v-dialog> 
+      </v-dialog>
       <v-dialog
         v-model="dialogBorrador"
         max-width="550"
         persistent
       >
         <DialogBorradorVue :eliminar-borrador="eliminarOcBorrador" :recuperar-borrador="recuperarOcBorrador"></DialogBorradorVue>
-      </v-dialog> 
+      </v-dialog>
     <!-- <CrearDocumento/> -->
     </div>
     <div v-else>
@@ -189,7 +189,7 @@ export default {
         return 'Siguiente'
       } else {
         return 'Enviar'
-      }   
+      }
     },
     cpxTituloModalFinal () {
       if (this.flujoModal.length > 0) {
@@ -229,24 +229,24 @@ export default {
 
               this.tipoDocumento = cabecera.tipoDocumento.id
               const datosCabecera = {
-                des_tip_fk: cabecera.tipoDespacho.id, 
-                doc_tip_fk: cabecera.tipoDocumento.id, 
-                // emp_fk: 1, // Cambiar 
-                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
-                ent_con_fk: cabecera.contacto.id, 
-                ent_fk: cabecera.proveedor.id, 
-                // est_doc_fk: 4, 
-                for_pag_fk: cabecera.formaPago.id, 
-                mon_fk: cabecera.moneda.id, 
-                nombre: cabecera.nombre, 
-                pro_fk: cabecera.proyecto.id, 
+                des_tip_fk: cabecera.tipoDespacho.id,
+                doc_tip_fk: cabecera.tipoDocumento.id,
+                // emp_fk: 1, // Cambiar
+                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
+                ent_con_fk: cabecera.contacto.id,
+                ent_fk: cabecera.proveedor.id,
+                // est_doc_fk: 4,
+                for_pag_fk: cabecera.formaPago.id,
+                mon_fk: cabecera.moneda.id,
+                nombre: cabecera.nombre,
+                pro_fk: cabecera.proyecto.id,
                 ped_fk: null
               }
 
               const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
 
               console.log('resp: ', resp)
-              this.pasoStep++ 
+              this.pasoStep++
             } catch (error) {
               console.log('error: ', error)
             }
@@ -258,17 +258,17 @@ export default {
               this.tipoDocumento = cabecera.tipoDocumento.id
               console.log('cabecera: ', cabecera)
               const datosCabecera = {
-                des_tip_fk: cabecera.tipoDespacho.id, 
-                doc_tip_fk: cabecera.tipoDocumento.id, 
-                // emp_fk: 1, // Cambiar 
-                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar 
-                ent_con_fk: cabecera.contacto.id, 
-                ent_fk: cabecera.proveedor.id, 
-                est_doc_fk: 4, 
-                for_pag_fk: cabecera.formaPago.id, 
-                mon_fk: cabecera.moneda.id, 
-                nombre: cabecera.nombre, 
-                pro_fk: cabecera.proyecto.id, 
+                des_tip_fk: cabecera.tipoDespacho.id,
+                doc_tip_fk: cabecera.tipoDocumento.id,
+                // emp_fk: 1, // Cambiar
+                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
+                ent_con_fk: cabecera.contacto.id,
+                ent_fk: cabecera.proveedor.id,
+                est_doc_fk: 4,
+                for_pag_fk: cabecera.formaPago.id,
+                mon_fk: cabecera.moneda.id,
+                nombre: cabecera.nombre,
+                pro_fk: cabecera.proyecto.id,
                 // usu_fk: 3 // Cambiar
                 usu_fk: this.$store.state.app.datosUsuario.user_id // Cambiar
               }
@@ -317,7 +317,7 @@ export default {
         console.log('this.$refs.refPrevisualizacion: ', this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems)
         // const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
         const totales = this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems
-        
+
         console.log('totales: ', totales)
         for (const tot of totales) {
           console.log('tot: ', tot)
@@ -333,7 +333,7 @@ export default {
         const { data: { kangusoft_apr } } = await getMontoComprador(this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false)
 
         console.log('moneda: ', this.moneda.id)
-        
+
         switch (this.moneda.id) {
         case 1: //UF
           totalPesos = this.neto * this.$store.state.app.indicadores.uf
@@ -357,10 +357,22 @@ export default {
           console.log('Sin Flujo')
         } else {
           console.log('Con Flujo')
+          console.log('this.pro_fk: ', this.pro_fk)
           const aprobadores = await getFlujoAprobadoresProyecto(this.pro_fk, 3)
 
           console.log('aprobadores.data_ ', aprobadores.data.kangusoft_apr)
           const arregloAprobadores = aprobadores.data.kangusoft_apr.sort(({ monto:a }, { monto:b }) => a - b)
+
+          console.log('arregloAprobadores.length: ', arregloAprobadores.length)
+          if (arregloAprobadores.length === 0) {
+            this.$notify({
+              group: 'foo',
+              title: 'No puedes continuar con esta OC porque no esite flujo',
+              text: 'Proyecto sin flujo'
+            })
+
+            return
+          }
 
           console.log('arregloAprobadores antes: ', arregloAprobadores)
           if (arregloAprobadores[0].apro_final === true) {
@@ -400,30 +412,64 @@ export default {
         this.pasoStep++
         console.log('finalizar')
       } else if (this.pasoStep === 4) {
-        console.log('paso 4')
-        this.email = this.$refs.refinformaciongeneraldoc.oc_cab.contacto.email
-        console.log('this.email: ', this.email)
+        try {
 
-        // return
+          console.log('paso 4')
+          this.email = this.$refs.refinformaciongeneraldoc.oc_cab.contacto.email
+          console.log('this.email: ', this.email)
 
-        // // eslint-disable-next-line no-unreachable
-        const obj = {
-          oc_fk: this.oc_id ,	
-          comentario:this.$refs.refAgregarMaterial.comentarioDocumento,
-          est_doc_fk: this.flujoModal.length > 0 ? 1 : 2, 
-          pro_fk: this.pro_fk,
-          neto: this.neto,
-          impuesto: this.impuesto
-        }
+          // return
+          const archivos = this.$refs.refAgregarMaterial.files
 
-        console.log('obj: ', obj)
-        console.log('this.flujoDocumento: ', this.flujoDocumento)
-        const { data: { update_oc_cabecera: { identificacion } } } = await updateCabeceraOC(obj, this.flujoDocumento)
+          const url = 'https://actions-kangu-hasura.herokuapp.com/subirArchivos'
+          const config = {
+            headers: {
+              'Content-Type': 'application/json',
+              'empresa': this.$store.state.app.datosEmpresa.nombre
+            }
+          }
+
+          const formData = new FormData()
+
+          for (const archivo in archivos) {
+            console.log('archivo: ', archivos[archivo])
+            formData.append('archivo', archivos[archivo])
+          }
+
+          const { data:{ files } } = await this.axios.post(url, formData, config)
         
-        this.identificacion = identificacion
-        // this.pasoStep++
-        this.dialogFinal = true
-        console.log('finalizar')
+          const objArchivos = []
+
+          for (const file of files) {
+            console.log('file: ', file)
+            objArchivos.push({ nombre: file.originalname,url:file.location, tipo: file.mimetype, oc_fk:this.oc_id, usu_fk: this.$store.state.app.datosUsuario.user_id })
+          }
+          console.log('uploadFiles: ', files)
+          console.log('objArchivos: ', objArchivos)
+
+          // // eslint-disable-next-line no-unreachable
+          const obj = {
+            oc_fk: this.oc_id ,
+            comentario:this.$refs.refAgregarMaterial.comentarioDocumento,
+            est_doc_fk: this.flujoModal.length > 0 ? 1 : 2,
+            pro_fk: this.pro_fk,
+            neto: this.neto,
+            impuesto: this.impuesto
+          }
+
+          console.log('obj: ', obj)
+          console.log('flujoDocumento: ', this.flujoDocumento)
+          console.log('objArchivos: ', objArchivos)
+          const { data: { update_oc_cabecera: { identificacion } } } = await updateCabeceraOC(obj, this.flujoDocumento, objArchivos)
+          
+          console.log('identificacion: ', identificacion)
+          this.identificacion = identificacion
+          // this.pasoStep++
+          this.dialogFinal = true
+          console.log('finalizar')
+        } catch (error) {
+          console.log('error_ ', error)
+        }
       }
     },
     retroceder() {

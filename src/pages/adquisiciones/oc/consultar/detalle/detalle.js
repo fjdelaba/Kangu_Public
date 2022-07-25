@@ -63,6 +63,8 @@ export default {
         this.cabecera.formaPago.nombre =  kangusoft_oc[0].for_pag.nombre
         this.cabecera.tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre
         this.tipo_documento = kangusoft_oc[0].doc_tip_fk
+        this.cabecera.adjuntos = kangusoft_oc[0].oc_adjs
+        this.cabecera.identificacion = kangusoft_oc[0].identificacion
         this.skeleton = false
     },
   }

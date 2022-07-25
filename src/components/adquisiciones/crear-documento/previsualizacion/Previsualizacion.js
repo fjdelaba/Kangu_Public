@@ -37,6 +37,11 @@ export default {
 
   data() {
     return {
+      items: [
+        { text: 'Real-Time', icon: 'mdi-clock' },
+        { text: 'Audience', icon: 'mdi-account' },
+        { text: 'Conversions', icon: 'mdi-flag' },
+      ],
       direction: "left",
       fab: false,
       fling: false,
