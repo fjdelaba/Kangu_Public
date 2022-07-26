@@ -79,27 +79,21 @@ export default {
         "Estado de Oc": "est_nombre", 
     },
     headerExcelDetalle: {
-      //: "fec_creacion",
-      "Nombre Centro Gestion": "oc.pro.nombre",
-      "Identificador OC": "oc.identificacion",
-      "Nombre OC": "oc.nombre",
+      "Nombre Centro Gestion": "pro_nombre",
+      "Identificador OC": "identificacion",
+      "Nombre OC": "oc_nombre",
       "Nombre Proveedor": "razon_social",
-      "Rut Proveedor": ".rut",
-      "Usuario Comprador": {
-        field: "oc.usu",
-        callback: value => {
-            return `${value.nombre} ${value.apellidos}`;
-        }
-    },
-      "Codigo": "mat.id",
-      "Material": "mat.nombre",
+      "Rut Proveedor": "rut",
+      "Usuario Comprador": "comprador",
+      "Codigo": "mat_fk",
+      "Material": "material",
       "Cantdad": "cantidad",
-      "Precio": "precio_unitario",
+      "Precio": "precio",
       "Total": "total",
-      "Impuestos":"oc.impuestos",
-      "Moneda": "oc.mon.nombre",
-      "Monto Oc": "oc.neto",
-      "Estado de Oc": "oc.est_doc.nombre", 
+      "Impuestos":"impuestos",
+      "Moneda": "mon_nombree",
+      "Monto Oc": "neto",
+      "Estado de Oc": "estado", 
   },
       headers: [
       ],
@@ -398,45 +392,99 @@ export default {
       
     },
    async cargarDataExcelDetalle() {
-    console.log("Cargando Datos")
-    const { data } = await getDetalleOcExcel()
-   let datosOcDetalle = data.kangusoft_oc_det
-      for(let detalle of datosOcDetalle){
-        console.log("OC", detalle)
-        if(detalle.oc.neto == null){
-          detalle.oc.neto = 0
-        } else if(detalle.oc.neto != null){
-          detalle.oc.neto  = new Intl.NumberFormat('es-CL').format( detalle.oc.neto )
+    const detalles = []
+  //   "Nombre Centro Gestion": "oc.pro.nombre",
+  //   "Identificador OC": "oc.identificacion",
+  //   "Nombre OC": "oc.nombre",
+  //   "Nombre Proveedor": "razon_social",
+  //   "Rut Proveedor": ".rut",
+  //   "Usuario Comprador": {
+  //     field: "oc.usu",
+  //     callback: value => {
+  //         return `${value.nombre} ${value.apellidos}`;
+  //     }
+  // },
+  //   "Codigo": "mat.id",
+  //   "Material": "mat.nombre",
+  //   "Cantdad": "cantidad",
+  //   "Precio": "precio_unitario",
+  //   "Total": "total",
+  //   "Impuestos":"oc.impuestos",
+  //   "Moneda": "oc.mon.nombre",
+  //   "Monto Oc": "oc.neto",
+  //   "Estado de Oc": "oc.est_doc.nombre", 
+    for(let detalle of this.ocs){
+      console.log('detalle: ', detalle);
+      const pro_nombre = detalle.pro_nombre
+      const identificacion = detalle.identificacion
+      const oc_nombre = detalle.oc_nombre
+      const razon_social = detalle.razon_social
+      const rut = detalle.rut
+      const impuestos = detalle.impuestos
+      const mon_nombre = detalle.mon_nombre
+      const comprador = `${detalle.usu_nombre} ${detalle.usu_apellidos}`
+      const neto = detalle.neto
+      const estado = detalle.est_nombre
+      for(let lineaDetalle of detalle.lineas){
+        console.log('lineaDetalle: ', lineaDetalle);
+        const obj = {
+          pro_nombre,
+          identificacion,
+          oc_nombre,
+          razon_social,
+          rut,
+          comprador,
+          // codigo: lineaDetalle.codigo,
+          material: lineaDetalle.nombre,
+          cantidad: lineaDetalle.cant_ajustada,
+          precio: lineaDetalle.precio_unitario,
+          total: (Number(lineaDetalle.cant_ajustada)*Number(lineaDetalle.precio_unitario)),
+          mat_fk: lineaDetalle.mat_fk,
+          impuestos: impuestos,
+          mon_nombre,
+          neto,
+          estado
         }
-        if( detalle.precio_unitario == null){
-          console.log("SI!")
-        } else if(detalle.precio_unitario  != null){
-          detalle.precio_unitario   = new Intl.NumberFormat('es-CL').format(detalle.precio_unitario  )
-        }
-        if( detalle.total == null){
-          console.log("SI2!")
-        } else if(detalle.total != null){
-          detalle.total  = new Intl.NumberFormat('es-CL').format( detalle.total )
-        }
-        if( detalle.cantidad == null){
-          console.log("SI3!")
-        } else if(detalle.cantidad != null){
-          detalle.cantidad  = new Intl.NumberFormat('es-CL').format( detalle.cantidad )
-        }
-        if(detalle.oc.identificacion == "" || detalle.oc.identificacion == null ){
-          detalle.oc.identificacion = "Sin Identificador"
-        }
-        if(detalle.oc.impuestos == null){
-          detalle.oc.impuestos = 0 
-        }else if(detalle.oc.impuestos != null){
-          detalle.oc.impuestos = new Intl.NumberFormat('es-CL').format( detalle.oc.impuestos )
-        }
-        // detalle.precio_unitario = new Intl.NumberFormat('es-CL').format(detalle.precio_unitario)
-        //  detalle.total = new Intl.NumberFormat('es-CL').format(detalle.total)
-        //  detalle.cantidad  = new Intl.NumberFormat('es-CL').format(detalle.cantidad)
-         
+        detalles.push(obj)
+        // console.log('obj_ ', obj);
       }
-      return datosOcDetalle;
+    }
+  //   console.log("Cargando Datos")
+  //   const { data } = await getDetalleOcExcel()
+  //  let datosOcDetalle = data.kangusoft_oc_det
+  //     for(let detalle of datosOcDetalle){
+  //       console.log("OC", detalle)
+  //       if(detalle.oc.neto == null){
+  //         detalle.oc.neto = 0
+  //       } else if(detalle.oc.neto != null){
+  //         detalle.oc.neto  = new Intl.NumberFormat('es-CL').format( detalle.oc.neto )
+  //       }
+  //       if( detalle.precio_unitario == null){
+  //         console.log("SI!")
+  //       } else if(detalle.precio_unitario  != null){
+  //         detalle.precio_unitario   = new Intl.NumberFormat('es-CL').format(detalle.precio_unitario  )
+  //       }
+  //       if( detalle.total == null){
+  //         console.log("SI2!")
+  //       } else if(detalle.total != null){
+  //         detalle.total  = new Intl.NumberFormat('es-CL').format( detalle.total )
+  //       }
+  //       if( detalle.cantidad == null){
+  //         console.log("SI3!")
+  //       } else if(detalle.cantidad != null){
+  //         detalle.cantidad  = new Intl.NumberFormat('es-CL').format( detalle.cantidad )
+  //       }
+  //       if(detalle.oc.identificacion == "" || detalle.oc.identificacion == null ){
+  //         detalle.oc.identificacion = "Sin Identificador"
+  //       }
+  //       if(detalle.oc.impuestos == null){
+  //         detalle.oc.impuestos = 0 
+  //       }else if(detalle.oc.impuestos != null){
+  //         detalle.oc.impuestos = new Intl.NumberFormat('es-CL').format( detalle.oc.impuestos )
+  //       }
+  //     }
+  //     return datosOcDetalle;
+      return detalles;
   },
     
     cargarDataExcelCabecera() {

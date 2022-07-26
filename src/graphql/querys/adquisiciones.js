@@ -285,6 +285,7 @@ query Q_GET_OC_CONSULTAS($datos: getOcsInput!) {
         cant_recepcion
         cant_por_recepcionar
         pendiente
+        mat_fk
       }
       lineasJson
       ent_direccion
