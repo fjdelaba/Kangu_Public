@@ -1,6 +1,7 @@
 import { apolloClient } from '../client'
 import { GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS } from './querys/adquisiciones'
 import { INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL } from './mutations/adquisiciones'
+import { GET_MATERIALES } from './querys/configuracion'
 
 export const getDatosFormularioCabecera = async() => {
   return await apolloClient.query({
@@ -113,6 +114,18 @@ export const getOcConsultas = async (datos) => {
 
   return await apolloClient.query({
     query: GET_OC_CONSULTAS,
+    variables: {
+      datos
+    },
+    fetchPolicy:'network-only'
+  })
+}
+
+export const getMateriales = async (datos) => {
+  console.log('datos: ', datos)
+
+  return await apolloClient.query({
+    query: GET_MATERIALES,
     variables: {
       datos
     },

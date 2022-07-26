@@ -3,10 +3,14 @@ import { getDatosFormularioCabecera } from '../../../../graphql/adquisiciones'
 import { getProveedores, getContactos, getProyectosPorUsuario } from '../../../../graphql/general'
 import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
 import ModalContacto from '../../../general/modal-contacto/ModalContacto.vue'
+
+import BusquedaMaterial from '../../../general//busqueda-material/BusquedaMaterial.vue'
+
 export default {
   components: {
     ModalEntidad,
-    ModalContacto
+    ModalContacto,
+    BusquedaMaterial
   },
   props: {
     origen:''
@@ -74,7 +78,8 @@ export default {
       skeleton:true,
       mostrarModalContacto: false,
       datosContacto: [],
-      crearContacto: false
+      crearContacto: false,
+      mostrarBusquedaMaterial: false
     }
   },
   created() {

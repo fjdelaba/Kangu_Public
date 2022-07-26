@@ -11,7 +11,15 @@
       <v-form ref="formPaso1" v-model="valid" lazy-validation>
         <!-- <v-container class="ma-0 pa-0"> --> 
         <!-- {{$store.state.app.datosUsuario.user_id}} -->
-        <p class="ma-0">Informacion General</p> 
+        <p class="ma-0">Informacion General</p>             <v-btn
+          dark
+          x-small
+          class="mx-1"
+          color="primary"
+          @click="mostrarBusquedaMaterial = true"
+        >
+          Agregar
+        </v-btn>
         <v-divider></v-divider>
         <v-row >
           <v-col 

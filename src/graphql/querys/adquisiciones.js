@@ -286,4 +286,19 @@ query Q_GET_OC_CONSULTAS($datos: getOcsInput!) {
 }
 `
 
-export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS }
+const GET_MATERIALES = gql`
+query Q_GET_MATERIALES($datos: getMaterialesInput!) {
+  getMateriales(datos: $datos) {
+    error
+    success
+    materiales {
+      id
+      mf_nombre
+      mu_nombre
+      name
+    }
+  }
+}
+`
+
+export { GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }
