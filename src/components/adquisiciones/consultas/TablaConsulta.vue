@@ -326,6 +326,17 @@
                 </v-icon>
               </v-btn>
             </v-badge>
+            <v-btn
+              dark
+              x-small
+              class="mx-1"
+              color="primary"
+              @click="limpiarFiltros()"
+            >
+              <v-icon x-small dark>
+                mdi-broom
+              </v-icon>
+            </v-btn>
           <!-- <v-btn
             :loading="isLoading"
             icon
@@ -345,13 +356,21 @@
           :loading="loadingTabla"
           loading-text="Buscando ordenes de compra"
           :search="buscarOcs"
+          show-expand
+          :expanded.sync="expanded"
+          :single-expand="singleExpand"
         ><!-- v-model="selectedUsers" -->
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length">
+              <lineas-oc :lineas="item.lineas"></lineas-oc>
+            </td>
+          </template>
           <template v-slot:header.pro_nombre="{ header }">
             {{ header.text }}
             <v-menu offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon small>
+                  <v-icon small :color="filtros.proyectos.length > 0 ? 'red' : ''">
                     mdi-filter
                   </v-icon>
                 </v-btn>
@@ -384,7 +403,7 @@
             <v-menu offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon small>
+                  <v-icon small :color="filtros.proveedores.length > 0 ? 'red' : ''">
                     mdi-filter
                   </v-icon>
                 </v-btn>
@@ -412,12 +431,12 @@
               </div>
             </v-menu>
           </template>
-           <template v-slot:header.usu_nombre="{ header }">
+          <template v-slot:header.usu_nombre="{ header }">
             {{ header.text }}
             <v-menu offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn icon v-bind="attrs" v-on="on">
-                  <v-icon small>
+                  <v-icon small :color="filtros.compradores.length > 0 ? 'red' : ''">
                     mdi-filter
                   </v-icon>
                 </v-btn>
@@ -448,7 +467,6 @@
           <template v-slot:item.nombre="{ item }">
             <div class="font-weight-bold"> <div>{{ item.usu_nombre }}</div></div>
           </template>
-
           <template v-slot:item.actions="{ item }">
             <div><v-btn
               x-small
@@ -462,6 +480,15 @@
           <template v-slot:item.neto="{ item }">
             <div class="font-weight-bold">{{ item.neto | currency }}</div>
           </template>
+          <template v-slot:item.pdf="{ item }">
+            <div><v-btn
+              x-small
+              @click="descargarPdf(item)"
+            > 
+              <v-icon>mdi-file-pdf-box</v-icon>
+            </v-btn>
+            </div>
+          </template> 
         </v-data-table>
       </v-card>
       

@@ -12,7 +12,7 @@
         </v-tab>
 
         <v-tab href="#flujo" @click="clickTab()" @change="changeTab()">
-          Aprobar
+          Aprobación y Distribución
         </v-tab>
 
       </v-tabs>
@@ -49,7 +49,7 @@
               <v-list-item style="padding-left: 24px">
                 <v-list-item-content>
                   <v-list-item-title class="text-h5">
-                    Orden de Compra: Borrador
+                    Orden de Compra: {{cabecera.identificacion}}
                   </v-list-item-title>
                   <v-list-item-subtitle class="caption">Fecha: {{ cpxFecha }}</v-list-item-subtitle>
                   <v-list-item-subtitle class="caption">Contacto DLB: {{ $store.state.app.datosEmpresa.email }}</v-list-item-subtitle>
@@ -68,7 +68,7 @@
               </v-row>
               <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor && cabecera.proveedor.rut }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Obra: {{ cabecera.proyecto.nombre }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Obra: {{`${cabecera.proyecto.codigo} - ${cabecera.proyecto.nombre}`  }}</span></v-col>
               </v-row>
               <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Direccion: {{ cabecera.proyecto.direccion }}</span></v-col>

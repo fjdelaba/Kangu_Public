@@ -179,6 +179,7 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
     est_doc_fk
     pro {
       nombre
+      codigo
       id
       direccion
     }
@@ -263,6 +264,20 @@ query Q_GET_OC_CONSULTAS($datos: getOcsInput!) {
       usu_fk
       pro_fk
       desp_nombre
+      lineas {
+        nombre
+        cantidad
+        cant_ajustada
+        precio_unitario
+        observacion
+        mu_nombre
+        cant_recepcion
+        cant_por_recepcionar
+        pendiente
+      }
+      lineasJson
+      ent_direccion
+      ec_email
     }
     success
     error

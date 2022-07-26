@@ -486,6 +486,8 @@ if(datos.proveedor.direccion == null){
     resumenValores.push(temp);
   });
 
+  console.log('resumenValores: ', resumenValores);
+
   doc.autoTable(resumenHeader, resumenValores, {
     headStyles: {
       fontSize: 9,

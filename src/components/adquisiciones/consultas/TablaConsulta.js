@@ -6,12 +6,15 @@ import JsonExcel from "vue-json-excel";
 import { entries } from "lodash";
 import { getProyectosUsuarioAprobador, getFiltrosConsultas, getProyectosUsuarioConsultar } from "../../../graphql/general";
 import ModalFiltros from '../modal-filtros/ModalFiltros.vue'
+import LineasOc from '../lineas-oc/LineasOc.vue'
+import {creaPdfOC } from '../../../utils/pdf-oc-template'
 Vue.component("downloadExcel", JsonExcel); 
 
 
 export default {
   components: {
-    ModalFiltros
+    ModalFiltros,
+    LineasOc
   },
   props: {
     origen: {
@@ -39,6 +42,8 @@ export default {
   },
   data() {
     return {
+      expanded: [],
+      singleExpand: false,
       breadcrumbs: [
         {
           text: 'Adquisiciones',
@@ -201,26 +206,100 @@ export default {
           { text: "Centro de Gestión", value: "pro_nombre", idx: 1 },
           { text: "ID OC", value: "identificacion", idx: 2 },
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
-          { text: "Proveedor", value: "razon_social", sortable: false, idx: 4 },
-          { text: "Comprador", value: "usu_nombre", sortable: false, idx: 4 },
-          { text: "Monto", value: "neto", sortable: false, idx: 4 },
-          { text: "Acción", value: "actions", sortable: false, idx: 4 }
+          { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
+          { text: "lineas", value: "lineasJson", sortable: true, align: ' d-none', idx: 8},
+          { text: "Comprador", value: "usu_nombre", sortable: true, idx: 5 },
+          { text: "Monto", value: "neto", sortable: true, idx: 6 },
+          { text: "Acción", value: "actions", sortable: false, idx: 7 },
+          { text: "Acción", value: "pdf", sortable: false, idx: 8 },
         ]
       }else if(this.origen === 2){
           return [
           { text: "Centro de Gestión", value: "pro_nombre", idx: 1 },
           { text: "ID OC", value: "identificacion", idx: 2 },
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
-          { text: "Proveedor", value: "razon_social", sortable: false, idx: 4 },
-          { text: "Comprador", value: "usu_nombre", sortable: false, idx: 4 },
-          { text: "Monto", value: "neto", sortable: false, idx: 4 },
-          { text: "Acción", value: "actions", sortable: false, idx: 4 }
+          { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
+          { text: "lineas", value: "lineasJson", sortable: true,align: ' d-none', idx: 5},
+          { text: "Comprador", value: "usu_nombre", sortable: true, idx: 6 },
+          { text: "Monto", value: "neto", sortable: true, idx: 7 },
+          { text: "Acción", value: "actions", sortable: false, idx: 8 },
+          { text: "", value: "pdf", sortable: false, idx: 9 }
         ]
       }
       return this.headers;
     },
   },
   methods: {
+    async descargarPdf(item) {
+      try {
+        console.log('item: ', item);
+
+        const cabecera = {
+          proveedor:{
+            direccion: item.ent_direccion,
+            razon_social: item.razon_social,
+            rut: item.rut,
+          },
+          contacto:{
+            nombre: item.ec_nombre,
+            email: item.ec_email
+          },
+          fec_creacion: item.fec_creacion,
+          identificacion: item.identificacion,
+          nombre: item.oc_nombre,
+          proyecto: {
+            nombre: item.pro_nombre
+          },
+          moneda:{
+            nombre: item.mon_nombre
+          },
+          tipoDespacho:{
+            nombre: item.desp_nombre
+          },
+          formaPago:{
+            nombre: item.fp_nombre
+          }
+        }
+        console.log('cabecera: ', cabecera);
+  
+        const materiales = []
+        for(const linea of item.lineas){
+          console.log('linea: ', linea);
+          const lineas = {
+            cantidad: linea.cant_ajustada,
+            total: Number(linea.cant_ajustada) * Number(linea.precio_unitario),
+            precio_unitario: linea.precio_unitario,
+            mat:{
+              nombre: linea.nombre,
+              mat_uni: {
+                nombre: linea.mu_nombre
+              }
+            },
+            observacion: linea.observacion
+          }
+  
+          materiales.push(lineas)
+        }
+        console.log('materiales: ', materiales);
+        const total =  (Number(item.neto) + Number(Math.abs(item.impuestos)))
+        console.log('total: ', total)
+        const totales = [
+          { item: 'Neto', valor: item.neto },
+          { item: 'IVA (19%)', valor:  Math.abs(item.impuestos) },
+          { item: 'Total', valor: total}
+        ]
+        console.log('totales: ', totales);
+         await creaPdfOC(materiales, cabecera, this.$store.state.app.datosEmpresa, totales) 
+      } catch (error) {
+        console.log('error: ', error);
+      }
+    },
+    limpiarFiltros(){
+      console.log('Limpiar !!!! ');
+      this.filtros.proyectos = [] // Este filtro no viene desde el modal
+      this.filtros.proveedores = [] // Este filtro no viene desde el modal
+      this.filtros.compradores = []
+    },
     cargarListaProyecto(){
       if(this.origen === 1){
         this.getProyectosUsuarioAprobar()

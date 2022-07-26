@@ -65,6 +65,7 @@ export default {
         this.tipo_documento = kangusoft_oc[0].doc_tip_fk
         this.cabecera.adjuntos = kangusoft_oc[0].oc_adjs
         this.cabecera.identificacion = kangusoft_oc[0].identificacion
+        this.cabecera.proyecto.codigo = kangusoft_oc[0].pro.codigo
         this.skeleton = false
     },
   }
