@@ -17,6 +17,7 @@ export default {
         id_pro:'',
         agregar:false,
         cantidad:"",
+        detalleMaterial:[],
         headers: [
             {
               text: "Material",
@@ -38,9 +39,7 @@ export default {
              sortable: false,
              align: "center", }
           ],
-          materiales:[{
-            mat:'Foco Panel Slim Cuadrado 12w, Smd 2835 170*170*12mm, 3000k, 900lm'
-          }],
+          materiales:[],
           moneda:{},
           listaPartidas: [],
 
@@ -59,6 +58,9 @@ export default {
        } else {
         console.log("sumar un material")
         this.materiales.push({mat:param.nombre,cantidad:param.cantidad})
+        
+        this.detalleMaterial.push({mat_fk:param.mat_fk,par_fk:param.partidas[0].par_fk,observacion:param.observacion,usu_fk:param.usu_fk,cantidad:param.cantidad})
+        this.$emit('materiales', this.detalleMaterial);
        }
       },
       async getPartidas() {

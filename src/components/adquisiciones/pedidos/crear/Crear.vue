@@ -13,7 +13,7 @@
        
           <v-col cols="12" lg="12">  <p class="text-h6 text--primary">Ingresa Nombre del Pedido: </p></v-col>
           <v-text-field
-            v-model="a"
+            v-model="nombrePedido"
             label="Nombre del Pedido"
             outlined
        
@@ -24,7 +24,7 @@
 
           <v-col cols="12" lg="12">  <p class="text-h6 text--primary">Selecciona el Proyecto: </p></v-col>
           <v-autocomplete
-            v-model="lol"
+            v-model="proyectoPedido"
             :items="listaProyectos"
             label="Proyecto del Pedido"
             persistent-hint
@@ -37,7 +37,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="red" text @click="dialogDelete = false">Cancelar</v-btn>
-          <v-btn color="blue" text @click="dialogDelete = false">Siguiente</v-btn>
+          <v-btn color="blue" text @click="cargarAprobadorPedido()">Siguiente</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
@@ -53,20 +53,48 @@
           width="100%"
           class="pb-3 pt-3"
         >    
-          <cabecera-pedidos></cabecera-pedidos>
+          <cabecera-pedidos :nombre="nombrePedido" ></cabecera-pedidos>
         </v-sheet>
         <v-row>
           <v-col cols="12">
-            <tabla-pedidos :pro_fk="lol"></tabla-pedidos>
+            <tabla-pedidos :pro_fk="proyectoPedido" @materiales="obtengoMateriales"></tabla-pedidos>
+       
+          </v-col>
+
+        </v-row>
+        <v-row>
+          <v-col cols="6">
+            <comentario-comprador></comentario-comprador>
+          </v-col>
+          <v-col cols="4">
+            <h2>ADJUNTAR ARCHIVO</h2>
+            <v-file-input
+              v-model="adjuntos"
+              placeholder="¿Que archivos deseas agregar?"
+              label="Seleccion de archivos"
+              multiple
+              prepend-icon="mdi-paperclip"
+              :clearable="false"
+              @change="chang()"
+              @click="clic()"
+            >
+              <template v-slot:selection="{ text, file }">
+                <v-chip
+                  small
+                  label
+                  color="primary"
+                  close
+                  @click:close="eliminarAdjunto(file)"
+                >
+                  {{ text }}
+                </v-chip>
+              </template>
+            </v-file-input>
           </v-col>
         </v-row>
         <v-row>
           <v-col cols="12">
-            <comentario-comprador></comentario-comprador>
-          </v-col></v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-btn @click="mostrar = true">Crear Pedido</v-btn>
+            <v-btn @click="crearPedido()">Crear Pedido</v-btn>
            
           </v-col></v-row>
         <v-row>

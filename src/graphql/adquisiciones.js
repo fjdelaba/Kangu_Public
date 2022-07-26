@@ -1,5 +1,5 @@
 import { apolloClient } from '../client'
-import { GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS } from './querys/adquisiciones'
+import { GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS } from './querys/adquisiciones'
 import { INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
@@ -54,6 +54,18 @@ export const getDetalleOC = async (oc_fk) => {
         _eq: oc_fk
       },
       _eq:oc_fk
+    },
+    fetchPolicy:'network-only'
+  })
+}
+
+export const getAprobadorPedido = async (mod_fk, pro_fk) => {
+
+  return await apolloClient.query({
+    query: GET_APROBADOR_PEDIDO,
+    variables: {
+      mod_fk,
+      pro_fk
     },
     fetchPolicy:'network-only'
   })
