@@ -1,10 +1,10 @@
 /* eslint-disable */
-
+import breadcrumbs from "../../../../general/breadcrum/breadcrumbs.vue";
 
 
 export default {
   components: {
- 
+    breadcrumbs
   },
   props: {
   
@@ -18,14 +18,14 @@ export default {
   data() {
     return {
      a2:'',
-      breadcrumbs: [
-        {
-          text: 'Pedidos',
-        },
-        {
-          text: 'Consultas'
-        }
-      ],
+     breadcrumbs: [
+      {
+        text: 'Pedido',
+      },
+      {
+        text: 'Consultas de Pedido',
+      }
+    ],
      a:[{nombre:'PEDIDO OBRAS CORREOS',identificador:'PED-2301',proyecto:'ALSÑDASKD',fecha:'26/07/22',soli:'Bastian Medina',estado:'Incompleto'}],
      lol:'',
       headers: [
@@ -72,6 +72,37 @@ export default {
          sortable: false,
          align: "center", }
       ],
+      a2:[{nombre:'Pallets',identificador:'Unidad',proyecto:'257',fecha:'Test',}],
+      lol2:'',
+       headers2: [
+         {
+           text: "Nombre Material",
+           align: "start",
+           value: "nombre",
+           width: "200px",
+         },
+         // { text: 'C.C', value: 'oc_det_pars', sortable: false, width: '200px' },
+         {
+           text: "Unidad",
+           value: "identificador",
+           width: "100px",
+           align: "center",
+         },
+         {
+             text: "Cantidad",
+             value: "proyecto",
+             width: "100px",
+             align: "center",
+           },
+        
+           {
+             text: "Partida Asociada",
+             value: "fecha",
+             width: "100px",
+             align: "center",
+           },
+           
+       ],
       
       dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
      

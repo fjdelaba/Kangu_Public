@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <breadcrumbs :breadcrumbs="breadcrumbs"></breadcrumbs>
     <v-card>
       <!-- users list -->
       <v-row v-if="false" dense class="pa-2 align-center">
@@ -92,7 +93,7 @@
           </v-date-picker>
         </v-menu>
         
-          <!-- <v-text-field
+        <!-- <v-text-field
               v-model="searchQuery"
               append-icon="mdi-magnify"
               class="flex-grow-1 mr-md-2"
@@ -112,7 +113,7 @@
             >
               <v-icon>mdi-refresh</v-icon>
             </v-btn> -->
-          <!-- <v-speed-dial 
+        <!-- <v-speed-dial 
               v-if="origen == 2"
               v-model="fab"
               class="pa-4 align-center"
@@ -250,15 +251,22 @@
         class="flex-grow-1"
         dense
         :loading="loadingTabla"
-        loading-text="Buscando ordenes de compra"
+        loading-text="Buscando pedidos"
         :search="lol"
         show-expand
         :expanded.sync="expanded"
         :single-expand="singleExpand"
       ><!-- v-model="selectedUsers" -->
-        <template v-slot:expanded-item="{ headers, item }">
+        <template v-slot:expanded-item="{ headers }">
           <td :colspan="headers.length">
-            <lineas-oc :lineas="item.lineas"></lineas-oc>
+            <v-data-table
+              :headers="headers2"
+              :items="a2"
+              class="flex-grow-1"
+              dense
+              :search="lol2"
+              :hide-default-footer="true"
+            ></v-data-table>
           </td>
         </template>
         <template v-slot:header.estado="{ header }">

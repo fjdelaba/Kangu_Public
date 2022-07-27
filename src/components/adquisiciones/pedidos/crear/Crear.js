@@ -1,5 +1,5 @@
 /* eslint-disable */
-import breadcrumPedido from "../../../general/breadcrum/breadcrum-pedido.vue";
+import breadcrumPedido from "../../../general/breadcrum/breadcrumbs.vue";
 import cabeceraPedidos from "./cabecera-pedidos/cabecera-pedidos.vue";
 import tablaPedidos from "./tabla-pedidos/tabla-pedidos.vue";
 import comentarioComprador from "./comentario-comprador/comentario-comprador.vue";
@@ -21,6 +21,16 @@ export default {
    
     data() {
       return {
+        breadcrumbs: [
+          {
+            text: 'Listado',
+            to: '/adquisiciones/pedido/consultar',
+            exact: true
+          },
+          {
+            text: 'Creacion de Pedido',
+          }
+        ],
         adjuntos:[],
         respFiles: [],
         mostrar:false,
