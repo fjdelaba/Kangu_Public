@@ -4,6 +4,9 @@ export default {
     components: {
 
       },
+      props: {
+        nombre: String,
+        },
     mounted() {
     },
     data() {

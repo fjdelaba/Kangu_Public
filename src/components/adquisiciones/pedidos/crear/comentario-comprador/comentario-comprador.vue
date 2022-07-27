@@ -3,8 +3,7 @@
     <v-textarea
       outlined
       label="Comentario al comprador"
-      :value="observacion"
-      :readonly="true"
+      :value="comentario"
     ></v-textarea>
   </v-container>
 </template>

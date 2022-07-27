@@ -2,7 +2,7 @@
   <v-container>
   
     <v-row>
-{{ pro_fk }}{{ id_pro }}
+
       <v-dialog v-if="agregar" v-model="agregar" max-width="500px">
         <agregar-material :cerrar-dialog-material_="abrirMaterial" :moneda="moneda" :lista-partidas="listaPartidas" :material-edicion="undefined"></agregar-material>
       </v-dialog>

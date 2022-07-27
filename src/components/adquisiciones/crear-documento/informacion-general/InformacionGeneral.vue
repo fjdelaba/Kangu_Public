@@ -11,7 +11,8 @@
       <v-form ref="formPaso1" v-model="valid" lazy-validation>
         <!-- <v-container class="ma-0 pa-0"> --> 
         <!-- {{$store.state.app.datosUsuario.user_id}} -->
-        <p class="ma-0">Informacion General</p>             <v-btn
+        <p class="ma-0">Informacion General</p>             
+        <v-btn
           dark
           x-small
           class="mx-1"
@@ -19,6 +20,24 @@
           @click="mostrarBusquedaMaterial = true"
         >
           Agregar
+        </v-btn>
+        <v-btn
+          dark
+          x-small
+          class="mx-1"
+          color="primary"
+          @click="mostrarBusquedaMaterial2 = true"
+        >
+          Agregar 2
+        </v-btn>
+        <v-btn
+          dark
+          x-small
+          class="mx-1"
+          color="primary"
+          @click="drawerMaterial = !drawerMaterial"
+        >
+          drawer
         </v-btn>
         <v-divider></v-divider>
         <v-row >
@@ -366,6 +385,52 @@
       </v-row>
         
     </div>
+
+    <v-dialog
+      v-model="mostrarBusquedaMaterial"
+      persistent
+      max-width="1100"
+    >
+      <busqueda-material ref="refbusquedamaterial" :respaldar-seleccion="respaldarSeleccionTree"></busqueda-material>
+    </v-dialog>
+    <v-dialog
+      v-model="mostrarBusquedaMaterial2"
+      persistent
+      max-width="1100"
+    >
+      <busqueda-material-2 ref="refbusquedamaterial" :respaldar-seleccion="respaldarSeleccionTree"></busqueda-material-2>
+    </v-dialog>
+    <v-navigation-drawer
+      v-model="drawerMaterial"
+      absolute
+      temporary
+      right
+    >
+      <v-list-item>
+        <v-list-item-avatar>
+          <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
+        </v-list-item-avatar>
+
+        <v-list-item-content>
+          <v-list-item-title>John Leider</v-list-item-title>
+        </v-list-item-content>
+      </v-list-item>
+
+      <v-divider></v-divider>
+
+      <v-list dense>
+        <v-list-item>
+          <v-list-item-icon>
+            <v-icon>mdi-close</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>Programador</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
   </div>
 </template>
 

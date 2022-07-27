@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-list-item style="padding-left: 24px">
+      <v-btn>Editar</v-btn>
       <v-list-item-content>
         <v-list-item-title class="text-h5">
           Pedido: PED-15
@@ -16,7 +17,7 @@
         <v-img src=""></v-img></v-list-item-avatar>
     </v-list-item>
     <v-row no-gutters class="pl-3">
-      <v-col cols="12" lg="6"><span class="caption">Nombre Documento: JUANITO PEREZ PEDIDO</span></v-col>
+      <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ nombre }}</span></v-col>
     </v-row>
     <v-row no-gutters class="pl-3">
       <v-col cols="12" lg="6"><span class="caption">Obra: FALABELLA RETAIL</span></v-col>

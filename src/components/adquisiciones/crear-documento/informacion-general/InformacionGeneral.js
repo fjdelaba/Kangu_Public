@@ -5,12 +5,14 @@ import ModalEntidad from '../../../general/modal-entidad/ModalEntidad.vue'
 import ModalContacto from '../../../general/modal-contacto/ModalContacto.vue'
 
 import BusquedaMaterial from '../../../general//busqueda-material/BusquedaMaterial.vue'
+import BusquedaMaterial2 from '../../../general//busqueda-material-2/BusquedaMaterial.vue'
 
 export default {
   components: {
     ModalEntidad,
     ModalContacto,
-    BusquedaMaterial
+    BusquedaMaterial,
+    BusquedaMaterial2
   },
   props: {
     origen:''
@@ -79,7 +81,10 @@ export default {
       mostrarModalContacto: false,
       datosContacto: [],
       crearContacto: false,
-      mostrarBusquedaMaterial: false
+      mostrarBusquedaMaterial: false,
+      mostrarBusquedaMaterial2: false,
+      respaldoTree: [],
+      drawerMaterial: null      
     }
   },
   created() {
@@ -92,6 +97,11 @@ export default {
     
   },
   methods: {
+    respaldarSeleccionTree(param) {
+      console.log('param: ', param)
+      this.respaldoTree.push(...param)
+      console.log('this.respaldoTree: ', this.respaldoTree)
+    },
     mostrarDialog() {
       this.mostrarDialogCrearEntidad = true
     },

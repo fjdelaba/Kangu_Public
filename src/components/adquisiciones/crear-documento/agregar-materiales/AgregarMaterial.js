@@ -362,7 +362,9 @@ export default {
       }
     },
     editarMateriales() {
-      for (const mat of this.materiales) {
+      // for (const mat of this.materiales) {
+      console.log('edicion: ') 
+      for (const mat of this.lista_detalle) {
         mat.editable = true
       }
     },
