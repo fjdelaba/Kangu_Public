@@ -4,5 +4,5 @@
   </v-container>
 </template>
 
-<script src="./breadcrum-pedido.js"></script>
-<style scoped src="./breadcrum-pedido.css"></style>
+<script src="./breadcrumbs.js"></script>
+<style scoped src="./breadcrumbs.css"></style>

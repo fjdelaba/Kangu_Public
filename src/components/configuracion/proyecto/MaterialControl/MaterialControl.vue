@@ -202,7 +202,7 @@
           >
             <v-btn
               v-if="detalle == false"
-              color="success"
+              color="primary"
               dark
               large
               :loading="loading4"

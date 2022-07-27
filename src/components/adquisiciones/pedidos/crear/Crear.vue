@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <breadcrum-pedido></breadcrum-pedido>
+    <breadcrum-pedido :breadcrumbs="breadcrumbs"></breadcrum-pedido>
   
     <v-dialog v-model="mostrar" persistent max-width="500px">
       <dialog-final></dialog-final>

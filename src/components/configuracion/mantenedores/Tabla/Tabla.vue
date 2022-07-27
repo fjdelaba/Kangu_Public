@@ -79,7 +79,7 @@
             <v-spacer></v-spacer>
             <v-btn color="red" text @click="close"> Cancelar </v-btn>
             <v-btn
-              color="success"
+              color="primary"
               text
               :disabled="habilitar != false"
               @click="guardarNuevoItem()"

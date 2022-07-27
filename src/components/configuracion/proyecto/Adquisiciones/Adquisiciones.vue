@@ -151,7 +151,7 @@
                    <v-spacer></v-spacer>
                    <v-btn color="red" text @click="close"> Cancelar </v-btn>
                    <v-btn
-                     color="success"
+                     color="primary"
                      text
                      :loading="loadingAdquisiciones"
                      :disabled="habilitar != false"
@@ -260,7 +260,7 @@
                    <v-spacer></v-spacer>
                    <v-btn color="red" text @click="close"> Cancelar </v-btn>
                    <v-btn
-                     color="success"
+                     color="primary"
                      text
                      :disabled="habilitar != false"
                      @click="guardarNuevoItem2()"
@@ -350,7 +350,7 @@
             <v-row>
               <v-col cols="12">
                 <v-btn
-                  color="success"
+                  color="primary"
                   dark
                   large
                   :loading="loading4"
