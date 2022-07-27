@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <v-row><v-col><H2>Mi Empresa</H2></v-col></v-row>
     <div>
       <div v-if="skeleton">
         <v-skeleton-loader
@@ -200,7 +201,7 @@
                   </div>
                 </v-expand-transition>
                 <div 
-                  class="text-right"
+                  class="text-center"
                 >
                   <v-btn
                     text

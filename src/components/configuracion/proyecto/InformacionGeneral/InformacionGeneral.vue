@@ -367,7 +367,7 @@
       <v-col cols="12">
         <v-btn
           v-if="detalle == false"
-          color="success"
+          color="primary"
           dark
           large
           :loading="loadingInfoGeneral"

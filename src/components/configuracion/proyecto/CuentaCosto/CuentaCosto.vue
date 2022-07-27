@@ -71,7 +71,7 @@
             cols="12"
           >
             <v-btn
-              color="success"
+              color="primary"
               dark
               large
             ><v-icon>mdi-content-save-all</v-icon> 

@@ -28,11 +28,10 @@
         <!-- users list -->
         
         <v-row dense class="px-2 align-center">
-
           <v-btn
-            color="primary"
-            @click="abrirDialog = true"
-          >Crear Proveedor</v-btn>
+                color="primary"
+                @click="abrirDialog = true"
+                >Crear Proveedor</v-btn>
           <v-spacer></v-spacer>
           <v-col cols="6" class="d-flex text-right align-center">
             <v-text-field

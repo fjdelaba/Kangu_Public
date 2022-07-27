@@ -6,7 +6,7 @@
         <h2>LISTADO DE PROYECTOS</h2>
       </v-col>
     </v-row>
-    <v-row class="mb-6" no-gutters>
+    <v-row class="mb-1" no-gutters>
       <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
     </v-row>
     <div v-if="skeleton">
@@ -15,14 +15,21 @@
       ></v-skeleton-loader>
         
     </div>
-    <v-row v-if="!skeleton" class="mb-6" no-gutters>
+    <v-row v-if="!skeleton" class="mb-1" no-gutters>
       <v-col >   
-        <v-row class="mb-6" no-gutters>
+        <v-row class="mb-1" no-gutters>
           <v-col v-if="detalle == false" cols="12"> 
-           
-            <v-col> 
-              <v-card>
-                <v-card-title>
+          <v-row dense class="px-2 align-center">
+          <v-btn
+                    color="primary"
+                    dark
+                    class="ml-3"
+                    @click="$router.push(`/configuracion/proyectos/sent`)"
+                  >
+                    Crear Proyecto
+                  </v-btn> 
+                  <v-spacer></v-spacer>
+                  <v-col cols="6" class="d-flex text-right align-center">
                   <v-text-field
                     v-model="searchQuery"
                     append-icon="mdi-magnify"
@@ -34,15 +41,10 @@
                     placeholder="p.ej. filtrar por codigo, nombre proyecto, mandante, monto y estado"
                     @keyup.enter="searchUser(searchQuery)"
                   ></v-text-field>
-                  <v-btn
-                    color="blue"
-                    dark
-                    large
-                    @click="$router.push(`/configuracion/proyectos/sent`)"
-                  ><v-icon size="30" left>mdi-folder-plus-outline </v-icon> 
-                    CREAR PROYECTO
-                  </v-btn> 
-                </v-card-title>
+           </v-col>
+           </v-row>
+            <v-col> 
+              <v-card>
                 <template>
                   <v-data-table
                     :headers="headers"
@@ -54,8 +56,7 @@
                   >
                     <template v-slot:item.actions="{item}">
                       <v-btn
-                        color="blue"
-                        dark
+                        
                         @click="abrirDetalle(item)"
                       ><v-icon left>mdi-eye</v-icon> 
                         Detalle 
@@ -68,9 +69,7 @@
                 </template>
               </v-card></v-col>
           </v-col>
-          <v-row class="mb-6" no-gutters>
-   
-          </v-row>
+
         </v-row></v-col>
     </v-row>
   </v-container>

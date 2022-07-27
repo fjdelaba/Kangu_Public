@@ -2,7 +2,7 @@
   <v-container>
     <div v-if="$store.state.app.permisosUsuario.cotizacion">
       <div>
-        <h2>Crear Cotizaciom</h2>
+        <h2>Crear Cotización</h2>
       </div></div>
     <div v-else>
       <h2>No tienes permisos para ver esta seccion</h2>
