@@ -128,7 +128,7 @@
           <slot></slot>
         </v-layout>
       </v-container>
-      <!-- {{ $store.state.app.permisosUsuario }} -->
+      <!-- {{ $store.state.app.indicadores }} -->
       <v-footer app inset>
         <v-spacer></v-spacer>
         <div class="overline">
@@ -203,6 +203,8 @@ export default {
         const datos = {
           fecha: this.$moment().format('YYYY-MM-DD')
         }
+
+        console.log('datos: ', datos)
         const { data: { indicadores } } = await this.axios.post('https://actions-kangu-hasura.herokuapp.com/getIndicadores', datos)    
 
         const indicadores_valores = {
