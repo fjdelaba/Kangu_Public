@@ -223,6 +223,25 @@ export default {
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
           this.moneda =  this.$refs.refinformaciongeneraldoc.oc_cab.moneda
+          let mon_val_fk = 0
+          const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+
+          switch (cabecera.moneda.id) {
+          case 1: // UF
+            mon_val_fk = this.$store.state.app.indicadores.uf.mon_val_id
+            break
+          case 2: // CLP
+            mon_val_fk = null
+            break
+          case 3: // DOLAR
+            mon_val_fk = this.$store.state.app.indicadores.dolar.mon_val_id
+            break
+          case 4: // EURO
+            mon_val_fk = this.$store.state.app.indicadores.euro.mon_val_id
+            break
+          default:
+            break
+          }
           if (this.oc_id > 0) {
             try {
               const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
@@ -240,7 +259,8 @@ export default {
                 mon_fk: cabecera.moneda.id,
                 nombre: cabecera.nombre,
                 pro_fk: cabecera.proyecto.id,
-                ped_fk: null
+                ped_fk: null,
+                mon_val_fk
               }
 
               const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
@@ -253,7 +273,6 @@ export default {
           } else {
             try {
               this.disabledBotonSiguiente = true
-              const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
               this.tipoDocumento = cabecera.tipoDocumento.id
               console.log('cabecera: ', cabecera)
@@ -270,7 +289,8 @@ export default {
                 nombre: cabecera.nombre,
                 pro_fk: cabecera.proyecto.id,
                 // usu_fk: 3 // Cambiar
-                usu_fk: this.$store.state.app.datosUsuario.user_id // Cambiar
+                usu_fk: this.$store.state.app.datosUsuario.user_id, // Cambiar
+                mon_val_fk
               }
 
               console.log('datosCabecera: ', datosCabecera)
@@ -336,16 +356,16 @@ export default {
 
         switch (this.moneda.id) {
         case 1: //UF
-          totalPesos = this.neto * this.$store.state.app.indicadores.uf
+          totalPesos = this.neto * this.$store.state.app.indicadores.uf.valor
           break
         case 2: // CLP
           totalPesos = this.neto
           break
         case 3: // DOLAR
-          totalPesos = this.neto * this.$store.state.app.indicadores.dolar
+          totalPesos = this.neto * this.$store.state.app.indicadores.dolar.valor
           break
         case 4: // EURO
-          totalPesos = this.neto * this.$store.state.app.indicadores.euro
+          totalPesos = this.neto * this.$store.state.app.indicadores.euro.valor
           break
         default:
           break

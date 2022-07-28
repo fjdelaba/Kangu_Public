@@ -11,34 +11,37 @@
       <v-form ref="formPaso1" v-model="valid" lazy-validation>
         <!-- <v-container class="ma-0 pa-0"> --> 
         <!-- {{$store.state.app.datosUsuario.user_id}} -->
-        <p class="ma-0">Informacion General</p>             
-        <v-btn
-          dark
-          x-small
-          class="mx-1"
-          color="primary"
-          @click="mostrarBusquedaMaterial = true"
-        >
-          Agregar
-        </v-btn>
-        <v-btn
-          dark
-          x-small
-          class="mx-1"
-          color="primary"
-          @click="mostrarBusquedaMaterial2 = true"
-        >
-          Agregar 2
-        </v-btn>
-        <v-btn
-          dark
-          x-small
-          class="mx-1"
-          color="primary"
-          @click="drawerMaterial = !drawerMaterial"
-        >
-          drawer
-        </v-btn>
+        
+        <p class="ma-0">Informacion General</p>    
+        <div v-if="false">
+          <v-btn
+            dark
+            x-small
+            class="mx-1"
+            color="primary"
+            @click="mostrarBusquedaMaterial = true"
+          >
+            Agregar
+          </v-btn>
+          <v-btn
+            dark
+            x-small
+            class="mx-1"
+            color="primary"
+            @click="mostrarBusquedaMaterial2 = true"
+          >
+            Agregar 2
+          </v-btn>
+          <v-btn
+            dark
+            x-small
+            class="mx-1"
+            color="primary"
+            @click="drawerMaterial = !drawerMaterial"
+          >
+            drawer
+          </v-btn>
+        </div>         
         <v-divider></v-divider>
         <v-row >
           <v-col 

@@ -199,15 +199,62 @@ export default {
     async cargarIndicadores() {
       try {
         console.log('adasd')
-        const { data } = await this.axios.get('https://mindicador.cl/api')    
-        const datosEconomicos = {
-          uf: data.uf.valor,
-          dolar: data.dolar.valor,
-          euro: data.euro.valor
+        // const { data } = await this.axios.get('https://mindicador.cl/api')    
+        const datos = {
+          fecha: this.$moment().format('YYYY-MM-DD')
+        }
+        const { data: { indicadores } } = await this.axios.post('https://actions-kangu-hasura.herokuapp.com/getIndicadores', datos)    
+
+        const indicadores_valores = {
+          uf:{
+            valor: '',
+            mon_id: '',
+            mon_val_id: ''
+          },
+          dolar: {
+            valor: '',
+            mon_id: '',
+            mon_val_id: ''
+          },
+          euro:{
+            valor: '',
+            mon_id: '',
+            mon_val_id: ''            
+          }
         }
 
-        console.log('datosEconomicos: ', datosEconomicos)
-        this.$store.dispatch('app/setIndicadores', datosEconomicos)
+        for (const ind of indicadores) {
+          console.log('ind: ', ind)
+          if (Number(ind.mon_id) === 1) { // UF
+            indicadores_valores.uf = {
+              valor: Number(ind.valor),
+              mon_id: Number(ind.mon_id),
+              mon_val_id: Number(ind.mon_val_id)
+            }
+          } else if (Number(ind.mon_id) === 3) { // DOLAR
+            indicadores_valores.dolar = {
+              valor: Number(ind.valor),
+              mon_id: Number(ind.mon_id),
+              mon_val_id: Number(ind.mon_val_id)
+            }
+          } else if (Number(ind.mon_id) === 4) { // EURO
+            indicadores_valores.euro = {
+              valor: Number(ind.valor),
+              mon_id: Number(ind.mon_id),
+              mon_val_id: Number(ind.mon_val_id)
+            }
+          }
+        }
+
+        console.log('data: ', indicadores_valores)
+        // const datosEconomicos = {
+        //   uf,
+        //   dolar,
+        //   euro
+        // }
+
+        console.log('datosEconomicos: ', indicadores_valores)
+        this.$store.dispatch('app/setIndicadores', indicadores_valores)
       } catch (error) {
         console.log('error: ', error)
       }
