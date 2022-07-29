@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2>Creacion de Orden de Compra</h2>
+    <!-- <h2>Creacion de Orden de Compra</h2> -->
     <div v-if="$store.state.app.permisosUsuario.oc">
       <v-row
         no-gutters
@@ -51,13 +51,14 @@
               </v-stepper-content>
 
               <v-stepper-content step="2">
-                <agregar-material
+                <!-- <agregar-material
                   ref="refAgregarMaterial"
                   :oc_id="oc_id"
                   :pro_fk="pro_fk"
                   :tipo_documento="tipoDocumento"
                   :moneda="moneda"
-                ></agregar-material>
+                ></agregar-material> -->
+                <new-agregar-material></new-agregar-material>
               </v-stepper-content>
 
               <v-stepper-content step="3">
@@ -81,7 +82,6 @@
               </v-stepper-content>
             </v-stepper-items>
             <v-row
-              align="right"
               justify="space-around"
               no-gutters
             >
@@ -152,15 +152,17 @@ import { getMontoComprador, postCabeceraOC, updateCabeceraOC, updateOCInformacio
 import DialogFinalDocumento from '../../../components/adquisiciones/dialog-final-documento/DialogFinalDocumento.vue'
 import DialogBorradorVue from '../../../components/adquisiciones/dialog-borrador/DialogBorrador.vue'
 import { getFlujoAprobadoresProyecto } from '../../../graphql/aprobaciones'
+import NewAgregarMaterial from '../../../components/adquisiciones/crear-documento/new-agregar-material/NewAgregarMaterial.vue'
 
 export default {
   components: {
     // CrearDocumento,
-    AgregarMaterial,
+    // AgregarMaterial,
     InformacionGeneral,
     Previsualizacion,
     DialogFinalDocumento,
-    DialogBorradorVue
+    DialogBorradorVue,
+    NewAgregarMaterial
   },
   data() {
     return {
@@ -300,7 +302,8 @@ export default {
               console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
               this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
               this.pro_fk = cabecera.proyecto.id
-              this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id)
+              // this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id) Sacar comentario
+
               this.disabledBotonSiguiente = false
               this.$notify({
                 group: 'foo',

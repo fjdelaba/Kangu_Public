@@ -74,11 +74,23 @@ export default {
           { item: 'Total', valor: total },
           { item: 'impuesto', valor:  Math.abs(impuesto) }
         ]
+      } else {
+        return [
+          { item: 'Neto', valor: 1 },
+          { item: 'Retencion 12,25%', valor: 1 },
+          { item: 'Total', valor: 1 },
+          { item: 'impuesto', valor:  1 }
+        ]
       }
     },
     cpxTotalesTablaResumen() {
+      console.log('this.materiales.length: ', this.materiales )
+      if (this.cpxTotalesItems.length === 0)
+        return []
+
       const copyCpxTotalesItems = JSON.parse(JSON.stringify(this.cpxTotalesItems))
 
+      console.log('copyCpxTotalesItems: ', copyCpxTotalesItems)
       console.log('copyCpxTotalesItems: ', copyCpxTotalesItems)
 
       for (const lineaResumen in copyCpxTotalesItems) {

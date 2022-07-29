@@ -153,7 +153,7 @@ export default {
     'checkout': 'Revisa'
   },
   'menu': {
-    'pedido': 'PEDIDO',
+    'pedido': 'Pedido', // Nombre del pedido en menu lateral
     'cotizacion':'Cotizacion',
     'oc':'OC',
     'despacho': 'Despacho',
