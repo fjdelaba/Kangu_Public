@@ -5,6 +5,7 @@ export default [
     text: 'Pedido',
     link: '/apps/email',
     items: [
+      { key: 'menu.crear-oc', text: 'Crear', link: '/adquisiciones/pedido/crear' },
       { key: 'menu.consultas', text: 'Consultas', link: '/adquisiciones/pedido/consultar' },
       {
         key: 'menu.aprobar',

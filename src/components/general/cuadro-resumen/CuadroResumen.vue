@@ -18,7 +18,7 @@
       ></v-radio>
     </v-radio-group>
     <!-- {{ oc.moneda.nombre }} -->
-    <v-data-table
+     <v-data-table
       :headers="totalesHeaders"
       :items="cpxTotalesItems"
       hide-default-header
@@ -27,7 +27,7 @@
       v-if="false"
       class="elevation-1"
     >
-      <template v-slot:item.valor="{ item }">
+      <template v-if="cpxTotalesItems.length >0" v-slot:item.valor="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:85px">
           <span>{{ item.valor | currency }} a</span> 
         </div>
@@ -41,7 +41,7 @@
       dense
       class="elevation-1"
     >
-      <template v-slot:item.valor="{ item }">
+      <template v-if="cpxTotalesItems.length >0" v-slot:item.valor="{ item }">
         <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:85px">
           <span>{{ item.valor | currency }}</span> 
         </div>
