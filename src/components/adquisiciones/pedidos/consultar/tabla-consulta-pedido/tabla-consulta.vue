@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <breadcrumbs :breadcrumbs="breadcrumbs"></breadcrumbs>
+   
     <v-card>
       <!-- users list -->
       <v-row v-if="false" dense class="pa-2 align-center">
@@ -245,6 +246,23 @@
           </v-btn> -->
         </v-col>
       </v-row>
+
+      <v-dialog v-if="dialogDelete == true" v-model="dialogDelete" max-width="500px">
+        <v-card>
+          <v-card-title class="text-h5">Orden de Compra de este material</v-card-title>
+          <v-divider></v-divider>
+          <v-data-table
+            :headers="headers3"
+            :items="a3"
+            class="flex-grow-1"
+            dense
+            :loading="loadingTabla"
+            loading-text="Buscando pedidos"
+            :hide-default-footer="true"
+          ></v-data-table>
+        </v-card>
+
+      </v-dialog>
       <v-data-table
         :headers="headers"
         :items="a"
@@ -266,7 +284,15 @@
               dense
               :search="lol2"
               :hide-default-footer="true"
-            ></v-data-table>
+            >
+              <template v-slot:item.nombre="{}">
+                <nombre-material :nombre="nombre" :unidad="unidad" :observacion="obs" ></nombre-material>
+              </template>
+              <template v-slot:item.identificador="{ item }">
+                <p @click="dialogDelete = true">{{ item.identificador }}</p>
+              </template>
+           
+            </v-data-table>
           </td>
         </template>
         <template v-slot:header.estado="{ header }">
@@ -376,6 +402,15 @@
             x-small
             @click="abrirDetalle(item)"
           > Abrir </v-btn>
+          </div>
+        </template> 
+        <template v-slot:item.pdf="{ item }">
+          <div><v-btn
+            x-small
+            @click="descargarPdf(item)"
+          > 
+            <v-icon>mdi-file-pdf-box</v-icon>
+          </v-btn>
           </div>
         </template> 
         <template v-slot:item.fec_creacion="{ item }">

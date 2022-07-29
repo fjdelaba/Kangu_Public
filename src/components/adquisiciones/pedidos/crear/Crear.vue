@@ -36,7 +36,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="red" text @click="dialogDelete = false">Cancelar</v-btn>
+          <v-btn color="red" text @click="cancelarPedido()">Cancelar</v-btn>
           <v-btn color="blue" text @click="cargarAprobadorPedido()">Siguiente</v-btn>
           <v-spacer></v-spacer>
         </v-card-actions>

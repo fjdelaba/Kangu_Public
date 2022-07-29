@@ -1,12 +1,16 @@
 /* eslint-disable */
+import NombreMaterial from '../../../../components/general/nombre-obs-tabla/NombreObsTabla.vue'
 export default {
     components: {
-
+        NombreMaterial
     },
     mounted() {
     },
     data() {
         return {
+            nombre:'Pallet',
+            unidad:'Unidad',
+            obs:'Porfavor Rapido',
             expanded: [],
             singleExpand: false,
             dessertHeaders: [

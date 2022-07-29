@@ -337,8 +337,8 @@
                   class="elevation-1"
                   :hide-default-footer="true"
                 >
-                  <template v-slot:item.nombre="{ item }">
-                    <div class="font-weight-bold">{{ item.nombre }}</div>
+                  <template v-slot:item.nombre="{ }">
+                    <nombre-material :nombre="nombre" :unidad="unidad" :observacion="obs" ></nombre-material>
                   </template>
                 </v-data-table></td>
             </template>

@@ -25,6 +25,9 @@
           class="elevation-1"
           dense
         >
+         <template v-slot:item.mat="{ item }">
+            <nombre-material :nombre="item.mat" :unidad="item.unidad" :observacion="item.observacion" ></nombre-material>
+          </template>
           <template v-slot:item.cantidad="{ item }">
             <v-text-field
               v-model="item.cantidad"

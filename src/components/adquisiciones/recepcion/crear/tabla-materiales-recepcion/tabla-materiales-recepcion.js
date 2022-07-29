@@ -1,14 +1,18 @@
 /* eslint-disable */
 
+import NombreMaterial from '../../../../general/nombre-obs-tabla/NombreObsTabla.vue'
 
 export default {
     components: {
-       
+      NombreMaterial
       },
     mounted() {
     },
     data() {
       return {
+        nombre:'Foco Panel Slim Cuadrado 12w',
+        unidad:'Unidad',
+        obs:'Luz led porfavor',
         dessertHeaders: [
             { text: '#', value: 'oc' },
             { text: 'Nombre del Material', align: 'start', sortable: false, value: 'id', },

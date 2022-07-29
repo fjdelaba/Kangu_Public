@@ -166,6 +166,10 @@ export default {
           })
         }
       },
+      cancelarPedido(){
+        this.dialogDelete = false
+        this.$router.push(`/adquisiciones/pedido/consultar`)
+      },
       crearPedido(){
         let cabecera = {}
         let adjuntos = {}

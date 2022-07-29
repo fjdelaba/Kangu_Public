@@ -17,10 +17,8 @@
             </v-icon>
             </div>
           </template> 
-          <template v-slot:item.id="{ item }">
-            <v-row no-gutters class="pl-3">
-              <v-col cols="12" lg="12">
-                <div class="font-weight-bold">{{ item.id }}</div></v-col></v-row>
+          <template v-slot:item.id="{ }">
+            <nombre-material :nombre="nombre" :unidad="unidad" :observacion="obs" ></nombre-material>
           </template>
           <template v-slot:item.monto="{ item }">
             <v-text-field
