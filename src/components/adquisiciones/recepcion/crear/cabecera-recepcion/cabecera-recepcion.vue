@@ -6,10 +6,10 @@
         <thead bgcolor="#DADADA">
           <tr>
             <th class="text-h7 text--primary">
-              Informacion de la Orden de Compra
+              Información de la Orden de Compra
             </th>
             <th class="text-h7 text--primary ">
-              Informacion de la Recepcion
+              Información de la Recepción
             </th>
           </tr>
         </thead>

@@ -3,7 +3,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h2>LISTADO DE PROYECTOS</h2>
+        <h2>Listado de proyectos</h2>
       </v-col>
     </v-row>
     <v-row class="mb-1" no-gutters>
@@ -17,9 +17,9 @@
     </div>
     <v-row v-if="!skeleton" class="mb-1" no-gutters>
       <v-col >   
-        <v-row class="mb-1" no-gutters>
+        <v-row class="mb-0" no-gutters>
           <v-col v-if="detalle == false" cols="12"> 
-          <v-row dense class="px-2 align-center">
+          <v-row dense class="px-1 align-center">
           <v-btn
                     color="primary"
                     dark

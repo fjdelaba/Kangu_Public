@@ -11,7 +11,7 @@
           > 
             <div v-for="item in botones" :key="item" style="min-width: 100px">
               <v-btn
-                color="success"
+                color="primary"
                 fab
                 x-large
                 dark

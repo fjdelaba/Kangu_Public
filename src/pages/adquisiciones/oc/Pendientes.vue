@@ -5,7 +5,7 @@
         <h2>Pendientes de Compra</h2>
       </div></div>
     <div v-else>
-      <h2>No tienes permisos para ver esta seccion</h2>
+      <h2>No tienes permisos para ver esta sección</h2>
     </div>
   </v-container>
 </template>

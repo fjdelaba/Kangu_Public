@@ -1,8 +1,8 @@
 <template>
 
-  <v-container class="white">
+  <v-container class="white ">
     <h2>
-      Mi Informacion
+      Mi Información
     </h2>
     <detalle-usuario :origen="2"></detalle-usuario> <!-- Confoguracion: 1; Mi Perfil :2  -->
   </v-container>
