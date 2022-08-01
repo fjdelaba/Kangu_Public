@@ -567,11 +567,11 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-      // console.log('Mounted DATOS USUARIO: ', this.user)
+     
       // this.asignarPermisos()  
     }, 2000)
-    
-    // this.asignarPermisos()
+    console.log('Mounted DATOS USUARIO: ', this.user)
+    this.asignarPermisos()
   },
   methods: {
     cerrarCambiarClave() {

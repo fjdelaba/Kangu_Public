@@ -11,8 +11,13 @@ export default {
     },
     data() {
       return {
-       
+       respEdicion: ''
       };
     },
-    methods: {}
+    methods: {
+      habilitarEdicion(){
+       this.respEdicion = true
+       this.$emit('modal', this.respEdicion);
+      }
+    }
 }
