@@ -115,7 +115,7 @@ export const getMateriales = async (material) => {
     }
   })
 }
-export const updateEmpresa = async (id, direccion,email,giro,nombre,representante,rut,telefono,com_fk) => {
+export const updateEmpresa = async (id, direccion,email,giro,nombre,representante,rut,telefono,com_fk,color,eslogan,logo) => {
   console.log('id_contacto, ent_con: ',
     direccion,
     email,
@@ -138,7 +138,10 @@ export const updateEmpresa = async (id, direccion,email,giro,nombre,representant
       nombre,
       rut,
       representante,
-      telefono
+      telefono,
+      color,
+      eslogan,
+      logo
     },
     update: (data) => {console.log('update data updateContactos: ',data)} 
   })

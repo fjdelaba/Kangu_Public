@@ -1,5 +1,9 @@
 <template>
   <div>
+    <div>
+      <drawer-partida ref="refdrawerpartida" :_origen="1"></drawer-partida>
+    </div>
+    <v-divider></v-divider>
     Busqueda de Material
     <v-divider></v-divider>
     <v-text-field
@@ -12,7 +16,7 @@
       dense
       clearable
       clear-icon="mdi-close-circle-outline"
-      @click:clear="limpiar()"
+      @click:clear="limpiarMaterial()"
       @input="buscarMaterial()"
     ></v-text-field>
     <v-card-text>
@@ -20,15 +24,13 @@
         :items="listaMateriales"
         :search="busquedaMaterial"
         :open.sync="open"
-      ><!-- :filter="filter" -->
+        return-object
+      >
         <template v-slot:append="{ item }">
-          <v-btn x-small @click="agregarMaterial(item)">Agregar</v-btn>
+         {{ item.nombre }} <v-btn v-if="cpxRefDrawerPartida" x-small @click="agregarMaterial(item)">Agregar</v-btn>
         </template>
       </v-treeview>
     </v-card-text>
-
-    Busqueda de Partida
-    <v-divider></v-divider>
   </div>
 </template>
 

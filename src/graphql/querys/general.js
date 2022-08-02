@@ -163,6 +163,8 @@ query Q_GET_EMPRESA($emp_id: bigint!) {
     telefono
     representante
     usuarios
+    color
+    eslogan
   }
 }
 `

@@ -12,8 +12,10 @@
       </v-btn>
     </v-row>
     <v-row>
+      <!-- {{ lista }} -->
       <v-layout child-flex>
-        <tabla-agregar-material :lista="lista" :cabecera="cabecera" :_agregar-material="agregarMaterial"></tabla-agregar-material>
+        <!-- {{ lista }} -->
+        <tabla-agregar-material :_lista="lista"></tabla-agregar-material>
         
       </v-layout>
     </v-row>
@@ -29,7 +31,7 @@
       right
       width="500"
     >
-      <drawer-seleccion-material-partida></drawer-seleccion-material-partida>
+      <drawer-seleccion-material-partida :_agregarMaterial="agregarMaterial"></drawer-seleccion-material-partida>
     </v-navigation-drawer>
   </v-container>
 </template>

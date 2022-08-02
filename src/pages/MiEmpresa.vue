@@ -10,10 +10,12 @@
       </div>
       <div v-if="!skeleton" >
         <v-card>
+          <!-- {{empresa}} -->
           <v-card-title> Informacion General </v-card-title>
           <v-card-text>
             <div class="d-flex flex-column flex-sm-row">
               <div>
+                <!-- logo{{empresa.logo}} -->
                 <v-img
                   :src="empresa.logo"
                   aspect-ratio="2"
@@ -22,12 +24,14 @@
                   max-height="200"
                 ></v-img>
                 <v-file-input
+                  v-model="logoEmpresa"
                   :disabled="!edicion"
                   accept="image/*"
                   label="Logo de la Empresa"
                   style="width:150px"
                   prepend-icon=""
                   dense
+                  @change="cambiarImagen()"
                 ></v-file-input>
               </div>
               <div class="flex-grow-1 pt-2 pa-sm-2">
@@ -131,6 +135,23 @@
                   outlined
                   :rules="usuarioRules.giroRules"
                 ></v-text-field>
+                <v-row> 
+                  <v-color-picker
+                    v-model="empresa.color"
+                    class="ma-2"
+                    canvas-height="200"
+                    hide-inputs
+                    hide-mode-switch
+                  ></v-color-picker>
+                  <v-textarea
+                    v-model="empresa.eslogan"     
+                    :readonly="!edicion"
+                    label="Eslogan"
+                    dense
+                    outlined
+                    class="pl-2 pr-3"
+                  ></v-textarea>
+                </v-row>
 
                 <v-row align="center" justify="space-around">
                   <div v-if="!edicion" class="mt-2">
@@ -340,6 +361,8 @@ export default {
           id:'',
           nombre:''
         },
+        eslogan: '',
+        color: '',
         select: null
       },
       loadingEdicionEmpresa:false,
@@ -370,7 +393,9 @@ export default {
       show1: true,
       show2: true,
       region: [],
-      comuna: []
+      comuna: [],
+      logoEmpresa: null,
+      logoFileReader: null
     }
 
   },
@@ -396,6 +421,20 @@ export default {
     console.log('EMPRESA:',this.datosEmpresa,'USUARIO:',this.datosUsuario)
   },
   methods: {
+    cambiarImagen() {
+      console.log('logo: ', this.logoEmpresa)
+       const reader = new FileReader()
+
+        let rawImg;
+        reader.onloadend = () => {
+          rawImg = reader.result;
+          console.log(rawImg);
+          this.logoFileReader = rawImg
+          this.empresa.logo = rawImg
+        }
+        reader.readAsDataURL(this.logoEmpresa);
+        
+    },
     async cargarEmpresa() {
       const { data: { kangusoft_emp } } = await getEmpresa(this.datosEmpresa.id)
       console.log('DATA EMP:',kangusoft_emp)
@@ -416,6 +455,8 @@ export default {
       this.empresa.region = kangusoft_emp[0].com.prov.reg.id
       this.empresa.comuna.id = kangusoft_emp[0].com.id
       this.empresa.comuna.nombre = kangusoft_emp[0].com.nombre
+      this.empresa.color = kangusoft_emp[0].color
+      this.empresa.eslogan = kangusoft_emp[0].eslogan
       this.cargarComuna(this.empresa.region)
       this.copyComuna.id = kangusoft_emp[0].com.id
       this.copyComuna.nombre =  kangusoft_emp[0].com.nombre
@@ -450,14 +491,16 @@ export default {
      async grabarEdicionEmpresa(){
       this.loadingEdicionEmpresa = true
       try {
+        console.log('logoFileReader: ', this.logoFileReader);
+
         if(this.copyComuna.id == this.empresa.comuna.id){
         console.log("HOLA")
-        const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna.id)
+        const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna.id, this.empresa.color,this.empresa.eslogan, this.empresa.logo) //this.logoFileReader
         console.log('resp datos contacto: ', resp)
         this.edicion = false
         }else if(this.copyComuna.id != this.empresa.comuna.id){
            console.log("HOLA")
-        const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna)
+        const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna, this.empresa.color,this.empresa.eslogan, this.empresa.logo) // this.logoFileReader
         console.log('resp datos contacto: ', resp)
         this.edicion = false
         }

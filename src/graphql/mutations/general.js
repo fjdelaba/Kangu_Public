@@ -1,8 +1,8 @@
 import gql from 'graphql-tag'
 
 const UPDATE_EMPRESA = gql`
-mutation M_UPDATE_EMPRESA($id: bigint!,$direccion: String!, $email: String!, $giro: String!, $nombre: String!, $representante: String!, $rut: String!, $telefono: String!, $com_fk: bigint!) {
-  update_kangusoft_emp(where: {id: {_eq: $id}}, _set: {direccion: $direccion, email: $email, giro: $giro, nombre: $nombre, representante: $representante, telefono: $telefono, rut: $rut, com_fk: $com_fk}) {
+mutation M_UPDATE_EMPRESA($id: bigint!,$direccion: String!, $email: String!, $giro: String!, $nombre: String!, $representante: String!, $rut: String!, $telefono: String!, $com_fk: bigint!, $color: String!, $eslogan: String!, $logo: String!) {
+  update_kangusoft_emp(where: {id: {_eq: $id}}, _set: {direccion: $direccion, email: $email, giro: $giro, nombre: $nombre, representante: $representante, telefono: $telefono, rut: $rut, com_fk: $com_fk, color: $color, eslogan: $eslogan, logo: $logo}) {
   returning {
     activo
     direccion
@@ -14,6 +14,9 @@ mutation M_UPDATE_EMPRESA($id: bigint!,$direccion: String!, $email: String!, $gi
     rut
     representante
     telefono
+    color
+    eslogan
+    logo
   }
 }
 }
