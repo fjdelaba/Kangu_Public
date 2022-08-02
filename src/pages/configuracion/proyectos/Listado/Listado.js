@@ -10,25 +10,25 @@ export default {
         {
           text: 'Código',
           align: 'start',
-     
+          
           value: 'codigo',
         },
         {
           text: 'Nombre',
           align: 'start',
-       
+          
           value: 'nombre',
         },
         {
           text: 'Mandante',
           align: 'start',
-          width: "200px",
+          width: "300px",
           value: 'ent.razon_social',
         },
         {
           text: 'Monto Contrato',
           align: 'start',
-        
+          
           value: 'valor_contractual'
         },
         {

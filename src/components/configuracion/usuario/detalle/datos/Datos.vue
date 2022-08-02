@@ -119,16 +119,19 @@
                   @click="asignarNuevaPassword()"
                 >Asignar nueva contraseña</v-btn>
                 <v-btn v-if="!cpxOrigenConfiguracion" color="primary" small @click="diaglogCambiarPassword = true">Cambiar contraseña</v-btn>
+              
                 <div v-if="edicion" class="mt-2">
                   <v-btn
+                    class="mr-1"
                     color="primary"
                     :loading="loadingDatosGenerales"
                     :disabled="loadingDatosGenerales"
                     small
                     @click="grabarEdicionUsuario()"
                   >Guardar</v-btn>
-                  <v-btn color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
+                  <v-btn  class="ml-1" color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
                 </div>
+              
                 <div v-else class="mt-2">
                   <v-btn color="primary" small @click="editarUsuario()">Editar</v-btn>
                 </div>
@@ -136,7 +139,7 @@
                   <v-btn
                     :loading="loading4"
                     :disabled="loading4"
-                    :color="user.activo ? 'error' : 'success'"
+                    :color="user.activo ? 'error' : 'primary'"
                     small
                     @click="cambiarEstadoUsuario()"
                   > {{ cpxTextoBotonUpdateEstado }}
@@ -456,7 +459,7 @@
               Cancelar
             </v-btn>
             <v-btn
-              color="success"
+              color="primary"
               small
               @click="cambiarClave()"
             >

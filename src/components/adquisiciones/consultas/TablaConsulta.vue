@@ -245,7 +245,7 @@
             </v-list>
           </v-menu>
           <v-spacer></v-spacer>
-          <v-col cols="7" class="d-flex text-right align-center">
+          <v-col cols="8" class="d-flex text-right align-center">
             <v-text-field
               v-model="buscarOcs"
               append-icon="mdi-magnify"
@@ -272,7 +272,7 @@
                   prepend-icon=""
                   readonly
                   outlined
-                  class="py-0"
+                  class="pt-2 mt-2"
                   dense
                   v-bind="attrs"
                   v-on="on"
@@ -294,7 +294,7 @@
                   dense
                   @click="menu = false"
                 >
-                  Cancel
+                  Cancelar
                 </v-btn>
                 <v-btn
                   text
@@ -328,7 +328,7 @@
             </v-badge>
             <v-btn
               dark
-              x-small
+              small
               class="mx-1"
               color="primary"
               @click="limpiarFiltros()"
@@ -469,7 +469,7 @@
           </template>
           <template v-slot:item.actions="{ item }">
             <div><v-btn
-              x-small
+              small
               @click="abrirDetalle(item)"
             > Abrir </v-btn>
             </div>

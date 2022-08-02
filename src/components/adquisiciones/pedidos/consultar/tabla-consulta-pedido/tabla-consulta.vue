@@ -399,7 +399,7 @@
         </template>
         <template v-slot:item.actions="{ item }">
           <div><v-btn
-            x-small
+            small
             @click="abrirDetalle(item)"
           > Abrir </v-btn>
           </div>

@@ -3,9 +3,10 @@
   <v-container class="white">
     <v-btn
       v-if="detalle == true"
-      color="success"
+      color="primary"
       dark
       large
+      class="mb-3"
     
       @click="editarInformacion()"
     ><v-icon left>mdi-pencil</v-icon> 

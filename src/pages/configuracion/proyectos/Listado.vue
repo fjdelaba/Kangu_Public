@@ -51,15 +51,17 @@
                     :items="proyectos"
                     :items-per-page="10"
                     :search="searchQuery"
-                    class="elevation-1"
+                    class="flex-grow-1"
                     loading="true"
+                    dense
                   >
+                    
                     <template v-slot:item.actions="{item}">
                       <v-btn
-                        
+                        small
                         @click="abrirDetalle(item)"
-                      ><v-icon left>mdi-eye</v-icon> 
-                        Detalle 
+                      ><v-icon></v-icon> 
+                      Abrir 
                       </v-btn> 
                     </template> 
                     <template v-slot:item.valor_contractual="{item}">

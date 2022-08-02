@@ -2,10 +2,11 @@
   <v-container class="white">
     <v-btn
       v-if="detalle == true"
-      color="success"
+      color="primary"
       dark
       large
       @click="editarInformacion()"
+      class="mb-3"
     ><v-icon left>mdi-pencil</v-icon>
       EDITAR
     </v-btn>

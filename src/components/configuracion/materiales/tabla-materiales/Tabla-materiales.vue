@@ -56,19 +56,21 @@
           :items="materiales"
           :search="searchQuery"
           class="flex-grow-1"
+          dense
         >
-          <template v-slot:item.rut="{ item }">
+        <v-row dense>
+          <template v-slot:item.rut="{ }">
             <div class="font-weight-bold">
-              <div>{{ item.rut }}</div>
+              <div>{{}}</div>
             </div>
           </template>
 
           <template v-slot:item.razon_social="{ item }">
-            <div class="font-weight-bold">
+            <div class="font-weight-bold" >
               <div>{{ item.razon_social }}</div>
             </div>
           </template>
-          <template v-slot:item.activo="{ item }">
+          <template v-slot:item.activo="{ item }" dense>
             <div>
               <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
             </div>
@@ -77,11 +79,11 @@
           <template v-slot:item.fec_creacion="{ item }">
             <div>{{ item.fec_creacion | formatDate("ll") }}</div>
           </template>
-
+            </v-row>
           <template v-slot:item.action="{ item }">
             <div class="actions">
-              <v-btn icon @click="cargarDetalle(item.id)">
-                <v-icon>mdi-open-in-new</v-icon>
+              <v-btn small @click="cargarDetalle(item.id)">
+                 Abrir
               </v-btn>
             </div>
           </template>

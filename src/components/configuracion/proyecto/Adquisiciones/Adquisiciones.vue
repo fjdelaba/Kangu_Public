@@ -3,9 +3,10 @@
 
     <v-btn
       v-if="detalle == true"
-      color="success"
+      color="primary"
       dark
       large
+      class="mb-3"
       @click="editarAdquisiciones()"
     ><v-icon left>mdi-pencil</v-icon>
       EDITAR

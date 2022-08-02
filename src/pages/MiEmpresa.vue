@@ -161,8 +161,12 @@
                       @click="edicion = true"
                     >Editar</v-btn>
                   </div>
+                  </v-row>
+                  <v-row  align="center" justify="space-around">
+                 
                   <div v-if="edicion" class="mt-2">
                     <v-btn
+                    class="mr-2"
                       color="primary"
                       small
                       :loading="loadingEdicionEmpresa"
@@ -170,11 +174,13 @@
                       @click="grabarEdicionEmpresa()"
                     >Guardar</v-btn>
                     <v-btn
+                    class="ml-2"
                       color="primary"
                       small
                       @click="cancelarEdicionEmpresa()"
                     >Cancelar</v-btn>
                   </div>
+                
                 </v-row>
               </div>
             </div>

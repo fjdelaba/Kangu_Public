@@ -18,7 +18,7 @@ export default {
                 { text: "Rut", align: "left", value: "rut" },
                 { text: "Fecha Creacion", align: "left", value: "fec_creacion" },
                 { text: "activo", value: "activo" },
-                { text: "", sortable: false, align: "right", value: "action" },
+                { text: "Acción", sortable: false, align: "right", value: "action" },
             ],
             consulta: true,
             skeleton:true,

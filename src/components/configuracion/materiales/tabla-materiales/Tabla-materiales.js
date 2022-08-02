@@ -12,19 +12,19 @@ export default {
             datosEmpresa: "",
             materiales:[],
             headers: [
-                { text: "Codigo", align: "left", value: "id" },
-                { text: "Nombre", align: "left", value: "nombre" },
-                { text: "Unidad/Formato", align: "left", value: "unidad" },
-                { text: "activo", value: "activo" },
-                { text: "", sortable: false, align: "right", value: "action" },
+                { text: "Nombre", align: "start", value: "nombre", width: "300px",},
+                { text: "Unidad/Formato", align: "start", value: "unidad", },
+                { text: "activo", value: "activo",width: "100px",},
+                { text: "Acción", sortable: false, align: "right", value: "action", width: "200px", },
             ],
             skeleton:true,
             breadcrumbs: [
                 {
                   text: 'Materiales',
+                  
                 },
                 {
-                  text: 'Listado'
+                  text: 'Listado',
                 }
               ],
               copyMateriales:[],

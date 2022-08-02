@@ -12,7 +12,6 @@
         <v-col cols="auto">
           <v-dialog
             v-model="abrirDialog"
-
             persistent
             transition="dialog-top-transition"
             max-width="650"
@@ -490,13 +489,15 @@
         :items="usuarios"
         :search="searchQuery"
         class="flex-grow-1"
+        dense
       >
+      <v-row dense>
         <template v-slot:item.rut="{ item }">
           <div class="font-weight-bold">
             <div>{{ item.rut }}</div>
           </div>
         </template>
-
+      
         <template v-slot:item.nombre="{ item }">
           <div class="font-weight-bold">
             <div>{{ item.nombre }}</div>
@@ -545,11 +546,12 @@
 
         <template v-slot:item.action="{ item }">
           <div class="actions">
-            <v-btn icon @click="cargarDetalle(item.id)">
-              <v-icon>mdi-open-in-new</v-icon>
+            <v-btn @click="cargarDetalle(item.id)">
+              Abrir
             </v-btn>
           </div>
         </template>
+      </v-row>
       </v-data-table>
     </div>
   </div>
