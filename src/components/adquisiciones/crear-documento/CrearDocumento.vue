@@ -63,7 +63,7 @@
             </v-btn-toggle> -->
             <v-form ref="formPaso1" v-model="valid" lazy-validation>
               <!-- <v-container class="ma-0 pa-0"> -->
-              <p class="ma-0">Informacion General</p> 
+              <p class="ma-0">Información General</p> 
               <v-divider></v-divider>
               <v-row >
                 <v-col 

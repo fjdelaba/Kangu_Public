@@ -253,10 +253,10 @@
               </v-col>
               <v-row class="pl-3" align="center">
                 <v-col
-                  cols="12"
+                  cols="6"
                   sm="6"
-                  md="6"
-                  class="pb-0 pt-0 mb-0 mt-0"
+                  md="12"
+                  class="pb-0 pt-0 mb-0 mt-0 ml-2"
                 >
                   <p class="font-weight-black">Total: {{ material.subtotal | currency }} {{ moneda.nombre }}</p>
                 </v-col>

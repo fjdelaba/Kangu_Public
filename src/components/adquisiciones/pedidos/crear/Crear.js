@@ -74,6 +74,10 @@ export default {
       this.cargarProyectosPorUsuarios()
     },
     methods: {
+      obtengoRespuesta(resp){
+        console.log("resp:", resp)
+        this.dialogDelete = resp
+      },
       obtengoMateriales(datos) {
         console.log("arreglo:", datos)
         for(let mat of datos){

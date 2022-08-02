@@ -22,7 +22,7 @@ export default {
   //   ]
   // }, 
   {
-    text: 'Configuracion',
+    text: 'Configuración',
     items: menuConfiguracion
   }]
 }

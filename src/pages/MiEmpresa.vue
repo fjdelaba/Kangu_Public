@@ -1,6 +1,6 @@
 <template>
-  <v-container>
-    <v-row><v-col><H2>Mi Empresa</H2></v-col></v-row>
+  <v-container class="white">
+  <v-row class="pl-4 pb-3"><H2>Mi Empresa</H2></v-row>
     <div>
       <div v-if="skeleton">
         <v-skeleton-loader

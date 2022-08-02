@@ -53,7 +53,8 @@
           width="100%"
           class="pb-3 pt-3"
         >    
-          <cabecera-pedidos :nombre="nombrePedido" ></cabecera-pedidos>
+          <cabecera-pedidos :nombre="nombrePedido" @modal="obtengoRespuesta"></cabecera-pedidos>
+         
         </v-sheet>
         <v-row>
           <v-col cols="12">
