@@ -71,9 +71,9 @@
             </div>
           </template>
           <template v-slot:item.activo="{ item }">
-            
+            <div>
               <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
-      
+            </div>
           </template>
 
           <template v-slot:item.fec_creacion="{ item }">

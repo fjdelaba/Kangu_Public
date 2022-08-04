@@ -93,7 +93,7 @@ export default {
         { text: "Cargo", value: "cargo" },
         { text: "FechaCreacion", value: "fec_creacion" },
         { text: "activo", value: "activo" },
-        { text: "", sortable: false, align: "right", value: "action" },
+        { text: "Acción", sortable: false, align: "right", value: "action" },
       ],
       users,
     };
