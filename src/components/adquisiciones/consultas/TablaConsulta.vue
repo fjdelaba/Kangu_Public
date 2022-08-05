@@ -10,6 +10,14 @@
         <!-- {{ filtros }} -->
       </div>
       <!-- {{ocs}} -->
+     
+      <v-dialog v-if="verPdf" v-model="verPdf"> <pdf
+        ref="refpdf"
+        :fechas="dateRangeText"
+        :oc="cpxDatosTabla"
+        :tipo="filtros.estados"
+      ></pdf>  <v-btn @click="exportToPDF()">Descargar PDF </v-btn></v-dialog>
+
       <v-card>
         <!-- users list -->
         <v-row v-if="false" dense class="pa-2 align-center">
@@ -241,6 +249,9 @@
                   name="lineas_oc.xls"
                 >Descargar Lineas
                 </download-excel> </v-list-item-title>
+              </v-list-item>
+              <v-list-item link @click="mostrarPDF()"> <!-- v-for="(item, i) in items" :key="i" -->
+                <v-list-item-title> Descargar PDF </v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -499,6 +510,7 @@
       persistent
       max-width="580"
     >
+    
       <modal-filtros :_aplicar-filtros="mostrarFiltros" :_valores-filtros="valoresFiltros" :_filtros="filtros"></modal-filtros>
     </v-dialog>
   </div>
