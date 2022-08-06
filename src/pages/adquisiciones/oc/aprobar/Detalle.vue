@@ -21,7 +21,7 @@
             :materiales="materialesOcSeleccionada"
             :cabecera="cabecera"
             observacion=""
-            :aprobacion="aprobacion"
+            :origen="2"
             :aprobadores="aprobadores"
             :tipo_documento="tipo_documento"
           ></previsualizacion>

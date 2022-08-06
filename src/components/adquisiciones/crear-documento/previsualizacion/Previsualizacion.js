@@ -1,5 +1,6 @@
 /* eslint-disable */
 import CuadroResumen from "../../../general/cuadro-resumen/CuadroResumen.vue";
+import NewCuadroResumen from "../../../general/new-cuadro-resumen/NewCuadroResumen.vue";
 import Pipeline from "../../../general/pipeline/Pipeline.vue";
 import DistribucionLineasPartidas from "../../../adquisiciones/distribucion-lineas-partidas/DistribucionLineasPartidas.vue";
 import ModalFinalAprobacion from "../../../adquisiciones/modal-final-aprobacion/ModalFinalAprobacion.vue"
@@ -15,17 +16,17 @@ export default {
     CuadroResumen,
     Pipeline,
     DistribucionLineasPartidas,
-    ModalFinalAprobacion
+    ModalFinalAprobacion,
+    NewCuadroResumen
   },
   props: {
     materiales: [],
     cabecera: {},
     observacion: "",
     listaPartidas: [],
-    consultas: "",
-    aprobacion: {
-      type: Boolean,
-      default: false,
+    origen: { // 1 = crear, 2 = aprobacion, 3 = consultar
+      Type: Number,
+      default: 0
     },
     regla: [],
     aprobadores: [],
@@ -33,6 +34,10 @@ export default {
       type: Number,
       default: 0,
     },
+    files:{
+      Type: Array,
+      default: () =>[]
+    }
   },
 
   data() {
@@ -63,7 +68,7 @@ export default {
           text: "Material",
           align: "start",
           sortable: false,
-          value: "mat",
+          value: "mat_nombre",
           width: "400px",
         },
         // { text: 'C.C', value: 'oc_det_pars', sortable: false, width: '200px' },
@@ -97,10 +102,19 @@ export default {
       comentario: "",
       mostrarBotones: false,
       dialogDesicion: false,
-      id_apro:0
+      id_apro:0,
+      nombreArchivos:[]
     };
   },
   methods: {
+    getNombreArchivos(){
+      this.nombreArchivos = []
+      console.log('getNombreArchivos')
+      for (const file of this.files) {
+        console.log('File: ', file)
+        this.nombreArchivos.push(file.name)
+      }
+    },
     // async cargarAprobadores() {
     //   this.aprobadores = []
     //   const { data:{ kangusoft_apr } } = await getAprobadoresProyecto()
@@ -237,7 +251,7 @@ export default {
     },
   },
   mounted() {
-    if(this.aprobacion){
+    if(this.origen === 2){
       this.tab = 'flujo'
     }
     console.log("this.$auth.isLoading: ", this.$auth.isLoading);
@@ -276,5 +290,17 @@ export default {
     cpxFecha() {
       return this.$moment(new Date()).format("DD/MM/yy");
     },
+    cpxFiles() {
+      console.log('Paso por aca');
+      if(this.origen === 2 || this.origen === 3){
+        return this.cabecera.adjuntos
+      }else if(this.origen === 1) {
+        console.log('Paso por este sector');
+        for (const file of this.files) {
+          console.log('File: ', file)
+        }
+        return this.files
+      }
+    }
   },
 };

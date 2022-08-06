@@ -15,6 +15,7 @@
         observacion=""
         :consultas="consulta"
         :tipo_documento="tipo_documento"
+        :origen="3"
       ></previsualizacion>
     </div>
   </v-container>

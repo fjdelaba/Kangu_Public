@@ -8,13 +8,15 @@ import { getProyectosUsuarioAprobador, getFiltrosConsultas, getProyectosUsuarioC
 import ModalFiltros from '../modal-filtros/ModalFiltros.vue'
 import LineasOc from '../lineas-oc/LineasOc.vue'
 import {creaPdfOC } from '../../../utils/pdf-oc-template'
+import PDFOC from '../../../pdf/adquisiciones/oc/Oc.vue'
 Vue.component("downloadExcel", JsonExcel); 
 
 
 export default {
   components: {
     ModalFiltros,
-    LineasOc
+    LineasOc,
+    PDFOC
   },
   props: {
     origen: {
@@ -142,7 +144,8 @@ export default {
         proveedores: [], // Este filtro no viene desde el modal
         compradores: [] // Este filtro no viene desde el modal
       },
-      mostrarBudgeFiltros: false
+      mostrarBudgeFiltros: false,
+      mostrarDialogPdf: false
     }
   },
   computed: {
@@ -206,6 +209,7 @@ export default {
           { text: "Monto", value: "neto", sortable: true, idx: 6 },
           { text: "Acción", value: "actions", sortable: false, idx: 7 },
           { text: "Acción", value: "pdf", sortable: false, idx: 8 },
+          { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
         ]
       }else if(this.origen === 2){
           return [
@@ -217,13 +221,17 @@ export default {
           { text: "Comprador", value: "usu_nombre", sortable: true, idx: 6 },
           { text: "Monto", value: "neto", sortable: true, idx: 7 },
           { text: "Acción", value: "actions", sortable: false, idx: 8 },
-          { text: "", value: "pdf", sortable: false, idx: 9 }
+          { text: "", value: "pdf", sortable: false, idx: 9 },
+          { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
         ]
       }
       return this.headers;
     },
   },
   methods: {
+    async descargarPdf1(item) {
+      this.mostrarDialogPdf = true
+    },
     async descargarPdf(item) {
       try {
         console.log('item: ', item);

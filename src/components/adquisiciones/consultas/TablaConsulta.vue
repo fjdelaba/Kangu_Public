@@ -489,6 +489,15 @@
             </v-btn>
             </div>
           </template> 
+          <template v-slot:item.pdf1="{ item }">
+            <div><v-btn
+              x-small
+              @click="descargarPdf1(item)"
+            > 
+              <v-icon>mdi-file-pdf-box</v-icon>
+            </v-btn>
+            </div>
+          </template> 
         </v-data-table>
       </v-card>
       
@@ -500,6 +509,14 @@
       max-width="580"
     >
       <modal-filtros :_aplicar-filtros="mostrarFiltros" :_valores-filtros="valoresFiltros" :_filtros="filtros"></modal-filtros>
+    </v-dialog>
+    <v-dialog
+      v-if="mostrarDialogPdf"
+      v-model="mostrarDialogPdf"
+      persistent
+      max-width="580"
+    >
+      <PDFOC></PDFOC>
     </v-dialog>
   </div>
 </template>

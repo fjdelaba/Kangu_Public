@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <!-- <h2>Creacion de Orden de Compra</h2> -->
+  
     <div v-if="$store.state.app.permisosUsuario.oc">
       <v-row
         no-gutters
@@ -58,7 +59,7 @@
                   :tipo_documento="tipoDocumento"
                   :moneda="moneda"
                 ></agregar-material> -->
-                <new-agregar-material></new-agregar-material>
+                <new-agregar-material ref="refAgregarMaterial" :tipo_documento="tipoDocumento" :moneda="moneda"></new-agregar-material>
               </v-stepper-content>
 
               <v-stepper-content step="3">
@@ -70,7 +71,11 @@
               </v-stepper-content>
 
               <v-stepper-content step="4">
-                <previsualizacion
+               <!-- aprobadores: {{aprobadores}}
+               tipoDocumento: {{tipoDocumento}}
+               this.$refs.refAgregarMaterial.listaPartidas: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs}}
+               this.$refs.refAgregarMaterial.comentarioDocumento: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento}} -->
+                <!-- <previsualizacion
                   ref="refPrevisualizacion"
                   :aprobadores="flujoModal"
                   :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.listaPartidas"
@@ -78,6 +83,24 @@
                   :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab"
                   :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"
                   :tipo_documento="tipoDocumento"
+                ></previsualizacion> -->
+              <!-- aprobadores: {{aprobadores}} -->
+               <!-- lista-partidas: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas}} -->
+               <!-- materiales: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista}} -->
+               <!-- cabecera: {{this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab}} -->
+               <!-- observacion: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento}} -->
+               <!-- tipoDocumento: {{tipoDocumento}} -->
+               <!-- {{ this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.files }} -->
+                <previsualizacion
+                  ref="refPrevisualizacion"
+                  :aprobadores="flujoModal"
+                  :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas"
+                  :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista"
+                  :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab"
+                  :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"
+                  :tipo_documento="tipoDocumento"
+                  :origen="1"
+                  :files="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.files"
                 ></previsualizacion>
               </v-stepper-content>
             </v-stepper-items>
@@ -224,100 +247,103 @@ export default {
         // this.pasoStep++
         // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
-          this.moneda =  this.$refs.refinformaciongeneraldoc.oc_cab.moneda
-          let mon_val_fk = 0
+          // let mon_val_fk = 0
           const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
-          switch (cabecera.moneda.id) {
-          case 1: // UF
-            mon_val_fk = this.$store.state.app.indicadores.uf.mon_val_id
-            break
-          case 2: // CLP
-            mon_val_fk = null
-            break
-          case 3: // DOLAR
-            mon_val_fk = this.$store.state.app.indicadores.dolar.mon_val_id
-            break
-          case 4: // EURO
-            mon_val_fk = this.$store.state.app.indicadores.euro.mon_val_id
-            break
-          default:
-            break
-          }
-          if (this.oc_id > 0) {
-            try {
-              const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
+          this.moneda =  this.$refs.refinformaciongeneraldoc.oc_cab.moneda
+          this.tipoDocumento = cabecera.tipoDocumento.id
+          this.pro_fk = cabecera.proyecto.id
+          this.pasoStep++
+          // switch (cabecera.moneda.id) {
+          // case 1: // UF
+          //   mon_val_fk = this.$store.state.app.indicadores.uf.mon_val_id
+          //   break
+          // case 2: // CLP
+          //   mon_val_fk = null
+          //   break
+          // case 3: // DOLAR
+          //   mon_val_fk = this.$store.state.app.indicadores.dolar.mon_val_id
+          //   break
+          // case 4: // EURO
+          //   mon_val_fk = this.$store.state.app.indicadores.euro.mon_val_id
+          //   break
+          // default:
+          //   break
+          // }
+          // if (this.oc_id > 0) {
+          //   try {
+          //     const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
-              this.tipoDocumento = cabecera.tipoDocumento.id
-              const datosCabecera = {
-                des_tip_fk: cabecera.tipoDespacho.id,
-                doc_tip_fk: cabecera.tipoDocumento.id,
-                // emp_fk: 1, // Cambiar
-                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
-                ent_con_fk: cabecera.contacto.id,
-                ent_fk: cabecera.proveedor.id,
-                // est_doc_fk: 4,
-                for_pag_fk: cabecera.formaPago.id,
-                mon_fk: cabecera.moneda.id,
-                nombre: cabecera.nombre,
-                pro_fk: cabecera.proyecto.id,
-                ped_fk: null,
-                mon_val_fk
-              }
+          //     this.tipoDocumento = cabecera.tipoDocumento.id
+          //     const datosCabecera = {
+          //       des_tip_fk: cabecera.tipoDespacho.id,
+          //       doc_tip_fk: cabecera.tipoDocumento.id,
+          //       // emp_fk: 1, // Cambiar
+          //       emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
+          //       ent_con_fk: cabecera.contacto.id,
+          //       ent_fk: cabecera.proveedor.id,
+          //       // est_doc_fk: 4,
+          //       for_pag_fk: cabecera.formaPago.id,
+          //       mon_fk: cabecera.moneda.id,
+          //       nombre: cabecera.nombre,
+          //       pro_fk: cabecera.proyecto.id,
+          //       ped_fk: null,
+          //       mon_val_fk
+          //     }
 
-              const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
+          //     const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
 
-              console.log('resp: ', resp)
-              this.pasoStep++
-            } catch (error) {
-              console.log('error: ', error)
-            }
-          } else {
-            try {
-              this.disabledBotonSiguiente = true
+          //     console.log('resp: ', resp)
+          //     this.pasoStep++
+          //   } catch (error) {
+          //     console.log('error: ', error)
+          //   }
+          // } else {
+          //   try {
+          //     this.disabledBotonSiguiente = true
 
-              this.tipoDocumento = cabecera.tipoDocumento.id
-              console.log('cabecera: ', cabecera)
-              const datosCabecera = {
-                des_tip_fk: cabecera.tipoDespacho.id,
-                doc_tip_fk: cabecera.tipoDocumento.id,
-                // emp_fk: 1, // Cambiar
-                emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
-                ent_con_fk: cabecera.contacto.id,
-                ent_fk: cabecera.proveedor.id,
-                est_doc_fk: 4,
-                for_pag_fk: cabecera.formaPago.id,
-                mon_fk: cabecera.moneda.id,
-                nombre: cabecera.nombre,
-                pro_fk: cabecera.proyecto.id,
-                // usu_fk: 3 // Cambiar
-                usu_fk: this.$store.state.app.datosUsuario.user_id, // Cambiar
-                mon_val_fk
-              }
+          //     this.tipoDocumento = cabecera.tipoDocumento.id
+          //     console.log('cabecera: ', cabecera)
+          //     const datosCabecera = {
+          //       des_tip_fk: cabecera.tipoDespacho.id,
+          //       doc_tip_fk: cabecera.tipoDocumento.id,
+          //       // emp_fk: 1, // Cambiar
+          //       emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
+          //       ent_con_fk: cabecera.contacto.id,
+          //       ent_fk: cabecera.proveedor.id,
+          //       est_doc_fk: 4,
+          //       for_pag_fk: cabecera.formaPago.id,
+          //       mon_fk: cabecera.moneda.id,
+          //       nombre: cabecera.nombre,
+          //       pro_fk: cabecera.proyecto.id,
+          //       // usu_fk: 3 // Cambiar
+          //       usu_fk: this.$store.state.app.datosUsuario.user_id, // Cambiar
+          //       mon_val_fk
+          //     }
 
-              console.log('datosCabecera: ', datosCabecera)
+          //     console.log('datosCabecera: ', datosCabecera)
 
-              const returnPostCabecera = await postCabeceraOC(datosCabecera)
+          //     const returnPostCabecera = await postCabeceraOC(datosCabecera)
 
-              console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
-              this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
-              this.pro_fk = cabecera.proyecto.id
-              // this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id) Sacar comentario
+          //     console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
+          //     this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
+          //     this.pro_fk = cabecera.proyecto.id
+          //     // this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id) Sacar comentario
 
-              this.disabledBotonSiguiente = false
-              this.$notify({
-                group: 'foo',
-                title: 'Creacion de Orden de Compra',
-                text: 'Grabacion exitosa',
-                type: 'success'
-              })
-              this.pasoStep++
-            } catch (error) {
-              console.log('error: ', error)
-            }
+          //     this.disabledBotonSiguiente = false
+          //     this.$notify({
+          //       group: 'foo',
+          //       title: 'Creacion de Orden de Compra',
+          //       text: 'Grabacion exitosa',
+          //       type: 'success'
+          //     })
+          //     this.pasoStep++
+          //   } catch (error) {
+          //     console.log('error: ', error)
+          //   }
 
-          }
-          this.loader = null
+          // }
+          // this.loader = null
         } else {
           console.log('por aca no')
         }
@@ -336,10 +362,13 @@ export default {
         //   this.pasoStep++
         // }
         // this.pasoStep++
+        console.log(' this.$refs.refAgregarMaterial.$refs: ',  this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas)
         console.log('this.$refs.refAgregarMaterial: ', this.$refs.refAgregarMaterial)
-        console.log('this.$refs.refPrevisualizacion: ', this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems)
+        console.log('this.$refs.refPrevisualizacion: ', this.$refs.refPrevisualizacion.getNombrePartida)
+        // console.log('this.$refs.refPrevisualizacion.$refs.refnewcuadroresumen.cpxTotalesItems: ', this.$refs.refPrevisualizacion.$refs.refnewcuadroresumen.cpxTotalesItems)
         // const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
-        const totales = this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems
+        // const totales = this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems
+        const totales = this.$refs.refAgregarMaterial.$refs.refnewcuadroresumen.cpxTotalesItems
 
         console.log('totales: ', totales)
         for (const tot of totales) {
@@ -352,9 +381,10 @@ export default {
             this.impuesto = tot.valor
           }
         }
-
+        console.log('this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false: ', this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false)
         const { data: { kangusoft_apr } } = await getMontoComprador(this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false)
 
+        console.log('kangusoft_apr: ', kangusoft_apr)
         console.log('moneda: ', this.moneda.id)
 
         switch (this.moneda.id) {
@@ -428,6 +458,7 @@ export default {
 
         if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
           this.pasoStep = this.pasoStep + 2
+          this.$refs.refPrevisualizacion.getNombreArchivos()
         }
         console.log('de paso 2 a paso 3')
       } else if (this.pasoStep === 3) {

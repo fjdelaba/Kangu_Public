@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{_lista}}
+    <!-- {{_lista}} -->
     <v-data-table
       :headers="cabecera"
       :items="_lista"
