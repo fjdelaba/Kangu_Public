@@ -22,6 +22,7 @@ import './plugins/moment'
 import './plugins/currency'
 import './plugins/vuetify-money'
 import './plugins/axios'
+import './plugins/toastification'
 
 // FILTERS
 import './filters/capitalize'

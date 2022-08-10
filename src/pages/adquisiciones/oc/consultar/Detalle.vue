@@ -15,6 +15,7 @@
         observacion=""
         :consultas="consulta"
         :tipo_documento="tipo_documento"
+        :origen="3"
       ></previsualizacion>
      
       <v-btn @click="verPdf1()">Ver PDF </v-btn>

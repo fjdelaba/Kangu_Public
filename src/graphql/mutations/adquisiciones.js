@@ -48,7 +48,25 @@ mutation M_UPDATE_OC_INFORMACION_GENERAL($id_oc: bigint = "", $cabecera: kanguso
     }
   }
 }
+`
 
+const INSERT_OC = gql`
+mutation M_INSERT_OC($cabecera: CabeceraOCInput!, $lineas: [DetalleOcInput]!) {
+  insert_oc(cabecera: $cabecera, lineas: $lineas) {
+    error
+    success
+    oc_id
+  }
+}
+`
+
+const UPDATE_FINALIZAR_OC = gql`
+mutation M_UPDATE_FINALIZAR_OC($cabecera: OcCabeceraInput!, $flujoCompra: [FlujoCompraInput]!, $adjuntos: [AdjuntoOcInput]!) {
+  update_oc_cabecera(cabecera: $cabecera, flujoCompra: $flujoCompra, adjuntos: $adjuntos,) {
+    id
+    identificacion
+  }
+}
 `
  
 export {
@@ -56,5 +74,7 @@ export {
   INSERT_DETALLE_OC,
   UPDATE_CABECERA_OC,
   DELETE_OC_DETALLE,
-  UPDATE_OC_INFORMACION_GENERAL
+  UPDATE_OC_INFORMACION_GENERAL,
+  INSERT_OC,
+  UPDATE_FINALIZAR_OC
 }

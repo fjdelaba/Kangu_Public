@@ -359,6 +359,9 @@ export default {
     },
     _edicionPartida:{
       Type: Function
+    },
+    _seleccionPartida:{
+      Type: Function
     }
   },
   mounted() {
@@ -404,6 +407,7 @@ export default {
         this.search = null
         console.log(this.$refs.reftreeviewpartida)
         this.$refs.reftreeviewpartida.updateAll(false)
+        this._seleccionPartida(partida)
       }
       if (this._origen === 2) {
         console.log('this.$refs.reftreeviewpartida: ', this.$refs.reftreeviewpartida)

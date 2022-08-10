@@ -49,7 +49,7 @@
               <v-list-item style="padding-left: 24px">
                 <v-list-item-content>
                   <v-list-item-title class="text-h5">
-                    Orden de Compra: {{cabecera.identificacion}}
+                    Orden de Compra: {{ cabecera.identificacion }}
                   </v-list-item-title>
                   <v-list-item-subtitle class="caption">Fecha: {{ cpxFecha }}</v-list-item-subtitle>
                   <v-list-item-subtitle class="caption">Contacto DLB: {{ $store.state.app.datosEmpresa.email }}</v-list-item-subtitle>
@@ -68,7 +68,7 @@
               </v-row>
               <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor && cabecera.proveedor.rut }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Obra: {{`${cabecera.proyecto.codigo} - ${cabecera.proyecto.nombre}`  }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Obra: {{ `${cabecera.proyecto.codigo} - ${cabecera.proyecto.nombre}` }}</span></v-col>
               </v-row>
               <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Direccion: {{ cabecera.proyecto.direccion }}</span></v-col>
@@ -92,6 +92,7 @@
               <v-divider></v-divider>
               
             </v-row>
+            {{ materiales }}
             <v-data-table
               :headers="headers"
               :items="materiales"
@@ -102,14 +103,14 @@
               :items-per-page="materiales.length"
               dense
             >
-              <template v-slot:item.mat="{ item }">
+              <template v-slot:item.mat_nombre="{ item }">
                 <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:400px">
                   <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
                   <!-- {{ item.nombre }} -->
-                  <span> <span style="font-size: 16px"> {{ item.mat.nombre }} - {{ item.mat.mat_uni.nombre }} </span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span> 
+                  <span> <span style="font-size: 16px"> {{ item.mat_nombre }} - {{ item.mat_unidad }} </span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span> 
                 </div>
               </template>
-              <template v-slot:item.oc_det_pars="{ item, attrs}">
+              <!-- <template v-slot:item.oc_det_pars="{ item, attrs}">
                 <div v-if="item.oc_det_pars.length > 1">
                   <v-tooltip right>
                     <template v-slot:activator="{ on }">
@@ -196,42 +197,11 @@
                       text-color="white"
                       small
                     >
-                      <!-- {{ item.oc_det_pars[0].par_fk }} -->
                       {{ getNombrePartida(item.oc_det_pars[0].par_fk) }}
                     </v-chip>
                   </div>
                 </div>
-                <!-- <div v-if="item.editable">
-                    <v-combobox
-                      v-model="item.par"
-                      :items="listaPartidas"
-                      label="Selecciona la partida"
-                      v-bind="attrs"
-                      item-text="nombre"
-                      item-value="id"
-                      outlined
-                      dense
-                      :return-object="true"
-                    >
-                      <template #item="data">
-                        <v-tooltip bottom>
-                          <template #activator="{ on, attrs }">
-                            <v-layout wrap v-bind="attrs" v-on="on">
-                              <v-list-item-content>
-                                <v-list-item-title>{{ data.item.nombre }}</v-list-item-title>
-                              </v-list-item-content>
-                            </v-layout>
-                          </template>
-                          <span>{{ `${data.item.path}` }}</span>
-                        </v-tooltip>
-                      </template>
-                    </v-combobox>
-                  </div>
-                  <div v-else>
-                    <span>{{ item.par.nombre }}</span> 
-                  </div> -->
-        
-              </template>
+              </template> -->
               <template v-slot:item.cantidad="{ item }">
                 <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
                   <div v-if="item.editable">
@@ -250,8 +220,6 @@
                   <div v-else>
                     <span>{{ item.cantidad | currency_2 }}</span> 
                   </div>
-                  <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
-                  <!-- <span> <span style="font-size: 16px">{{ item.nombre }}</span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span>  -->
                 </div>
               </template>
               <template v-slot:item.precio_unitario="{ item }">
@@ -331,21 +299,32 @@
                 ></v-textarea>
               </v-col>
               <v-col lg="2" md="5" class="py-3 py-3 pr- pl-5">
-                <v-list dense>
+                <v-list v-if="origen === 1" dense>
                   <v-subheader>Archivos</v-subheader>
                   <v-list-item-group
-                    v-model="selectedItem"
                     color="primary"
                   >
                     <v-list-item
-                      v-for="(item, i) in cabecera.adjuntos"
+                      v-for="(item, i) in nombreArchivos"
+                      :key="i"
+                    >
+                      <v-list-item-content>
+                        <v-list-item-title v-text="item"></v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+                <v-list v-else dense>
+                  <v-subheader>Archivos</v-subheader>
+                  <v-list-item-group
+                    color="primary"
+                  >
+                    <v-list-item
+                      v-for="(item, i) in cpxFiles"
                       :key="i"
                       :href="item.url"
                       target="_blank"
                     >
-                      <!-- <v-list-item-icon>
-                        <v-icon v-text="item.icon"></v-icon>
-                      </v-list-item-icon> -->
                       <v-list-item-content>
                         <v-list-item-title v-text="item.nombre"></v-list-item-title>
                       </v-list-item-content>
@@ -356,18 +335,26 @@
               <v-col lg="5" md="5" class="py-3 py-3 pr-5 pl-10">
                 <!-- {{ cpxTotalesItems }} -->
                 <!-- {{materiales}}-{{tipo_documento}} -->
-                <cuadro-resumen
+                <!-- <cuadro-resumen
                   ref="refcuadroresumen"
                   :oc="cabecera"
                   :materiales="materiales"
                   :tipo_documento="tipo_documento"
                   :mostrar-tipos-documento="false"
-                ></cuadro-resumen>
+                ></cuadro-resumen> -->
+                <new-cuadro-resumen
+                  ref="refcuadroresumen"
+                  :oc="cabecera"
+                  :materiales="materiales"
+                  :tipo_documento="tipo_documento"
+                  :mostrar-tipos-documento="false"
+                ></new-cuadro-resumen>
               </v-col>
               
               <v-row justify="end" height="100">
                 <v-col lg="3" md="5" class="py- py- pr- pl-16" >
                   <v-speed-dial
+                    v-if="origen !== 1"
                     v-model="fab"
                     :top="top"
                     :bottom="bottom"

@@ -1,6 +1,6 @@
 import { apolloClient } from '../client'
 import { GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES } from './querys/adquisiciones'
-import { INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL } from './mutations/adquisiciones'
+import { INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL, INSERT_OC, UPDATE_FINALIZAR_OC } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
   return await apolloClient.query({
@@ -141,5 +141,33 @@ export const getMateriales = async (datos) => {
       datos
     },
     fetchPolicy:'network-only'
+  })
+}
+
+export const insertOC = async (cabecera, lineas) => {
+  console.log('cabecera: ',cabecera)
+  console.log('detalle: ',lineas)
+
+  return await apolloClient.mutate({
+    mutation: INSERT_OC,
+    variables: {
+      cabecera,
+      lineas
+    }
+  })
+}
+
+export const updateFinalizarOC = async (cabecera, flujoCompra, adjuntos) => {
+  console.log('cabecera graph: ', cabecera)
+  console.log('flujoCompra graph: ', flujoCompra)
+  console.log('adjuntos graph: ', adjuntos)
+
+  return await apolloClient.mutate({
+    mutation: UPDATE_FINALIZAR_OC,
+    variables: {
+      cabecera,
+      flujoCompra,
+      adjuntos
+    }
   })
 }

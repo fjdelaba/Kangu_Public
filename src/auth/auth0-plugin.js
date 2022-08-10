@@ -110,7 +110,8 @@ export const useAuth0 = ({
           this.isLoading = false
           localStorage.setItem('tokenxjwt_id', `Bearer ${this.user['https://kangusoft.cl/jwt/hasura'].token}`)
           const resp = await getEmpresa(val)
-  
+          
+          console.log('resp.data.kangusoft_emp[0]: ', resp.data.kangusoft_emp[0])
           store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
   
           // console.log('resp: ', resp)          

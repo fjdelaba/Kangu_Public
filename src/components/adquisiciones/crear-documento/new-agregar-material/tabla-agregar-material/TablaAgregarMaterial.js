@@ -77,6 +77,7 @@ export default {
             cantidad += Number(part.cantidad)
           }
           mat.cantidad = cantidad
+          mat.total = Number(mat.cantidad) * Number(mat.precio_unitario)
           // const obj = {
           //   cantidad: mat.partidas[0].cantidad,
           //   id: this.nuevaPartida.id,
