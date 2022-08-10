@@ -24,7 +24,7 @@
         :cabecera="cabecera"
         observacion=""
         :tipo_documento="tipo_documento"
-      ></pdf>  <v-btn @click="exportToPDF()">Descargar PDF </v-btn></v-dialog>
+      ></pdf>  <v-btn @click="exportToPDF()">Descargar PDF </v-btn> </v-dialog>
 
     </div>
   

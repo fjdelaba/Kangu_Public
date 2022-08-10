@@ -3712,6 +3712,15 @@ easy-stack@1.0.1:
   resolved "https://registry.yarnpkg.com/easy-stack/-/easy-stack-1.0.1.tgz#8afe4264626988cabb11f3c704ccd0c835411066"
   integrity sha512-wK2sCs4feiiJeFXn3zvY0p41mdU5VUgbgs1rNsc/y5ngFUijdWd+iIN8eoyuZHKB8xN6BL4PdWmzqFmxNg6V2w==
 
+easyinvoice@^2.3.3:
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/easyinvoice/-/easyinvoice-2.3.3.tgz#cfe4c1067289f4ee45062cd558197cf73b4b84d1"
+  integrity sha512-NMewAFtP7xPGeE3qh66KSpUdS8Zl3sCVdVBoLWwQ1jYPQI9atnInBHD3RNeKLR9cZsApRwlGt0P1kFs5wt9V2A==
+  dependencies:
+    axios "^0.27.2"
+    file-saver "^2.0.5"
+    is-base64 "^1.1.0"
+
 ecc-jsbn@~0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/ecc-jsbn/-/ecc-jsbn-0.1.2.tgz#3a83a904e54353287874c564b7549386849a98c9"
@@ -4304,6 +4313,11 @@ file-loader@^6.2.0:
   dependencies:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
+
+file-saver@^2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/file-saver/-/file-saver-2.0.5.tgz#d61cfe2ce059f414d899e9dd6d4107ee25670c38"
+  integrity sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==
 
 file-uri-to-path@1.0.0:
   version "1.0.0"
@@ -5238,6 +5252,11 @@ is-arrayish@^0.3.1:
   resolved "https://registry.yarnpkg.com/is-arrayish/-/is-arrayish-0.3.2.tgz#4574a2ae56f7ab206896fb431eaeed066fdf8f03"
   integrity sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==
 
+is-base64@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/is-base64/-/is-base64-1.1.0.tgz#8ce1d719895030a457c59a7dcaf39b66d99d56b4"
+  integrity sha512-Nlhg7Z2dVC4/PTvIFkgVVNvPHSO2eR/Yd0XzhGiXCXEvWnptXlXa/clQ8aePPiMuxEGcWfzWbGw2Fe3d+Y3v1g==
+
 is-bigint@^1.0.1:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/is-bigint/-/is-bigint-1.0.4.tgz#08147a1875bc2b32005d41ccd8291dffc6691df3"
@@ -5659,6 +5678,13 @@ jspdf-autotable@^3.5.25:
   version "3.5.25"
   resolved "https://registry.yarnpkg.com/jspdf-autotable/-/jspdf-autotable-3.5.25.tgz#c87faf474d3b4e3fa158c44b70af5dd07d37a02f"
   integrity sha512-BIbDd/cilRbVm5PmR+ZonolSqRtm0AvZDpTz+rrWed7BnFj5mqF7x7lkxDAMzPudLapktHUk6cxipcvUzal8cg==
+
+jspdf-invoice-template@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/jspdf-invoice-template/-/jspdf-invoice-template-1.4.3.tgz#98324773a1f625ea8d7eee32c5461c826b379647"
+  integrity sha512-ghNX+cWwyQrLc82Lb8fFvYhv5HrClFaO6AGd+KHmBomIju4dvyqkO2dw0rCiSDh4AX8pQem9iarck/qq8Q7hBg==
+  dependencies:
+    jspdf "^2.3.1"
 
 jspdf@^2.3.1, jspdf@^2.5.1:
   version "2.5.1"

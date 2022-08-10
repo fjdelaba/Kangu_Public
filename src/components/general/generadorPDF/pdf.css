@@ -403,7 +403,7 @@ h6 {
 }
 img.mediana{
   width: 100px;
-  height: 100px;
+  height: 50px;
 }
 p,
 div {
@@ -622,6 +622,12 @@ kbd {
 
 .cs-bold {
   font-weight: 700;
+}
+.firma{
+  text-align: center;
+}
+.letraCabecera {
+  font-size: 11px;
 }
 
 .cs-m0 {
@@ -886,6 +892,12 @@ kbd {
   overflow: hidden;
   border-radius: 6px;
 }
+.cs-round_border2 {
+  margin-top: 10px;
+  border: 1px solid #eaeaea;
+  overflow: hidden;
+  border-radius: 6px;
+}
 
 .cs-border_none {
   border: none;
@@ -935,6 +947,7 @@ kbd {
 .cs-invoice.cs-style1 .cs-left_footer {
   width: 55%;
   padding: 10px 15px;
+  border-right: 1px solid #eaeaea;
 }
 
 .cs-invoice.cs-style1 .cs-right_footer {
