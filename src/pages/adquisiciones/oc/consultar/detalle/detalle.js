@@ -1,9 +1,11 @@
 /* eslint-disable */
 import Previsualizacion from '../../../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
 import {getDetalleOC} from '../../../../../graphql/adquisiciones'
+import pdf from '../../../../../components/general/generadorPDF/pdf.vue'
 export default {
   components: {
-    Previsualizacion
+    Previsualizacion,
+    pdf
   },
   mounted() {
     this.idOcSeleccionada = this.$route.query
@@ -11,6 +13,7 @@ export default {
   },
   data() {
     return {
+      verPdf:false,
       skeleton:true,
       idOcSeleccionada:'',
       detalleOcSeleccionada:'',
@@ -68,5 +71,15 @@ export default {
         this.cabecera.proyecto.codigo = kangusoft_oc[0].pro.codigo
         this.skeleton = false
     },
+    exportToPDF () {
+      console.log("this.$refs.refpdf",this.$refs)
+      this.$refs.refpdf.exportToPDF()
+      
+    },
+    verPdf1(){
+      this.verPdf = true
+    }
+  
+    
   }
 }

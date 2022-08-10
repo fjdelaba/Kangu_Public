@@ -23,25 +23,17 @@
 
               <v-divider></v-divider>
               <!-- :complete="pasoStep > 2" -->
+
               <v-stepper-step
-                :complete="false"
+                :complete="pasoStep > 2"
                 step="2"
-              >
-                Selección de Lineas
-              </v-stepper-step>
-
-              <v-divider></v-divider>
-
-              <v-stepper-step
-                :complete="pasoStep > 3"
-                step="3"
               >
                 Materiales
               </v-stepper-step>
 
               <v-divider></v-divider>
 
-              <v-stepper-step step="4">
+              <v-stepper-step step="3">
                 Previsualización
               </v-stepper-step>
             </v-stepper-header>
@@ -63,15 +55,7 @@
               </v-stepper-content>
 
               <v-stepper-content step="3">
-                <v-card
-                  class="mb-12"
-                  color="grey lighten-1"
-                  height="200px"
-                ></v-card>
-              </v-stepper-content>
-
-              <v-stepper-content step="4">
-               <!-- aprobadores: {{aprobadores}}
+                <!-- aprobadores: {{aprobadores}}
                tipoDocumento: {{tipoDocumento}}
                this.$refs.refAgregarMaterial.listaPartidas: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs}}
                this.$refs.refAgregarMaterial.comentarioDocumento: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento}} -->
@@ -84,13 +68,13 @@
                   :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"
                   :tipo_documento="tipoDocumento"
                 ></previsualizacion> -->
-              <!-- aprobadores: {{aprobadores}} -->
-               <!-- lista-partidas: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas}} -->
-               <!-- materiales: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista}} -->
-               <!-- cabecera: {{this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab}} -->
-               <!-- observacion: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento}} -->
-               <!-- tipoDocumento: {{tipoDocumento}} -->
-               <!-- {{ this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.files }} -->
+                <!-- aprobadores: {{aprobadores}} -->
+                <!-- lista-partidas: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas}} -->
+                <!-- materiales: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista}} -->
+                <!-- cabecera: {{this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab}} -->
+                <!-- observacion: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento}} -->
+                <!-- tipoDocumento: {{tipoDocumento}} -->
+                <!-- {{ this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.files }} -->
                 <previsualizacion
                   ref="refPrevisualizacion"
                   :aprobadores="flujoModal"
@@ -171,7 +155,7 @@ import CrearDocumento from '../../../components/adquisiciones/crear-documento/Cr
 import AgregarMaterial from '../../../components/adquisiciones/crear-documento/agregar-materiales/AgregarMaterial.vue'
 import InformacionGeneral from '../../../components/adquisiciones/crear-documento/informacion-general/InformacionGeneral.vue'
 import Previsualizacion from '../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
-import { getMontoComprador, postCabeceraOC, updateCabeceraOC, updateOCInformacionGeneral } from '../../../graphql/adquisiciones'
+import { getMontoComprador, postCabeceraOC, updateCabeceraOC, updateOCInformacionGeneral, insertOC } from '../../../graphql/adquisiciones'
 import DialogFinalDocumento from '../../../components/adquisiciones/dialog-final-documento/DialogFinalDocumento.vue'
 import DialogBorradorVue from '../../../components/adquisiciones/dialog-borrador/DialogBorrador.vue'
 import { getFlujoAprobadoresProyecto } from '../../../graphql/aprobaciones'
@@ -205,7 +189,9 @@ export default {
       flujoDocumento: [],
       tipoDocumento: 0,
       tipoDocumentoBoleta: 1,
-      moneda: {}
+      moneda: {},
+      datosCabecera: {},
+      lineasOC:[] 
     }
   },
   computed: {
@@ -244,106 +230,14 @@ export default {
     async avanzar() {
       if (this.pasoStep === 1) {
         this.$store.dispatch('app/setLoading', true)
-        // this.pasoStep++
-        // console.log('de paso 1 a paso 2')
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
-          // let mon_val_fk = 0
           const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
+          this.datosCabecera = { ...this.$refs.refinformaciongeneraldoc.oc_cab }
           this.moneda =  this.$refs.refinformaciongeneraldoc.oc_cab.moneda
           this.tipoDocumento = cabecera.tipoDocumento.id
           this.pro_fk = cabecera.proyecto.id
           this.pasoStep++
-          // switch (cabecera.moneda.id) {
-          // case 1: // UF
-          //   mon_val_fk = this.$store.state.app.indicadores.uf.mon_val_id
-          //   break
-          // case 2: // CLP
-          //   mon_val_fk = null
-          //   break
-          // case 3: // DOLAR
-          //   mon_val_fk = this.$store.state.app.indicadores.dolar.mon_val_id
-          //   break
-          // case 4: // EURO
-          //   mon_val_fk = this.$store.state.app.indicadores.euro.mon_val_id
-          //   break
-          // default:
-          //   break
-          // }
-          // if (this.oc_id > 0) {
-          //   try {
-          //     const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
-
-          //     this.tipoDocumento = cabecera.tipoDocumento.id
-          //     const datosCabecera = {
-          //       des_tip_fk: cabecera.tipoDespacho.id,
-          //       doc_tip_fk: cabecera.tipoDocumento.id,
-          //       // emp_fk: 1, // Cambiar
-          //       emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
-          //       ent_con_fk: cabecera.contacto.id,
-          //       ent_fk: cabecera.proveedor.id,
-          //       // est_doc_fk: 4,
-          //       for_pag_fk: cabecera.formaPago.id,
-          //       mon_fk: cabecera.moneda.id,
-          //       nombre: cabecera.nombre,
-          //       pro_fk: cabecera.proyecto.id,
-          //       ped_fk: null,
-          //       mon_val_fk
-          //     }
-
-          //     const resp = await updateOCInformacionGeneral(this.oc_id, datosCabecera)
-
-          //     console.log('resp: ', resp)
-          //     this.pasoStep++
-          //   } catch (error) {
-          //     console.log('error: ', error)
-          //   }
-          // } else {
-          //   try {
-          //     this.disabledBotonSiguiente = true
-
-          //     this.tipoDocumento = cabecera.tipoDocumento.id
-          //     console.log('cabecera: ', cabecera)
-          //     const datosCabecera = {
-          //       des_tip_fk: cabecera.tipoDespacho.id,
-          //       doc_tip_fk: cabecera.tipoDocumento.id,
-          //       // emp_fk: 1, // Cambiar
-          //       emp_fk: this.$store.state.app.datosEmpresa.id, // Cambiar
-          //       ent_con_fk: cabecera.contacto.id,
-          //       ent_fk: cabecera.proveedor.id,
-          //       est_doc_fk: 4,
-          //       for_pag_fk: cabecera.formaPago.id,
-          //       mon_fk: cabecera.moneda.id,
-          //       nombre: cabecera.nombre,
-          //       pro_fk: cabecera.proyecto.id,
-          //       // usu_fk: 3 // Cambiar
-          //       usu_fk: this.$store.state.app.datosUsuario.user_id, // Cambiar
-          //       mon_val_fk
-          //     }
-
-          //     console.log('datosCabecera: ', datosCabecera)
-
-          //     const returnPostCabecera = await postCabeceraOC(datosCabecera)
-
-          //     console.log(returnPostCabecera.data.insert_kangusoft_oc.returning[0].id)
-          //     this.oc_id = returnPostCabecera.data.insert_kangusoft_oc.returning[0].id
-          //     this.pro_fk = cabecera.proyecto.id
-          //     // this.$refs.refAgregarMaterial.getPartidas(cabecera.proyecto.id) Sacar comentario
-
-          //     this.disabledBotonSiguiente = false
-          //     this.$notify({
-          //       group: 'foo',
-          //       title: 'Creacion de Orden de Compra',
-          //       text: 'Grabacion exitosa',
-          //       type: 'success'
-          //     })
-          //     this.pasoStep++
-          //   } catch (error) {
-          //     console.log('error: ', error)
-          //   }
-
-          // }
-          // this.loader = null
         } else {
           console.log('por aca no')
         }
@@ -353,21 +247,11 @@ export default {
         this.neto = 0
         this.impuesto = 0
         let totalPesos = 0
-        // const { moneda } = this.$refs.refinformaciongeneraldoc.oc_cab
 
-        // eslint-disable-next-line no-constant-condition
-        // if (true) {
-        //   this.pasoStep = this.pasoStep + 2
-        // } else {
-        //   this.pasoStep++
-        // }
-        // this.pasoStep++
         console.log(' this.$refs.refAgregarMaterial.$refs: ',  this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas)
         console.log('this.$refs.refAgregarMaterial: ', this.$refs.refAgregarMaterial)
+        this.lineasOC = [...this.$refs.refAgregarMaterial.lista]
         console.log('this.$refs.refPrevisualizacion: ', this.$refs.refPrevisualizacion.getNombrePartida)
-        // console.log('this.$refs.refPrevisualizacion.$refs.refnewcuadroresumen.cpxTotalesItems: ', this.$refs.refPrevisualizacion.$refs.refnewcuadroresumen.cpxTotalesItems)
-        // const totales = this.$refs.refAgregarMaterial.cpxTotalesItems
-        // const totales = this.$refs.refPrevisualizacion.$refs.refcuadroresumen.cpxTotalesItems
         const totales = this.$refs.refAgregarMaterial.$refs.refnewcuadroresumen.cpxTotalesItems
 
         console.log('totales: ', totales)
@@ -457,24 +341,76 @@ export default {
         console.log('flujoModal: ', this.flujoModal)
 
         if (this.$refs.refAgregarMaterial.validarAgregarMaterial()) {
-          this.pasoStep = this.pasoStep + 2
+          this.pasoStep = this.pasoStep + 1
           this.$refs.refPrevisualizacion.getNombreArchivos()
+
+          const objDatosCabecera = {
+            des_tip_fk: this.datosCabecera.tipoDespacho.id, 
+            doc_tip_fk: this.datosCabecera.tipoDocumento.id, 
+            emp_fk: this.$store.state.app.datosEmpresa.id, 
+            ent_con_fk: this.datosCabecera.contacto.id, 
+            ent_fk: this.datosCabecera.proveedor.id, 
+            est_doc_fk: 4,
+            for_pag_fk: this.datosCabecera.formaPago.id, 
+            mon_fk: this.datosCabecera.moneda.id, 
+            nombre: this.datosCabecera.nombre, 
+            pro_fk: this.datosCabecera.proyecto.id, 
+            usu_fk: this.$store.state.app.datosUsuario.user_id,
+            comentario_pdf: this.$refs.refAgregarMaterial.comentarioDocumento.length > 0 ? this.$refs.refAgregarMaterial.comentarioDocumento : null,
+            neto: this.neto,
+            impuestos: this.impuesto,
+            mon_val_fk: 3	
+          }
+
+          console.log('objDatosCabecera: ', objDatosCabecera)
+          console.log('cabecera: ', this.datosCabecera)
+
+          console.log('antes listaMateriales: ', this.lineasOC)
+
+          const objLineas = []
+ 
+          for (const linea of this.lineasOC) {
+            const objLinea = {
+              mat_fk: linea.mat_fk,
+              cantidad: Number(linea.cantidad),
+              precio_unitario: Number(linea.precio_unitario),
+              total: Number(linea.total),
+              observacion: linea.observacion,
+              partidas:[]
+            }
+
+            for (const lineaPartida of linea.partidas) {
+              const objLineaPartida = {
+                cantidad: Number(lineaPartida.cantidad),
+                par_fk: lineaPartida.id
+              }
+
+              objLinea.partidas.push(objLineaPartida)
+            }
+            objLineas.push(objLinea)
+          }
+
+          console.log('objLineas: ', objLineas)
+          const { data:{ insert_oc: { success, oc_id } } } = await insertOC(objDatosCabecera, objLineas)
+
+          this.oc_id = oc_id
+          console.log('success: ', success)
+          console.log('id_oc: ', oc_id)
+          console.log('despues listaMateriales: ', this.lineasOC)
+
         }
         console.log('de paso 2 a paso 3')
       } else if (this.pasoStep === 3) {
-        console.log('paso 3')
-        this.pasoStep++
-        console.log('finalizar')
-      } else if (this.pasoStep === 4) {
         try {
 
-          console.log('paso 4')
+          console.log('paso 3')
           this.email = this.$refs.refinformaciongeneraldoc.oc_cab.contacto.email
           console.log('this.email: ', this.email)
 
           // return
           const archivos = this.$refs.refAgregarMaterial.files
-
+          
+          console.log('archivos: ', archivos)
           const url = 'https://actions-kangu-hasura.herokuapp.com/subirArchivos'
           const config = {
             headers: {

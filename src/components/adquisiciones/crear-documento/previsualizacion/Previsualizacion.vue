@@ -92,6 +92,7 @@
               <v-divider></v-divider>
               
             </v-row>
+            {{ materiales }}
             <v-data-table
               :headers="headers"
               :items="materiales"

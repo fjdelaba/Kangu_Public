@@ -491,7 +491,7 @@
         class="flex-grow-1"
         dense
       >
-      <v-row dense>
+      
         <template v-slot:item.rut="{ item }">
           <div class="font-weight-bold">
             <div>{{ item.rut }}</div>
@@ -527,13 +527,15 @@
               mdi-circle-outline
             </v-icon>
           </template> -->
-
+      
+        <v-row dense>
         <template v-slot:item.activo="{ item }">
           <div>
-            <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
+            <v-simple-checkbox v-model="item.activo" :disabled="true"></v-simple-checkbox>
           </div>
         </template>
-
+        </v-row>
+          <v-row dense>
         <template v-slot:item.cargo="{ item }">
           <v-chip label small class="font-weight-bold" color="primary">{{
             item.cargo | capitalize
@@ -543,15 +545,14 @@
         <template v-slot:item.fec_creacion="{ item }">
           <div>{{ item.fec_creacion | formatDate("ll") }}</div>
         </template>
-
+          </v-row>
         <template v-slot:item.action="{ item }">
           <div class="actions">
-            <v-btn @click="cargarDetalle(item.id)">
+            <v-btn small @click="cargarDetalle(item.id)">
               Abrir
             </v-btn>
           </div>
         </template>
-      </v-row>
       </v-data-table>
     </div>
   </div>

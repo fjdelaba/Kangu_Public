@@ -8,7 +8,7 @@ import { getProyectosUsuarioAprobador, getFiltrosConsultas, getProyectosUsuarioC
 import ModalFiltros from '../modal-filtros/ModalFiltros.vue'
 import LineasOc from '../lineas-oc/LineasOc.vue'
 import {creaPdfOC } from '../../../utils/pdf-oc-template'
-import PDFOC from '../../../pdf/adquisiciones/oc/Oc.vue'
+import pdf from '../../general/generadorPDFConsultasOc/pdf.vue'
 Vue.component("downloadExcel", JsonExcel); 
 
 
@@ -16,7 +16,7 @@ export default {
   components: {
     ModalFiltros,
     LineasOc,
-    PDFOC
+    pdf
   },
   props: {
     origen: {
@@ -54,6 +54,7 @@ export default {
           text: 'Consultas'
         }
       ],
+      verPdf:false,
       datosExcelCabecera: {},
       datosExcelDetalle: {},
       direction: 'right',
@@ -63,6 +64,7 @@ export default {
       right: true,
       bottom: false,
       left: false,
+      actualizarDoc:false,
       transition: 'slide-y-reverse-transition',
       headerExcelCabecera: {
         //: "fec_creacion",
@@ -154,6 +156,7 @@ export default {
         let agregar = true;
         console.log('OC: ', oc);
         if (this.filtros.estados.length > 0) {
+          console.log("oc.est_doc_fk.est",oc.est_doc_fk)
           agregar = agregar && this.filtros.estados.includes(oc.est_doc_fk)
         }
         if (this.filtros.monedas.length > 0) {
@@ -229,8 +232,23 @@ export default {
     },
   },
   methods: {
-    async descargarPdf1(item) {
-      this.mostrarDialogPdf = true
+    mostrarPDF(){
+      this.verPdf = true
+      
+      setTimeout(() => {
+        this.actualizarPDF()
+      }, 10)
+    
+    },
+    actualizarPDF(){
+     this.actualizarDoc = true
+      console.log("this.$refs.refpdf",this.$refs.refpdf)
+      this.$refs.refpdf.verPdf(this.actualizarDoc)
+    },
+    exportToPDF () {
+      console.log("this.$refs.refpdf",this.$refs)
+      this.$refs.refpdf.exportToPDF()
+      
     },
     async descargarPdf(item) {
       try {

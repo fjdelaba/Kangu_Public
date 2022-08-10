@@ -13,7 +13,7 @@
       clearable
       clear-icon="mdi-close-circle-outline"
     ></v-text-field>
-    <div v-if="selPartida">Partida seleccionada: {{ selPartida[0].name }} {{ openCacheTree }}</div>
+    <div v-if="selPartida">Partida seleccionada: {{ selPartida[0].name }}</div>
     <v-card-text>
       <v-treeview
         v-model="selPartida"
