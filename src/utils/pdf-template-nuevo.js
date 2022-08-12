@@ -22,7 +22,7 @@ async function creaPdfOC2(id) {
     let formaPago = {}
     let tipoDespacho = {}
     let proyecto = {}
-    let neto = ''
+    let neto = 0
     let impuesto = {}
     let total = ''
     const { data: {kangusoft_oc_det,kangusoft_oc} } = await getDetalleOC(id)
@@ -67,7 +67,7 @@ async function creaPdfOC2(id) {
 
 for(let valor of materialesPDF){
     console.log("valor",valor)
-    neto = valor.total * materialesPDF.length
+    neto = valor.total + neto
 }
 impuesto.valor = neto * 0.19
 impuesto.nombre = 'IVA (19%)'
