@@ -28,6 +28,7 @@ export default {
   mounted() {
     console.log(this.$auth.isLoading);
     if (this.$auth.isLoading == false) {
+      this.datosEmpresa = this.$store.state.app.datosEmpresa;
       this.cargarListaProyecto()
       // this.getValoresFiltros()
       this.cargarOcs()
@@ -56,6 +57,7 @@ export default {
         }
       ],
       verPdf:false,
+      datosEmpresa: "",
       datosExcelCabecera: {},
       datosExcelDetalle: {},
       direction: 'right',
@@ -310,7 +312,7 @@ export default {
           { item: 'Total', valor: total}
         ]
         console.log('totales: ', totales);
-         await creaPdfOC2(item.id) 
+         await creaPdfOC2(item.id,this.datosEmpresa) 
       } catch (error) {
         console.log('error: ', error);
       }
