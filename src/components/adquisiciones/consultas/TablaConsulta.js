@@ -8,6 +8,7 @@ import { getProyectosUsuarioAprobador, getFiltrosConsultas, getProyectosUsuarioC
 import ModalFiltros from '../modal-filtros/ModalFiltros.vue'
 import LineasOc from '../lineas-oc/LineasOc.vue'
 import {creaPdfOC } from '../../../utils/pdf-oc-template'
+import { creaPdfOC2 } from "../../../utils/pdf-template-nuevo";
 import pdf from '../../general/generadorPDFConsultasOc/pdf.vue'
 Vue.component("downloadExcel", JsonExcel); 
 
@@ -309,7 +310,7 @@ export default {
           { item: 'Total', valor: total}
         ]
         console.log('totales: ', totales);
-         await creaPdfOC(materiales, cabecera, this.$store.state.app.datosEmpresa, totales) 
+         await creaPdfOC2(item.id) 
       } catch (error) {
         console.log('error: ', error);
       }
