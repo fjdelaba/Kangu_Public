@@ -53,7 +53,24 @@ export default {
     async cargarMaterialesOc(){
         const { data: {kangusoft_oc_det,kangusoft_oc} } = await getDetalleOC(this.idOcSeleccionada.id)
         console.log("MATERIALES:",kangusoft_oc_det)
-        this.materialesOcSeleccionada = kangusoft_oc_det
+        // this.materialesOcSeleccionada = kangusoft_oc_det
+
+        for(const mat of kangusoft_oc_det){
+          console.log('mat: ', mat)
+          const objMat = {
+            mat_fk: mat.mat_fk,
+            cantidad: mat.cantidad,
+            precio_unitario: mat.precio_unitario,
+            total: mat.total,
+            observacion: mat.observacion,
+            mat_nombre: mat.mat.nombre,
+            mat_unidad: mat.mat.mat_uni.nombre,
+            id: mat.id
+          }
+          this.materialesOcSeleccionada.push(objMat)
+        }
+
+        
         console.log("OC:", kangusoft_oc[0])
         this.cabecera.proveedor.razon_social = kangusoft_oc[0].ent.razon_social
         this.cabecera.nombre = kangusoft_oc[0].nombre

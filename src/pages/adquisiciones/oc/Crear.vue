@@ -133,6 +133,8 @@
           :titulo="cpxTituloModalFinal"
           :texto="cpxTextoModalFinal"
           :aprobada="flujoModal.length > 0"
+          :identificacion="identificacion"
+          :vendedor="vendedor.contacto"
         ></DialogFinalDocumento>
       </v-dialog>
       <v-dialog
@@ -191,7 +193,8 @@ export default {
       tipoDocumentoBoleta: 1,
       moneda: {},
       datosCabecera: {},
-      lineasOC:[] 
+      lineasOC:[],
+      vendedor: '' 
     }
   },
   computed: {
@@ -233,6 +236,7 @@ export default {
         if (this.$refs.refinformaciongeneraldoc.validarInformacionGeneral()) {
           const cabecera = this.$refs.refinformaciongeneraldoc.oc_cab
 
+          this.vendedor = this.$refs.refinformaciongeneraldoc.oc_cab
           this.datosCabecera = { ...this.$refs.refinformaciongeneraldoc.oc_cab }
           this.moneda =  this.$refs.refinformaciongeneraldoc.oc_cab.moneda
           this.tipoDocumento = cabecera.tipoDocumento.id
@@ -440,11 +444,11 @@ export default {
           // // eslint-disable-next-line no-unreachable
           const obj = {
             oc_fk: this.oc_id ,
-            comentario:this.$refs.refAgregarMaterial.comentarioDocumento,
+            //comentario:this.$refs.refAgregarMaterial.comentarioDocumento,
             est_doc_fk: this.flujoModal.length > 0 ? 1 : 2,
             pro_fk: this.pro_fk,
-            neto: this.neto,
-            impuesto: this.impuesto,
+            //neto: this.neto,
+            //impuesto: this.impuesto,
             est_lin_fk: 1
           }
 
