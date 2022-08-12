@@ -71,14 +71,7 @@ export default {
         this.cabecera.proyecto.codigo = kangusoft_oc[0].pro.codigo
         this.skeleton = false
     },
-    exportToPDF () {
-      console.log("this.$refs.refpdf",this.$refs)
-      this.$refs.refpdf.exportToPDF()
-      
-    },
-    verPdf1(){
-      this.verPdf = true
-    }
+   
   
     
   }
