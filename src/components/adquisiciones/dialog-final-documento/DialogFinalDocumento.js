@@ -35,7 +35,7 @@ export default {
         const uriOC = await creaPdfOC2(this.idOc,this.$store.state.app.datosEmpresa, 2) 
 
         console.log('uriOC: ', uriOC)
-        const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:uriOC, destinatario:'eloaiza@dlb.cl', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
+        const resp = await this.axios.post('https://actions-kangu-hasura.herokuapp.com/enviarCorreo', { pdf:uriOC, destinatario:'eloaiza@dlb.cl', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
         // const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:du, destinatario:'eloaiza@dlb.cl', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
       }
 
@@ -46,7 +46,7 @@ export default {
       console.log('base: ', base)
       console.log('cabecera: ', this.vendedor.nombre)
       console.log('$store.state.app.datosEmpresa: ', this.$store.state.app.datosEmpresa)
-      const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:base, destinatario:'angelica.cuevasv@gmail.com', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })
+      const resp = await this.axios.post('https://actions-kangu-hasura.herokuapp.com/enviarCorreo', { pdf:base, destinatario:'angelica.cuevasv@gmail.com', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })
    
       console.log(resp)
     }
