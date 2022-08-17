@@ -312,7 +312,7 @@ export default {
           { item: 'Total', valor: total}
         ]
         console.log('totales: ', totales);
-         await creaPdfOC2(item.id,this.datosEmpresa) 
+         await creaPdfOC2(item.id,this.datosEmpresa, 1) 
       } catch (error) {
         console.log('error: ', error);
       }

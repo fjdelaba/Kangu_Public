@@ -49,7 +49,7 @@
               <v-list-item style="padding-left: 24px">
                 <v-list-item-content>
                   <v-list-item-title class="text-h5">
-                    Orden de Compra: {{ cabecera.identificacion }}
+                    Orden de Compra: {{ cabecera && cabecera.identificacion }}
                   </v-list-item-title>
                   <v-list-item-subtitle class="caption">Fecha: {{ cpxFecha }}</v-list-item-subtitle>
                   <v-list-item-subtitle class="caption">Contacto DLB: {{ $store.state.app.datosEmpresa.email }}</v-list-item-subtitle>
@@ -58,29 +58,29 @@
                 <v-list-item-avatar
                   tile
                   width="90px"
-                >
+                >fproyecto
                   <v-img :src="logo"></v-img></v-list-item-avatar>
               </v-list-item>
               
               <v-row no-gutters class="pl-3">
-                <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera.proveedor && cabecera.proveedor.razon_social }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Proveedor: {{ cabecera && cabecera.proveedor.razon_social }}</span></v-col>
                 <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ cabecera && cabecera.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters class="pl-3">
-                <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera.proveedor && cabecera.proveedor.rut }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Obra: {{ `${cabecera.proyecto.codigo} - ${cabecera.proyecto.nombre}` }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Rut: {{ cabecera && cabecera.proveedor.rut }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Obra: {{ `${cabecera && cabecera.proyecto.codigo} - ${cabecera && cabecera.proyecto.nombre}` }}</span></v-col>
               </v-row>
               <v-row no-gutters class="pl-3">
-                <v-col cols="12" lg="6"><span class="caption">Direccion: {{ cabecera.proyecto.direccion }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Moneda: {{ cabecera.moneda.nombre }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Direccion: {{ cabecera && cabecera.proyecto.direccion }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Moneda: {{ cabecera && cabecera.moneda.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters class="pl-3">
-                <v-col cols="12" lg="6"><span class="caption">Contacto: {{ cabecera.contacto.nombre }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Despacho: {{ cabecera.tipoDespacho.nombre }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Contacto: {{ cabecera && cabecera.contacto.nombre }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Despacho: {{ cabecera && cabecera.tipoDespacho.nombre }}</span></v-col>
               </v-row>
               <v-row no-gutters class="pl-3">
-                <v-col cols="12" lg="6"><span class="caption">Email: {{ cabecera.contacto.email }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera.formaPago.nombre }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Email: {{ cabecera && cabecera.contacto.email }}</span></v-col>
+                <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera && cabecera.formaPago.nombre }}</span></v-col>
               </v-row>
             </v-sheet>
             <v-row v-if="aprobacion == true">
@@ -92,7 +92,7 @@
               <v-divider></v-divider>
               
             </v-row>
-            {{ materiales }}
+            <!-- {{ materiales }} -->
             <v-data-table
               :headers="headers"
               :items="materiales"
@@ -459,7 +459,7 @@
                           <!-- <v-icon>mdi-checkbox-marked-circle</v-icon> -->
                           <v-icon>mdi-office-building-outline</v-icon>
                         </v-avatar>
-                        {{ cabecera.proveedor.razon_social }}
+                        {{ cabecera.proveedor && cabecera.proveedor.razon_social }}
                       </v-chip>
                       
                       <v-chip

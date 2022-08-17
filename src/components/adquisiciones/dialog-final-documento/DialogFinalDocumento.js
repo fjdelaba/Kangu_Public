@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
 import jsPDFInvoiceTemplate, { OutputType } from 'jspdf-invoice-template'
+import { creaPdfOC2 } from '../../../utils/pdf-template-nuevo'
 import jsPDF from 'jspdf'
 
 export default {
@@ -14,7 +15,8 @@ export default {
       default: false
     },
     identificacion: '',
-    vendedor: '' 
+    vendedor: '',
+    idOc:0
   },
   data() {
     return {
@@ -24,67 +26,27 @@ export default {
   methods: {
     async cerrar() {
       const doc = new jsPDF()
-
-      doc.text(20, 20, 'Hello world!')
-      doc.text(20, 30, 'This is client-side Javascript to generate a PDF.')
-
-      // Add new page
-      doc.addPage()
-      doc.text(20, 20, 'Visit CodexWorld.com')
-
-      // Save the PDF
-      doc.save('document.pdf')
-
-      const blob = doc.output('blob')
       // const du = doc.output('datauri')
       const du = doc.output('datauristring')
-      
-      // const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:du })   
-      // const data = new FormData()
-    
-      // data.append('name', 'pdf')
-      // data.append('file', blob)
-      
-      // const config = {
-      //   header : {
-      //     'Content-Type' : 'multipart/form-data'
-      //   }
-      // }
-    
-      // this.axios.post('http://localhost:3000/enviarCorreo', data, config).then((response) => {
-      //   console.log('response', response)
-      // }).catch((error) => {
-      //   console.log('error', error)
-      // })
 
-      const reader = new FileReader()
+      console.log('this.idOc: ', this.idOc)
+      console.log('aprobada: ', this.aprobada)
+      if (this.idOc !== 0 && !this.aprobada) {
+        const uriOC = await creaPdfOC2(this.idOc,this.$store.state.app.datosEmpresa, 2) 
 
-      reader.readAsDataURL(blob) 
-      const _this = this
-
-      reader.onloadend = async function() {
-        const base64data = reader.result
-
-        _this.enviar(base64data)
-        console.log(base64data)
-        
+        console.log('uriOC: ', uriOC)
+        const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:uriOC, destinatario:'eloaiza@dlb.cl', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
+        // const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:du, destinatario:'eloaiza@dlb.cl', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
       }
 
-      // const resp = await this.axios.post('http://localhost:3000/enviarCorreo', blob, {
-      //   headers: { 'content-type': blob.type }
-      // })   
-
-      // console.log('blob: ', blob)
-      // console.log('du: ', du)
-      // console.log('resp: ', resp)
-      // this.cerrarDialog()
-      // this.$router.push('/adquisiciones/oc/consultar/')
+      this.cerrarDialog()
+      this.$router.push('/adquisiciones/oc/consultar/')
     },
     async enviar(base) {
       console.log('base: ', base)
       console.log('cabecera: ', this.vendedor.nombre)
       console.log('$store.state.app.datosEmpresa: ', this.$store.state.app.datosEmpresa)
-      const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:base, destinatario:'eloaiza@dlb.cl', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })
+      const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:base, destinatario:'angelica.cuevasv@gmail.com', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })
    
       console.log(resp)
     }

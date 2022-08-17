@@ -25,7 +25,8 @@ export default {
       comentarioDocumento: '',
       files: [],
       respFiles: [],
-      nombreArchivos: []
+      nombreArchivos: [],
+      mostrarDetallePartida: false
     }
   },
   methods: {
@@ -51,6 +52,7 @@ export default {
     },
     changeDrawerMaterial() {
       this.drawerMaterial = !this.drawerMaterial
+      this.mostrarDetallePartida = true
     },
     agregarMaterial(item) {
       console.log('item en pagina base: ', item)

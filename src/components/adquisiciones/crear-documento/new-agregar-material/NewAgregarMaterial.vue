@@ -63,7 +63,7 @@
       right
       width="500"
     >
-      <drawer-seleccion-material-partida ref="refdrawerseleccionmaterialpartida" :_agregarMaterial="agregarMaterial"></drawer-seleccion-material-partida>
+      <drawer-seleccion-material-partida ref="refdrawerseleccionmaterialpartida" :_agregarMaterial="agregarMaterial" :_mostrar_drawer_partida="mostrarDetallePartida"></drawer-seleccion-material-partida>
     </v-navigation-drawer>
   </v-container>
 </template>

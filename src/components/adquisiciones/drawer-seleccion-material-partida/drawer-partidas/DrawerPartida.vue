@@ -19,7 +19,7 @@
         v-model="selPartida"
         dense
         ref="reftreeviewpartida"
-        :items="items"
+        :items="_listaPartidas"
         :search="search"
         :filter="filter"
         :open.sync="open"
@@ -30,7 +30,7 @@
         :multiple-active="seleccionMultiple"
         @update:active="seleccionPartida"
         @update:open="cerrarNodosAbiertos"
-      >
+      ><!-- :items="items"-->
         <template v-slot:prepend="{ item }">
           <v-icon
             v-if="item.children"

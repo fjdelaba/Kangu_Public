@@ -9,7 +9,13 @@
         <v-expansion-panel-header v-if="disabledPanelMaterial"> {{ cpxTextoPanelPartida }}</v-expansion-panel-header>
         <v-expansion-panel-header v-else> <p class="font-weight-black">{{ cpxTextoPanelPartida }}</p></v-expansion-panel-header>
         <v-expansion-panel-content>
-          <drawer-partida ref="refdrawerpartida" :_origen="1" :_seleccion-partida="seleccionPartidaDrawer"></drawer-partida>
+          <drawer-partida
+            v-if="_mostrar_drawer_partida"
+            ref="refdrawerpartida"
+            :_origen="1"
+            :_seleccion-partida="seleccionPartidaDrawer"
+            :_lista-partidas="listaPartidas"
+          ></drawer-partida>
         </v-expansion-panel-content>
       </v-expansion-panel>
 

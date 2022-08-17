@@ -75,10 +75,11 @@
                 <!-- observacion: {{this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento}} -->
                 <!-- tipoDocumento: {{tipoDocumento}} -->
                 <!-- {{ this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.files }} -->
+                <!-- this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas -->
                 <previsualizacion
                   ref="refPrevisualizacion"
                   :aprobadores="flujoModal"
-                  :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas"
+                  :lista-partidas="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.listaPartidas"
                   :materiales="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.lista"
                   :cabecera="this.$refs.refinformaciongeneraldoc && this.$refs.refinformaciongeneraldoc.oc_cab"
                   :observacion="this.$refs.refAgregarMaterial && this.$refs.refAgregarMaterial.comentarioDocumento"
@@ -135,6 +136,7 @@
           :aprobada="flujoModal.length > 0"
           :identificacion="identificacion"
           :vendedor="vendedor.contacto"
+          :idOc="oc_id"
         ></DialogFinalDocumento>
       </v-dialog>
       <v-dialog
@@ -242,6 +244,11 @@ export default {
           this.tipoDocumento = cabecera.tipoDocumento.id
           this.pro_fk = cabecera.proyecto.id
           this.pasoStep++
+          console.log('this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida: ', this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida)
+          this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.cargarPartidas(this.pro_fk)
+          // this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.cargarPartidas()
+          console.log('this.$refs.refAgregarMaterial: ', this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida)
+          // this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.cargarPartidas(this.pro_fk)
         } else {
           console.log('por aca no')
         }
@@ -252,10 +259,10 @@ export default {
         this.impuesto = 0
         let totalPesos = 0
 
-        console.log(' this.$refs.refAgregarMaterial.$refs: ',  this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas)
-        console.log('this.$refs.refAgregarMaterial: ', this.$refs.refAgregarMaterial)
+        // console.log(' this.$refs.refAgregarMaterial.$refs: ',  this.$refs.refAgregarMaterial.$refs.refdrawerseleccionmaterialpartida.$refs.refdrawerpartida.listaPartidas)
+        // console.log('this.$refs.refAgregarMaterial: ', this.$refs.refAgregarMaterial)
         this.lineasOC = [...this.$refs.refAgregarMaterial.lista]
-        console.log('this.$refs.refPrevisualizacion: ', this.$refs.refPrevisualizacion.getNombrePartida)
+        // console.log('this.$refs.refPrevisualizacion: ', this.$refs.refPrevisualizacion.getNombrePartida)
         const totales = this.$refs.refAgregarMaterial.$refs.refnewcuadroresumen.cpxTotalesItems
 
         console.log('totales: ', totales)
