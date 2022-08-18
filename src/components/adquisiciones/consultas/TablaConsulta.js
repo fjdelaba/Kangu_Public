@@ -211,10 +211,11 @@ export default {
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
           { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
           { text: "lineas", value: "lineasJson", sortable: true, align: ' d-none', idx: 8},
-          { text: "Comprador", value: "usu_nombre", sortable: true, idx: 5 },
-          { text: "Monto", value: "neto", sortable: true, idx: 6 },
-          { text: "Acción", value: "actions", sortable: false, idx: 7 },
-          { text: "Acción", value: "pdf", sortable: false, idx: 8 },
+          // { text: "Comprador", value: "usu_nombre", sortable: true, idx: 5 },
+          { text: "Creado", value: "fec_creacion", sortable: true, idx: 6 },
+          { text: "Monto", value: "neto", sortable: true, idx: 7 },
+          { text: "Acción", value: "actions", sortable: false, idx: 8 },
+          { text: "Acción", value: "pdf", sortable: false, idx: 9 },
           // { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
         ]
       }else if(this.origen === 2){
@@ -224,10 +225,11 @@ export default {
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
           { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
           { text: "lineas", value: "lineasJson", sortable: true,align: ' d-none', idx: 5},
-          { text: "Comprador", value: "usu_nombre", sortable: true, idx: 6 },
-          { text: "Monto", value: "neto", sortable: true, idx: 7 },
-          { text: "Acción", value: "actions", sortable: false, idx: 8 },
-          { text: "", value: "pdf", sortable: false, idx: 9 }
+          // { text: "Comprador", value: "usu_nombre", sortable: true, idx: 6 },
+          { text: "Creado", value: "fec_creacion", sortable: true, idx: 7 },
+          { text: "Monto", value: "neto", sortable: true, idx: 8 },
+          { text: "Acción", value: "actions", sortable: false, idx: 9 },
+          { text: "", value: "pdf", sortable: false, idx: 10 }
           // { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
         ]
       }

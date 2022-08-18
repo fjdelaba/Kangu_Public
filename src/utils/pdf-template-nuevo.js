@@ -10,6 +10,8 @@ import jsonFile from '../assets/images/pdf/imagenes.json';
 // import fs from 'fs'
 
 async function creaPdfOC2(id, datosEmpresa, formato) {
+
+  console.log('datosEmpresa: ', datosEmpresa);
   //formato 1 = 'descargar pdf', 2 = datauriString
   // try {
 
@@ -106,12 +108,12 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
       },
     },
     business: {
-      name: "DLB PRUEBA",
-      address: "AV LAS TORRES",
-      phone: "19996791-7",
-      email: "info@dlb.cl",
-      email_1: "+56 2 5555555",
-      website: "Constructora",
+      name: `${datosEmpresa.nombre}`,
+      address: `${datosEmpresa.direccion}`,
+      phone: `${datosEmpresa.rut}`,
+      email: `${datosEmpresa.email}`,
+      email_1: `${datosEmpresa.telefono}`,
+      website: `${datosEmpresa.giro}`,
     },
     contact: {
       address: `Razon Social: ${proveedor.razonSocial}`,
@@ -128,7 +130,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
       pago: `Despacho: ${tipoDespacho.nombre}`,
     },
     invoice: {
-      label: "Orden de Compra: OC-fafd1231sdf-28",
+      label: `Orden de Compra: ${cabecera.identificacion}`,
       num: 19,
       invDate: `Fecha de Emision: 21/07/2022`,
       invGenDate: `Fecha de descarga:`,
