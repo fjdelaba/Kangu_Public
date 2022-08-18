@@ -215,7 +215,7 @@ export default {
           { text: "Monto", value: "neto", sortable: true, idx: 6 },
           { text: "Acción", value: "actions", sortable: false, idx: 7 },
           { text: "Acción", value: "pdf", sortable: false, idx: 8 },
-          { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
+          // { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
         ]
       }else if(this.origen === 2){
           return [
@@ -227,8 +227,8 @@ export default {
           { text: "Comprador", value: "usu_nombre", sortable: true, idx: 6 },
           { text: "Monto", value: "neto", sortable: true, idx: 7 },
           { text: "Acción", value: "actions", sortable: false, idx: 8 },
-          { text: "", value: "pdf", sortable: false, idx: 9 },
-          { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
+          { text: "", value: "pdf", sortable: false, idx: 9 }
+          // { text: "Acción 1", value: "pdf1", sortable: false, idx: 9 },
         ]
       }
       return this.headers;
@@ -257,61 +257,61 @@ export default {
       try {
         console.log('item: ', item);
 
-        const cabecera = {
-          proveedor:{
-            direccion: item.ent_direccion,
-            razon_social: item.razon_social,
-            rut: item.rut,
-          },
-          contacto:{
-            nombre: item.ec_nombre,
-            email: item.ec_email
-          },
-          fec_creacion: item.fec_creacion,
-          identificacion: item.identificacion,
-          nombre: item.oc_nombre,
-          proyecto: {
-            nombre: item.pro_nombre
-          },
-          moneda:{
-            nombre: item.mon_nombre
-          },
-          tipoDespacho:{
-            nombre: item.desp_nombre
-          },
-          formaPago:{
-            nombre: item.fp_nombre
-          }
-        }
-        console.log('cabecera: ', cabecera);
+        // const cabecera = {
+        //   proveedor:{
+        //     direccion: item.ent_direccion,
+        //     razon_social: item.razon_social,
+        //     rut: item.rut,
+        //   },
+        //   contacto:{
+        //     nombre: item.ec_nombre,
+        //     email: item.ec_email
+        //   },
+        //   fec_creacion: item.fec_creacion,
+        //   identificacion: item.identificacion,
+        //   nombre: item.oc_nombre,
+        //   proyecto: {
+        //     nombre: item.pro_nombre
+        //   },
+        //   moneda:{
+        //     nombre: item.mon_nombre
+        //   },
+        //   tipoDespacho:{
+        //     nombre: item.desp_nombre
+        //   },
+        //   formaPago:{
+        //     nombre: item.fp_nombre
+        //   }
+        // }
+        // console.log('cabecera: ', cabecera);
   
-        const materiales = []
-        for(const linea of item.lineas){
-          console.log('linea: ', linea);
-          const lineas = {
-            cantidad: linea.cant_ajustada,
-            total: Number(linea.cant_ajustada) * Number(linea.precio_unitario),
-            precio_unitario: linea.precio_unitario,
-            mat:{
-              nombre: linea.nombre,
-              mat_uni: {
-                nombre: linea.mu_nombre
-              }
-            },
-            observacion: linea.observacion
-          }
+        // const materiales = []
+        // for(const linea of item.lineas){
+        //   console.log('linea: ', linea);
+        //   const lineas = {
+        //     cantidad: linea.cant_ajustada,
+        //     total: Number(linea.cant_ajustada) * Number(linea.precio_unitario),
+        //     precio_unitario: linea.precio_unitario,
+        //     mat:{
+        //       nombre: linea.nombre,
+        //       mat_uni: {
+        //         nombre: linea.mu_nombre
+        //       }
+        //     },
+        //     observacion: linea.observacion
+        //   }
   
-          materiales.push(lineas)
-        }
-        console.log('materiales: ', materiales);
-        const total =  (Number(item.neto) + Number(Math.abs(item.impuestos)))
-        console.log('total: ', total)
-        const totales = [
-          { item: 'Neto', valor: item.neto },
-          { item: 'IVA (19%)', valor:  Math.abs(item.impuestos) },
-          { item: 'Total', valor: total}
-        ]
-        console.log('totales: ', totales);
+        //   materiales.push(lineas)
+        // }
+        // console.log('materiales: ', materiales);
+        // const total =  (Number(item.neto) + Number(Math.abs(item.impuestos)))
+        // console.log('total: ', total)
+        // const totales = [
+        //   { item: 'Neto', valor: item.neto },
+        //   { item: 'IVA (19%)', valor:  Math.abs(item.impuestos) },
+        //   { item: 'Total', valor: total}
+        // ]
+        // console.log('totales: ', totales);
          await creaPdfOC2(item.id,this.datosEmpresa, 1) 
       } catch (error) {
         console.log('error: ', error);

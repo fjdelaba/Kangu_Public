@@ -42,11 +42,11 @@ export default {
       }
 
       // this.lista_detalle.length > 0 && materialEdicion === false ? this.dialogValidacion = false : this.dialogValidacion = true
-      this.$toast.error('Revisa los valores en la tabla', {
-        tposition: 'top-right',
-        timeout: 5000,
-        pauseOnHover: true
-      })
+      // this.$toast.error('Revisa los valores en la tabla', {
+      //   tposition: 'top-right',
+      //   timeout: 5000,
+      //   pauseOnHover: true
+      // })
 
       return !materialEdicion
     },

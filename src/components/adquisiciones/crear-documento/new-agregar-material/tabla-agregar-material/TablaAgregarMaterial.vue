@@ -24,7 +24,7 @@
           @close="close"
         >
           <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:400px">
-            <nombre-obs-tabla :nombre="item.mat_nombre" :observacion="item.mat_unidad" :unidad="item.observacion"></nombre-obs-tabla>
+            <nombre-obs-tabla :nombre="item.mat_nombre" :observacion="item.mat_unidad" :unidad="item.observacion"></nombre-obs-tabla><v-icon>mdi-comment-text</v-icon> 
           </div>
           <template v-slot:input>
             <v-text-field

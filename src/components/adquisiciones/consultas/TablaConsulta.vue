@@ -500,7 +500,7 @@
             </v-btn>
             </div>
           </template> 
-          <template v-slot:item.pdf1="{ item }">
+          <!-- <template v-slot:item.pdf1="{ item }">
             <div><v-btn
               x-small
               @click="descargarPdf1(item)"
@@ -508,7 +508,7 @@
               <v-icon>mdi-file-pdf-box</v-icon>
             </v-btn>
             </div>
-          </template> 
+          </template>  -->
         </v-data-table>
       </v-card>
       

@@ -394,7 +394,7 @@ export default {
         const datos = {
           pro_fk
         }
-        
+
         this.listaPartidas = []
         console.log('pro_fk: ', pro_fk)
         console.log('datos: ', datos)
@@ -418,7 +418,7 @@ export default {
     },
     async buscarMaterial() {
       if (this.busquedaMaterial !== null && this.busquedaMaterial.length > 2 ) {    
-        const datos = { emp_fk: 1, material:this.busquedaMaterial }
+        const datos = { emp_fk: this.$store.state.app.datosEmpresa.id, material:this.busquedaMaterial }
         const { data:{ getMateriales:{ materiales } } } = await getMateriales(datos)
 
         console.log('materiales: ', materiales)
