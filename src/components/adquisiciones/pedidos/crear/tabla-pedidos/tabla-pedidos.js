@@ -1,5 +1,5 @@
 /* eslint-disable */
-import AgregarMaterial from "../../../modal-agregar-material/ModalAgregarMaterial.vue"
+import AgregarMaterial from "../../../../adquisiciones/drawer-seleccion-material-partida/DrawerSeleccionMaterialPartida.vue"
 import { getPartidasPorPoroyecto } from '../../../../../graphql/general'
 import NombreMaterial from '../../../../general/nombre-obs-tabla/NombreObsTabla.vue'
 
@@ -12,7 +12,10 @@ export default {
 
     },
     props: {
-      pro_fk: Number,
+      pro_fk: {
+        type: Number,
+        default:0
+      },
       },
     data() {
       return {
@@ -28,6 +31,13 @@ export default {
               value: "mat",
               width: "400px",
             },
+            {
+              text: "Cuenta de Costo",
+              align: "start",
+              sortable: false,
+              value: "cc",
+              width: "200px",
+            },
             // { text: 'C.C', value: 'oc_det_pars', sortable: false, width: '200px' },
             {
               text: "Cant.",
@@ -37,7 +47,7 @@ export default {
               align: "center",
             },
            
-             { text: 'Acciones', value: 'actions',width: "100px",
+             { text: '', value: 'actions',width: "100px",
              sortable: false,
              align: "center", }
           ],
@@ -50,7 +60,18 @@ export default {
     methods: {
       agregarMat(){
        this.agregar = true
-       this.getPartidas()
+       console.log("pro_fk",this.pro_fk)
+       console.log("parent",this.$parent)
+       this.$refs.refdrawerseleccionmaterialpartida.cargarPartidas(this.pro_fk)
+      //  this.getPartidas()
+      },
+    
+      eliminarMaterial(item) {
+        for (const mat in this.materiales) {
+          if (this.materiales[mat].uid === item.uid) {
+           this.materiales.splice(mat, 1)
+           }
+        }
       },
       abrirMaterial(param){
         console.log("HOLA")
@@ -59,10 +80,10 @@ export default {
         this.agregar = false
        } else {
         console.log("sumar un material")
-        this.materiales.push({mat:param.nombre,cantidad:param.cantidad,observacion:param.observacion,unidad:param.unidad})
-        
-        this.detalleMaterial.push({mat_fk:param.mat_fk,par_fk:param.partidas[0].par_fk,observacion:param.observacion,usu_fk:param.usu_fk,cantidad:param.cantidad})
-        this.$emit('materiales', this.detalleMaterial);
+        this.materiales.push({mat:param.mat_nombre,cantidad:param.cantidad,observacion:param.observacion,unidad:param.mat_unidad,uid:param.uid,partidas:param.partidas})
+        console.log("cantidad", this.materiales)
+        // this.detalleMaterial.push({mat_fk:param.mat_fk,par_fk:param.partidas[0].par_fk,observacion:param.observacion,usu_fk:param.usu_fk,cantidad:param.cantidad})
+        // console.log("detalleMaterial",this.detalleMaterial)
        }
       },
       async getPartidas() {

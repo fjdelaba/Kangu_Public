@@ -3,7 +3,7 @@
     <div v-if="$store.state.app.permisosUsuario.pedido">
       <div>
         <h2>Crear Pedido</h2>
-        <crear-pedido></crear-pedido>
+        <crear-pedido ref="refcrearpedido"></crear-pedido>
        
       </div></div>
     <div v-else>

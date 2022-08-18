@@ -3,25 +3,16 @@
     <breadcrum-pedido :breadcrumbs="breadcrumbs"></breadcrum-pedido>
   
     <v-dialog v-model="mostrar" persistent max-width="500px">
-      <dialog-final></dialog-final>
+      <dialog-final :titulo="tituloModal" :texto="textoModal" :correo="correoModal" :cerrar-dialog="cerrarDialog" ></dialog-final>
     </v-dialog>
   
-    <v-dialog v-model="dialogDelete" persistent max-width="500px">
+    <!-- <v-dialog v-model="dialogDelete" persistent max-width="500px">
       <v-card>
         <v-card-title class="text-h5">Antes de Comenzar</v-card-title>
         <v-card-text>
        
           <v-col cols="12" lg="12">  <p class="text-h6 text--primary">Ingresa Nombre del Pedido: </p></v-col>
-          <v-text-field
-            v-model="nombrePedido"
-            label="Nombre del Pedido"
-            outlined
-       
-            dense
-            v-bind="attrs"
-            v-on="on"
-          ></v-text-field>
-
+         
           <v-col cols="12" lg="12">  <p class="text-h6 text--primary">Selecciona el Proyecto: </p></v-col>
           <v-autocomplete
             v-model="proyectoPedido"
@@ -41,7 +32,8 @@
           <v-spacer></v-spacer>
         </v-card-actions>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
+   
     <v-card >
       <v-sheet
         class=" mt-3"
@@ -53,13 +45,12 @@
           width="100%"
           class="pb-3 pt-3"
         >    
-          <cabecera-pedidos :nombre="nombrePedido" @modal="obtengoRespuesta"></cabecera-pedidos>
-         
+          <cabecera-pedidos ref="refdatoscabecera" :usu_id="usu_id" ></cabecera-pedidos>
+        
         </v-sheet>
         <v-row>
           <v-col cols="12">
-            <tabla-pedidos :pro_fk="proyectoPedido" @materiales="obtengoMateriales"></tabla-pedidos>
-       
+            <tabla-pedidos ref="tablapedido" :_devuelve-pro-fk="cargarPartidas" :_agregar-material="agregarMaterial" :pro_fk="1" ></tabla-pedidos>
           </v-col>
 
         </v-row>
@@ -96,7 +87,6 @@
         <v-row>
           <v-col cols="12">
             <v-btn @click="crearPedido()">Crear Pedido</v-btn>
-           
           </v-col></v-row>
         <v-row>
         </v-row></v-sheet></v-card>

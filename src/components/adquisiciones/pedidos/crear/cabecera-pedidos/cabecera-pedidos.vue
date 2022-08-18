@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    {{ cargarPartidas() }}
     <v-list-item style="padding-left: 24px">
  
       <v-list-item-content>
@@ -15,13 +16,27 @@
         width="90px"
       >
         <v-img src=""></v-img></v-list-item-avatar>
-      <v-btn @click="habilitarEdicion()">Editar</v-btn>
     </v-list-item>
     <v-row no-gutters class="pl-3">
-      <v-col cols="12" lg="6"><span class="caption">Nombre Documento: {{ nombre }}</span></v-col>
+      <v-col cols="12" lg="6"><v-text-field
+        v-model="nombrePedido"
+        label="Nombre Documento"
+        outlined
+        dense
+      ></v-text-field></v-col>
     </v-row>
     <v-row no-gutters class="pl-3">
-      <v-col cols="12" lg="6"><span class="caption">Obra: FALABELLA RETAIL</span></v-col>
+      <v-col cols="12" lg="6"><v-autocomplete
+        v-model="proyectoPedido"
+        :items="listaProyectos"
+        label="Obra del Pedido"
+        persistent-hint
+        outlined
+        dense
+        item-text="nombre"
+        item-value="id"
+        @change="agregarMaterial"
+      ></v-autocomplete></v-col>
     </v-row>
     <v-row no-gutters class="pl-3">
       <v-col cols="12" lg="6"><span class="caption">Nombre Solicitante: Bastian Medina</span></v-col>
