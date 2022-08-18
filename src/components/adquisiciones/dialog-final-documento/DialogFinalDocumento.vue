@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-card-title class="text-h5">
-      {{ titulo }} {{ vendedor.nombre }}
+      {{ titulo }} 
     </v-card-title>
 
     <v-card-text>

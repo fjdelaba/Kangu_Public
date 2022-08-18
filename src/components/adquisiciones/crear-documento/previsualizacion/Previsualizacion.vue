@@ -83,15 +83,6 @@
                 <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera && cabecera.formaPago.nombre }}</span></v-col>
               </v-row>
             </v-sheet>
-            <v-row v-if="aprobacion == true">
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              <v-divider></v-divider>
-              
-            </v-row>
             <!-- {{ materiales }} -->
             <v-data-table
               :headers="headers"
@@ -487,7 +478,8 @@
                         Comentario
                       </v-chip>
                     </div>
-                    <v-row v-if="mostrarBotones && aprobacion" dense class="px-7 align-center py-5" justify="space-around">
+                    
+                    <v-row v-if="mostrarBotones" dense class="px-7 align-center py-5" justify="space-around">
                       <v-col class="pr-5">
                         <v-btn
                           color="success"
@@ -518,7 +510,7 @@
             </v-col>
           </v-row>-->
           </v-row>
-          <v-row v-if="aprobacion == true">
+          <v-row>
           
           <!-- <v-divider></v-divider>
           <v-divider></v-divider>
