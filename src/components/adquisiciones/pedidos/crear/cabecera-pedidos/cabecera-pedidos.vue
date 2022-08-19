@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    {{ cargarPartidas() }}
+    {{ nombrePedido }}
     <v-list-item style="padding-left: 24px">
  
       <v-list-item-content>
@@ -35,7 +35,7 @@
         dense
         item-text="nombre"
         item-value="id"
-        @change="agregarMaterial"
+        @change="cargarPartidas"
       ></v-autocomplete></v-col>
     </v-row>
     <v-row no-gutters class="pl-3">

@@ -31,24 +31,6 @@ export default {
       };
     },
     methods: {
-      agregarMaterial() {
-        
-        // eslint-disable-next-line prefer-destructuring
-        const obj = {
-          mat_fk: 22,
-          cantidad: 0,
-          precio_unitario: 0,
-          total: 0,
-          observacion: '',
-          mat_nombre: 'a',
-          mat_unidad: 'v',
-          // par_fk: par.id,
-          // par_nombre: par.name,
-          edicion: true
-        }
-        console.log(obj)
-        this._agregarMaterial(obj)
-      },
       cargarPartidas(){
         
         this._devuelveProFk(this.proyectoPedido)

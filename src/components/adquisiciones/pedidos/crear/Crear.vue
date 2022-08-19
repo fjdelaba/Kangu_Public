@@ -33,7 +33,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog> -->
-   
+ 
     <v-card >
       <v-sheet
         class=" mt-3"
@@ -45,12 +45,12 @@
           width="100%"
           class="pb-3 pt-3"
         >    
-          <cabecera-pedidos ref="refdatoscabecera" :usu_id="usu_id" ></cabecera-pedidos>
+          <cabecera-pedidos ref="refdatoscabecera" :usu_id="usu_id" :_devuelve-pro-fk="cargarPartidas" ></cabecera-pedidos>
         
         </v-sheet>
         <v-row>
           <v-col cols="12">
-            <tabla-pedidos ref="tablapedido" :_devuelve-pro-fk="cargarPartidas" :_agregar-material="agregarMaterial" :pro_fk="1" ></tabla-pedidos>
+            <tabla-pedidos ref="tablapedido" :pro_fk="idProyecto" ></tabla-pedidos>
           </v-col>
 
         </v-row>

@@ -5,6 +5,7 @@ import tablaPedidos from "./tabla-pedidos/tabla-pedidos.vue";
 import comentarioComprador from "./comentario-comprador/comentario-comprador.vue";
 import DialogFinal from "./../../dialog-final-documento/DialogFinalDocumento.vue"
 import { creaPdfPedido } from "../../../../utils/pdf-pedido-creado";
+import { getUsuarioLogin } from '../../../../graphql/configuracion'
 import { getProyectosPorUsuario } from '../../../../graphql/general'
 import { getAprobadorPedido} from '../../../../graphql/adquisiciones'
 
@@ -71,16 +72,22 @@ export default {
           datosEmpresa:'',
           materialesPedido:[],
           aprobadorPedido:[],
-          existeAprobador:''
+          existeAprobador:'',
+          idProyecto:'',
+          fechaDescarga:'',
+          datosUsuario:''
       };
     },
 
     created() {    
       this.usu_id = Number(this.$store.state.app.datosUsuario.user_id)
       this.datosEmpresa = this.$store.state.app.datosEmpresa.id
-    
+      this.cargarUsuarioLogin()
     },
     computed:{
+      cpxFecha() {
+        return  this.$moment(new Date()).format("DD/MM/yy");
+      },
       cpxProFk(){
         console.log(this.$refs)
         if(this.$refs.refdatoscabecera == undefined || this.$refs.refdatoscabecera == null){
@@ -92,14 +99,15 @@ export default {
       }
     },
     methods: {
-      agregarMaterial() {
-        console.log('item en pagina base: ')
-        return 0 
+      async cargarUsuarioLogin() {
+        const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
+        this.datosUsuario = usuarioLogin.data.kangusoft_usu[0]
+        console.log('usuarioLogin: ', usuarioLogin.data.kangusoft_usu[0])
       },
+
       cargarPartidas(id_pro){
-        // this.proyectoPedido = id_pro
-        console.log("proyecto",id_pro)
-        return 0 
+        this.idProyecto = id_pro
+        console.log("proyecto",this.idProyecto)
       },
    
       eliminarAdjunto(item) {
@@ -183,11 +191,8 @@ export default {
           if(this.$refs.tablapedido.materiales.length > 0 && this.cantidadCero == false){
           let cabecera = {}
           let adjuntos = {}
-           cabecera.nombre = this.$refs.datosCabecera.nombrePedido
-          // cabecera.comentario = 'gola'
-          // cabecera.usu_fk = this.usu_id
-          // cabecera.emp_fk = this.datosEmpresa
-          cabecera.proyecto =  this.$refs.datosCabecera.proyectoPedido
+           cabecera.nombre = this.$refs.refdatoscabecera.nombrePedido
+          cabecera.proyecto =  this.$refs.refdatoscabecera.proyectoPedido
           if(this.existeAprobador == false){
             cabecera.est_doc_fk = 1
           }else if(this.existeAprobador == true){
@@ -207,7 +212,8 @@ export default {
           this.textoModal = `El pedido PED-15 ha sido completado correctamente`
           this.mostrar = true
           this.correoModal = 'prueba@lol.cl'
-          await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido)
+          this.fechaDescarga = `${this.cpxFecha}`
+          await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido,this.fechaDescarga,this.datosUsuario,this.idProyecto)
         }
         else {
           this.$toast.error('NO existe valores, Revisa los valores en la tabla', {

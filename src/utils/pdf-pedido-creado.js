@@ -7,12 +7,21 @@ import {
   jsPDF
 } from "jspdf";
 import 'jspdf-autotable'
+import {getProyecto} from '../graphql/configuracion'
 
 
 
-async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
-    console.log("datosEmpresa,cabeceraPedido,materialesPedido",datosEmpresa,cabeceraPedido,materialesPedido)
-   
+async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaDescarga,datosUsuario,proyectoSeleccionado) {
+  const {
+    data: { kangusoft_pro},
+  } = await getProyecto(proyectoSeleccionado);
+  console.log(
+    "aaa",
+    kangusoft_pro,
+  );
+    console.log("datosEmpresa,cabeceraPedido,materialesPedido",datosEmpresa,cabeceraPedido,materialesPedido,fechaDescarga,datosUsuario)
+    console.log("datosUsuario",datosUsuario)
+    console.log("fechaDescarga",fechaDescarga)
     let empresa = datosEmpresa
     let cabecera = {}
     let materialesPDF = []
@@ -21,7 +30,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
     let contacto = {}
     let formaPago = {}
     let tipoDespacho = {}
-    let proyecto = {}
+    let proyecto = kangusoft_pro[0]
     
     materialesPDF = materialesPedido
      cabecera.nombre = cabeceraPedido.nombre
@@ -52,8 +61,8 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
 
     var img = new Image();
     img.src = require('../components/general/generadorPDF/assets/img/logo_dlb.png');
-    var img2 = new Image();
-    img2.src = require('../components/general/generadorPDF/assets/img/Firma_de_Harold.jpeg');
+    // var img2 = new Image();
+    // img2.src = require('../components/general/generadorPDF/assets/img/Firma_de_Harold.jpeg');
 
 
 
@@ -88,28 +97,31 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
         }
     },
     business: {
-        name: "DLB PRUEBA",
-        address: "AV LAS TORRES",
-        phone: "19996791-7",
-        email: 'info@dlb.cl',
-        email_1: '+56 2 5555555',
-        website: 'Constructora',
+      name: "DLB PRUEBA",
+      address: "AV LAS TORRES",
+      phone: "19996791-7",
+      email: 'info@dlb.cl',
+      email_1: '+56 2 5555555',
+      website: 'Constructora',
+  },
+    business2: {
+        name: "PEDIDO",
     },
     contact: {
-        // address: `Razon Social: ${proveedor.razonSocial}`,
-        // phone: `R.U.T: ${proveedor.rut}`,
+        address: `Nombre Documento: ${cabecera.nombre}`,
+        phone: `Obra:  ${proyecto.nombre} -  ${proyecto.codigo}`,
         // email: `Dirección: ${proveedor.direccion}`,
         // otherInfo: `Contacto: ${proveedor.email} - ${proveedor.nombreContacto}`,
         // pago:''
     },
     contact2: {
-      address: `Nombre Documento: ${cabecera.nombre}`,
-      phone:`Obra:  ${cabecera.proyecto} -  20`,
+      address: `Usuario Descarga: ${datosUsuario.nombre} ${datosUsuario.apellidos}`,
+      phone:`Fecha Descarga:  ${fechaDescarga}`,
     //   email: `Dirección: ${proyecto.direccion}`,
     //   pago: `Despacho: ${tipoDespacho.nombre}`
   },
     invoice: {
-        label: "Pedido: PED-15",
+        label: "Identificador: PED-15",
         num: 19,
         invDate: `Fecha de Emision: 21/07/2022`,
         invGenDate: `Fecha de descarga:`,
@@ -141,11 +153,11 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
 
         ])),
         
-        invDescLabel: "Información Adicional",
-        invDesc: `${cabecera.comentarioPDF}`,
-        firma:'Santiago Perez',
+        invDescLabel: "",
+        invDesc: ``,
+        firma:'',
         logo: {
-          src: img2.src,
+          src: '',
           width: 53.33, //aspect ratio = width/height
           height: 26.66,
           margin: {
@@ -197,6 +209,9 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
         email: props.business?.email || "",
         email_1: props.business?.email_1 || "",
         website: props.business?.website || "",
+      },
+      business2: {
+        name: props.business2?.name || "",
       },
       contact: {
         label: props.contact?.label || "",
@@ -270,6 +285,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
     //starting at 15mm
     var currentHeight = 15;
     var currentHeightEmpresa = 16;
+    var currentHeightEmpresa2 = 40;
     //var startPointRectPanel1 = currentHeight + 6;
   
     var pdfConfig = {
@@ -285,6 +301,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido) {
     doc.setFontSize(13);
 
     doc.text(docWidth - 10, currentHeightEmpresa, param.business.name, "right");
+    doc.text(docWidth - 100, currentHeightEmpresa2, param.business2.name, "center");
     doc.setFontSize(pdfConfig.fieldTextSizeEmpresa);
   
     if (param.logo.src) {
@@ -694,13 +711,13 @@ if (param.contact2.pago){
       doc.setTextColor(colorBlack);
   
       doc.text(param.invoice.invDescLabel, 10, currentHeightTotal);
-      doc.addImage(
-        param.invoice.logo.src,
-        param.logo.type,
-        80, 257,
-        param.logo.width,
-        param.logo.height
-      );
+      // doc.addImage(
+      //   param.invoice.logo.src,
+      //   param.logo.type,
+      //   80, 257,
+      //   param.logo.width,
+      //   param.logo.height
+      // );
       doc.text(param.invoice.firma, 89, 280);
      
       currentHeightTotal += pdfConfig.subLineHeight;

@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    {{ pro_fk }}
     <v-row>
 
       <!-- <v-dialog v-if="agregar" v-model="agregar" max-width="500px"> -->
@@ -12,7 +11,7 @@
         right
         width="500"
       >
-        <agregar-material ref="refdrawerseleccionmaterialpartida" :_agregarMaterial="abrirMaterial" ></agregar-material> 
+        <agregar-material ref="refdrawerseleccionmaterialpartida" :_mostrar_drawer_partida="agregar" :_agregarMaterial="abrirMaterial" ></agregar-material> 
       </v-navigation-drawer>
 
       <!-- </v-dialog> -->

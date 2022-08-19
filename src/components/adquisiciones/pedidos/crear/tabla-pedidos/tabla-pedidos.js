@@ -61,8 +61,11 @@ export default {
       agregarMat(){
        this.agregar = true
        console.log("pro_fk",this.pro_fk)
-       console.log("parent",this.$parent)
-       this.$refs.refdrawerseleccionmaterialpartida.cargarPartidas(this.pro_fk)
+       setTimeout(() => {
+        this.$refs.refdrawerseleccionmaterialpartida.cargarPartidas(this.pro_fk)
+       }, 500);
+      
+      
       //  this.getPartidas()
       },
     
