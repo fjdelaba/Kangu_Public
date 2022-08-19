@@ -3,26 +3,19 @@
     <v-row>
 
       <!-- <v-dialog v-if="agregar" v-model="agregar" max-width="500px"> -->
-      <v-navigation-drawer
-        v-if="agregar"
-        v-model="agregar"
-        absolute
-        temporary
-        right
-        width="500"
-      >
-        <agregar-material ref="refdrawerseleccionmaterialpartida" :_mostrar_drawer_partida="agregar" :_agregarMaterial="abrirMaterial" ></agregar-material> 
-      </v-navigation-drawer>
 
       <!-- </v-dialog> -->
 
     </v-row>
     <v-row>
-     
       <v-col >
-        <v-btn @click="agregarMat()">Agregar Material </v-btn>
-      </v-col></v-row>
+        <v-btn :disabled="cpxHabilitar" @click="agregarMat()">Agregar Material </v-btn>
+        
+      </v-col>
+       
+    </v-row>
     <v-row>
+     
       <v-col cols="12">
           
         <v-data-table
@@ -49,7 +42,7 @@
               outlined
               dense
               v-bind="attrs"
-              v-on="on"
+              type="number"
             ></v-text-field>
           </template>
           <template v-slot:item.actions="{ item }">
@@ -67,6 +60,16 @@
         </v-data-table>
       </v-col>
     </v-row>
+    <v-navigation-drawer
+      v-if="agregar"
+      v-model="agregar"
+      absolute
+      temporary
+      right
+      width="500"
+    >
+      <agregar-material ref="refdrawerseleccionmaterialpartida" :_mostrar_drawer_partida="agregar" :_agregar-material="abrirMaterial" ></agregar-material> 
+    </v-navigation-drawer>
   </v-container>
 </template>
 

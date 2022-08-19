@@ -7,12 +7,12 @@
     <v-card-text>
       {{ texto }}
       <v-divider></v-divider>
-        <v-checkbox
-          v-if="!aprobada"
-          v-model="enviarCorreo"
-          label="Enviar Correo"
-        ></v-checkbox> <!---->
-        <v-text-field v-model="correo" outlined dense></v-text-field>
+      <v-checkbox
+        v-if="!aprobada"
+        v-model="enviarCorreo"
+        label="Enviar Correo"
+      ></v-checkbox> <!---->
+      <v-text-field v-if="!aprobada" v-model="correo" outlined dense></v-text-field>
     </v-card-text>
 
     <v-card-actions>

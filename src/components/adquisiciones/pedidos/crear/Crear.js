@@ -81,8 +81,9 @@ export default {
 
     created() {    
       this.usu_id = Number(this.$store.state.app.datosUsuario.user_id)
-      this.datosEmpresa = this.$store.state.app.datosEmpresa.id
+      this.datosEmpresa = this.$store.state.app.datosEmpresa
       this.cargarUsuarioLogin()
+     
     },
     computed:{
       cpxFecha() {
@@ -95,8 +96,13 @@ export default {
         }else {
           return this.$refs.refdatoscabecera.proyectoPedido
         }
-       
-      }
+      },
+      cpxHabilitarPedido(){
+      
+        if( this.materialesPedido.length == 0){
+          return true
+        }
+        }
     },
     methods: {
       async cargarUsuarioLogin() {
@@ -106,6 +112,7 @@ export default {
       },
 
       cargarPartidas(id_pro){
+        this.materialesPedido = this.$refs.tablapedido.materiales
         this.idProyecto = id_pro
         console.log("proyecto",this.idProyecto)
       },
@@ -188,7 +195,7 @@ export default {
              this.cantidadCero = true
             }
           }
-          if(this.$refs.tablapedido.materiales.length > 0 && this.cantidadCero == false){
+          if(this.materialesPedido.length > 0 && this.cantidadCero == false){
           let cabecera = {}
           let adjuntos = {}
            cabecera.nombre = this.$refs.refdatoscabecera.nombrePedido
@@ -211,7 +218,6 @@ export default {
           this.tituloModal = `Pedido Completado`
           this.textoModal = `El pedido PED-15 ha sido completado correctamente`
           this.mostrar = true
-          this.correoModal = 'prueba@lol.cl'
           this.fechaDescarga = `${this.cpxFecha}`
           await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido,this.fechaDescarga,this.datosUsuario,this.idProyecto)
         }
