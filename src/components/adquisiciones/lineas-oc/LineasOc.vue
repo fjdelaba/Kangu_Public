@@ -1,7 +1,8 @@
 <template>
   <div>
+    {{ origen }}
     <v-data-table
-      :headers="cabecera"
+      :headers="cpxDinamicHeaders"
       :items="lineas"
       :items-per-page="lineas.length"
       hide-default-footer

@@ -48,6 +48,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
 
   proyecto.nombre = kangusoft_oc[0].pro.nombre;
   proyecto.direccion = kangusoft_oc[0].pro.direccion;
+  proyecto.codigo = kangusoft_oc[0].pro.codigo;
   moneda.nombre = kangusoft_oc[0].mon.nombre;
   moneda.id = kangusoft_oc[0].mon.id;
   contacto.nombre = kangusoft_oc[0].ent_con.nombre;
@@ -109,7 +110,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
     },
     business: {
       name: `${datosEmpresa.nombre}`,
-      address: `${datosEmpresa.direccion}`,
+      address: `${datosEmpresa.direccion}, ${datosEmpresa.com.nombre}`,
       phone: `${datosEmpresa.rut}`,
       email: `${datosEmpresa.email}`,
       email_1: `${datosEmpresa.telefono}`,

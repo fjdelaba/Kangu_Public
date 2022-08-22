@@ -461,11 +461,12 @@ export default {
       this.empresa.region = kangusoft_emp[0].com.prov.reg.id
       this.empresa.comuna.id = kangusoft_emp[0].com.id
       this.empresa.comuna.nombre = kangusoft_emp[0].com.nombre
-      this.empresa.color = kangusoft_emp[0].color
+     
       this.empresa.eslogan = kangusoft_emp[0].eslogan
       this.cargarComuna(this.empresa.region)
       this.copyComuna.id = kangusoft_emp[0].com.id
       this.copyComuna.nombre =  kangusoft_emp[0].com.nombre
+       this.empresa.color = kangusoft_emp[0].color.hex
     },
     async cargarRegion(){
       const {
@@ -500,12 +501,13 @@ export default {
         console.log('logoFileReader: ', this.logoFileReader);
 
         if(this.copyComuna.id == this.empresa.comuna.id){
-        console.log("HOLA")
+        console.log("HOLA1")
+        console.log("id",this.empresa.id,"direccion",this.empresa.direccion,"mail",this.empresa.email,"giro",this.empresa.giro,"nombre",this.empresa.nombre,"repre",this.empresa.representante,"rut",this.empresa.rut,"tel",this.empresa.telefono,"comuna",this.empresa.comuna.id,"color", this.empresa.color,"esloga",this.empresa.eslogan, 'logo',this.empresa.logo)
         const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna.id, this.empresa.color,this.empresa.eslogan, this.empresa.logo) //this.logoFileReader
         console.log('resp datos contacto: ', resp)
         this.edicion = false
         }else if(this.copyComuna.id != this.empresa.comuna.id){
-           console.log("HOLA")
+           console.log("HOLA2")
         const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna, this.empresa.color,this.empresa.eslogan, this.empresa.logo) // this.logoFileReader
         console.log('resp datos contacto: ', resp)
         this.edicion = false
