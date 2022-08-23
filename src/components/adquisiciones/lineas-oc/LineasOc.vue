@@ -1,6 +1,5 @@
 <template>
   <div>
-    {{ origen }}
     <v-data-table
       :headers="cpxDinamicHeaders"
       :items="lineas"

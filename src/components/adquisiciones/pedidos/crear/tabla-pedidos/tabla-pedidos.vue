@@ -28,7 +28,22 @@
           dense
         >
           <template v-slot:item.mat="{ item }">
-            <nombre-material :nombre="item.mat" :unidad="item.unidad" :observacion="item.observacion" ></nombre-material>
+            <v-edit-dialog
+              :return-value.sync="item.mat"
+              @save="save"
+              @cancel="cancel"
+              @open="open"
+              @close="close"
+            >
+              <nombre-material :nombre="item.mat" :observacion="item.observacion" :unidad="item.unidad" ></nombre-material><v-icon>mdi-comment-text</v-icon> 
+              <template v-slot:input>
+                <v-text-field
+                  v-model="item.observacion"
+                  label="Observacion"
+                  single-line
+                ></v-text-field>
+              </template>
+            </v-edit-dialog>
           </template>
         
           <template v-slot:item.cc="{ item }">

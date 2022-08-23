@@ -1,11 +1,9 @@
 /* eslint-disable */
 import Previsualizacion from '../../../../../components/adquisiciones/crear-documento/previsualizacion/Previsualizacion.vue'
 import {getDetalleOC} from '../../../../../graphql/adquisiciones'
-import pdf from '../../../../../components/general/generadorPDF/pdf.vue'
 export default {
   components: {
     Previsualizacion,
-    pdf
   },
   mounted() {
     this.idOcSeleccionada = this.$route.query
