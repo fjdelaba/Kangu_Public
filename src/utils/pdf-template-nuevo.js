@@ -857,10 +857,10 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
   // }
   console.log('PDF cabecera.est_doc_fk: ', cabecera.est_doc_fk)
   if(cabecera.est_doc_fk == 2){
-    // doc.saveGraphicsState();
-    // doc.setGState(new doc.GState({ opacity: 0.2 }));
-    // doc.addImage(jsonFile.aprobada, "PNG", 100, 245, 35, 35, null, 'NONE', -15);
-    // doc.restoreGraphicsState();
+    doc.saveGraphicsState();
+    doc.setGState(new doc.GState({ opacity: 0.2 }));
+    doc.addImage(jsonFile.aprobada, "PNG", 100, 245, 35, 35, null, 'NONE', -15);
+    doc.restoreGraphicsState();
   }else{
     let img = ''
     if(cabecera.est_doc_fk == 1){ // En aprobacion
@@ -881,7 +881,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
       // doc.text(65, 220, 'hello world', null, 55);
       // doc.addImage(nota, "PNG", 100, 240, 35, 35);
       // doc.addImage(img, "PNG", 105, 250, 35, 35, null, 'NONE', 0);
-      // doc.addImage(img, "PNG", 80, 150, 200, 80, null, 'NONE', 50);
+      doc.addImage(img, "PNG", 80, 150, 200, 80, null, 'NONE', 50);
       // doc.addImage(jsonFile.enaprobacion, "PNG", 80, 150, 200, 80, null, 'NONE', 50);
       doc.restoreGraphicsState();
       // doc.setTextColor(150);
