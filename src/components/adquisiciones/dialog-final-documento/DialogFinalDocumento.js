@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* eslint-disable no-useless-escape */
 /* eslint-disable @typescript-eslint/no-this-alias */
 import jsPDFInvoiceTemplate, { OutputType } from 'jspdf-invoice-template'
@@ -43,7 +44,10 @@ export default {
         this.cerrarDialog()
         this.$router.push('/adquisiciones/oc/consultar/')
       }
-
+      if (this.origen === 2){
+        this.cerrarDialog()
+        this.$router.push('/adquisiciones/pedido/consultar/')
+      }
       // const doc = new jsPDF()
       // const du = doc.output('datauristring')
       

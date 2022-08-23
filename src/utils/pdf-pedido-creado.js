@@ -60,7 +60,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
     // tipo_documento = kangusoft_oc[0].doc_tip_fk
 
     var img = new Image();
-    img.src = require('../components/general/generadorPDF/assets/img/logo_dlb.png');
+    img.src = datosEmpresa.logo;
     // var img2 = new Image();
     // img2.src = require('../components/general/generadorPDF/assets/img/Firma_de_Harold.jpeg');
 
@@ -71,6 +71,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
   if(proveedor.direccion == null) proveedor.direccion = 'Sin Dirección'
   if(cabecera.identificacion == null) cabecera.identificacion = 'Sin Identificación'
   if(cabecera.comentarioPDF == null) cabecera.comentarioPDF = 'Sin Comentario'
+  if(datosEmpresa.giro == null) datosEmpresa.giro = 'Sin Giro'
   let props = {
     returnJsPDFDocObject: true,
     fileName: `PED-15 .pdf`,
@@ -97,19 +98,19 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
         }
     },
     business: {
-      name: "DLB PRUEBA",
-      address: "AV LAS TORRES",
-      phone: "19996791-7",
-      email: 'info@dlb.cl',
-      email_1: '+56 2 5555555',
-      website: 'Constructora',
+      name: `${datosEmpresa.nombre}`,
+      address: `${datosEmpresa.direccion}`,
+      phone: `${datosEmpresa.rut}`,
+      email: `${datosEmpresa.email}`,
+      email_1: `${datosEmpresa.telefono}`,
+      website: `${datosEmpresa.giro}`,
   },
     business2: {
         name: "PEDIDO",
     },
     contact: {
         address: `Nombre Documento: ${cabecera.nombre}`,
-        phone: `Obra:  ${proyecto.nombre} -  ${proyecto.codigo}`,
+        phone: `Obra: ${proyecto.codigo} - ${proyecto.nombre} `,
         // email: `Dirección: ${proveedor.direccion}`,
         // otherInfo: `Contacto: ${proveedor.email} - ${proveedor.nombreContacto}`,
         // pago:''
@@ -167,7 +168,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
          },
       },
     footer: {
-        text: "DOCUMENTO GENERADOR POR KANGUSOFT PARA EMPRESA: DLB_PRUEBA",
+        text: `DOCUMENTO GENERADOR POR KANGUSOFT PARA EMPRESA: ${datosEmpresa.nombre}`,
     },
     pageEnable: true,
     pageLabel: "Pagina ",

@@ -116,16 +116,15 @@ export const getMateriales = async (material) => {
   })
 }
 export const updateEmpresa = async (id, direccion,email,giro,nombre,representante,rut,telefono,com_fk,color,eslogan,logo) => {
-  console.log('id_contacto, ent_con: ',
-    direccion,
-    email,
-    com_fk,
-    giro,
-    id,
-    nombre,
-    rut,
-    representante,
-    telefono)
+  console.log('d', direccion,
+    'e',email,
+    'c',com_fk,
+    'g',giro,
+    'i',id,
+    'n',nombre,
+    'r',rut,
+    're',representante,
+    't',telefono)
   
   return await apolloClient.mutate({
     mutation: UPDATE_EMPRESA,

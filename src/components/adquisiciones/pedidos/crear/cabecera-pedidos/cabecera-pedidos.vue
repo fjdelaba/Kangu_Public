@@ -1,11 +1,10 @@
 <template>
   <v-container>
-    {{ nombrePedido }}
     <v-list-item style="padding-left: 24px">
  
       <v-list-item-content>
         <v-list-item-title class="text-h5">
-          Pedido: PED-15
+          Identificación: Sin Asignar
         </v-list-item-title>
         <v-list-item-subtitle class="caption">Fecha:25/07/2022 </v-list-item-subtitle>
         <v-list-item-subtitle class="caption">Contacto DLB: bmedina@dlb.cl</v-list-item-subtitle>
@@ -18,18 +17,24 @@
         <v-img src=""></v-img></v-list-item-avatar>
     </v-list-item>
     <v-row no-gutters class="pl-3">
-      <v-col cols="12" lg="6"><v-text-field
-        v-model="nombrePedido"
-        label="Nombre Documento"
-        outlined
-        dense
-      ></v-text-field></v-col>
+      <v-col cols="2" class="pt-1">
+        <p>Nombre Documento:</p>
+      </v-col>
+      <v-col cols="4">
+        <v-text-field
+          v-model="nombrePedido"
+          outlined
+          dense
+        ></v-text-field>
+      </v-col>
     </v-row>
     <v-row no-gutters class="pl-3">
-      <v-col cols="12" lg="6"><v-autocomplete
+        <v-col cols="2" class="pt-">
+        <p>Obra del Pedido:</p>
+      </v-col>
+      <v-col cols="4"><v-autocomplete
         v-model="proyectoPedido"
         :items="listaProyectos"
-        label="Obra del Pedido"
         persistent-hint
         outlined
         dense
@@ -45,3 +50,4 @@
 </template>
 
 <script src="./cabecera-pedidos.js"></script>
+<style src="./cabeceera-pedidos.css"></style>

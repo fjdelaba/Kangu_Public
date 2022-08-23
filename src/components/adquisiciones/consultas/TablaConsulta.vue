@@ -370,10 +370,11 @@
           show-expand
           :expanded.sync="expanded"
           :single-expand="singleExpand"
+          :items-per-page="25"
         ><!-- v-model="selectedUsers" -->
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
-              <lineas-oc :lineas="item.lineas"></lineas-oc>
+              <lineas-oc :lineas="item.lineas" :origen="origen"></lineas-oc>
             </td>
           </template>
           <template v-slot:header.pro_nombre="{ header }">

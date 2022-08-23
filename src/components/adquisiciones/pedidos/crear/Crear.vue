@@ -1,9 +1,14 @@
 <template>
   <v-container>
     <breadcrum-pedido :breadcrumbs="breadcrumbs"></breadcrum-pedido>
-  
     <v-dialog v-model="mostrar" persistent max-width="500px">
-      <dialog-final :titulo="tituloModal" :texto="textoModal" :correo="correoModal" :cerrar-dialog="cerrarDialog" ></dialog-final>
+      <dialog-final
+        :titulo="tituloModal"
+        :texto="textoModal"
+        :cerrar-dialog="cerrarDialog"
+        :origen="2"
+        :aprobada="true"
+      ></dialog-final>
     </v-dialog>
   
     <!-- <v-dialog v-model="dialogDelete" persistent max-width="500px">
@@ -86,7 +91,7 @@
         </v-row>
         <v-row>
           <v-col cols="12">
-            <v-btn @click="crearPedido()">Crear Pedido</v-btn>
+            <v-btn :disabled="cpxHabilitarPedido" @click="crearPedido()">Crear Pedido</v-btn>
           </v-col></v-row>
         <v-row>
         </v-row></v-sheet></v-card>

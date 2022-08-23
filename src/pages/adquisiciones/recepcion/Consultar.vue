@@ -3,6 +3,7 @@
     <div v-if="$store.state.app.permisosUsuario.recepcion">
       <div>
         <h2>Consultar Recepcion</h2>
+        <tabla-consulta :consulta="consulta" :origen="3"></tabla-consulta>
       </div>
     </div>
     <div v-else>
@@ -10,13 +11,4 @@
     </div>
   </v-container>
 </template>
-
-<script>
-export default {
-
-}
-</script>
-
-<style>
-
-</style>
+<script src="./consultar/Consultar.js"></script>

@@ -54,8 +54,15 @@ export default {
           materiales:[],
           moneda:{},
           listaPartidas: [],
-
       };
+    },
+    computed:{
+      cpxHabilitar(){
+      if(this.pro_fk == ''){
+        return true
+      }
+      },
+     
     },
     methods: {
       agregarMat(){
