@@ -137,6 +137,7 @@
           :identificacion="identificacion"
           :vendedor="vendedor.contacto"
           :idOc="oc_id"
+          :origen="1"
         ></DialogFinalDocumento>
       </v-dialog>
       <v-dialog
@@ -482,6 +483,7 @@ export default {
       }
     },
     cerrarModal() {
+      console.log('cerrar Doalog')
       this.dialogFinal = false
     }
   }

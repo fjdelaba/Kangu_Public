@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     async cerrar() {
-
+      
       if (this.origen === 1) {
         if (this.idOc !== 0 && !this.aprobada && this.enviarCorreo && this.validateEmail(this.correo)) {
           const uriOC = await creaPdfOC2(this.idOc,this.$store.state.app.datosEmpresa, 2) 
@@ -40,7 +40,7 @@ export default {
           const resp = await this.axios.post('https://actions-kangu-hasura.herokuapp.com/enviarCorreo', { pdf:uriOC, destinatario:this.correo, nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
           // const resp = await this.axios.post('http://localhost:3000/enviarCorreo', { pdf:du, destinatario:'eloaiza@dlb.cl', nombre: this.vendedor.nombre, identificacion: this.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
         }
-  
+        console.log('CERRAR DIAGLO');
         this.cerrarDialog()
         this.$router.push('/adquisiciones/oc/consultar/')
       }
