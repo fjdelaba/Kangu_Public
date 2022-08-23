@@ -7,7 +7,7 @@ import DialogFinal from "./../../dialog-final-documento/DialogFinalDocumento.vue
 import { creaPdfPedido } from "../../../../utils/pdf-pedido-creado";
 import { getUsuarioLogin } from '../../../../graphql/configuracion'
 import { getProyectosPorUsuario } from '../../../../graphql/general'
-import { getAprobadorPedido} from '../../../../graphql/adquisiciones'
+import { getAprobadorPedido,insertPED} from '../../../../graphql/adquisiciones'
 
 export default {
   name:'CrearPedido',
@@ -75,7 +75,8 @@ export default {
           existeAprobador:'',
           idProyecto:'',
           fechaDescarga:'',
-          datosUsuario:''
+          datosUsuario:'',
+          comentario:''
       };
     },
 
@@ -90,7 +91,7 @@ export default {
         return  this.$moment(new Date()).format("DD/MM/yy");
       },
       cpxProFk(){
-        console.log(this.$refs)
+       
         if(this.$refs.refdatoscabecera == undefined || this.$refs.refdatoscabecera == null){
           return 0
         }else {
@@ -109,12 +110,17 @@ export default {
         const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
         this.datosUsuario = usuarioLogin.data.kangusoft_usu[0]
         console.log('usuarioLogin: ', usuarioLogin.data.kangusoft_usu[0])
+        console.log("a",this.$refs)
       },
 
       cargarPartidas(id_pro){
         this.materialesPedido = this.$refs.tablapedido.materiales
         this.idProyecto = id_pro
         console.log("proyecto",this.idProyecto)
+      },
+      cargarComentario(comentario){
+        console.log("comentario",comentario)
+         this.comentario = comentario
       },
    
       eliminarAdjunto(item) {
@@ -219,7 +225,30 @@ export default {
           this.textoModal = `El pedido PED-15 ha sido completado correctamente`
           this.mostrar = true
           this.fechaDescarga = `${this.cpxFecha}`
-          await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido,this.fechaDescarga,this.datosUsuario,this.idProyecto)
+          const objDatosCabecera = {
+            nombre: cabecera.nombre, 
+            comentario: this.$refs.refcomentario.comentario, 
+            usu_fk:this.datosUsuario.id,
+            pro_fk:  this.idProyecto,
+            emp_fk: this.datosEmpresa.id,
+            est_doc: 1,
+          }
+          const objLineas = []
+          for(let linea of this.materialesPedido){
+            const objLinea = {
+              mat_fk: linea.mat_id,
+              cantidad: Number(linea.cantidad),
+              observacion: linea.observacion,
+              partida: linea.partidas[0].id,
+              usu_fk:this.datosUsuario.id
+            }
+            objLineas.push(objLinea)
+          }
+          // await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido,this.fechaDescarga,this.datosUsuario,this.idProyecto)
+          const { data:{ insert_pedido: {error,success, ped_id } } } = await insertPED(objDatosCabecera, objLineas)
+          console.log('success: ', success)
+          console.log('error: ', error)
+          console.log('ped_id: ', ped_id)
         }
         else {
           this.$toast.error('NO existe valores, Revisa los valores en la tabla', {

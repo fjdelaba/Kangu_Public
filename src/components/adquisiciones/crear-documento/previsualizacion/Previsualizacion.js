@@ -8,7 +8,7 @@ import {
   getAprobadoresProyecto,
   updateFlujoAprobacionOC,
 } from "../../../../graphql/aprobaciones";
-import { creaPdfOC } from "../../../../utils/pdf-oc-template.js";
+import { creaPdfOC2 } from '../../../../utils/pdf-template-nuevo'
 
 export default {
   name: "Previsualizacion",
@@ -200,7 +200,8 @@ export default {
         }
       }
       console.log(tot);
-      await creaPdfOC(this.materiales, this.cabecera, this.datosEmpresa, tot);
+      console.log("envio a pdf ;",this.cabecera.id, this.datosEmpresa,1)
+      await creaPdfOC2(this.cabecera.id, this.datosEmpresa,1);
     },
     rechazoOc() {
       this.apruebo = false;

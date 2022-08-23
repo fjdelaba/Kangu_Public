@@ -1,9 +1,13 @@
 <template>
   <v-container>
+    {{ comentarioPedido }}
     <v-textarea
+      v-model="comentarioPedido"
       outlined
       label="Comentario al comprador"
-      :value="comentario"
+      counter
+      maxlength="120"
+      @change="cargarComentario"
     ></v-textarea>
   </v-container>
 </template>

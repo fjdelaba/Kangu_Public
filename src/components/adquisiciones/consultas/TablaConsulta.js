@@ -327,6 +327,7 @@ export default {
         //   { item: 'Total', valor: total}
         // ]
         // console.log('totales: ', totales);
+        console.log("envio a pdf ;",item.id, this.datosEmpresa,1)
          await creaPdfOC2(item.id,this.datosEmpresa, 1) 
       } catch (error) {
         console.log('error: ', error);

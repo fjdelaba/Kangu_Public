@@ -58,7 +58,7 @@
                 <v-list-item-avatar
                   tile
                   width="90px"
-                >fproyecto
+                >
                   <v-img :src="logo"></v-img></v-list-item-avatar>
               </v-list-item>
               

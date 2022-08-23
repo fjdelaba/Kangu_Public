@@ -60,6 +60,16 @@ mutation M_INSERT_OC($cabecera: CabeceraOCInput!, $lineas: [DetalleOcInput]!) {
 }
 `
 
+const INSERT_PED = gql`
+mutation M_INSERT_PED($cabecera: CabeceraPedidoInput!, $lineas: [DetallePedidoInput]!) {
+  insert_pedido(cabecera: $cabecera, lineas: $lineas) {
+    error
+    success
+    ped_id
+  }
+}
+`
+
 const UPDATE_FINALIZAR_OC = gql`
 mutation M_UPDATE_FINALIZAR_OC($cabecera: OcCabeceraInput!, $flujoCompra: [FlujoCompraInput]!, $adjuntos: [AdjuntoOcInput]!) {
   update_oc_cabecera(cabecera: $cabecera, flujoCompra: $flujoCompra, adjuntos: $adjuntos,) {
@@ -76,5 +86,6 @@ export {
   DELETE_OC_DETALLE,
   UPDATE_OC_INFORMACION_GENERAL,
   INSERT_OC,
-  UPDATE_FINALIZAR_OC
+  UPDATE_FINALIZAR_OC,
+  INSERT_PED
 }

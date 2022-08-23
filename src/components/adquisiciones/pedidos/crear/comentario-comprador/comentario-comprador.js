@@ -5,11 +5,22 @@ export default {
      
       },
     mounted() {
+    }, 
+    props: {
+     
+      _comentario:{
+        type:Function
+      },
     },
     data() {
       return {
-        comentario:''
+        comentarioPedido:'',
       };
     },
-    methods: {}
+    methods: {
+      cargarComentario(){
+        this._comentario(this.comentarioPedido)
+        console.log('comentario:', this.comentarioPedido)
+      },
+    }
 }

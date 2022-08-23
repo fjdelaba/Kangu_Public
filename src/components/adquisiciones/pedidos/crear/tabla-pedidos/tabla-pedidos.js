@@ -90,7 +90,7 @@ export default {
         this.agregar = false
        } else {
         console.log("sumar un material")
-        this.materiales.push({mat:param.mat_nombre,cantidad:param.cantidad,observacion:param.observacion,unidad:param.mat_unidad,uid:param.uid,partidas:param.partidas})
+        this.materiales.push({mat_id:param.mat_fk,mat:param.mat_nombre,cantidad:param.cantidad,observacion:param.observacion,unidad:param.mat_unidad,uid:param.uid,partidas:param.partidas})
         console.log("cantidad", this.materiales)
         // this.detalleMaterial.push({mat_fk:param.mat_fk,par_fk:param.partidas[0].par_fk,observacion:param.observacion,usu_fk:param.usu_fk,cantidad:param.cantidad})
         // console.log("detalleMaterial",this.detalleMaterial)

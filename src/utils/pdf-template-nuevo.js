@@ -57,6 +57,9 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
   tipoDespacho.nombre = kangusoft_oc[0].des_tip.nombre;
   cabecera.est_doc_fk = Number(kangusoft_oc[0].est_doc_fk);
   cabecera.id = kangusoft_oc[0].id;
+  let formatoCL
+  let formatoCantidad
+  let peso
   console.log("MATERIALES:", materialesPDF);
   // tipo_documento = kangusoft_oc[0].doc_tip_fk
 
@@ -66,10 +69,28 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
   img2.src = require("../components/general/generadorPDF/assets/img/Firma_de_Harold.jpeg");
 
   console.log("CABECERA PDF;", kangusoft_oc[0]);
-
+if(moneda.id == 2){
   let options = { style: "currency", currency: "CLP" };
-  let formatoCL = new Intl.NumberFormat("es-CL", options);
-  let formatoCantidad = new Intl.NumberFormat("es-CL");
+   formatoCL = new Intl.NumberFormat("es-CL", options);
+   formatoCantidad = new Intl.NumberFormat("es-CL");
+   peso = 'CLP'
+}else if(moneda.id == 3){
+  let options = { style: "currency", currency: "USD" };
+  formatoCL = new Intl.NumberFormat('en-US', options);
+  formatoCantidad = new Intl.NumberFormat("es-CL");
+  peso = 'USD'
+}else if(moneda.id == 4){
+  let options = { style: "currency", currency: "EUR" };
+  formatoCL = new Intl.NumberFormat('de-DE', options);
+  formatoCantidad = new Intl.NumberFormat("es-CL");
+  peso = 'EUR'
+}else if(moneda.id == 1){
+  let options = { style: 'decimal'};
+  formatoCL = new Intl.NumberFormat('es-CL', options);
+  formatoCantidad = new Intl.NumberFormat("es-CL");
+  peso = 'UF'
+}
+ 
 
   for (let valor of materialesPDF) {
     console.log("valor", valor);
@@ -82,6 +103,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
   if (proveedor.direccion == null) proveedor.direccion = "Sin Dirección";
   if (cabecera.identificacion == null)
     cabecera.identificacion = "Sin Identificación";
+  if (cabecera.comentario == null) cabecera.comentario = "Sin Comentario";
   if (cabecera.comentarioPDF == null) cabecera.comentarioPDF = "Sin Comentario";
   let props = {
     returnJsPDFDocObject: true,
@@ -172,7 +194,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
         {
           col1: "Neto:",
           col2: formatoCL.format(neto),
-          col3: "CLP",
+          col3: peso,
           style: {
             fontSize: 12, //optional, default 12
           },
@@ -180,7 +202,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
         {
           col1: impuesto.nombre,
           col2: formatoCL.format(impuesto.valor),
-          col3: "CLP",
+          col3: peso,
           style: {
             fontSize: 12, //optional, default 12
           },
@@ -188,7 +210,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
         {
           col1: "Total:",
           col2: formatoCL.format(total),
-          col3: "CLP",
+          col3: peso,
           style: {
             fontSize: 12, //optional, default 12
           },

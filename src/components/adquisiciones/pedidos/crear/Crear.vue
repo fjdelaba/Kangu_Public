@@ -59,9 +59,9 @@
           </v-col>
 
         </v-row>
-        <v-row>
+        <v-row>  
           <v-col cols="6">
-            <comentario-comprador></comentario-comprador>
+            <comentario-comprador ref="refcomentario" :_comentario="cargarComentario"></comentario-comprador>
           </v-col>
           <v-col cols="4">
             <h2>ADJUNTAR ARCHIVO</h2>
