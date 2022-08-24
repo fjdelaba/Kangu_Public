@@ -35,8 +35,8 @@ export default {
             { text: 'Material', value: 'nombre', sortable: true, idx: 1 },
             { text: 'Unidad', value: 'mu_nombre', sortable: true, idx: 2 },
             { text: 'Cantidad', value: 'cant_ajustada', sortable: true, idx: 3 },
-            { text: 'Precio Unitario', value: 'cant_recepcion', sortable: true, idx: 4 },
-            { text: 'Total', value: 'cant_por_recepcionar', sortable: true, idx: 5 }
+            { text: 'Precio Unitario', value: 'precio_unitario', sortable: true, idx: 4 },
+            { text: 'Total', value: 'total', sortable: true, idx: 5 }
         ]
       }
      

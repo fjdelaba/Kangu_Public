@@ -346,7 +346,7 @@ if(moneda.id == 2){
   var docHeight = doc.internal.pageSize.height;
 
   var colorBlack = "#000000";
-  var colorEmpresa = empresa.color;
+  // var colorEmpresa = empresa.color;
   var colorGray = "#4d4e53";
   //starting at 15mm
   var currentHeight = 15;
@@ -364,8 +364,8 @@ if(moneda.id == 2){
   };
 
   doc.setFontSize(13);
-  doc.setTextColor(colorEmpresa);
-  console.log("Color", colorEmpresa);
+  // doc.setTextColor(colorEmpresa);
+  // console.log("Color", colorEmpresa);
   doc.text(docWidth - 10, currentHeightEmpresa, param.business.name, "right");
   doc.setFontSize(pdfConfig.fieldTextSizeEmpresa);
 

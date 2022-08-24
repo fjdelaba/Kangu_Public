@@ -128,6 +128,27 @@ query Q_GET_APROBADOR_PEDIDO($mod_fk: bigint!, $pro_fk: bigint!) {
   }
 }
 `
+const GET_PEDIDO = gql`
+query Q_GET_PEDIDO($id: bigint!) {
+  kangusoft_ped(where: {emp: {id: {_eq: $id}}}) {
+    comentario
+    fec_creacion
+    id
+    identificacion
+    nombre
+    pro {
+      nombre
+    }
+    usu {
+      apellidos
+      nombre
+    }
+    est_doc {
+      nombre
+    }
+  }
+}
+`
 
 const GET_MONTO_COMPRADOR = gql`
 query Q_GET_MONTO($id_usuario: bigint!, $flujo: Boolean!, $id_proyecto: bigint!) {
@@ -312,4 +333,4 @@ query Q_GET_MATERIALES($datos: getMaterialesInput!) {
 }
 `
 
-export { GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }
+export { GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }
