@@ -27,6 +27,8 @@
         hoverable
         activatable
         return-object
+        item-disabled="locked"
+        selection-type="independent"
         :multiple-active="seleccionMultiple"
         @update:active="seleccionPartida"
         @update:open="cerrarNodosAbiertos"

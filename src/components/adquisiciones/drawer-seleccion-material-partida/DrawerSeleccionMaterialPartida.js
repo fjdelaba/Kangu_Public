@@ -387,6 +387,21 @@ export default {
     }
   },
   methods: {
+    selectActivePage(node) {
+      for (const child of node) {
+        console.log('child: ', child)
+        // child.folded = false
+        // child.disabled = false
+        if (child.children && Array.isArray(child.children) && child.children.length > 0) {
+          if (child.children.length > 0) {
+            child.locked = true
+          }
+          console.log('anidated child: ', child.children)
+          this.selectActivePage(child.children)
+        }
+
+      }
+    },
     async cargarPartidas(pro_fk) {
       try {
         console.log('adasd')
@@ -403,6 +418,7 @@ export default {
         console.log('resp: ', partidas)
         this.listaPartidas = [...partidas]
         console.log('this.listaPartidas Parent: ', this.listaPartidas)
+        this.selectActivePage(this.listaPartidas)
       } catch (e) {
         console.log(e)
       } 
