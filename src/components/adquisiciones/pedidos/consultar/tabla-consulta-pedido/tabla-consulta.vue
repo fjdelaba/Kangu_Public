@@ -265,7 +265,7 @@
       </v-dialog>
       <v-data-table
         :headers="headers"
-        :items="a"
+        :items="listadoPedidos"
         class="flex-grow-1"
         dense
         :loading="loadingTabla"
@@ -295,6 +295,7 @@
             </v-data-table>
           </td>
         </template>
+     
         <template v-slot:header.estado="{ header }">
           {{ header.text }}
           <v-menu offset-y :close-on-content-click="false">
@@ -414,7 +415,7 @@
           </div>
         </template> 
         <template v-slot:item.fec_creacion="{ item }">
-          <div class="font-weight-bold">{{ item.fec_creacion | formatDate('ll') }}</div>
+          <div class="font-weight-bold">{{ item.fec_creacion | formatDate('L') }}</div>
         </template>
        
       </v-data-table>

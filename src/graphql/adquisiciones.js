@@ -1,5 +1,5 @@
 import { apolloClient } from '../client'
-import { GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES } from './querys/adquisiciones'
+import { GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES } from './querys/adquisiciones'
 import { INSERT_PED, INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL, INSERT_OC, UPDATE_FINALIZAR_OC } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
@@ -40,6 +40,16 @@ export const postDetalleOC = async (detalle, detalle_partida) => {
     variables: {
       detalle,
       detalle_partida
+    }
+  })
+}
+export const getPedido = async (id) => {
+  console.log('EMP_FK: ', id)
+
+  return await apolloClient.query({
+    query: GET_PEDIDO,
+    variables: {
+      id: id      
     }
   })
 }

@@ -22,6 +22,12 @@
       <template v-slot:item.cant_recepcion="{ item }">
         <div>{{ item.cant_recepcion | currency_2 }}</div>
       </template>
+      <template v-slot:item.precio_unitario="{ item }">
+        <div>{{ item.precio_unitario | currency }}</div>
+      </template>
+      <template v-slot:item.total="{ item }">
+        <div>{{ item.precio_unitario * item.cantidad | currency }}</div>
+      </template>
       <template v-slot:item.cant_por_recepcionar="{ item }">
         <div>{{ item.cant_por_recepcionar | currency_2 }}</div>
       </template>

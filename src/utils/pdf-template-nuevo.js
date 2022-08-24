@@ -306,9 +306,46 @@ total = impuesto.valor + neto
         height: doc.getTextDimensions(lines).h,
       };
     };
-    if (param.invoice.table && param.invoice.table.length) {
-      if (param.invoice.table[0].length != param.invoice.header.length)
-        throw Error("Length of header and table column must be equal.");
+  };
+  if (param.invoice.table && param.invoice.table.length) {
+    if (param.invoice.table[0].length != param.invoice.header.length)
+      throw Error("Length of header and table column must be equal.");
+  }
+
+  var docWidth = doc.internal.pageSize.width;
+  var docHeight = doc.internal.pageSize.height;
+
+  var colorBlack = "#000000";
+  // var colorEmpresa = empresa.color;
+  var colorGray = "#4d4e53";
+  //starting at 15mm
+  var currentHeight = 15;
+  var currentHeightEmpresa = 16;
+  //var startPointRectPanel1 = currentHeight + 6;
+
+  var pdfConfig = {
+    headerTextSize: 20,
+    labelTextSize: 12,
+    fieldTextSize: 10,
+    fieldTextSizeEmpresa: 8,
+    lineHeight: 6,
+    subLineHeight: 4,
+    subLineHeight2: 15,
+  };
+
+  doc.setFontSize(13);
+  // doc.setTextColor(colorEmpresa);
+  // console.log("Color", colorEmpresa);
+  doc.text(docWidth - 10, currentHeightEmpresa, param.business.name, "right");
+  doc.setFontSize(pdfConfig.fieldTextSizeEmpresa);
+
+  if (param.logo.src) {
+    var imageHeader = "";
+    if (typeof window === "undefined") {
+      imageHeader = param.logo.src;
+    } else {
+      imageHeader = new Image();
+      imageHeader.src = param.logo.src;
     }
   
    
@@ -872,7 +909,4 @@ if (param.contact2.pago){
       
 }
 
-export {
-  creaPdfOC2
-
-}
+export { creaPdfOC2 };
