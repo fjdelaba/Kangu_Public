@@ -352,7 +352,7 @@ if(moneda.id == 2){
   var currentHeight = 15;
   var currentHeightEmpresa = 16;
   //var startPointRectPanel1 = currentHeight + 6;
-
+//a
   var pdfConfig = {
     headerTextSize: 20,
     labelTextSize: 12,
