@@ -24,7 +24,6 @@ export default {
       nombre:'PALLETS',
       unidad:'UNIDAD',
       obs:'LO MAS ANTES POSIBLE',
-     a2:'',
      breadcrumbs: [
       {
         text: 'Pedido',
@@ -82,7 +81,7 @@ export default {
         //  sortable: false,
         //  align: "center", }
       ],
-      a2:[{nombre:'Pallets',identificador:'256',proyecto:'257',fecha:'Test',}],
+      a2:[],
       lol2:'',
        headers2: [
          {
@@ -95,13 +94,13 @@ export default {
         
          {
              text: "Cantidad",
-             value: "proyecto",
+             value: "cantidad",
              width: "100px",
              align: "center",
            },
            {
             text: "Comprado",
-            value: "identificador",
+            value: "cant_comprada",
             width: "100px",
             align: "center",
           },
@@ -165,7 +164,6 @@ export default {
       for(let ped of kangusoft_ped ){
         this.listadoPedidos.push(ped)
       }
-     
     },
 
   }

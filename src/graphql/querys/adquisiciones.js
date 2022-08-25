@@ -146,6 +146,25 @@ query Q_GET_PEDIDO($id: bigint!) {
     est_doc {
       nombre
     }
+    ped_dets {
+      cant_ajustada
+      cant_comprada
+      cant_cotizada
+      cant_despacho
+      cant_recepcion
+      cantidad
+      identificacion
+      mat_fk
+      observacion
+      mat {
+        nombre
+        mat_uni {
+          nombre
+        }
+      }
+      par
+      ped_fk
+    }
   }
 }
 `

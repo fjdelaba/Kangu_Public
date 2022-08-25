@@ -275,21 +275,24 @@
         :expanded.sync="expanded"
         :single-expand="singleExpand"
       ><!-- v-model="selectedUsers" -->
-        <template v-slot:expanded-item="{ headers }">
+        <template v-slot:expanded-item="{ headers, item }">
           <td :colspan="headers.length">
             <v-data-table
               :headers="headers2"
-              :items="a2"
+              :items="item.ped_dets"
               class="flex-grow-1"
               dense
               :search="lol2"
               :hide-default-footer="true"
             >
-              <template v-slot:item.nombre="{}">
-                <nombre-material :nombre="nombre" :unidad="unidad" :observacion="obs" ></nombre-material>
+              <template v-slot:item.nombre="{ item }">
+                <nombre-material :nombre="item.mat.nombre" :unidad="item.mat.mat_uni.nombre" :observacion="item.observacion" ></nombre-material>
               </template>
-              <template v-slot:item.identificador="{ item }">
-                <p @click="dialogDelete = true">{{ item.identificador }}</p>
+              <template v-slot:item.cant_comprada="{ item }">
+                <p @click="dialogDelete = true">{{ item.cant_comprada }}</p>
+              </template>
+              <template v-slot:item.cantidad="{ item }">
+                <p>{{ item.cantidad }}</p>
               </template>
            
             </v-data-table>
