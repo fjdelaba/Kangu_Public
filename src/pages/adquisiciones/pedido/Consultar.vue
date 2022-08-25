@@ -10,7 +10,7 @@
   </v-container>
 </template>
 
-<script src="./consultar/Consultar.js"></script>
+<script src="./Consultar/Consultar.js"></script>
 
 <style scoped>
 .error-page {
