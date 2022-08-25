@@ -81,14 +81,15 @@ export const getAprobadorPedido = async (mod_fk, pro_fk) => {
   })
 }
 
-export const getMontoComprador = async (id_usuario, id_proyecto, flujo) => {
+export const getMontoComprador = async (id_usuario, id_proyecto, flujo, mod_fk) => {
 
   return await apolloClient.query({
     query: GET_MONTO_COMPRADOR,
     variables: {
       id_usuario,
       flujo,
-      id_proyecto
+      id_proyecto,
+      mod_fk
     },
     fetchPolicy:'network-only'
   })
