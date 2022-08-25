@@ -61,6 +61,14 @@ export default [
     children: [...todoRoutes]
   },
   {
+    path: '/adquisiciones/pedido/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-todo" */ '@/pages/adquisiciones/pedido/consultar/Detalle.vue'
+      ),
+    children: [...todoRoutes]
+  },
+  {
     path: '/adquisiciones/pedido/consultar',
     component: () =>
       import(

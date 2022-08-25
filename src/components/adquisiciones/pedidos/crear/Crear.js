@@ -244,11 +244,11 @@ export default {
             }
             objLineas.push(objLinea)
           }
-          await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido,this.fechaDescarga,this.datosUsuario,this.idProyecto)
-          // const { data:{ insert_pedido: {error,success, ped_id } } } = await insertPED(objDatosCabecera, objLineas)
-          // console.log('success: ', success)
-          // console.log('error: ', error)
-          // console.log('ped_id: ', ped_id)
+          // await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido,this.fechaDescarga,this.datosUsuario,this.idProyecto)
+           const { data:{ insert_pedido: {error,success, ped_id } } } = await insertPED(objDatosCabecera, objLineas)
+          console.log('success: ', success)
+          console.log('error: ', error)
+           console.log('ped_id: ', ped_id)
         }
         else {
           this.$toast.error('NO existe valores, Revisa los valores en la tabla', {

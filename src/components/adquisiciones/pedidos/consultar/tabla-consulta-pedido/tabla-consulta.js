@@ -77,9 +77,9 @@ export default {
          { text: 'Acciones', value: 'actions',width: "100px",
          sortable: false,
          align: "center", },
-        //  { text: '', value: 'pdf',width: "100px",
-        //  sortable: false,
-        //  align: "center", }
+         { text: '', value: 'pdf',width: "100px",
+         sortable: false,
+         align: "center", }
       ],
       a2:[],
       lol2:'',
@@ -157,7 +157,13 @@ export default {
    
   },
   methods: {
- 
+    abrirDetalle(item){
+      console.log('object: ', item);
+      this.$router.push({
+            path:'/adquisiciones/pedido/consultar/detalle',
+            query: { id: Number(item.id),}
+        });
+     },
     async cargarPedidos() {
       const {data: { kangusoft_ped }} = await getPedido(this.datosEmpresa.id)
       console.log('a: ', kangusoft_ped);
