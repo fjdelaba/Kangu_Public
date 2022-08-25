@@ -50,18 +50,18 @@
           width="100%"
           class="pb-3 pt-3"
         >    
-          <cabecera-pedidos ref="refdatoscabecera" :usu_id="usu_id" :_devuelve-pro-fk="cargarPartidas" ></cabecera-pedidos>
+          <cabecera-pedidos ref="refdatoscabecera" :vista="'crear'" :usu_id="usu_id" :_devuelve-pro-fk="cargarPartidas" ></cabecera-pedidos>
         
         </v-sheet>
         <v-row>
           <v-col cols="12">
-            <tabla-pedidos ref="tablapedido" :pro_fk="idProyecto" ></tabla-pedidos>
+            <tabla-pedidos ref="tablapedido" :vista="'crear'" :pro_fk="idProyecto" ></tabla-pedidos>
           </v-col>
 
         </v-row>
         <v-row>  
           <v-col cols="6">
-            <comentario-comprador ref="refcomentario" :_comentario="cargarComentario"></comentario-comprador>
+            <comentario-comprador ref="refcomentario" :vista="'crear'" :_comentario="cargarComentario"></comentario-comprador>
           </v-col>
           <v-col cols="4">
             <h2>ADJUNTAR ARCHIVO</h2>

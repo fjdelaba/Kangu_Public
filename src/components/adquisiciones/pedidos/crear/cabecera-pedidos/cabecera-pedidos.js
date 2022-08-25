@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { getProyectosPorUsuario } from '../../../../../graphql/general'
+import moment from 'moment'
 export default {
     components: {
 
@@ -7,6 +8,12 @@ export default {
       props: {
         nombre: {
           type:String
+        },
+        vista: {
+          type:String
+        },
+        cabecera: {
+          type:Object
         },
         usu_id: {
           type:Number
@@ -23,6 +30,7 @@ export default {
     data() {
       return {
        respEdicion: '',
+       logo: "https://kangufiles.nyc3.digitaloceanspaces.com/kangu/logo_dlb.png",
        listaProyectos:[],
        existeAprobador:false,
        aprobadorPedido:[],
@@ -31,6 +39,9 @@ export default {
       };
     },
     methods: {
+      moment() {
+        return moment();
+      },
       cargarPartidas(){
         
         this._devuelveProFk(this.proyectoPedido)

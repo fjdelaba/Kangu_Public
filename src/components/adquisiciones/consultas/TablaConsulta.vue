@@ -487,7 +487,7 @@
             </div>
           </template> 
           <template v-slot:item.fec_creacion="{ item }">
-            <div class="font-weight-bold">{{ item.fec_creacion | formatDate('L') }}</div>
+            <div class="font-weight-bold">{{ moment(item.fec_creacion).format("DD/MM/YYYY") }}</div>
           </template>
           <template v-slot:item.neto="{ item }">
             <div class="font-weight-bold">{{ item.neto | currency }}</div>

@@ -11,7 +11,7 @@ import {getProyecto} from '../graphql/configuracion'
 
 
 
-async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaDescarga,datosUsuario,proyectoSeleccionado) {
+async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaDescarga,datosUsuario,proyectoSeleccionado,pedido) {
   const {
     data: { kangusoft_pro},
   } = await getProyecto(proyectoSeleccionado);
@@ -31,6 +31,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
     let formaPago = {}
     let tipoDespacho = {}
     let proyecto = kangusoft_pro[0]
+    let id = pedido
     
     materialesPDF = materialesPedido
      cabecera.nombre = cabeceraPedido.nombre
@@ -60,7 +61,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
     // tipo_documento = kangusoft_oc[0].doc_tip_fk
 
     var img = new Image();
-    img.src = datosEmpresa.logo;
+    img.src = require('../assets/images/logo_dlb.png')
     // var img2 = new Image();
     // img2.src = require('../components/general/generadorPDF/assets/img/Firma_de_Harold.jpeg');
 
@@ -74,7 +75,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
   if(datosEmpresa.giro == null) datosEmpresa.giro = 'Sin Giro'
   let props = {
     returnJsPDFDocObject: true,
-    fileName: `PED-15 .pdf`,
+    fileName: `PED-${id} .pdf`,
     orientationLandscape: false,
     compress: true,
     logo: {
@@ -99,7 +100,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
     },
     business: {
       name: `${datosEmpresa.nombre}`,
-      address: `${datosEmpresa.direccion}`,
+      address: `${datosEmpresa.direccion}, ${datosEmpresa.com.nombre}`,
       phone: `${datosEmpresa.rut}`,
       email: `${datosEmpresa.email}`,
       email_1: `${datosEmpresa.telefono}`,
@@ -122,7 +123,7 @@ async function creaPdfPedido(datosEmpresa,cabeceraPedido,materialesPedido,fechaD
     //   pago: `Despacho: ${tipoDespacho.nombre}`
   },
     invoice: {
-        label: "Identificador: PED-15",
+        label: `Identificador: PED-${id}`,
         num: 19,
         invDate: `Fecha de Emision: 21/07/2022`,
         invGenDate: `Fecha de descarga:`,

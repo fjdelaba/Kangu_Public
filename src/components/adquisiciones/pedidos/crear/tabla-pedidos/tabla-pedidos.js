@@ -12,6 +12,12 @@ export default {
 
     },
     props: {
+      vista: {
+        type:String
+      },
+      materialesPed:{
+        type:Array
+      },
       pro_fk: {
         type: Number,
         default:0
@@ -20,6 +26,7 @@ export default {
     data() {
       return {
         id_pro:'',
+      
         agregar:false,
         cantidad:"",
         detalleMaterial:[],
@@ -40,7 +47,7 @@ export default {
             },
             // { text: 'C.C', value: 'oc_det_pars', sortable: false, width: '200px' },
             {
-              text: "Cant.",
+              text: "Cantidad",
               value: "cantidad",
               width: "100px",
               sortable: false,
@@ -96,25 +103,25 @@ export default {
         // console.log("detalleMaterial",this.detalleMaterial)
        }
       },
-      async getPartidas() {
-        console.log("ID", this.pro_fk)
-        console.log('INICIO GET PARTIDAS')
-        const  { data }   = await getPartidasPorPoroyecto(this.pro_fk)
+      // async getPartidas() {
+      //   console.log("ID", this.pro_fk)
+      //   console.log('INICIO GET PARTIDAS')
+      //   const  { data }   = await getPartidasPorPoroyecto(this.pro_fk)
         
-        console.log('data en getPartidas: ', data) 
-        this.listaPartidas = data.getPartidas
-        for (const partida of this.listaPartidas) {
-          if (partida.path.indexOf('/') > 0) {
-            const pathArray = partida.path.split('/')
+      //   console.log('data en getPartidas: ', data) 
+      //   this.listaPartidas = data.getPartidas
+      //   for (const partida of this.listaPartidas) {
+      //     if (partida.path.indexOf('/') > 0) {
+      //       const pathArray = partida.path.split('/')
   
-            pathArray.shift()
-            pathArray.reverse()
-            partida.path = pathArray
-          } else {
-            delete partida.path
-          }
-        }
+      //       pathArray.shift()
+      //       pathArray.reverse()
+      //       partida.path = pathArray
+      //     } else {
+      //       delete partida.path
+      //     }
+      //   }
   
-      },
+      // },
     }
 }

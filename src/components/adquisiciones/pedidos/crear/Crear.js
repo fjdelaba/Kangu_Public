@@ -221,9 +221,9 @@ export default {
           this.materialesPedido = this.$refs.tablapedido.materiales
           // detalle pedido
           console.log("ACTIONS", cabecera,this.materialesPedido,adjuntos)
-          this.tituloModal = `Pedido Completado`
-          this.textoModal = `El pedido ha sido completado correctamente`
-          this.mostrar = true
+        
+          
+       
           this.fechaDescarga = `${this.cpxFecha}`
           const objDatosCabecera = {
             nombre: cabecera.nombre, 
@@ -246,9 +246,13 @@ export default {
           }
           // await creaPdfPedido(this.datosEmpresa,cabecera,this.materialesPedido,this.fechaDescarga,this.datosUsuario,this.idProyecto)
            const { data:{ insert_pedido: {error,success, ped_id } } } = await insertPED(objDatosCabecera, objLineas)
+           this.tituloModal = `Pedido Completado`
+           this.textoModal = `El pedido PED - ${ped_id} ha sido completado correctamente`
+           this.mostrar = true
           console.log('success: ', success)
           console.log('error: ', error)
            console.log('ped_id: ', ped_id)
+           
         }
         else {
           this.$toast.error('NO existe valores, Revisa los valores en la tabla', {

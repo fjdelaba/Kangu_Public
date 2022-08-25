@@ -7,7 +7,12 @@ export default {
     mounted() {
     }, 
     props: {
-     
+      comentario:{
+        type:String
+      },
+      vista: {
+        type:String
+      },
       _comentario:{
         type:Function
       },

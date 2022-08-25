@@ -8,9 +8,8 @@
 
     </v-row>
     <v-row>
-      <v-col >
+      <v-col v-if="vista == 'crear'" >
         <v-btn :disabled="cpxHabilitar" @click="agregarMat()">Agregar Material </v-btn>
-        
       </v-col>
        
     </v-row>
@@ -19,6 +18,7 @@
       <v-col cols="12">
           
         <v-data-table
+          v-if="vista == 'crear'" 
           :headers="headers"
           :items="materiales"
           item-key="id"
@@ -71,6 +71,37 @@
                 mdi-delete {{ item }}
               </v-icon>
             </div>
+          </template>
+        </v-data-table>
+        <v-data-table
+          v-if="vista == 'detalle'" 
+          :headers="headers"
+          :items="materialesPed"
+          item-key="id"
+          sort-by="calories"
+          hide-default-footer
+          class="elevation-1"
+          dense
+        >
+          <template v-slot:item.mat="{ item }">
+            <v-edit-dialog
+              :return-value.sync="item.mat"
+              @save="save"
+              @cancel="cancel"
+              @open="open"
+              @close="close"
+            >
+              <nombre-material :nombre="item.mat.nombre" :observacion="item.observacion" :unidad="item.mat.mat_uni.nombre" ></nombre-material>
+            </v-edit-dialog>
+          </template>
+        
+         <template v-slot:item.cc="{ item }">
+            <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+              {{ item.parByParFk.nombre }}
+            </div>
+          </template>
+          <template v-slot:item.cantidad="{ item }">
+            <p>{{ item.cantidad | currency_2 }}</p>
           </template>
         </v-data-table>
       </v-col>

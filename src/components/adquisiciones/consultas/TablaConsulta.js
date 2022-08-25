@@ -9,6 +9,7 @@ import ModalFiltros from '../modal-filtros/ModalFiltros.vue'
 import LineasOc from '../lineas-oc/LineasOc.vue'
 import {creaPdfOC } from '../../../utils/pdf-oc-template'
 import { creaPdfOC2 } from "../../../utils/pdf-template-nuevo";
+import moment from 'moment'
 Vue.component("downloadExcel", JsonExcel); 
 
 
@@ -250,6 +251,9 @@ export default {
     },
   },
   methods: {
+    moment() {
+      return moment();
+    },
     mostrarPDF(){
       this.verPdf = true
       

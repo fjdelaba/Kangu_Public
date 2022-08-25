@@ -247,6 +247,8 @@ export const getPermisos = async (id_usuario) => {
 }
 
 export const getUsuarioLogin = async (id_usuario) => {
+  console.log('USU:',id_usuario)
+
   return await apolloClient.query({
     query: GET_USUARIO_LOGIN,
     variables: {

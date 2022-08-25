@@ -1,6 +1,9 @@
 <template>
+
   <v-container>
-    <breadcrumbs :breadcrumbs="breadcrumbs"></breadcrumbs>
+    <div>
+      <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
+    </div>
    
     <v-card>
       <!-- users list -->
@@ -289,10 +292,10 @@
                 <nombre-material :nombre="item.mat.nombre" :unidad="item.mat.mat_uni.nombre" :observacion="item.observacion" ></nombre-material>
               </template>
               <template v-slot:item.cant_comprada="{ item }">
-                <p @click="dialogDelete = true">{{ item.cant_comprada }}</p>
+                <p @click="dialogDelete = true">{{ item.cant_comprada | currency_2 }}</p>
               </template>
               <template v-slot:item.cantidad="{ item }">
-                <p>{{ item.cantidad }}</p>
+                <p>{{ item.cantidad | currency_2 }}</p>
               </template>
            
             </v-data-table>
@@ -418,7 +421,7 @@
           </div>
         </template> 
         <template v-slot:item.fec_creacion="{ item }">
-          <div class="font-weight-bold">{{ item.fec_creacion | formatDate('L') }}</div>
+          <div class="font-weight-bold">{{ moment(item.fec_creacion).format("DD/MM/YYYY") }}</div>
         </template>
        
       </v-data-table>
