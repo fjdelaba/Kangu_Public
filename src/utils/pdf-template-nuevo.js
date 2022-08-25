@@ -67,6 +67,12 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
   img.src = require("../components/general/generadorPDF/assets/img/logo_dlb.png");
   var img2 = new Image();
   img2.src = require("../components/general/generadorPDF/assets/img/Firma_de_Harold.jpeg");
+  // let cancelada = new Image('../assets/images/pdf/Cancelada.png');
+  // img.src = require('../assets/images/pdf/');
+  // let imgRechazada = new Image();
+  // img2.src = require('../assets/images/pdf/Rechazada.png');
+  // let imgEnAprobacion = new Image();
+  // img2.src = require('../assets/images/pdf/EnAprobacion.png');
 
   console.log("CABECERA PDF;", kangusoft_oc[0]);
 if(moneda.id == 2){
@@ -230,7 +236,7 @@ if(moneda.id == 2){
       },
     },
     footer: {
-      text: "DOCUMENTO GENERADOR POR KANGUSOFT PARA EMPRESA: DLB_PRUEBA",
+      text: `DOCUMENTO GENERADOR POR KANGUSOFT PARA EMPRESA: ${datosEmpresa.nombre}`,
     },
     pageEnable: true,
     pageLabel: "Pagina ",
@@ -903,7 +909,7 @@ if(moneda.id == 2){
       // doc.text(65, 220, 'hello world', null, 55);
       // doc.addImage(nota, "PNG", 100, 240, 35, 35);
       // doc.addImage(img, "PNG", 105, 250, 35, 35, null, 'NONE', 0);
-      doc.addImage(img, "PNG", 80, 150, 200, 80, null, 'NONE', 50);
+      doc.addImage(img, "PNG", 80, 150, 50, 20, null, 'NONE', 50);
       // doc.addImage(jsonFile.enaprobacion, "PNG", 80, 150, 200, 80, null, 'NONE', 50);
       doc.restoreGraphicsState();
       // doc.setTextColor(150);

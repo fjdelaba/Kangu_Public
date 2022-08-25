@@ -278,7 +278,7 @@ export default {
           }
         }
         console.log('this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false: ', this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false)
-        const { data: { kangusoft_apr } } = await getMontoComprador(this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false)
+        const { data: { kangusoft_apr } } = await getMontoComprador(this.$store.state.app.datosUsuario.user_id ,this.pro_fk, false, 3)
 
         console.log('kangusoft_apr: ', kangusoft_apr)
         console.log('moneda: ', this.moneda.id)

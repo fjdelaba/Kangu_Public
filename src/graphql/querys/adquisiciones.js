@@ -170,8 +170,8 @@ query Q_GET_PEDIDO($id: bigint!) {
 `
 
 const GET_MONTO_COMPRADOR = gql`
-query Q_GET_MONTO($id_usuario: bigint!, $flujo: Boolean!, $id_proyecto: bigint!) {
-  kangusoft_apr(where: {usu_apro_fk: {_eq: $id_usuario}, flujo: {_eq: $flujo}, pro_fk: {_eq: $id_proyecto}}) {
+query Q_GET_MONTO($id_usuario: bigint!, $flujo: Boolean!, $id_proyecto: bigint!, , $mod_fk: bigint!) {
+  kangusoft_apr(where: {usu_apro_fk: {_eq: $id_usuario}, flujo: {_eq: $flujo}, pro_fk: {_eq: $id_proyecto}, mod_fk: {_eq: $mod_fk}}) {
     id
     usu_fk
     monto
