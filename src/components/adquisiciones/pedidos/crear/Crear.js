@@ -222,7 +222,7 @@ export default {
           // detalle pedido
           console.log("ACTIONS", cabecera,this.materialesPedido,adjuntos)
           this.tituloModal = `Pedido Completado`
-          this.textoModal = `El pedido PED-15 ha sido completado correctamente`
+          this.textoModal = `El pedido ha sido completado correctamente`
           this.mostrar = true
           this.fechaDescarga = `${this.cpxFecha}`
           const objDatosCabecera = {
