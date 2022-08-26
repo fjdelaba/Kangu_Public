@@ -140,7 +140,9 @@ export default {
       datosUsuario:'',
       a3:[{nombre:'OC-1392-1',identificador:'256',proyecto:'02/10/22'}],
       dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
-     
+      filtros:{
+        proyectos: [], // Este filtro no viene desde el modal
+      },
     }
   },
   created(){
@@ -156,6 +158,17 @@ export default {
   },
  
   computed: {
+    cpxDatosTabla() {
+      return this.listadoPedidos.filter(ped => {
+        let agregar = true;
+        console.log('ped: ', ped);
+        
+        if (this.filtros.proyectos.length > 0) {
+          agregar = agregar && this.filtros.proyectos.includes(ped.pro.id)
+        }
+        return agregar;
+      });
+    },
     dateRangeText () {
       const datePivot = []
       // console.log('this.dates_ ', this.dates);

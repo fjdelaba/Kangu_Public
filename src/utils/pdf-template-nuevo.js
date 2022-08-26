@@ -456,7 +456,7 @@ if(moneda.id == 2){
   if (param.contact2.name) currentHeight += pdfConfig.subLineHeight;
 
   doc.setTextColor(colorGray);
-  doc.setFontSize(pdfConfig.fieldTextSize - 2);
+  doc.setFontSize(pdfConfig.fieldTextSize );
 
   if (param.contact2.address) {
     doc.text(10, currentHeight, param.contact.address);
@@ -552,7 +552,7 @@ if(moneda.id == 2){
 
     currentHeight += pdfConfig.subLineHeight2;
     doc.setTextColor(colorBlack);
-    doc.setFontSize(pdfConfig.fieldTextSize);
+    doc.setFontSize(pdfConfig.fieldTextSize - 1);
     //border color
     doc.setDrawColor(colorGray);
     currentHeight += 2;
@@ -588,8 +588,8 @@ if(moneda.id == 2){
       let rowsHeight = [];
       row.forEach(function (rr, index) {
         const widthToUse = param.invoice.header[index]?.style?.width || tdWidth;
-
-        let item = splitTextAndGetHeight(rr.toString(), widthToUse - 1); //minus 1, to fix the padding issue between borders
+//tamaño padding
+        let item = splitTextAndGetHeight(rr.toString(), 50 - 1); //minus 1, to fix the padding issue between borders
         rowsHeight.push(item.height);
       });
 
@@ -603,7 +603,7 @@ if(moneda.id == 2){
     let startWidth = 0;
     row.forEach(function (rr, index) {
       const widthToUse = param.invoice.header[index]?.style?.width || tdWidth;
-      let item = splitTextAndGetHeight(rr.toString(), widthToUse - 1); //minus 1, to fix the padding issue between borders
+      let item = splitTextAndGetHeight(rr.toString(), 67 - 1); //minus 1, to fix the padding issue between borders
       console.log("texto", rr, "index", index);
       if (index == 0) doc.text(item.text, 11, currentHeight + 4);
       else {

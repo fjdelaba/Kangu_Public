@@ -268,7 +268,7 @@
       </v-dialog>
       <v-data-table
         :headers="headers"
-        :items="listadoPedidos"
+        :items="cpxDatosTabla"
         class="flex-grow-1"
         dense
         :loading="loadingTabla"
@@ -368,12 +368,12 @@
             </div>
           </v-menu>
         </template>
-        <template v-slot:header.proyecto="{ header }">
+        <template v-slot:header.pro.nombre="{ header }">
           {{ header.text }}
           <v-menu offset-y :close-on-content-click="false">
             <template v-slot:activator="{ on, attrs }">
               <v-btn icon v-bind="attrs" v-on="on">
-                <v-icon small :color="'black'">
+                <v-icon small :color="filtros.proyectos.length > 0 ? 'red' : ''">
                   mdi-filter
                 </v-icon>
               </v-btn>
