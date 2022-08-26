@@ -47,7 +47,7 @@
               return-object
             >
               <template v-slot:append="{ item }">
-                {{ item.nombre }} <v-btn v-if="cpxRefDrawerPartida" x-small @click="agregarMaterial(item)">Agregar</v-btn>
+                {{ item.nombre }} {{ item.mu_nombre }}<v-btn v-if="cpxRefDrawerPartida" x-small @click="agregarMaterial(item)">Agregar</v-btn>
               </template>
             </v-treeview>
           </v-card-text>
