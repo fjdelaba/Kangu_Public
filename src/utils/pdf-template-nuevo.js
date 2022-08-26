@@ -363,6 +363,7 @@ if(moneda.id == 2){
   //starting at 15mm
   var currentHeight = 15;
   var currentHeightEmpresa = 16;
+  var currentHeightEmpresa2 = 40;
   //var startPointRectPanel1 = currentHeight + 6;
 //a
   var pdfConfig = {
