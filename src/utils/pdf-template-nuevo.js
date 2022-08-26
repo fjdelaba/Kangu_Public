@@ -144,6 +144,9 @@ if(moneda.id == 2){
       email_1: `${datosEmpresa.telefono}`,
       website: `${datosEmpresa.giro}`,
     },
+    business2: {
+      name: "ORDEN DE COMPRA",
+  },
     contact: {
       address: `Razon Social: ${proveedor.razonSocial}`,
       phone: `R.U.T: ${proveedor.rut}`,
@@ -278,6 +281,9 @@ if(moneda.id == 2){
       email_1: props.business?.email_1 || "",
       website: props.business?.website || "",
     },
+    business2: {
+      name: props.business2?.name || "",
+    },
     contact: {
       label: props.contact?.label || "",
       name: props.contact?.name || "",
@@ -373,6 +379,7 @@ if(moneda.id == 2){
   // doc.setTextColor(colorEmpresa);
   // console.log("Color", colorEmpresa);
   doc.text(docWidth - 10, currentHeightEmpresa, param.business.name, "right");
+  doc.text(docWidth - 100, currentHeightEmpresa2, param.business2.name, "center");
   doc.setFontSize(pdfConfig.fieldTextSizeEmpresa);
 
   if (param.logo.src) {
