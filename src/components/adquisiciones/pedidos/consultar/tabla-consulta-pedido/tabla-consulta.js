@@ -142,6 +142,13 @@ export default {
       dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
       filtros:{
         proyectos: [], // Este filtro no viene desde el modal
+        estadoLineas:[],
+        solicitante: []
+      },
+      valoresFiltros: {
+        _listaProyectos: [], // Este filtro no viene desde el modal
+        _listaEstadoLineas:[],
+        _listaSolicitante:[]
       },
     }
   },
@@ -165,6 +172,12 @@ export default {
         
         if (this.filtros.proyectos.length > 0) {
           agregar = agregar && this.filtros.proyectos.includes(ped.pro.id)
+        }
+        if (this.filtros.estadoLineas.length > 0) {
+          agregar = agregar && this.filtros.estadoLineas.includes(ped.est_lin.id)
+        }
+        if (this.filtros.solicitante.length > 0) {
+          agregar = agregar && this.filtros.solicitante.includes(ped.usu.id)
         }
         return agregar;
       });
@@ -203,8 +216,14 @@ export default {
       for(let ped of kangusoft_ped){
         const nombreCompleto = `${ped.usu.nombre}  ${ped.usu.apellidos}`
         ped.nombreCompleto = nombreCompleto
-        this.listadoPedidos.push(ped)
+        this.listadoPedidos.push(JSON.parse(JSON.stringify(ped)))
       }
+      let proyectos = [... new Set(this.listadoPedidos.map(x=> ({nombre: x.pro.nombre, id: x.pro.id})))];
+      let estadosLineas = [... new Set(this.listadoPedidos.map(x=> ({nombre: x.est_lin.nombre, id: x.est_lin.id})))];
+      let solicitante = [... new Set(this.listadoPedidos.map(x=> ({nombre: `${x.usu.nombre} ${x.usu.apellidos}`, id: x.usu.id})))];
+      this.valoresFiltros._listaProyectos = [...new Set(proyectos.map(JSON.stringify))].map(JSON.parse);
+      this.valoresFiltros._listaEstadoLineas = [...new Set(estadosLineas.map(JSON.stringify))].map(JSON.parse);
+      this.valoresFiltros._listaSolicitantes = [...new Set(solicitante.map(JSON.stringify))].map(JSON.parse);
     },
     moment() {
       return moment();

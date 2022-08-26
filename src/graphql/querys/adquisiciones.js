@@ -147,6 +147,7 @@ query Q_GET_PEDIDO($id: bigint!) {
     usu {
       apellidos
       nombre
+      id
     }
     est_doc {
       nombre

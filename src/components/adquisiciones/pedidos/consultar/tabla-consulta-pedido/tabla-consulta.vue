@@ -380,8 +380,74 @@
             </template>
             <div style="background-color: white; width: 280px">
               <v-autocomplete
-                v-model="a2"
-                :items="[]"
+                v-model="filtros.proyectos"
+                :items="valoresFiltros._listaProyectos"
+                outlined
+                dense
+                chips
+                small-chips
+                multiple
+                label="Selecciona los centros de gestión"
+                item-text="nombre"
+                item-value="id"
+              ></v-autocomplete>
+              <v-btn
+                small
+                text
+                color="primary"
+                class="ml-2 mb-2"
+                @click="dessertName = ''"
+              >Limpiar</v-btn>
+            </div>
+          </v-menu>
+        </template>
+         <template v-slot:header.est_lin.nombre="{ header }">
+          {{ header.text }}
+          <v-menu offset-y :close-on-content-click="false">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon small :color="filtros.estadoLineas.length > 0 ? 'red' : ''">
+                  mdi-filter
+                </v-icon>
+              </v-btn>
+            </template>
+            <div style="background-color: white; width: 280px">
+              <v-autocomplete
+                v-model="filtros.estadoLineas"
+                :items="valoresFiltros._listaEstadoLineas"
+                outlined
+                dense
+                chips
+                small-chips
+                multiple
+                label="Selecciona los centros de gestión"
+                item-text="nombre"
+                item-value="id"
+              ></v-autocomplete>
+              <v-btn
+                small
+                text
+                color="primary"
+                class="ml-2 mb-2"
+                @click="dessertName = ''"
+              >Limpiar</v-btn>
+            </div>
+          </v-menu>
+        </template>
+         <template v-slot:header.nombreCompleto="{ header }">
+          {{ header.text }}
+          <v-menu offset-y :close-on-content-click="false">
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn icon v-bind="attrs" v-on="on">
+                <v-icon small :color="filtros.solicitante.length > 0 ? 'red' : ''">
+                  mdi-filter
+                </v-icon>
+              </v-btn>
+            </template>
+            <div style="background-color: white; width: 280px">
+              <v-autocomplete
+                v-model="filtros.solicitante"
+                :items="valoresFiltros._listaSolicitantes"
                 outlined
                 dense
                 chips
