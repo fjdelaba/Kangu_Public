@@ -124,9 +124,7 @@ if(moneda.id == 2){
       const dif = neto * 0.8775
       impuesto.valor = dif - neto
       total = impuesto.valor + neto
-    
     impuesto.nombre = "Retencion 12,25%";
-    total = impuesto.valor + neto;
   }
 
   if (proveedor.direccion == null) proveedor.direccion = "Sin Dirección";
@@ -227,15 +225,15 @@ if(moneda.id == 2){
           col2: formatoCL.format(neto),
           col3: peso,
           style: {
-            fontSize: 12, //optional, default 12
+            fontSize: 10, //optional, default 12
           },
         },
         {
           col1: impuesto.nombre,
-          col2: formatoCL.format(impuesto.valor),
+          col2: formatoCL.format(Math.abs(impuesto.valor)),
           col3: peso,
           style: {
-            fontSize: 12, //optional, default 12
+            fontSize: 10, //optional, default 12
           },
         },
         {
@@ -243,7 +241,7 @@ if(moneda.id == 2){
           col2: formatoCL.format(total),
           col3: peso,
           style: {
-            fontSize: 12, //optional, default 12
+            fontSize: 10, //optional, default 12
           },
         },
       ],
