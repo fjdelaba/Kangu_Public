@@ -61,7 +61,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
   let formatoCantidad
   let peso
   console.log("MATERIALES:", materialesPDF);
-  // tipo_documento = kangusoft_oc[0].doc_tip_fk
+  let tipo_documento = kangusoft_oc[0].doc_tip_fk
 
   var img = new Image();
   img.src = require("../components/general/generadorPDF/assets/img/logo_dlb.png");
@@ -96,19 +96,41 @@ if(moneda.id == 2){
   formatoCantidad = new Intl.NumberFormat("es-CL");
   peso = 'UF'
 }
- 
-
-  for (let valor of materialesPDF) {
-    console.log("valor", valor);
-    neto = valor.total + neto;
+  console.log("TIPO DOCUMENT",tipo_documento)
+  if(tipo_documento == 3){//FACTURA
+    for (let valor of materialesPDF) {
+      console.log("valor", valor);
+      neto = valor.total + neto;
+    }
+    impuesto.valor = neto * 0.19;
+    impuesto.nombre = "IVA (19%)";
+    total = impuesto.valor + neto;
   }
-  impuesto.valor = neto * 0.19;
-  impuesto.nombre = "IVA (19%)";
-  total = impuesto.valor + neto;
+  if(tipo_documento == 4){// Factura Excenta
+    for (let valor of materialesPDF) {
+      console.log("valor", valor);
+      neto = valor.total + neto;
+    }
+    impuesto.valor = 0;
+    impuesto.nombre = "Excenta";
+    total = impuesto.valor + neto;
+  }
+   if(tipo_documento  == 7) { // 7 Boleta ELectronica
+    for (let valor of materialesPDF) {
+      console.log("valor", valor);
+      neto = valor.total + neto;
+    }
+    // Bruto
+      const dif = neto * 0.8775
+      impuesto.valor = dif - neto
+      total = impuesto.valor + neto
+    
+    impuesto.nombre = "Retencion 12,25%";
+    total = impuesto.valor + neto;
+  }
 
   if (proveedor.direccion == null) proveedor.direccion = "Sin Dirección";
-  if (cabecera.identificacion == null)
-    cabecera.identificacion = "Sin Identificación";
+  if (cabecera.identificacion == null || cabecera.est_doc_fk == 1) cabecera.identificacion = "Sin Identificación";
   if (cabecera.comentario == null) cabecera.comentario = "Sin Comentario";
   if (cabecera.comentarioPDF == null) cabecera.comentarioPDF = "Sin Comentario";
   let props = {
@@ -369,7 +391,7 @@ if(moneda.id == 2){
   var pdfConfig = {
     headerTextSize: 20,
     labelTextSize: 12,
-    fieldTextSize: 10,
+    fieldTextSize: 7,
     fieldTextSizeEmpresa: 8,
     lineHeight: 6,
     subLineHeight: 4,
@@ -560,7 +582,7 @@ if(moneda.id == 2){
 
     currentHeight += pdfConfig.subLineHeight2;
     doc.setTextColor(colorBlack);
-    doc.setFontSize(pdfConfig.fieldTextSize - 1);
+    doc.setFontSize(8 - 1);
     //border color
     doc.setDrawColor(colorGray);
     currentHeight += 2;
