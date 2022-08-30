@@ -133,7 +133,6 @@
                   label="Giro"
                   dense
                   outlined
-                  :rules="usuarioRules.giroRules"
                 ></v-text-field>
                 <v-row> 
                   <v-color-picker
@@ -379,7 +378,6 @@ export default {
       datosUsuario:'',
       usuarioRules: {
         nombreRules: [(v) => !!v || 'Nombre obligatorio'],
-        giroRules: [(v) => !!v || 'Giro obligatorio'],
         representanteRules: [(v) => !!v || 'Representante obligatorio'],
         cargoRules: [(v) => !!v || 'Cargo obligatorio'],
         emailRules: [
@@ -466,7 +464,7 @@ export default {
       this.cargarComuna(this.empresa.region)
       this.copyComuna.id = kangusoft_emp[0].com.id
       this.copyComuna.nombre =  kangusoft_emp[0].com.nombre
-       this.empresa.color = kangusoft_emp[0].color.hex
+      this.empresa.color = kangusoft_emp[0].color
     },
     async cargarRegion(){
       const {
@@ -502,6 +500,7 @@ export default {
 
         if(this.copyComuna.id == this.empresa.comuna.id){
         console.log("HOLA1")
+        console.log("color seleccionado", this.empresa.color)
         console.log("id",this.empresa.id,"direccion",this.empresa.direccion,"mail",this.empresa.email,"giro",this.empresa.giro,"nombre",this.empresa.nombre,"repre",this.empresa.representante,"rut",this.empresa.rut,"tel",this.empresa.telefono,"comuna",this.empresa.comuna.id,"color", this.empresa.color,"esloga",this.empresa.eslogan, 'logo',this.empresa.logo)
         const resp = await updateEmpresa(this.empresa.id,this.empresa.direccion,this.empresa.email,this.empresa.giro,this.empresa.nombre,this.empresa.representante,this.empresa.rut,this.empresa.telefono,this.empresa.comuna.id, this.empresa.color,this.empresa.eslogan, this.empresa.logo) //this.logoFileReader
         console.log('resp datos contacto: ', resp)

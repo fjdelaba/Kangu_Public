@@ -1,5 +1,21 @@
 <template>
   <v-container>
+    <v-dialog v-model="dialogCambio" persistent max-width="500px">
+      <v-card>
+        <v-card-title class="text-h5">Antes de Cambiar..</v-card-title>
+        <v-card-text>
+       
+          <v-col cols="12" lg="12">  <p class="text-h6 text--primary">Estas apunto de cambiar el proyecto seleccionado, si lo cambias perderas los materiales asignados para este pedido.</p></v-col>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="red" text @click="cancelarCambio()">Cancelar</v-btn>
+          <v-btn color="blue" text @click="aprobarCambio()">Siguiente</v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog> 
+
     <v-list-item style="padding-left: 24px">
       <v-list-item-content>
         <v-list-item-title v-if="vista == 'crear'" class="text-h5">
@@ -51,7 +67,12 @@
         item-text="nombre"
         item-value="id"
         @change="cargarPartidas"
-      ></v-autocomplete></v-col>
+      > <template v-slot:item="{ item }">
+        <v-list-item-content>
+          <v-list-item-title v-text="item.nombre"></v-list-item-title>
+          <v-list-item-subtitle v-text="`codigo: ${item.codigo}`"></v-list-item-subtitle>
+        </v-list-item-content>
+      </template></v-autocomplete></v-col>
     </v-row>
     <v-row no-gutters class="pl-3">
       <v-col v-if="vista == 'crear'" cols="12" lg="6"><span class="caption">Nombre Solicitante: Bastian Medina</span></v-col>

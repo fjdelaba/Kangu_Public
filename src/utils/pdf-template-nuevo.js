@@ -45,7 +45,7 @@ async function creaPdfOC2(id, datosEmpresa, formato) {
   proveedor.nombreContacto = kangusoft_oc[0].ent_con.nombre;
   proveedor.rut = kangusoft_oc[0].ent.rut;
   proveedor.direccion = kangusoft_oc[0].ent.direccion;
-
+  let  fechaEmision = moment(kangusoft_oc[0].fec_creacion).format("DD/MM/YYYY")
   proyecto.nombre = kangusoft_oc[0].pro.nombre;
   proyecto.direccion = kangusoft_oc[0].pro.direccion;
   proyecto.codigo = kangusoft_oc[0].pro.codigo;
@@ -172,7 +172,7 @@ if(moneda.id == 2){
       phone: `R.U.T: ${proveedor.rut}`,
       email: `Dirección: ${proveedor.direccion}`,
       otherInfo: `Contacto: ${proveedor.email} - ${proveedor.nombreContacto}`,
-      pago: "",
+      pago: `Fecha de Creación: ${fechaEmision}`,
     },
     contact2: {
       address: `Nombre Documento: ${cabecera.nombre}`,

@@ -18,10 +18,14 @@ export default {
         usu_id: {
           type:Number
         },
+        _materiales: {
+          type:Array
+        },
         _devuelveProFk:{
           type:Function
         },
         _agregarMaterial: { type: Function },
+        _eliminarMat:{ type: Function}
         },
     mounted() {
       console.log("ID USU", this.usu_id)
@@ -30,22 +34,40 @@ export default {
     data() {
       return {
        respEdicion: '',
+       dialogCambio:false,
        logo: "https://kangufiles.nyc3.digitaloceanspaces.com/kangu/logo_dlb.png",
        listaProyectos:[],
        existeAprobador:false,
        aprobadorPedido:[],
        proyectoPedido:0,
-       nombrePedido:''
+       nombrePedido:'',
+       respaldoProyecto:0
       };
     },
     methods: {
       moment() {
         return moment();
       },
-      cargarPartidas(){
-        
-        this._devuelveProFk(this.proyectoPedido)
+      cancelarCambio(){
+      console.log("respaldo Pedido", this.respaldoProyecto)
+      this.proyectoPedido =  this.respaldoProyecto 
+      this.dialogCambio = false
+      },
+      aprobarCambio(){
+        this.dialogCambio = false
+        let cambio = true
+        this._eliminarMat(cambio)
         console.log('pro:', this.proyectoPedido)
+      },
+  
+      cargarPartidas(){
+        if(this.proyectoPedido != '' && this._materiales.length == 0 ){
+          this.respaldoProyecto = this.proyectoPedido
+        }
+        if(this.proyectoPedido != '' && this._materiales.length > 0 ){
+          this.dialogCambio = true
+        }
+        this._devuelveProFk(this.proyectoPedido)
       },
 
       async cargarProyectosPorUsuarios() {

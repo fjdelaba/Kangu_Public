@@ -50,7 +50,14 @@
           width="100%"
           class="pb-3 pt-3"
         >    
-          <cabecera-pedidos ref="refdatoscabecera" :vista="'crear'" :usu_id="usu_id" :_devuelve-pro-fk="cargarPartidas" ></cabecera-pedidos>
+          <cabecera-pedidos
+            ref="refdatoscabecera"
+            :_materiales="materialesPedido"
+            :vista="'crear'"
+            :usu_id="usu_id"
+            :_devuelve-pro-fk="cargarPartidas"
+            :_eliminar-mat="eliminarMaterialesTabla"
+          ></cabecera-pedidos>
         
         </v-sheet>
         <v-row>

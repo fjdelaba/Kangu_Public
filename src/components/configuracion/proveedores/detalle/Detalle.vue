@@ -49,7 +49,6 @@
                       :readonly="!edicion"
                       outlined
                       required
-                      :rules="giroRules" 
                     ></v-text-field>
                     <v-text-field
                       v-model="proveedor.direccion"

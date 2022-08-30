@@ -112,8 +112,20 @@ export default {
         console.log('usuarioLogin: ', usuarioLogin.data.kangusoft_usu[0])
         console.log("a",this.$refs)
       },
+      
+      eliminarMaterialesTabla(cambio){
+        console.log("cambio", cambio)
+        if(cambio == true){
+          this.$refs.tablapedido.materiales = []
+          this.materialesPedido = this.$refs.tablapedido.materiales
+        }else {
+          this.materialesPedido = this.$refs.tablapedido.materiales
+        }
+      
+      },
 
       cargarPartidas(id_pro){
+
         this.materialesPedido = this.$refs.tablapedido.materiales
         this.idProyecto = id_pro
         console.log("proyecto",this.idProyecto)

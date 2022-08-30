@@ -25,9 +25,6 @@ export default {
       rutRules: [
         v => !!v || 'Rut es requerido',
       ],
-      giroRules: [
-        v => !!v || 'Giro es requerido',
-      ],
      emailRules: [
         v => !!v || 'Email es requerido',
         v => /.+@.+\..+/.test(v) || 'Email invalido',
@@ -118,6 +115,7 @@ export default {
         this.edicion = false
         this.dialog = false
         this.loadingEdicionProveedor = false
+        this.cargarDetalleProveedor()
       } catch (error) {
         console.log('error: ', error)
       }
@@ -166,6 +164,7 @@ export default {
         console.log('resp datos contacto: ', resp)
         this.loadingEdicionContacto = false
         this.dialog = false
+        this.cargarDetalleProveedor()
       } catch (error) {
         console.log('error: ', error)
       }
@@ -184,6 +183,7 @@ export default {
       console.log(data);
       this.loadingCrearContacto = false
       this.dialogCrearContacto = false
+      this.cargarDetalleProveedor()
     } catch (error) {
       console.log('error: ', error)
     } 
