@@ -251,6 +251,9 @@ export default {
     },
   },
   methods: {
+    getFechaFormat(fecha){
+      return moment(fecha).format("DD/MM/YYYY")
+    },
     moment() {
       return moment();
     },
