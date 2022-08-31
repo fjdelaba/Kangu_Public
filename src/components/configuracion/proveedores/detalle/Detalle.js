@@ -1,5 +1,6 @@
 /* eslint-disable */
-import { getProveedorSeleccionado, updateContactoProveedor, postContactoProveedor,updateProveedor,updateEstadoProveedor } from '../../../../graphql/configuracion'
+import { getUsuarioLogin, getProveedorSeleccionado, updateContactoProveedor, postContactoProveedor,updateProveedor,updateEstadoProveedor } from '../../../../graphql/configuracion'
+
 
 export default {
   components: {
@@ -7,7 +8,7 @@ export default {
   mounted() {
     this.idProveedor = this.$route.query.id
     this.cargarDetalleProveedor()
-    this.datosUsuario = this.$store.state.app.datosUsuario.user_id
+    this.cargarUsuarioLogin()
   },
   data() {
     return {
@@ -77,6 +78,10 @@ export default {
     },
   },
   methods: {
+    async cargarUsuarioLogin() {
+      const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
+      this.datosUsuario = usuarioLogin.data.kangusoft_usu[0]
+    },
     //CARGAR DATA PROVEEDOR
     async cargarDetalleProveedor() {
       const { data: { kangusoft_ent } } = await getProveedorSeleccionado(this.idProveedor);
@@ -110,7 +115,7 @@ export default {
       try {
         this.loadingEdicionProveedor = true
         console.log("HOLA")
-        const resp = await updateProveedor(this.proveedor.direccion,this.proveedor.emailContacto,this.proveedor.emailDte,this.idProveedor,this.proveedor.giro,this.proveedor.razon_social,this.proveedor.rut,this.datosUsuario)
+        const resp = await updateProveedor(this.proveedor.direccion,this.proveedor.emailContacto,this.proveedor.emailDte,this.idProveedor,this.proveedor.giro,this.proveedor.razon_social,this.proveedor.rut,this.datosUsuario.id)
         console.log('resp datos contacto: ', resp)
         this.edicion = false
         this.dialog = false

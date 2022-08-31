@@ -4,7 +4,7 @@
     <div>
       <v-breadcrumbs :items="breadcrumbs" class="pa-0 py-2"></v-breadcrumbs>
     </div>
-   <!-- Cometario para ver funcionamiento del codigos-->
+    <!-- Cometario para ver funcionamiento del codigos-->
     <v-card>
       <!-- users list -->
       <v-row v-if="false" dense class="pa-2 align-center">
@@ -173,8 +173,49 @@
             </v-speed-dial> -->
     
       </v-row>
-       
       <v-row dense class="px-2 align-center">
+        <v-menu
+          dense
+          transition="slide-x-transition"
+          bottom
+          right
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              class="deep-orange"
+              color="primary"
+              dark
+              v-bind="attrs"
+              dense
+              v-on="on"
+            >
+              Acciones
+            </v-btn>
+          </template>
+
+          <v-list dense>
+            <v-list-item link> <!-- v-for="(item, i) in items" :key="i" -->
+              <v-list-item-title><download-excel
+                class="btn btn-default"
+                :fetch="cargarDataExcelCabecera"
+                :fields="headerExcelCabecera"
+                worksheet="Mi Listado de Pedidos"
+                name="cabeceras_ped.xls"
+              >Descargar Cabeceras
+              </download-excel></v-list-item-title>
+            </v-list-item>
+            <v-list-item link> <!-- v-for="(item, i) in items" :key="i" -->
+              <v-list-item-title> <download-excel
+                class="btn btn-default"
+                :fetch="cargarDataExcelDetalle"
+                :fields="headerExcelDetalle"
+                worksheet="Mi Listado de Oc"
+                name="lineas_oc.xls"
+              >Descargar Lineas
+              </download-excel> </v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
         <v-spacer></v-spacer>
         <v-col cols="7" class="d-flex text-right align-center">
           <v-text-field
@@ -266,6 +307,7 @@
         </v-card>
 
       </v-dialog>
+       
       <v-data-table
         :headers="headers"
         :items="cpxDatosTabla"
@@ -401,7 +443,7 @@
             </div>
           </v-menu>
         </template>
-         <template v-slot:header.est_lin.nombre="{ header }">
+        <template v-slot:header.est_lin.nombre="{ header }">
           {{ header.text }}
           <v-menu offset-y :close-on-content-click="false">
             <template v-slot:activator="{ on, attrs }">
@@ -434,7 +476,7 @@
             </div>
           </v-menu>
         </template>
-         <template v-slot:header.nombreCompleto="{ header }">
+        <template v-slot:header.nombreCompleto="{ header }">
           {{ header.text }}
           <v-menu offset-y :close-on-content-click="false">
             <template v-slot:activator="{ on, attrs }">

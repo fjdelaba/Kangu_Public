@@ -42,6 +42,7 @@ export default {
 
   data() {
     return {
+      mostrarReenviar: false,
       items: [
         { text: 'Real-Time', icon: 'mdi-clock' },
         { text: 'Audience', icon: 'mdi-account' },
@@ -103,10 +104,35 @@ export default {
       mostrarBotones: false,
       dialogDesicion: false,
       id_apro:0,
-      nombreArchivos:[]
+      nombreArchivos:[],
+      correoReenvio:''
     };
   },
   methods: {
+    abrirModalReenvio(){
+      this.correoReenvio = this.cabecera.contacto.email
+      this.mostrarReenviar = true
+    },
+    cancelarReenvio(){
+      this.mostrarReenviar = false
+    },
+   async reenviarPdf(){
+     try {
+    
+        console.log('entro')
+        const uriOC = await creaPdfOC2(this.cabecera.id, this.datosEmpresa,2);
+        console.log('envio')
+        console.log('uriOC: ', uriOC)
+        const resp = await this.axios.post('https://actions-kangu-hasura.herokuapp.com/enviarCorreo', { pdf:uriOC, destinatario:this.correoReenvio, identificacion: this.cabecera.identificacion, empresa:this.$store.state.app.datosEmpresa.nombre })   
+        console.log(resp)
+        this.mostrarReenviar = false
+   
+     } catch (error) {
+       console.log(error)
+     }
+     
+
+    },
     getNombreArchivos(){
       this.nombreArchivos = []
       console.log('getNombreArchivos')

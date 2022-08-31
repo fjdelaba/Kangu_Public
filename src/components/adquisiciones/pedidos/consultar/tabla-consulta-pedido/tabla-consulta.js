@@ -1,10 +1,13 @@
 /* eslint-disable */
 import breadcrumbs from "../../../../general/breadcrum/breadcrumbs.vue";
+import Vue from "vue";
+import JsonExcel from "vue-json-excel";
 import NombreMaterial from "../../../../../components/general/nombre-obs-tabla/NombreObsTabla.vue"
 import { getPedido } from "../../../../../graphql/adquisiciones";
 import {creaPdfPedido} from "../../../../../utils/pdf-pedido-creado"
 import { getUsuarioLogin } from '../../../../../graphql/configuracion'
 import moment from 'moment'
+Vue.component("downloadExcel", JsonExcel); 
 
 export default {
   components: {
@@ -40,6 +43,29 @@ export default {
       ],
      listadoPedidos:[],
      lol:'',
+     headerExcelCabecera: {
+      "Nombre Centro Gestion": "pro.nombre",
+      "Identificador PED": "identificacion",
+      "Nombre PED": "nombre",
+      "Creado":"fec_creacion",
+      "Solicitante Pedido": {
+          callback: value => {
+              return `${value.usu.nombre} ${value.usu.apellidos}`;
+          }
+      },
+      "Estado del Pedido": "est_lin.nombre"
+  },
+  headerExcelDetalle: {
+    "Nombre Centro Gestion": "pro_nombre",
+    "Identificador OC": "identificacion",
+    "Nombre PED": "ped_nombre",
+    "Solicitante Pedido": "comprador",
+  "Creado":"fec_creacion",
+    "Codigo": "mat_fk",
+    "Material": "material",
+    "Cantdad": "cantidad",
+    "Estado del Pedido": "estado", 
+},
       headers: [
         {
           text: "Centro de Gestión",
@@ -198,6 +224,42 @@ export default {
 
   },
   methods: {
+    async cargarDataExcelDetalle() {
+      const detalles = []
+      for(let detalle of this.listadoPedidos){
+        console.log('detalle: ', detalle);
+        const pro_nombre = detalle.pro.nombre
+        const identificacion = detalle.identificacion
+        const ped_nombre = detalle.nombre
+        const comprador = `${detalle.usu.nombre} ${detalle.usu.apellidos}`
+        const estado = detalle.est_lin.nombre
+        const fec_creacion = detalle.fec_creacion
+        for(let lineaDetalle of detalle.ped_dets){
+          console.log('lineaDetalle: ', lineaDetalle);
+          const obj = {
+            pro_nombre,
+            identificacion,
+            ped_nombre,
+            comprador,
+            material: lineaDetalle.mat.nombre,
+            cantidad: lineaDetalle.cant_ajustada,
+            mat_fk: lineaDetalle.mat_fk,
+            estado,
+            fec_creacion
+          }
+          detalles.push(obj)
+          // console.log('obj_ ', obj);
+        }
+      }
+        return detalles;
+    },
+    cargarDataExcelCabecera() {
+      //alert('Se genero el archivo cabeceras_oc.xls')
+      console.log("METODO EXCEL:", this.listadoPedidos);
+      const pedExcel = [...this.cpxDatosTabla]
+    
+      return pedExcel;
+  },
     async cargarUsuarioLogin() {
       const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
       this.datosUsuario = usuarioLogin.data.kangusoft_usu[0]

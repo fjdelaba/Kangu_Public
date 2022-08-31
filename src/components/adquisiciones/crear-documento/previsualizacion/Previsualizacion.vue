@@ -80,9 +80,60 @@
               </v-row>
               <v-row no-gutters class="pl-3">
                 <v-col cols="12" lg="6"><span class="caption">Email: {{ cabecera && cabecera.contacto.email }}</span></v-col>
-                <v-col cols="12" lg="6"><span class="caption">Pago: {{ cabecera && cabecera.formaPago.nombre }}</span></v-col>
+                <v-col cols="12" lg="4"><span class="caption">Pago: {{ cabecera && cabecera.formaPago.nombre }}</span></v-col>
+                <v-col cols="12" lg="2">  <v-menu
+                  dense
+                  transition="slide-x-transition"
+                  bottom
+                  right
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn
+                      class="deep-orange"
+                      color="primary"
+                      dark
+                      v-bind="attrs"
+                      dense
+                      v-on="on"
+                    >
+                      Acciones
+                    </v-btn>
+                  </template>
+
+                  <v-list dense>
+                    <v-list-item link> <!-- v-for="(item, i) in items" :key="i" -->
+                      <v-list-item-title>Editar Orden de Compra</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item link @click="abrirModalReenvio()"> <!-- v-for="(item, i) in items" :key="i" -->
+                      <v-list-item-title>Reenviar PDF</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item link @click="descargarOcPDF()"> <!-- v-for="(item, i) in items" :key="i" -->
+                      <v-list-item-title> Descargar PDF </v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu></v-col>
               </v-row>
+
             </v-sheet>
+            <v-dialog v-model="mostrarReenviar" persistent max-width="500px">
+              <v-card>
+                <v-card-title class="text-h5">Reenviar PDF</v-card-title>
+                <v-card-text>
+                  <v-col cols="12" lg="12">  <p class="text-h6 text--primary">Correo de Reenvío</p></v-col>
+                  <v-col cols="12" lg="12">  <v-text-field
+                    v-model="correoReenvio"
+                    outlined
+                    dense
+                  ></v-text-field></v-col>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="red" text @click="cancelarReenvio()">Cancelar</v-btn>
+                  <v-btn color="blue" text @click="reenviarPdf()">Reenviar</v-btn>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+              </v-card>
+            </v-dialog> 
             <!-- {{ materiales }} -->
             <v-data-table
               :headers="headers"
@@ -342,57 +393,6 @@
                 ></new-cuadro-resumen>
               </v-col>
               
-              <v-row justify="end" height="100">
-                <v-col lg="3" md="5" class="py- py- pr- pl-16" >
-                  <v-speed-dial
-                    v-if="origen !== 1"
-                    v-model="fab"
-                    :top="top"
-                    :bottom="bottom"
-                    :right="right"
-                    :left="left"
-                    :direction="direction"
-                    :open-on-hover="hover"
-                    :transition="transition"
-                  >
-                    <template v-slot:activator>
-                      <v-btn
-                        v-model="fab"
-                        color="primary"
-                        dark
-                        fab
-                        elevation="24"
-                      >
-                        <v-icon v-if="fab">
-                          mdi-close
-                        </v-icon>
-                        <v-icon v-else>
-                          mdi-file-document-outline
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <v-btn
-                      fab
-                      dark
-                      small
-                      elevation="24"
-                      color="green"
-                      @click="descargarOcPDF()"
-                    >
-                      <v-icon>mdi-file-download-outline</v-icon>
-                    </v-btn>
-                    <v-btn
-                      fab
-                      dark
-                      small
-                      elevation="24"
-                      color="indigo"
-                    >
-                      <v-icon>mdi-share-all</v-icon>
-                    </v-btn>
-                  </v-speed-dial>
-                </v-col>
-              </v-row>
             </v-row>
           </v-sheet>
         </v-card>
