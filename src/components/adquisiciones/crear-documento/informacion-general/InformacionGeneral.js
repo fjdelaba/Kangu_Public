@@ -158,7 +158,7 @@ export default {
     },
     async cargarProyectosPorUsuarios() {
       // console.log('this.usu_id: ', this.usu_id)
-      const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id)
+      const { data:{ kangusoft_apr } } = await getProyectosPorUsuario(this.usu_id, 3)
 
       for (const pro of kangusoft_apr) {
         // console.log('pro: ', pro)

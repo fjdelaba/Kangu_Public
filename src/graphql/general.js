@@ -80,13 +80,14 @@ export const getComunas = async (idRegion) => {
   })
 }
 
-export const getProyectosPorUsuario = async (id_usuario) => {
+export const getProyectosPorUsuario = async (id_usuario, mod_fk) => {
   // console.log('id_usuario: ', id_usuario)
   
   return await apolloClient.query({
     query: GET_PROYECTOS_POR_USUARIO,
     variables: {
-      id_usuario
+      id_usuario,
+      mod_fk
     }
   })
 }

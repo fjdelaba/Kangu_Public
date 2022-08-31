@@ -9,13 +9,14 @@
       <h2>
         Detalle Consultas {{ cabeceraOcSeleccionada }}
       </h2>
-      <previsualizacion
+<previsualizacion
         :materiales="materialesOcSeleccionada"
         :cabecera="cabecera"
         observacion=""
-        :consultas="consulta"
-        :tipo_documento="tipo_documento"
         :origen="3"
+        :aprobadores="aprobadores"
+        :tipo_documento="tipo_documento"
+        :consultas="consulta"
       ></previsualizacion>
 
     </div>

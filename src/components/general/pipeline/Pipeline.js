@@ -13,7 +13,7 @@ export default {
     }
   },
   mounted() {
-    console.log('aprobadores:', aprobadores)
+    console.log('aprobadores:', this.aprobadores)
   },
   methods: {
     getAprobadorAprobado(item) {

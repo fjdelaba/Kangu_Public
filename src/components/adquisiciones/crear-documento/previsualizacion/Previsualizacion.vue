@@ -407,6 +407,7 @@
             <v-col class="py-3 py-3 pr-5 pl-10 pt-5 rounded-0">
               <template>
                 <v-card
+                  v-if="origen != 3"
                   class="mx-auto"
                   color="#FAFAFA"
                   max-width="800"
@@ -578,8 +579,7 @@
               <!--separacion card-->
             </v-row>
           </template> 
-
-          <!--<pipeline :aprobadores="aprobadores" class="mt-1"></pipeline>-->
+          <pipeline :aprobadores="aprobadores && aprobadores" class="mt-1"></pipeline>
           <distribucion-lineas-partidas v-if="false"></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"

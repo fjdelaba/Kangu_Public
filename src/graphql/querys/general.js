@@ -103,9 +103,20 @@ query Q_GET_COMUNA($idRegion: bigint) {
   }
 }
 `
+// const GET_PROYECTOS_POR_USUARIO = gql`
+// query Q_GET_PROYECTOS_POR_USUARIO($id_usuario: bigint!, $mod_fk: bigint!) {
+//   kangusoft_apr(where: {usu_apro_fk: {_eq: $id_usuario}}) {
+//     pro {
+//       id
+//       nombre
+//       codigo
+//     }
+//   }
+// }
+// `
 const GET_PROYECTOS_POR_USUARIO = gql`
-query Q_GET_PROYECTOS_POR_USUARIO($id_usuario: bigint!) {
-  kangusoft_apr(where: {usu_apro_fk: {_eq: $id_usuario}}) {
+query Q_GET_PROYECTOS_POR_USUARIO($id_usuario: bigint!, $mod_fk: bigint!) {
+  kangusoft_apr(where: {usu_apro_fk: {_eq: $id_usuario}, mod_fk: {_eq: $mod_fk}, flujo: {_eq: false}}) {
     pro {
       id
       nombre

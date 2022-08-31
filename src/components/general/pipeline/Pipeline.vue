@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- adasdsa {{ aprobadores }} -->
     <v-row
       v-if="aprobadores.length > 0"
       align="center"
@@ -22,9 +23,11 @@
               //Etc ...
             </template>
             {{ item.nombre }} {{ step }} -->
-                {{ item.nombre }}
+                <!-- {{ item.nombre }} -->
+                <!-- {{ item }} -->
               </v-stepper-step>
               <v-divider></v-divider>
+               {{ item.nombre }}
             </div>
           <!-- <v-stepper-step step="2">
           Santiago Perez

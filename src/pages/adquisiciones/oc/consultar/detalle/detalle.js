@@ -44,15 +44,22 @@ export default {
       },
       comentarioOcSeleccionada:"",
       consulta:true,
-      tipo_documento: 0
+      tipo_documento: 0,
+      aprobadores: [],
     }
   },
   methods: {
     async cargarMaterialesOc(){
         const { data: {kangusoft_oc_det,kangusoft_oc} } = await getDetalleOC(this.idOcSeleccionada.id)
-        console.log("MATERIALES:",kangusoft_oc_det)
+        console.log("kangusoft_oc_det detalle oc detalle: ",kangusoft_oc_det)
+        console.log("kangusoft_oc detalle oc cabecera: ",kangusoft_oc)
+        this.aprobadores = []
+        for(let apro of kangusoft_oc[0].apr_pros){
+          console.log("apro: ", apro)
+          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado, id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id})
+        }
         // this.materialesOcSeleccionada = kangusoft_oc_det
-
+        console.log('this.aprobadores: ', this.aprobadores)
         for(const mat of kangusoft_oc_det){
           console.log('mat: ', mat)
           const objMat = {
