@@ -2,7 +2,6 @@
   <div class="my-2">
     <div>
       <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
-
       <div>
         <div v-if="skeleton">
           <v-skeleton-loader
