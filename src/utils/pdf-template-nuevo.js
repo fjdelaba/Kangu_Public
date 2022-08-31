@@ -929,22 +929,17 @@ if(moneda.id == 2){
 
     for (let i = 1; i <= totalPages; i++) {
 
-
-      doc.setPage(i);
+      doc.setFontSize(20);
+      doc.text(33, 280, `ESTA ORDEN DE COMPRA NO ES VALIDA`);
+      // doc.setPage(i);
   
-      doc.saveGraphicsState();
-      doc.setGState(new doc.GState({ opacity: 0.2 }));
-      // doc.text(65, 220, 'hello world', null, 55);
-      // doc.addImage(nota, "PNG", 100, 240, 35, 35);
-      // doc.addImage(img, "PNG", 105, 250, 35, 35, null, 'NONE', 0);
-      doc.addImage(img, "PNG", 80, 150, 50, 20, null, 'NONE', 50);
-      // doc.addImage(jsonFile.enaprobacion, "PNG", 80, 150, 200, 80, null, 'NONE', 50);
-      doc.restoreGraphicsState();
-      // doc.setTextColor(150);
-      // doc.setFontSize(140);
+      // doc.saveGraphicsState();
+      // doc.setGState(new doc.GState({ opacity: 0.2 }));
+      // doc.addImage(img, "PNG", 80, 150, 50, 20, null, 'NONE', 50);
+      // doc.restoreGraphicsState();
     } 
   }
-
+  doc.setFontSize(20);
  
 
   if (param.outputType === "save"){
