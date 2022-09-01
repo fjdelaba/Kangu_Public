@@ -10,8 +10,9 @@ export default {
     comentarioComprador,
   },
   mounted() {
-
-  this.cargarMaterialesOc(this.$route.query.id)
+    console.log("ID",this.$route.query.id)
+    let id = this.$route.query.id
+  this.cargarMaterialesOc(id)
   },
   data() {
     return {
@@ -41,10 +42,11 @@ export default {
   },
   methods: {
     async cargarMaterialesOc(id){
+        console.log('adquiero id', id)
         const { data: {kangusoft_ped_det,kangusoft_ped} } = await getDetallePedido(id)
         console.log("MATERIALES:",kangusoft_ped_det,kangusoft_ped)
         this.materialesPed = kangusoft_ped_det
-        for(let cabecera of kangusoft_ped){
+         for(let cabecera of kangusoft_ped){
             console.log("Cabecera", cabecera)
             this.cabeceraPed.nombre = cabecera.nombre,
             this.cabeceraPed.identificacion = cabecera.identificacion,

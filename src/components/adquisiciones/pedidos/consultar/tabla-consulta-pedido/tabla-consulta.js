@@ -218,12 +218,12 @@ export default {
       // console.log('datePivot: ', datePivot);
       return datePivot.join(' ~ ')
     },
-    cpxFecha() {
-      return  this.$moment(new Date()).format("DD/MM/yy");
-    },
 
   },
   methods: {
+    getFechaFormat(fecha){
+      return moment(fecha).format("DD/MM/YYYY")
+    },
     async cargarDataExcelDetalle() {
       const detalles = []
       for(let detalle of this.listadoPedidos){

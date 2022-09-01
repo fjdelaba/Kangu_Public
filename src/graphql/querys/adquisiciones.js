@@ -178,23 +178,8 @@ query Q_GET_PEDIDO($id: bigint!) {
 }
 `
 const GET_DETALLEPEDIDO = gql`
-query Q_GET_DETALLEPEDIDO($id: bigint!,$ped:bigint!) {
-  kangusoft_ped(where: {id: {_eq: $ped}}) {
-    comentario
-    fec_creacion
-    id
-    identificacion
-    nombre
-    pro {
-      nombre
-      id
-    }
-    usu {
-        nombre
-        email
-        apellidos
-      }
-  }
+query Q_GET_DETALLEPEDIDO($id: bigint!) {
+  
   kangusoft_ped_det(where: {ped_fk: {_eq: $id}}) {
     cant_ajustada
     cant_comprada
@@ -215,7 +200,22 @@ query Q_GET_DETALLEPEDIDO($id: bigint!,$ped:bigint!) {
       id
     }
   }
-  
+  kangusoft_ped(where: {id: {_eq: $id}}) {
+   id
+   comentario
+    fec_creacion
+    identificacion
+    nombre
+    pro {
+      nombre
+      id
+    }
+    usu {
+        nombre
+        email
+        apellidos
+      }
+  }
 }
 `
 

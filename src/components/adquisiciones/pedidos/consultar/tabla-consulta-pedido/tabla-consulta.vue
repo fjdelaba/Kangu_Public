@@ -529,7 +529,7 @@
           </div>
         </template> 
         <template v-slot:item.fec_creacion="{ item }">
-          <div class="font-weight-bold">{{ moment(item.fec_creacion).format("DD/MM/YYYY") }}</div>
+          <div class="font-weight-bold">{{ getFechaFormat(item.fec_creacion) }}</div>
         </template>
        
       </v-data-table>

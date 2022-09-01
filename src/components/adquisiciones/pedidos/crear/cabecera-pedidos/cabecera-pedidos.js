@@ -28,8 +28,11 @@ export default {
         _eliminarMat:{ type: Function}
         },
     mounted() {
-      console.log("ID USU", this.usu_id)
-      this.cargarProyectosPorUsuarios()
+      if(this.vista == 'crear'){
+        console.log("ID USU", this.usu_id)
+        this.cargarProyectosPorUsuarios()
+      }
+    
     },
     data() {
       return {

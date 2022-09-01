@@ -44,7 +44,7 @@ export const postDetalleOC = async (detalle, detalle_partida) => {
   })
 }
 export const getPedido = async (id) => {
-  console.log('EMP_FK: ', id)
+  console.log('PED_FK: ', id)
 
   return await apolloClient.query({
     query: GET_PEDIDO,
@@ -55,15 +55,14 @@ export const getPedido = async (id) => {
   })
 }
 export const getDetallePedido = async (id) => {
-  console.log('EMP_FK: ', id)
+  console.log('PED_FK: ', id)
 
   return await apolloClient.query({
     query: GET_DETALLEPEDIDO,
     variables: {
-      ped:id,
       id:id
-    }
-   
+    },
+    fetchPolicy:'network-only'
   })
 }
 

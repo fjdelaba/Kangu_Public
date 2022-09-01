@@ -72,6 +72,7 @@
           </v-col>
           <v-col cols="4">
             <h2>ADJUNTAR ARCHIVO</h2>
+            
             <v-file-input
               v-model="adjuntos"
               placeholder="¿Que archivos deseas agregar?"
