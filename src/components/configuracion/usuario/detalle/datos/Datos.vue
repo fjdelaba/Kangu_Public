@@ -73,6 +73,14 @@
                 :rules="cargoRules"
               ></v-text-field>
               <v-text-field
+                v-model="user.usu_per.nombre"
+                label="Perfil"
+                :readonly="!edicion"
+                dense
+                outlined
+                :rules="cargoRules"
+              ></v-text-field>
+              <v-text-field
                 v-model="user.email"
                 label="Email"
                 :readonly="!edicion"

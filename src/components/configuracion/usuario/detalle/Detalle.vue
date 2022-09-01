@@ -38,6 +38,10 @@ query MyQuery($id_usuario: bigint!) {
     id
     nombre
     rut
+    usu_per {
+      nombre
+      id
+    }
       usu_mods {
       mod_fk
       id

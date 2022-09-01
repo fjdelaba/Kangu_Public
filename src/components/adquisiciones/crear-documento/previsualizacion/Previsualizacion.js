@@ -105,10 +105,20 @@ export default {
       dialogDesicion: false,
       id_apro:0,
       nombreArchivos:[],
-      correoReenvio:''
+      correoReenvio:'',
+      modalAnular:false
     };
   },
   methods: {
+    aceptarAnular(){
+      this.modalAnular = false
+    },
+    cancelarAnular(){
+      this.modalAnular = false
+    },
+    anularOc(){
+      this.modalAnular = true
+    },
     abrirModalReenvio(){
       this.correoReenvio = this.cabecera.contacto.email
       this.mostrarReenviar = true
