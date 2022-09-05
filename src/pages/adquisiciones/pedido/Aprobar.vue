@@ -6,7 +6,6 @@
         <tabla-consulta></tabla-consulta>
       </div></div>
     <div v-else>
-      <h2>No tienes permisos para ver esta seccion</h2>
       <v-card class="text-center w-full error-page pa-4 mx-auto">
         <v-img src="../../../assets/images/permiso.png" max-height="250" contain />
         <div class="display-2 mt-6">OOPS!!!</div>

@@ -1,7 +1,8 @@
 <template>
   <v-container class="white">
-  <v-row class="pl-4 pb-3"><H2>Mi Empresa</H2></v-row>
-    <div>
+    <v-row v-if="$store.state.app.usuario.usu_per_fk == 1" class="pl-4 pb-3">
+      <H2>Mi Empresa</H2></v-row>
+    <div v-if="$store.state.app.usuario.usu_per_fk == 1">
       <div v-if="skeleton">
         <v-skeleton-loader
           type="card-avatar, article, actions"
@@ -160,12 +161,12 @@
                       @click="edicion = true"
                     >Editar</v-btn>
                   </div>
-                  </v-row>
-                  <v-row  align="center" justify="space-around">
+                </v-row>
+                <v-row align="center" justify="space-around">
                  
                   <div v-if="edicion" class="mt-2">
                     <v-btn
-                    class="mr-2"
+                      class="mr-2"
                       color="primary"
                       small
                       :loading="loadingEdicionEmpresa"
@@ -173,7 +174,7 @@
                       @click="grabarEdicionEmpresa()"
                     >Guardar</v-btn>
                     <v-btn
-                    class="ml-2"
+                      class="ml-2"
                       color="primary"
                       small
                       @click="cancelarEdicionEmpresa()"
@@ -339,7 +340,16 @@
           </v-row>
         </v-card>
       </div>
-    </div></v-container>
+    </div>
+    <div v-else>
+      <v-card class="text-center w-full error-page pa-4 mx-auto">
+        <v-img src="../assets/images/permiso.png" max-height="250" contain />
+        <div class="display-2 mt-6">OOPS!!!</div>
+        <div class="mt-3 mb-6">No tienes permisos para ver está página. Contacta al administrador de Kangusoft si necesitas tener habilitada esta página</div>
+        <v-btn to="/" block large color="primary">Notificar al administrador de  Kangusoft</v-btn>
+      </v-card>
+    </div>
+  </v-container>
 </template>
 
 <script>

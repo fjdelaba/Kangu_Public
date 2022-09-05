@@ -50,7 +50,8 @@ export const getPedido = async (id) => {
     query: GET_PEDIDO,
     variables: {
       id: id      
-    }
+    },
+    fetchPolicy:'network-only'
     
   })
 }

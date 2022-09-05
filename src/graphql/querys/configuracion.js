@@ -248,6 +248,14 @@ query Q_GET_PROVEEDOR_SELECCIONADO($id: bigint!) {
   }
 }
 `
+const GET_USU_PER = gql`
+query Q_GET_USU_PER {
+  kangusoft_usu_per {
+    id
+    nombre
+  }
+  }
+`
 const GET_USUARIO_LOGIN = gql`
 query Q_GET_USUARIO_LOGIN($id_usuario: bigint!) {
   kangusoft_usu(where: {id: {_eq: $id_usuario}}) {
@@ -260,11 +268,13 @@ query Q_GET_USUARIO_LOGIN($id_usuario: bigint!) {
     id
     nombre
     rut
+    usu_per_fk
       usu_mods {
       mod_fk
       id
       activo
     }
+   
     # cgs(where: {estado_fk: {_eq: 1}}) {
     #   nombre
     #   id,
@@ -276,4 +286,4 @@ query Q_GET_USUARIO_LOGIN($id_usuario: bigint!) {
 
 `
  
-export { GET_PERFIL_USUARIO,GET_MATERIALES,GET_PROVEEDOR_SELECCIONADO, GET_PROVEEDORES,GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO,GET_EXISTE_USUARIO, GET_PERMISOS, GET_USUARIO_LOGIN }
+export {  GET_USU_PER,GET_PERFIL_USUARIO,GET_MATERIALES,GET_PROVEEDOR_SELECCIONADO, GET_PROVEEDORES,GET_DATOS_GENERALES,GET_PROYECTO,GET_MATERIALES_PROYECTO,GET_APROBADORES_PROYECTO,GET_USUARIOS_PROYECTO,GET_USUARIOS_EMPRESA,GET_PROYECTO_CODIGO_DUPLICADO,GET_EXISTE_USUARIO, GET_PERMISOS, GET_USUARIO_LOGIN }
