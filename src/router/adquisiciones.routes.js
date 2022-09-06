@@ -2,6 +2,7 @@ import emailRoutes from '../apps/email/routes'
 import chatRoutes from '../apps/chat/routes'
 import todoRoutes from '../apps/todo/routes'
 import boardRoutes from '../apps/board/routes'
+import { authenticationGuard } from '@/auth/authenticationGuard'
 
 export default [
   {
@@ -26,7 +27,8 @@ export default [
       import(
         /* webpackChunkName: "apps-chat" */ '@/pages/adquisiciones/oc/consultar/Detalle.vue'
       ),
-    children: [...chatRoutes]
+    children: [...chatRoutes],
+    beforeEnter: authenticationGuard
   },
   {
     path: '/adquisiciones/oc/aprobar/detalle',
