@@ -27,7 +27,7 @@ const wsLink = new WebSocketLink(
   { 
     // uri: 'wss://darling-glider-87.hasura.app/v1/graphql',
     // uri: 'wss://above-stag-34.hasura.app/v1/graphql',
-    uri: 'ws://above-stag-34.hasura.app/v1/graphql',
+    uri: 'wss://above-stag-34.hasura.app/v1/graphql',
     options: {
       reconnect: true,
       connectionParams: {
