@@ -12,7 +12,7 @@ export default {
   // product display information
   product: {
     name: 'Kangusoft',
-    version: '1.5.5'
+    version: '1.5.6'
   },
 
   // google maps
