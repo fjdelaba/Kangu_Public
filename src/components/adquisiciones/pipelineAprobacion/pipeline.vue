@@ -57,6 +57,7 @@
           
                   <v-divider class="mx-5 mt-2 mb-2" ></v-divider>
                   <p class="text-body-2 text--primary text-justify">{{ item.comentario ? `${item.comentario}` : "Sin Comentario" }}</p>
+                  <v-divider class="mx-5 mt-2 mb-2" ></v-divider>
                   <p class="text-body-2 text--primary text-justify">{{ item.fecha ? `${item.fecha}` : "" }}</p>
                   
                 </v-list-item-content>

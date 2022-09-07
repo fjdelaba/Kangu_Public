@@ -100,7 +100,6 @@ export const useAuth0 = ({
           this.error = error
           console.log('error: ', error)
         } finally {
-<<<<<<< HEAD
           try {
             this.isAuthenticated = await this.auth0Client.isAuthenticated()
             this.user = await this.auth0Client.getUser()
@@ -123,24 +122,6 @@ export const useAuth0 = ({
             console.log('error',error)
           }
          
-=======
-          this.isAuthenticated = await this.auth0Client.isAuthenticated()
-          this.user = await this.auth0Client.getUser()
-          // console.log('USER : ', this.user)
-          // console.log('USER USER user_tenant: ', this.user['https://kangusoft.cl/jwt/hasura'].user_tenant)
-          const val = this.user['https://kangusoft.cl/jwt/hasura'].user_tenant
-  
-          store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])
-          this.isLoading = false
-          localStorage.setItem('tokenxjwt_id', `Bearer ${this.user['https://kangusoft.cl/jwt/hasura'].token}`)
-          const resp = await getEmpresa(val)
-          
-          console.log('resp.data.kangusoft_emp[0]: ', resp.data.kangusoft_emp[0])
-          store.dispatch('app/setDatosEmpresa', resp.data.kangusoft_emp[0])
-  
-          // console.log('resp: ', resp)          
-  
->>>>>>> ec2336e44c2bd16a38574b1e12455cd5560e14de
         }
       } catch (error) {
         console.log('error: ', error)
