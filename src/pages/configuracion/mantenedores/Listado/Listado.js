@@ -2,7 +2,7 @@
 import BotonMantenedor from "../../../../components/configuracion/mantenedores/Boton/Boton.vue";
 import TablaMantenedor from "../../../../components/configuracion/mantenedores/Tabla/Tabla.vue";
 import  {QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO,getFormaPago}  from "../../../../components/graphql/querys/configuracion.js"
-
+import Skeleton from "../../../../components/general/skeleton/skeleton.vue"
 
 export default {
   mounted() {
@@ -14,7 +14,8 @@ export default {
       listaMantenedores: "",
       listaMantenedor: "",
       mostrarTablaMantendedor:true,
-      idMantenedor:0
+      idMantenedor:0,
+      skeleton: true
     };
   },
   methods: {
@@ -23,7 +24,8 @@ export default {
         query: GETBOTONES,
       });
       this.listaMantenedores = data.kangusoft_man;
-      console.log(this.listaMantenedores);
+      this.skeleton = false
+      console.log("mante",this.listaMantenedores);
     },
     async cargarMantenedor(mantenedor) {
       this.idMantenedor = mantenedor.id
@@ -72,6 +74,7 @@ export default {
           break;
       }
       this.mostrarTablaMantendedor = true
+      
     },
   },
   computed:{
@@ -82,6 +85,7 @@ export default {
   components: {
     BotonMantenedor,
     TablaMantenedor,
+    Skeleton
   },
   watch: {
     // whenever question changes, this function will run

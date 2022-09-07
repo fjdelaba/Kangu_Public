@@ -1,15 +1,15 @@
 /* eslint-disable */
-import TablaConsulta from "../../../../components/adquisiciones/pedidos/aprobar/tabla-consuta.vue";
 
 export default {
     components: {
-        TablaConsulta
+      },
+      props: {
       },
     mounted() {
     },
     data() {
       return {
-      
+       
       };
     },
     methods: {}

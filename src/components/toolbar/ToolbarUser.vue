@@ -11,15 +11,24 @@
         >
           <v-tooltip bottom>
             <template v-slot:activator="{ on, attrs }">
-              <v-avatar size="40">
+      
+              <v-avatar v-if="$store.state.app.usuario.avatar != null" size="40">
                 <v-img
                   :src="$store.state.app.usuario.avatar"
                   v-bind="attrs"
                   v-on="on"
                 ></v-img>
               </v-avatar>
+              <v-avatar
+                v-else
+                color="blue"
+                size="40"
+              >
+                <span class="white--text text-h5">{{ iniciales }}</span>
+               
+              </v-avatar>
             </template>
-            <span> - {{ $store.state.app.usuario.nombre }} {{ $store.state.app.usuario.apellidos }} <br/> - {{$store.state.app.usuario.cargo}}</span>
+            <span id="firstName"> - {{ $store.state.app.usuario.nombre }}</span> <span id="lastName"> {{ $store.state.app.usuario.apellidos }}</span> <span><br/> - {{ $store.state.app.usuario.cargo }}</span>
           </v-tooltip>
         </v-badge>
       </v-btn>
@@ -42,7 +51,8 @@
           <v-list-item-title>{{ item.key ? $t(item.key) : `${item.text}` }}</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
-      <v-list-item
+      <v-list-item 
+        v-if="$store.state.app.usuario.usu_per_fk == 1"
         to="/mi_empresa"
         :exact="true"
         :link="true"
@@ -70,6 +80,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import config from '../../configs'
 /*
 |---------------------------------------------------------------------
@@ -86,7 +97,8 @@ import { getPermisos } from '../../graphql/configuracion'
 export default {
   data() {
     return {
-      menu: config.toolbar.user
+      menu: config.toolbar.user,
+      iniciales:''
     }
   },
   computed: {
@@ -98,18 +110,40 @@ export default {
     '$auth.isLoading' (newCount, oldCount) {
       // Our fancy notification (2).
       console.log(`We have ${newCount} fruits now, yay!. ${oldCount}`)
+    
       this.cargarDatosUsuario()
     }
   },
   mounted() {
+     
     // console.log('mounted Toolbar')
     setTimeout(() => {
-      this.cargarDatosUsuario()
+      //this.cargarDatosUsuario()
       // this.cargarPermisos()
+      this.iconoLetras(this.$store.state.app.usuario.nombre ,this.$store.state.app.usuario.apellidos)
     }, 3000)
   },
   methods: {
-
+    iconoLetras(nombre,apellido) {
+    console.log("nombres",nombre)
+    console.log('apellido', apellido)
+    let inicialNombre = nombre.split(' ')
+    let inicialApellidos = apellido.split(' ')
+  let initials = ''
+  let initials2 = ''
+  for (var i = 0; i < inicialNombre.length; i++) {
+    if (inicialNombre[i].length > 0 && inicialNombre[i] !== '') {
+      initials += inicialNombre[i][0]
+    }
+  }
+   for (var i = 0; i < inicialApellidos.length; i++) {
+    if (inicialApellidos[i].length > 0 && inicialApellidos[i] !== '') {
+      initials2 += inicialApellidos[i][0]
+    }
+  }
+  this.iniciales = initials + initials2
+  return console.log('iniciales',initials,initials2)
+    },
     logout() {
       this.$auth.logout()
       // this.$router.push({ path: '/landing' })

@@ -46,18 +46,18 @@ export default {
         const { data: {kangusoft_ped_det,kangusoft_ped} } = await getDetallePedido(id)
         console.log("MATERIALES:",kangusoft_ped_det,kangusoft_ped)
         this.materialesPed = kangusoft_ped_det
-         for(let cabecera of kangusoft_ped){
-            console.log("Cabecera", cabecera)
-            this.cabeceraPed.nombre = cabecera.nombre,
-            this.cabeceraPed.identificacion = cabecera.identificacion,
-            this.cabeceraPed.id = cabecera.id,
-            this.cabeceraPed.usu.nombre = cabecera.usu.nombre + ' ' + cabecera.usu.apellidos
-            this.cabeceraPed.usu.email = cabecera.usu.email
-            this.cabeceraPed.fec_creacion = cabecera.fec_creacion,
-            this.cabeceraPed.pro.nombre = cabecera.pro.nombre,
-            this.cabeceraPed.pro.id = cabecera.pro.id
-            this.comentarioPed= cabecera.comentario
-        }
+        //  for(let cabecera of kangusoft_ped){
+        //     console.log("Cabecera", cabecera)
+        //     // this.cabeceraPed.nombre = cabecera.nombre,
+        //     // this.cabeceraPed.identificacion = cabecera.identificacion,
+        //     // this.cabeceraPed.id = cabecera.id,
+        //     // this.cabeceraPed.usu.nombre = cabecera.usu.nombre + ' ' + cabecera.usu.apellidos
+        //     // this.cabeceraPed.usu.email = cabecera.usu.email
+        //     // this.cabeceraPed.fec_creacion = cabecera.fec_creacion,
+        //     // this.cabeceraPed.pro.nombre = cabecera.pro.nombre,
+        //     // this.cabeceraPed.pro.id = cabecera.pro.id
+        //     // this.comentarioPed= cabecera.comentario
+        // }
         console.log("Cabecera", this.cabeceraPed, this.comentarioPed)
         this.skeleton = false
     },

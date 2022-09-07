@@ -63,8 +63,8 @@ mutation M_UPDATE_ESTADO_USUARIO($id_usuario: bigint!, $estado: Boolean!) {
 `
 
 const UPDATE_DATOS_USUARIO = gql`
-  mutation M_UPDATE_DATOS_USUARIO($id_usuario: bigint!, $apellidos: String!, $activo: Boolean!, $avatar: String!, $cargo: String!, $email: String!, $firma: String!, $nombre: String!, $rut: String!) {
-  update_kangusoft_usu(where: {id: {_eq: $id_usuario}}, _set: {avatar: $avatar, cargo: $cargo, email: $email, firma: $firma, nombre: $nombre, rut: $rut, apellidos: $apellidos, activo: $activo}) {
+  mutation M_UPDATE_DATOS_USUARIO($id_usuario: bigint!, $apellidos: String!, $activo: Boolean!, $avatar: String!, $cargo: String!, $email: String!, $firma: String!, $nombre: String!, $rut: String!, $usu_per_fk: bigint!) {
+  update_kangusoft_usu(where: {id: {_eq: $id_usuario}}, _set: {avatar: $avatar, cargo: $cargo, email: $email, firma: $firma, nombre: $nombre, rut: $rut, apellidos: $apellidos, activo: $activo, usu_per_fk: $usu_per_fk}) {
     returning {
       activo
       apellidos
@@ -75,6 +75,7 @@ const UPDATE_DATOS_USUARIO = gql`
       id
       nombre
       rut
+      usu_per_fk
     }
   }
 }

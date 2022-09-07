@@ -1,13 +1,11 @@
 /* eslint-disable */
-import breadcrumbs from "../../../../general/breadcrum/breadcrumbs.vue";
-import Vue from "vue";
-import JsonExcel from "vue-json-excel";
-import NombreMaterial from "../../../../../components/general/nombre-obs-tabla/NombreObsTabla.vue"
-import { getPedido } from "../../../../../graphql/adquisiciones";
-import {creaPdfPedido} from "../../../../../utils/pdf-pedido-creado"
-import { getUsuarioLogin } from '../../../../../graphql/configuracion'
+import breadcrumbs from "../../../../components/general/breadcrum/breadcrumbs.vue";
+import NombreMaterial from "../../../../components/general/nombre-obs-tabla/NombreObsTabla.vue"
+import { getPedido } from "../../../../graphql/adquisiciones.js";
+import {creaPdfPedido} from "../../../../utils/pdf-pedido-creado"
+import { getUsuarioLogin } from '../../../../graphql/configuracion'
 import moment from 'moment'
-Vue.component("downloadExcel", JsonExcel); 
+
 
 export default {
   components: {
@@ -280,7 +278,11 @@ export default {
       for(let ped of kangusoft_ped){
         const nombreCompleto = `${ped.usu.nombre}  ${ped.usu.apellidos}`
         ped.nombreCompleto = nombreCompleto
-        this.listadoPedidos.push(JSON.parse(JSON.stringify(ped)))
+        console.log("ped",ped)
+        if(ped.est_doc.id == 1){
+            this.listadoPedidos.push(JSON.parse(JSON.stringify(ped)))
+        }
+        
       }
       let proyectos = [... new Set(this.listadoPedidos.map(x=> ({nombre: x.pro.nombre, id: x.pro.id})))];
       let estadosLineas = [... new Set(this.listadoPedidos.map(x=> ({nombre: x.est_lin.nombre, id: x.est_lin.id})))];

@@ -72,6 +72,17 @@
                 outlined
                 :rules="cargoRules"
               ></v-text-field>
+              <v-autocomplete
+                v-model="user.usu_per.id"
+                :items="permisosUsuario"
+                outlined
+                label="Perfil"
+                item-text="nombre"
+                item-value="id"
+                dense
+                :readonly="!edicion"
+              >
+              </v-autocomplete>
               <v-text-field
                 v-model="user.email"
                 label="Email"
@@ -129,7 +140,7 @@
                     small
                     @click="grabarEdicionUsuario()"
                   >Guardar</v-btn>
-                  <v-btn  class="ml-1" color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
+                  <v-btn class="ml-1" color="primary" small @click="cancelarEdicionUsuario()">Cancelar</v-btn>
                 </div>
               
                 <div v-else class="mt-2">
@@ -477,7 +488,7 @@
 // import CardProyecto from '../../../components/configuracion/usuario/card-proyecto/CardProyecto.vue'
 import { setTimeout } from 'optimism'
 import CardProyecto from '../../../../configuracion/usuario/card-proyecto/CardProyecto.vue'
-import { updateEstadoUsuario, updateDatosUsuario, updatePermisosUsuario, updateResetPassword } from '../../../../../graphql/configuracion'
+import { getUsuPermisos,updateEstadoUsuario, updateDatosUsuario, updatePermisosUsuario, updateResetPassword } from '../../../../../graphql/configuracion'
 import { validaRut } from '../../../../../utils'
 export default {
   components: {
@@ -538,6 +549,7 @@ export default {
       validCambioClave:true,
       mostrarClave1: false,
       mostrarClave2: false,
+      permisosUsuario:[],
       rulesCambioClave: {
         required: (value) => !!value || 'Este campo es obligatorio.',
         min: (v) => v.length === 8 || 'La clave debe tener 8 caracteres',
@@ -570,13 +582,19 @@ export default {
   },
   mounted() {
     setTimeout(() => {
-     
       // this.asignarPermisos()  
     }, 2000)
     console.log('Mounted DATOS USUARIO: ', this.user)
     this.asignarPermisos()
+    this.cargarUsuPer()
   },
   methods: {
+    async cargarUsuPer() {
+      const { data: { kangusoft_usu_per } } = await getUsuPermisos()
+
+      console.log('resp',kangusoft_usu_per)
+      this.permisosUsuario = kangusoft_usu_per
+    },
     cerrarCambiarClave() {
       this.diaglogCambiarPassword = false
       this.$refs.formCambioClave.reset()
@@ -713,8 +731,10 @@ export default {
       this.edicion = false
       
     },
-    editarUsuario() {
+    async editarUsuario() {
+   
       this.respaldoUsuario = JSON.parse(JSON.stringify( this.user))
+      console.log(this.user)
       this.objetoUsuarioBase = {
         id_usuario: this.user.id,
         apellidos: this.user.apellidos,
@@ -724,7 +744,8 @@ export default {
         email:this.user.email,
         firma:this.user.firma,
         nombre:this.user.nombre,
-        rut:this.user.rut
+        rut:this.user.rut,
+        usu_per_fk:this.user.usu_per.id
       }
       this.edicion = true
     },
@@ -741,9 +762,11 @@ export default {
           email:this.user.email,
           firma:this.user.firma,
           nombre:this.user.nombre,
-          rut:this.user.rut
+          rut:this.user.rut,
+          usu_per_fk:this.user.usu_per.id
         }
 
+        console.log('obj',obj)
         if (JSON.stringify(obj) === JSON.stringify(this.objetoUsuarioBase)) {
           this.$notify({
             group: 'foo',
@@ -780,6 +803,7 @@ export default {
         this.user.firma = usuarioResp.firma
         this.user.nombre = usuarioResp.nombre
         this.user.rut = usuarioResp.rut
+        this.user.usu_per.id = usuarioResp.usu_per_fk
       } catch (error) {
         console.log('error: ', error)
       }

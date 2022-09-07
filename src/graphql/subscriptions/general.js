@@ -12,6 +12,7 @@ const SUBS_DATOS_USUARIO = gql`
     apellidos
     nombre
     rut
+    usu_per_fk
   }
 }
 `
