@@ -6,9 +6,9 @@
     <!-- information -->
     <div class="d-flex flex-column flex-grow-1">
       <v-card-title>
-        <div>{{ label }}</div>
+        <p>{{ label }} <v-icon color="grey darken-2">mdi-account-cash</v-icon></p>
         <v-spacer></v-spacer>
-        <!-- <div>
+        <div>
           <v-select
             v-model="selectedInterval"
             solo
@@ -17,17 +17,33 @@
             hide-selected
             :items="intervals"
           ></v-select>
-        </div> -->
+        </div>
       </v-card-title>
-
-      <div class="chart-wrap">
+      <div>
+        <v-row class="pl-3">
+          <v-col cols="6">
+            <p class=" text-justify font-italic">DOLAR:</p>
+            <h2 class="text-justify">{{ $store.state.app.indicadores.dolar.valor | currency }}</h2>
+          </v-col>
+          <v-col cols="6">
+            <p class="text-justify font-italic">EURO:</p>
+            <h2 class="text-justify" >{{ $store.state.app.indicadores.euro.valor | currency }}</h2>
+          </v-col>
+          <v-col cols="6">
+            <p class=" text-justify font-italic">UF:</p>
+            <h2 class="text-justify">{{ $store.state.app.indicadores.uf.valor | currency }}</h2>
+          </v-col>
+        </v-row>
+      
+      </div>
+      <!-- <div class="chart-wrap">
         <apexchart
           type="donut"
           width="85%"
           :options="chartOptions"
           :series="series"
         ></apexchart>
-      </div>
+      </div> -->
     </div>
   </v-card>
 </template>
@@ -81,12 +97,12 @@ export default {
   },
   data() {
     return {
-      selectedInterval: 'Last 7 days',
+      selectedInterval: 'Hoy',
       intervals: [
-        'Last 7 days',
-        'Last 28 days',
-        'Last month',
-        'Last year'
+        'Hoy',
+        'Hace 7 dias',
+        'Hace 1 mes',
+        'Hace 1 Año'
       ]
     }
   },

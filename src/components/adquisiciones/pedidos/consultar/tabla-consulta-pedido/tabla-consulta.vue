@@ -194,7 +194,7 @@
                 :fetch="cargarDataExcelDetalle"
                 :fields="headerExcelDetalle"
                 worksheet="Mi Listado de Oc"
-                name="lineas_oc.xls"
+                name="lineas_ped.xls"
               >Descargar Lineas
               </download-excel> </v-list-item-title>
             </v-list-item>

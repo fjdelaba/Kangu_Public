@@ -250,9 +250,6 @@
                 >Descargar Lineas
                 </download-excel> </v-list-item-title>
               </v-list-item>
-              <v-list-item link @click="mostrarPDF()"> <!-- v-for="(item, i) in items" :key="i" -->
-                <v-list-item-title> Descargar PDF </v-list-item-title>
-              </v-list-item>
             </v-list>
           </v-menu>
           <v-spacer></v-spacer>
