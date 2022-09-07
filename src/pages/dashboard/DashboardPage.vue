@@ -32,7 +32,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="flex-grow-0" dense>
+    <!-- <v-row class="flex-grow-0" dense>
       <v-col cols="12" lg="6">
         <table-card class="h-full" :label="$t('dashboard.recentOrders')" />
       </v-col>
@@ -60,9 +60,9 @@
           ></track-card>
         </div>
       </v-col>
-    </v-row>
+    </v-row> -->
 
-    <v-row class="flex-grow-0" dense>
+    <!-- <v-row class="flex-grow-0" dense>
       <v-col cols="12" xl="6">
         <todo-card style="min-height: 380px"/>
       </v-col>
@@ -78,7 +78,7 @@
           :series="ordersSeries"
         ></tickets-card>
       </v-col>
-    </v-row>
+    </v-row> -->
   </div>
 </template>
 
@@ -96,11 +96,11 @@ export default {
   components: {
     SalesCard,
     ActivityCard,
-    TrackCard,
-    TableCard,
-    SourcesCard,
-    TicketsCard,
-    TodoCard
+    // TrackCard,
+    // TableCard,
+    SourcesCard
+    // TicketsCard,
+    // TodoCard
   },
   data() {
     return {

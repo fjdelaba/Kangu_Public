@@ -60,7 +60,7 @@ export default {
     'weeklySales': 'Ventas semanales',
     'sales': 'Ventas',
     'recentOrders': 'órdenes recientes',
-    'sources': 'Fuentes de tráfico',
+    'sources': 'Mis Indicadores',
     'lastweek': 'vs la semana pasada',
     'orders': 'Pedidos',
     'customers': 'Clientes',

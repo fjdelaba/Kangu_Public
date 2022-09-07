@@ -53,8 +53,8 @@ export default {
         const { data: {kangusoft_oc_det,kangusoft_oc} } = await getDetalleOC(this.idOcSeleccionada.id)
         console.log("kangusoft_oc_det: ",kangusoft_oc_det)
         for(let apro of kangusoft_oc[0].apr_pros){
-          console.log("apro: ", apro)
-          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado, id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id})
+          console.log("apro: ", apro.apr.usuByUsuAproFk)
+          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado,id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id, avatar:apro.apr.usuByUsuAproFk.avatar})
         }
         console.log('this.aprobadores: ', this.aprobadores)
         this.materialesOcSeleccionada = kangusoft_oc_det

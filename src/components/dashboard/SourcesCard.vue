@@ -2,16 +2,13 @@
   <v-card class="d-flex flex-column flex-grow-1">
 
     <!-- loading spinner -->
-    <div v-if="loading" class="d-flex flex-grow-1 align-center justify-center">
-      <v-progress-circular indeterminate color="primary"></v-progress-circular>
-    </div>
 
     <!-- information -->
-    <div v-else class="d-flex flex-column flex-grow-1">
+    <div class="d-flex flex-column flex-grow-1">
       <v-card-title>
         <div>{{ label }}</div>
         <v-spacer></v-spacer>
-        <div>
+        <!-- <div>
           <v-select
             v-model="selectedInterval"
             solo
@@ -20,7 +17,7 @@
             hide-selected
             :items="intervals"
           ></v-select>
-        </div>
+        </div> -->
       </v-card-title>
 
       <div class="chart-wrap">

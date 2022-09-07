@@ -324,11 +324,13 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
       id
       aprobado
       comentario
+      fec_apro
       apr {
         usuByUsuAproFk {
           nombre
           apellidos
           id
+          avatar
         }
         id
       }

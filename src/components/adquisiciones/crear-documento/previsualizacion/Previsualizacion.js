@@ -2,6 +2,7 @@
 import CuadroResumen from "../../../general/cuadro-resumen/CuadroResumen.vue";
 import NewCuadroResumen from "../../../general/new-cuadro-resumen/NewCuadroResumen.vue";
 import Pipeline from "../../../general/pipeline/Pipeline.vue";
+import NewPipeline from '../../pipelineAprobacion/pipeline.vue'
 import DistribucionLineasPartidas from "../../../adquisiciones/distribucion-lineas-partidas/DistribucionLineasPartidas.vue";
 import ModalFinalAprobacion from "../../../adquisiciones/modal-final-aprobacion/ModalFinalAprobacion.vue"
 import {
@@ -17,7 +18,8 @@ export default {
     Pipeline,
     DistribucionLineasPartidas,
     ModalFinalAprobacion,
-    NewCuadroResumen
+    NewCuadroResumen,
+    NewPipeline
   },
   props: {
     materiales: [],

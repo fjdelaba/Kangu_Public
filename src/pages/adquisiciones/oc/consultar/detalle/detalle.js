@@ -56,7 +56,7 @@ export default {
         this.aprobadores = []
         for(let apro of kangusoft_oc[0].apr_pros){
           console.log("apro: ", apro)
-          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado, id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id})
+          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado, id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id, avatar:apro.apr.usuByUsuAproFk.avatar,fecha:apro.fec_apro,comentario:apro.comentario})
         }
         // this.materialesOcSeleccionada = kangusoft_oc_det
         console.log('this.aprobadores: ', this.aprobadores)

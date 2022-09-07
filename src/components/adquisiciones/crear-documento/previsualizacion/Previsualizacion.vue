@@ -536,68 +536,7 @@
           <v-divider></v-divider>
           <v-divider></v-divider> -->
           </v-row>
-           
-          <template v-if="false">
-            <v-row>
-              <v-col
-                v-for="n in 4"
-                :key="n"
-                class="d-flex child-flex"
-                cols="3"
-              >
-                <v-card
-                  max-width="180"
-                  class="mx-auto"
-                >
-                  <v-img
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsbc3nYXHYzE9WxzdCE-8pWLeTp4gPEnA0RA2MaykvlsMk01s45Ji-V5IBRZr9y8aVnak&usqp=CAU"
-                    height="150px"
-                    dark
-                  >
-                    <template v-slot:placeholder>
-                      <v-row
-                        class="fill-height ma-0"
-                        align="center"
-                        justify="center"
-                      >
-                        <v-progress-circular
-                          indeterminate
-                          color="grey lighten-5"
-                        ></v-progress-circular>
-                      </v-row>
-                    </template>
-                    <v-avatar size="120" class="ml-4 mt-2">
-                      <img
-                        alt="user"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRSPRIMCWe8gvtzKvKQoFOX3M31DzIy_3HkLA&usqp=CAU"
-                      >
-                    </v-avatar>
-                  </v-img>
-                  <div class="text-center">
-                    <v-list >
-                      <v-list-item>
-                        <v-list-item-content>
-                          <v-list-item-title>Keznit</v-list-item-title>
-          
-                          <v-divider class="mx-5 mt-2 mb-2" ></v-divider>
-                          <p class="text-body-2 text--primary text-justify">Se Aprueba la Orden de compra porque hay plata.</p>
-                        </v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-action></v-list-item-action>
-                        <v-list-item-icon>
-                          <v-icon color="primary" x-large class="pl- pb-2">mdi-checkbox-marked-circle</v-icon>
-                        </v-list-item-icon>
-                      </v-list-item>
-                    </v-list>
-                  </div>
-                </v-card>
-              </v-col> 
-              <!--separacion card-->
-            </v-row>
-          </template> 
-          <pipeline :aprobadores="aprobadores && aprobadores" class="mt-1"></pipeline>
+          <new-pipeline :aprobadores="aprobadores && aprobadores" class="mt-1"></new-pipeline>
           <distribucion-lineas-partidas v-if="false"></distribucion-lineas-partidas>
         <!-- <e-charts
           ref="pie"
