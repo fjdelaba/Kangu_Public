@@ -150,25 +150,25 @@ export default {
     },
     async cargarDatosUsuario() {
       // console.log('cargarDatosUsuario Toolbar: ', this.$store.state.app.datosUsuario.user_id)
-      try {
-        console.log('try subscription')
-        const resp = await subsDatosUsuario(this.$store.state.app.datosUsuario.user_id)
+      // try {
+      //   console.log('try subscription')
+      //   const resp = await subsDatosUsuario(this.$store.state.app.datosUsuario.user_id)
 
-        resp.subscribe({
-          next (data) {
-            console.log('suscribe datausuario_ ', data.data.kangusoft_usu[0].activo)
-            console.log('data.data.kangusoft_usu[0].activo: ', data.data.kangusoft_usu[0].activo)
-            if (data.data.kangusoft_usu[0].activo === false) {
-              console.log('object')
-            }
-          },
-          error (error) {
-            console.error(error)
-          } 
-        })
-      } catch (error) {
-        console.log('error: ', error)
-      }
+      //   resp.subscribe({
+      //     next (data) {
+      //       console.log('suscribe datausuario_ ', data.data.kangusoft_usu[0].activo)
+      //       console.log('data.data.kangusoft_usu[0].activo: ', data.data.kangusoft_usu[0].activo)
+      //       if (data.data.kangusoft_usu[0].activo === false) {
+      //         console.log('object')
+      //       }
+      //     },
+      //     error (error) {
+      //       console.error(error)
+      //     } 
+      //   })
+      // } catch (error) {
+      //   console.log('error: ', error)
+      // }
 
     }
   }
