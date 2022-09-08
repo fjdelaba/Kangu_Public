@@ -24,7 +24,7 @@
                 color="blue"
                 size="40"
               >
-                <span class="white--text text-h5">{{ iniciales }}</span>
+                <span class="white--text text-h7">{{ iniciales }}</span>
                
               </v-avatar>
             </template>

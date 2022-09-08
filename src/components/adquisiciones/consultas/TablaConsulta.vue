@@ -489,7 +489,8 @@
             <div class="font-weight-bold">{{ getFechaFormat(item.fec_creacion) }}</div> 
           </template>
           <template v-slot:item.neto="{ item }">
-            <div class="font-weight-bold">{{ item.neto | currency }}</div>
+            <div v-if="item.mon_fk == 2" class="font-weight-bold">{{ item.neto | currency }}</div>
+            <div v-else class="font-weight-bold">{{ item.neto | currency_3 }}</div>
           </template>
           <template v-slot:item.pdf="{ item }">
             <div><v-btn

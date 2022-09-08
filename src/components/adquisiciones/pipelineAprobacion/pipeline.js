@@ -2,32 +2,19 @@
 export default {
   data() {
     return {
-      iniciales:''
     }
   },
   props: {
     aprobadores:[],
   },
   mounted() {
-    console.log('aprobadores:', this.aprobadores)
-    for(let apro of this.aprobadores){
-      this.iconoLetras(apro.nombre)
+    for (let i = 0; i < this.aprobadores.length; i++) {
+     this.aprobadores[i].posicion = i
+     console.log('indice',this.aprobadores)
     }
-   
   },
   methods: {
-    iconoLetras(nombre) {
-      console.log("nombres",nombre)
-      let inicialNombre = nombre.split(' ')
-    let initials = ''
-    for (var i = 0; i < inicialNombre.length; i++) {
-      if (inicialNombre[i].length > 0 && inicialNombre[i] !== '') {
-        initials += inicialNombre[i][0]
-      }
-    }
-    this.iniciales = initials 
-    return console.log('iniciales',initials)
-      },
+   
     getAprobadorAprobado(item) {
       console.log('item: ', item)
       console.log('1: ', item.aprobado === true)

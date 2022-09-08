@@ -69,7 +69,7 @@ export default {
       actualizarDoc:false,
       transition: 'slide-y-reverse-transition',
       headerExcelCabecera: {
-        //: "fec_creacion",
+       
         "Nombre Centro Gestion": "pro_nombre",
         "Identificador OC": "identificacion",
         "Nombre OC": "oc_nombre",
@@ -81,6 +81,11 @@ export default {
             }
         },
         "Moneda": "mon_nombre",
+        "Fecha de Creacion": {
+          callback: value => {
+              return  this.$moment(value.fec_creacion).format('DD/MM/yy').toString();
+          }
+      },
         "Monto": "neto",
         "Estado de Oc": "est_nombre", 
     },

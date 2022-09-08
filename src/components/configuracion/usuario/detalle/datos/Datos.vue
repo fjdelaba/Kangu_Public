@@ -490,6 +490,7 @@ import { setTimeout } from 'optimism'
 import CardProyecto from '../../../../configuracion/usuario/card-proyecto/CardProyecto.vue'
 import { getUsuPermisos,updateEstadoUsuario, updateDatosUsuario, updatePermisosUsuario, updateResetPassword } from '../../../../../graphql/configuracion'
 import { validaRut } from '../../../../../utils'
+/* eslint-disable */
 export default {
   components: {
     
@@ -593,7 +594,11 @@ export default {
       const { data: { kangusoft_usu_per } } = await getUsuPermisos()
 
       console.log('resp',kangusoft_usu_per)
-      this.permisosUsuario = kangusoft_usu_per
+      for (let permiso of kangusoft_usu_per) {
+        if (permiso.id == 1 || permiso.id == 2)
+          this.permisosUsuario.push(permiso)
+      }
+     
     },
     cerrarCambiarClave() {
       this.diaglogCambiarPassword = false

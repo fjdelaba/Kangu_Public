@@ -120,6 +120,7 @@
             <span v-else>{{ item.nombre }} </span>
           </template>
           <template v-slot:item.activo="{ item }">
+        
             <v-switch
               v-if="idMantenedor == 4 || idMantenedor == 5"
               v-model="item.activo"
@@ -148,9 +149,9 @@
             ></v-simple-checkbox>
           </template>
           <template
-            v-if="idMantenedor == 2 || idMantenedor == 3 || idMantenedor == 6"
+            v-if="idMantenedor == 2 || idMantenedor == 6 || idMantenedor == 3"
             v-slot:item.actions="{ item }"
-          >
+          > 
             <v-icon
               v-if="item.id != editedItem.id"
               small

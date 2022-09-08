@@ -1,55 +1,12 @@
 <template>
   <v-card class="d-flex flex-column flex-grow-1">
-
-    <!-- loading spinner -->
-
-    <!-- information -->
-    <div class="d-flex flex-column flex-grow-1">
-      <v-card-title>
-        <p>{{ label }} <v-icon color="grey darken-2">mdi-account-cash</v-icon></p>
-        <v-spacer></v-spacer>
-        <div>
-          <v-select
-            v-model="selectedInterval"
-            solo
-            dense
-            hide-details
-            hide-selected
-            :items="intervals"
-          ></v-select>
-        </div>
-      </v-card-title>
-      <div>
-        <v-row class="pl-3">
-          <v-col cols="6">
-            <p class=" text-justify font-italic">DOLAR:</p>
-            <h2 class="text-justify">{{ $store.state.app.indicadores.dolar.valor | currency }}</h2>
-          </v-col>
-          <v-col cols="6">
-            <p class="text-justify font-italic">EURO:</p>
-            <h2 class="text-justify" >{{ $store.state.app.indicadores.euro.valor | currency }}</h2>
-          </v-col>
-          <v-col cols="6">
-            <p class=" text-justify font-italic">UF:</p>
-            <h2 class="text-justify">{{ $store.state.app.indicadores.uf.valor | currency }}</h2>
-          </v-col>
-        </v-row>
-      
-      </div>
-      <!-- <div class="chart-wrap">
-        <apexchart
-          type="donut"
-          width="85%"
-          :options="chartOptions"
-          :series="series"
-        ></apexchart>
-      </div> -->
-    </div>
+    <card-indicadores :label="label"></card-indicadores>
   </v-card>
 </template>
 
 <script>
 import VueApexCharts from 'vue-apexcharts'
+import cardIndicadores from '../general/card-indicadores/card-indicadores.vue'
 
 /*
 |---------------------------------------------------------------------
@@ -60,7 +17,11 @@ import VueApexCharts from 'vue-apexcharts'
 | your own dashboard component
 |
 */
+/* eslint-disable */
 export default {
+  components: {
+    cardIndicadores
+  },
   props: {
     series: {
       type: Array,

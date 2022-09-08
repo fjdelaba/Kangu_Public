@@ -111,7 +111,7 @@
                     <v-list-item link @click="descargarOcPDF()"> <!-- v-for="(item, i) in items" :key="i" -->
                       <v-list-item-title> Descargar PDF </v-list-item-title>
                     </v-list-item>
-                     <v-list-item link @click="anularOc()"> <!-- v-for="(item, i) in items" :key="i" -->
+                    <v-list-item link @click="anularOc()"> <!-- v-for="(item, i) in items" :key="i" -->
                       <v-list-item-title> Anular Orden de Compra </v-list-item-title>
                     </v-list-item>
                   </v-list>
@@ -263,7 +263,7 @@
                 </div>
               </template> -->
               <template v-slot:item.cantidad="{ item }">
-                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+                <div >
                   <div v-if="item.editable">
                     <div v-if="item.oc_det_pars.length > 1">
                       <span>{{ item.cantidad | currency_2 }}</span> 
@@ -283,7 +283,7 @@
                 </div>
               </template>
               <template v-slot:item.precio_unitario="{ item }">
-                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
+                <div >
                   <div v-if="item.editable">
                     <v-text-field
                       v-model="item.precio_unitario"
@@ -293,13 +293,19 @@
                     ></v-text-field>
                   </div>
                   <div v-else>
-                    <span>{{ item.precio_unitario | currency }}</span> 
+                    <span v-if="cabecera.moneda.nombre == 'CLP'">{{ item.precio_unitario | currency }}</span> 
+                    <span v-if="cabecera.moneda.nombre == 'DOLAR'">{{ item.precio_unitario | currency_4 }}</span> 
+                    <span v-if="cabecera.moneda.nombre == 'EURO'">{{ item.precio_unitario | currency_5 }}</span> 
+                    <span v-if="cabecera.moneda.nombre == 'UF'">{{ item.precio_unitario | currency_3 }}</span> 
                   </div>
                 </div>
               </template>
               <template v-slot:item.total="{ item }">
-                <div class="d-flex align-center display: inline-block mt-1 mb-1" style="width:70px">
-                  <span>{{ item.total | currency }}</span> 
+                <div >
+                  <span v-if="cabecera.moneda.nombre == 'CLP'">{{ item.total | currency }}</span> 
+                  <span v-if="cabecera.moneda.nombre == 'DOLAR'">{{ item.total | currency_4 }}</span> 
+                  <span v-if="cabecera.moneda.nombre == 'EURO'">{{ item.total | currency_5 }}</span> 
+                  <span v-if="cabecera.moneda.nombre == 'UF'">{{ item.total | currency_3 }}</span> 
                 </div>
               </template>
               <template v-slot:item.actions="{ item }">

@@ -2,8 +2,8 @@
 import  {QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO,getFormaPago}  from "../../../../components/graphql/querys/configuracion.js"
 import gql from "graphql-tag";
 const UPDATE_MONEDA = gql`
- mutation update_moneda($id_moneda: bigint!, $activo: Boolean!) {
-  update_kangusoft_mon(where: {id: {_eq: $id_moneda}}, _set: {activo: $activo}) {
+ mutation update_mon($id_moneda: bigint!, $activo: Boolean!) {
+  update_kangusoft_emp_mon(where: {id: {_eq: $id_moneda}}, _set: {activo: $activo}) {
     affected_rows
     returning {
       activo
@@ -79,8 +79,8 @@ mutation insert_tdespacho($id_emp: bigint!, $nombre: String!, $activo: Boolean!)
 }
 `
 const INSERT_CGUNIDAD = gql`
-mutation insert_cgunidad($id_emp: bigint!, $nombre: String!, $activo: Boolean!,$activa: bpchar!,$usu_creacion_fk: bigint!,$fec_creacion: timestamp!) {
-  insert_kangusoft_pro_uni(objects: {activo: $activo, emp_fk: $id_emp, nombre: $nombre, activa:$activa, usu_creacion_fk: $usu_creacion_fk, fec_creacion:$fec_creacion}){
+mutation insert_cgunidad($id_emp: bigint!, $nombre: String!, $activo: Boolean!,$usu_creacion_fk: bigint!,$fec_creacion: timestamp!) {
+  insert_kangusoft_pro_uni(objects: {activo: $activo, emp_fk: $id_emp, nombre: $nombre, usu_fk: $usu_creacion_fk, fec_creacion:$fec_creacion}){
     affected_rows
     returning {
       id
@@ -130,6 +130,11 @@ export default {
 
     this.fecha = this.$moment(new Date()).format()
     console.log(this.fecha)
+    console.log(this.$auth.isLoading);
+    if (this.$auth.isLoading == false) {
+      this.datosEmpresa = this.$store.state.app.datosEmpresa;
+      this.usu_id = this.$store.state.app.datosUsuario.user_id
+    }
   },
   props: {
     mantenedores: Array,
@@ -138,6 +143,7 @@ export default {
   },
   data() {
     return {
+      usu_id:'',
       fecha:"",
       aut0:"",
       usuLogin:"",
@@ -161,7 +167,7 @@ export default {
       },
       aux:"",
       habilitar:false,
-
+      datosEmpresa:''
     };
   },
   computed: {
@@ -171,7 +177,7 @@ export default {
       return this.nombreMantenedor;
     },
     cpxRetornarCabecera(){
-      if(this.idMantenedor == 3 || this.idMantenedor == 4){
+      if(this.idMantenedor == 4 || this.idMantenedor == 5){
         return this.headers.filter(header => header.idx < 4)
       }else{
         return this.headers.filter(header => header.idx < 5)
@@ -200,7 +206,7 @@ export default {
       })
     },
    async deleteItemConfirm () {
-    if(this.idMantenedor == 1){
+    if(this.idMantenedor == 2){
       this.habilitar = true
       console.log("FORMA DE PAGO")
      const { data }  = await this.$apollo.mutate({
@@ -214,7 +220,7 @@ export default {
     }
 
    
-    if(this.idMantenedor == 2){
+    if(this.idMantenedor == 3){
       console.log("TIPO DE DESPACHO")
      const { data }  = await this.$apollo.mutate({
        mutation: DELETE_TDESPACHO,
@@ -225,7 +231,7 @@ export default {
      this.aux = data
      console.log("data", data)
     }
-      if(this.idMantenedor == 5){
+      if(this.idMantenedor == 6){
         console.log("FORMA DE PAGO")
        const { data }  = await this.$apollo.mutate({
          mutation: DELETE_CGUNIDAD,
@@ -255,7 +261,7 @@ export default {
       console.log("id", objeto)
       let activo = objeto.activo == null || objeto.activo == false || objeto.activo == 'null'? false : true
       console.log("ids", activo)
-      if(this.idMantenedor == 3){
+      if(this.idMantenedor == 4){
         console.log("MONEDA")
        const { data }  = await this.$apollo.mutate({
          mutation: UPDATE_MONEDA,
@@ -271,7 +277,7 @@ export default {
        console.log("no entre")
       }
       //
-      if(this.idMantenedor == 4){
+      if(this.idMantenedor == 5){
         console.log("ESTADO PROYECYO")
        const { data }  = await this.$apollo.mutate({
          mutation: UPDATE_CGESTADO,
@@ -296,13 +302,14 @@ export default {
       });
     },
     async guardarNuevoItem() {
-      if(this.idMantenedor == 1){
+      if(this.idMantenedor == 2){
         console.log("FORMA DE PAGO")
         this.habilitar = true
+        console.log("obj MANTENEDOR 2:",this.datosEmpresa.id, this.editedItem.nombre,true)
        const { data }  = await this.$apollo.mutate({
          mutation: INSERT_FPAGO,
          variables:{
-           'id_emp':  this.aut0,
+           'id_emp':  this.datosEmpresa.id,
            'nombre':  this.editedItem.nombre,
            'activo':  true
          },
@@ -316,13 +323,14 @@ export default {
        console.log("no entre")
       }
      
-      if(this.idMantenedor == 2){
+      if(this.idMantenedor == 3){
         this.habilitar = true
         console.log("TIPO DE DESPACHO")
+        console.log("obj MANTENEDOR 3:",this.datosEmpresa.id, this.editedItem.nombre,true)
        const { data }  = await this.$apollo.mutate({
          mutation: INSERT_TDESPACHO,
          variables:{
-          'id_emp':  this.aut0,
+          'id_emp':  this.datosEmpresa.id,
           'nombre':  this.editedItem.nombre,
           'activo':  true
          },
@@ -335,17 +343,16 @@ export default {
       }else{
        console.log("no entre")
       }
-      if(this.idMantenedor == 5){
+      if(this.idMantenedor == 6){
         this.habilitar = true
         console.log("ESTADO PROYECTO")
        const { data }  = await this.$apollo.mutate({
          mutation: INSERT_CGUNIDAD,
          variables:{
-          'id_emp':  this.aut0,
+          'id_emp':  this.datosEmpresa.id,
           'nombre':  this.editedItem.nombre,
           'activo': true,
-          'activa':   'S',
-          'usu_creacion_fk': this.usuLogin,
+          'usu_creacion_fk': this.usu_id  ,
           'fec_creacion': this.fecha
          },
        })
@@ -363,8 +370,9 @@ export default {
     async save() {
 
 
-      if(this.idMantenedor == 1){
+      if(this.idMantenedor == 2){
         console.log("FORMA DE PAGO")
+        console.log("OBJ FORM:",this.editedItem.id,this.editedItem.nombre,this.editedItem.activo)
        const { data }  = await this.$apollo.mutate({
          mutation: UPDATE_FPAGO,
          variables:{
@@ -383,8 +391,9 @@ export default {
       }else{
        console.log("no entre")
       }
-      if(this.idMantenedor == 2){
+      if(this.idMantenedor == 3){
         console.log("TIPO DE DESPACHO")
+        console.log("obj MANTENEDOR 3:",this.editedItem.id, this.editedItem.nombre, this.editedItem.activo)
        const { data }  = await this.$apollo.mutate({
          mutation: UPDATE_TDESPACHO,
          variables:{
@@ -403,14 +412,14 @@ export default {
        console.log("no entre")
       }
     
-     if(this.idMantenedor == 5){
+     if(this.idMantenedor == 6){
       console.log("ESTADO PROYECTO")
      const { data }  = await this.$apollo.mutate({
        mutation: UPDATE_CGUNIDAD,
        variables:{
          'id_cgunidad': this.editedItem.id,
          'nombre':  this.editedItem.nombre,
-         'activo':  true
+         'activo':  this.editedItem.activo
        },
        update: (data) => {console.log("aa",data)} 
      })

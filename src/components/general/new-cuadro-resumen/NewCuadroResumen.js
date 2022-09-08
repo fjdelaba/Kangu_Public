@@ -12,6 +12,9 @@ export default {
     mostrarTiposDocumento:{
       type: Boolean,
       default: false
+    },
+    oc:{
+      type: Object
     }
   },
   data() {

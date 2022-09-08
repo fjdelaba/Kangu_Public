@@ -45,7 +45,7 @@
               size="120"
               class="ml-4 mt-2"
             >
-              <span class="white--text text-h5">{{ iniciales }}</span>
+              <span class="white--text text-h5">{{ item.iniciales }}</span>
                
             </v-avatar>
           </v-img>
@@ -54,7 +54,7 @@
               <v-list-item>
                 <v-list-item-content>
                   <v-list-item-title>{{ item.nombre }}</v-list-item-title>
-          
+               
                   <v-divider class="mx-2 mt-2 mb-2" ></v-divider>
                   <p class="text-body-2 text--primary text-justify">{{ item.comentario ? `${item.comentario}` : "Sin Comentario" }}</p>
                   <v-divider class="mx-2 mt-2 mb-2" ></v-divider>

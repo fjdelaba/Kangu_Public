@@ -55,8 +55,16 @@ export default {
         console.log("kangusoft_oc detalle oc cabecera: ",kangusoft_oc)
         this.aprobadores = []
         for(let apro of kangusoft_oc[0].apr_pros){
-          console.log("apro: ", apro)
-          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado, id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id, avatar:apro.apr.usuByUsuAproFk.avatar,fecha:apro.fec_apro,comentario:apro.comentario})
+          apro.nombres = `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`
+          console.log("apro: ", apro.nombres)
+          let inicialNombre = apro.nombres.split(' ')
+    let initials = ''
+    for (var i = 0; i < inicialNombre.length; i++) {
+      if (inicialNombre[i].length > 0 && inicialNombre[i] !== '') {
+        initials += inicialNombre[i][0]
+      }
+    }
+          this.aprobadores.push({nombre: `${apro.apr.usuByUsuAproFk.nombre} ${apro.apr.usuByUsuAproFk.apellidos}`, aprobado:apro.aprobado, id_apr: apro.id, id_user:apro.apr.usuByUsuAproFk.id, avatar:apro.apr.usuByUsuAproFk.avatar,fecha:apro.fec_apro,comentario:apro.comentario,iniciales:initials })
         }
         // this.materialesOcSeleccionada = kangusoft_oc_det
         console.log('this.aprobadores: ', this.aprobadores)
