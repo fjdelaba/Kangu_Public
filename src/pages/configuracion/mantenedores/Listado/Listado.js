@@ -52,14 +52,7 @@ export default {
           let data2 = await this.$apollo.query({
             query: GETMONEDA,
           });
-          this.listaMantenedor = data2.data.kangusoft_mon;
-          console.log("aaa",this.listaMantenedor);
-          break;
-          case 5:
-          let data4 = await this.$apollo.query({
-            query:  GETCGESTADO,
-          });
-          this.listaMantenedor = data4.data.kangusoft_pro_est;
+          this.listaMantenedor = data2.data.kangusoft_emp_mon;
           console.log("aaa",this.listaMantenedor);
           break;
         case 6:

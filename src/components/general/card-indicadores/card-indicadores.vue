@@ -6,9 +6,10 @@
     <!-- information -->
     <div class="d-flex flex-column flex-grow-1">
       <v-card-title>
-        <p>{{ label }}</p>
+        {{ label }}
         <v-spacer></v-spacer>
-        <div>
+       
+        <!-- <div>
           <v-menu
             ref="menu"
             v-model="menu"
@@ -51,58 +52,90 @@
               </v-btn>
             </v-date-picker>
           </v-menu>
-        </div>
+        </div> -->
       </v-card-title>
-      <div>
-        <v-row class="pl-3">
-          <v-col cols="6">
-            <v-card
-              class="mx-auto"
-              max-width="400"
-            >
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title class="text-h5">
-                    <p class=" text-center">DOLAR:</p>
-                  </v-list-item-title>
-                  <h2 class="text-h2 text-center">{{ $store.state.app.indicadores.dolar.valor | currency }}</h2>
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </v-col>
-          <v-col cols="6">
-            <v-card
-              class="mx-auto"
-              max-width="400"
-            >
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title class="text-h5">
-                    <p class=" text-center">EURO:</p>
-                  </v-list-item-title>
-                  <h2 class=" text-h2 text-center">{{ $store.state.app.indicadores.euro.valor | currency }}</h2>
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </v-col>
-          <v-col cols="8">
-            <v-card
-              class="mx-auto"
-              max-width="400"
-            >
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title class="text-h5">
-                    <p class=" text-center">UF:</p>
-                  </v-list-item-title>
-                  <h2 class=" text-h2 text-center">{{ $store.state.app.indicadores.uf.valor | currency }}</h2>
-                </v-list-item-content>
-              </v-list-item>
-            </v-card>
-          </v-col>
-        </v-row>
+      <v-divider></v-divider>
+      <v-card-text>
+        <div>
       
-      </div>
+          <v-row>
+            <v-col cols="4">
+              <p class="font-weight-black">Indicadores de Hoy</p>
+            </v-col>
+            <v-col cols="4">
+              <p class="font-weight-black">{{ date }}</p>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="4">
+              <p class="font-weight-black">{{ $store.state.app.indicadores.dolar.valor | currency_USD }}</p>
+              <p class="font-weight-black font-italic">USD</p>
+            </v-col>
+            <v-divider vertical></v-divider>
+            <v-col cols="4">
+              <p class="font-weight-black">{{ $store.state.app.indicadores.euro.valor | currency_5 }}</p>
+              <p class="font-weight-black font-italic">USD</p>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="4">
+              <p class="font-weight-black">{{ $store.state.app.indicadores.dolar.valor | currency_USD }}</p><v-spacer>        <p class="font-weight-black font-italic">UF</p></v-spacer>
+      
+            </v-col>
+          </v-row>
+        </div>
+        
+        <!-- <div>
+          <v-row class="pl-3">
+            <v-col cols="6">
+              <v-card
+                class="mx-auto"
+                max-width="400"
+              >
+                <v-list-item two-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h5">
+                      <p class=" text-center">DOLAR:</p>
+                    </v-list-item-title>
+                    <h2 class="text-h2 text-center">{{ $store.state.app.indicadores.dolar.valor | currency }}</h2>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
+            <v-col cols="6">
+              <v-card
+                class="mx-auto"
+                max-width="400"
+              >
+                <v-list-item two-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h5">
+                      <p class=" text-center">EURO:</p>
+                    </v-list-item-title>
+                    <h2 class=" text-h2 text-center">{{ $store.state.app.indicadores.euro.valor | currency }}</h2>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
+            <v-col cols="8">
+              <v-card
+                class="mx-auto"
+                max-width="400"
+              >
+                <v-list-item two-line>
+                  <v-list-item-content>
+                    <v-list-item-title class="text-h5">
+                      <p class=" text-center">UF:</p>
+                    </v-list-item-title>
+                    <h2 class=" text-h2 text-center">{{ $store.state.app.indicadores.uf.valor | currency }}</h2>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+            </v-col>
+          </v-row>
+      
+        </div> -->
+      </v-card-text>
       <!-- <div class="chart-wrap">
         <apexchart
           type="donut"

@@ -24,10 +24,12 @@ const GETDESPACHO = gql`
 `;
 const GETMONEDA = gql`
  query {
-  kangusoft_mon {
+  kangusoft_emp_mon {
+  activo
     id
-    nombre
-    activo
+    mon {
+      nombre
+    }
   }
 }
 `;

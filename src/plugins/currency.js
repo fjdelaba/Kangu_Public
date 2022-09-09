@@ -39,6 +39,15 @@ Vue.use(VueCurrencyFilter, [{
   symbolSpacing: true
 },
 { // default name 'currency_3'
+  name: 'currency_USD',
+  symbol: '$',
+  thousandsSeparator: '.',
+  fractionCount: 2,
+  fractionSeparator: ',',
+  symbolPosition: 'front',
+  symbolSpacing: true
+},
+{ // default name 'currency_3'
   name: 'currency_5', 
   symbol: '€',
   thousandsSeparator: '.',
