@@ -9,7 +9,7 @@
         {{ label }}
         <v-spacer></v-spacer>
        
-        <!-- <div>
+        <div>
           <v-menu
             ref="menu"
             v-model="menu"
@@ -34,6 +34,7 @@
               scrollable
               :first-day-of-week="1"
               :weekday-format="getDay"
+              @change="cargarIndicadores(2)"
             >
               <v-spacer></v-spacer>
               <v-btn
@@ -52,34 +53,41 @@
               </v-btn>
             </v-date-picker>
           </v-menu>
-        </div> -->
+        </div> 
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text>
         <div>
       
           <v-row>
-            <v-col cols="4">
-              <p class="font-weight-black">Indicadores de Hoy</p>
+            <v-col class="ml-4" cols="4">
+              <p class="font-weight-black">Fecha</p>
             </v-col>
             <v-col cols="4">
-              <p class="font-weight-black">{{ date }}</p>
+              <p class="font-weight-black">{{ getFechaFormat(date) }}</p>
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="4">
-              <p class="font-weight-black">{{ $store.state.app.indicadores.dolar.valor | currency_USD }}</p>
-              <p class="font-weight-black font-italic">USD</p>
+            <v-col class="ml-4" cols="4">
+              <h1 class=""> ${{ usd }}  <v-icon v-if="mostrarFlecha" color="red">mdi-arrow-down-thick</v-icon></h1>
+              <p class=" font-italic">USD</p>
             </v-col>
             <v-divider vertical></v-divider>
-            <v-col cols="4">
-              <p class="font-weight-black">{{ $store.state.app.indicadores.euro.valor | currency_5 }}</p>
-              <p class="font-weight-black font-italic">USD</p>
+            <v-col class="ml-4" cols="4">
+              <h1 class="font-weight-black">€{{ euro }} <v-icon v-if="mostrarFlecha" color="green">mdi-arrow-up-thick</v-icon></h1>
+              <p class="font-italic">Euro</p>
             </v-col>
           </v-row>
           <v-row>
-            <v-col cols="4">
-              <p class="font-weight-black">{{ $store.state.app.indicadores.dolar.valor | currency_USD }}</p><v-spacer>        <p class="font-weight-black font-italic">UF</p></v-spacer>
+            <v-col class="ml-4" cols="4">
+              <h1 class="font-weight-black">${{ uf }} <v-icon v-if="mostrarFlecha" color="green">mdi-arrow-up-thick</v-icon></h1>
+              <p class="font-italic">UF</p>
+       
+            </v-col>
+            <v-divider vertical></v-divider>
+            <v-col class="ml-4" cols="4">
+              <h1 class="font-weight-black">${{ utm }} <v-icon v-if="mostrarFlecha" color="green">mdi-arrow-up-thick</v-icon></h1>
+              <p class="font-italic">UTM</p>
       
             </v-col>
           </v-row>
