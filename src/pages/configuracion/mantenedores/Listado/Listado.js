@@ -12,7 +12,7 @@ export default {
   data() {
     return {
       listaMantenedores: "",
-      listaMantenedor: "",
+      listaMantenedor: [],
       mostrarTablaMantendedor:true,
       idMantenedor:0,
       skeleton: true
@@ -24,6 +24,13 @@ export default {
         query: GETBOTONES,
       });
       this.listaMantenedores = data.kangusoft_man;
+      for(let man of this.listaMantenedores){
+        console.log("man",man)
+        if(man.id == 5){
+          this.listaMantenedores.splice(3, 1)
+        }
+      }
+   
       this.skeleton = false
       console.log("mante",this.listaMantenedores);
     },
@@ -33,6 +40,7 @@ export default {
       console.log("ESTOY EN MANTENEDOR", mantenedor);
       switch (mantenedor.id) {
         case 2:
+          this.listaMantenedor = []
           console.log( this.listaMantenedor);
           let data  = await this.$apollo.query({
             query: QUERY_FORMA_PAGO,
@@ -41,6 +49,7 @@ export default {
           console.log(data);
           break;
         case 3:
+          this.listaMantenedor = []
           let data1 = await this.$apollo.query({
             query: GETDESPACHO,
           });
@@ -49,14 +58,19 @@ export default {
           console.log(this.listaMantenedor);
           break;
         case 4:
+          this.listaMantenedor = []
           let data2 = await this.$apollo.query({
             query: GETMONEDA,
           });
-          this.listaMantenedor = data2.data.kangusoft_emp_mon;
+          for(let moneda of data2.data.kangusoft_emp_mon){
+            console.log("mon",moneda)
+            this.listaMantenedor.push({activo:moneda.activo,id:moneda.id,nombre:moneda.mon.nombre})
+          }
+        
           console.log("aaa",this.listaMantenedor);
           break;
         case 6:
-         
+          this.listaMantenedor = []
           let data3 = await this.$apollo.query({
             query: GETCELULAS,
           });

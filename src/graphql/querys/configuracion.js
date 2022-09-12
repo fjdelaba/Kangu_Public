@@ -16,7 +16,7 @@ const GET_DATOS_GENERALES = gql`
       nombre
       id
     }
-    kangusoft_fla(where: { activo: { _eq: true }, fla_amb_fk: { _eq: "1" } }) {
+    kangusoft_fla(where: { activo: { _eq: true }, fla_mod_fk: { _eq: "1" } }) {
       id
       nombre
     }

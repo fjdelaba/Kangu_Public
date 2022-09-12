@@ -207,44 +207,82 @@ export default {
     },
    async deleteItemConfirm () {
     if(this.idMantenedor == 2){
-      this.habilitar = true
-      console.log("FORMA DE PAGO")
-     const { data }  = await this.$apollo.mutate({
-       mutation: DELETE_FPAGO,
-       variables:{
-        'id_fpago': this.editedItem.id,
-      },
-     })
-     this.aux = data
-     console.log("data", data)
+      try {
+        this.habilitar = true
+        console.log("FORMA DE PAGO")
+       const { data }  = await this.$apollo.mutate({
+         mutation: DELETE_FPAGO,
+         variables:{
+          'id_fpago': this.editedItem.id,
+        },
+       })
+       this.aux = data
+       this.lista.splice(this.editedIndex, 1)
+       this.closeDelete()
+       console.log("data", data)
+       
+      } catch (error) {
+        console.log("Error",error)
+        this.$toast.error('No se completo esta acción, Esta Forma de Pago esta siendo Utilizada', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        this.closeDelete()
+      }
+    
     }
 
    
     if(this.idMantenedor == 3){
-      console.log("TIPO DE DESPACHO")
-     const { data }  = await this.$apollo.mutate({
-       mutation: DELETE_TDESPACHO,
-       variables:{
-        'id_tdespacho': this.editedItem.id,
-      },
-     })
-     this.aux = data
-     console.log("data", data)
+      try {
+        console.log("TIPO DE DESPACHO")
+        const { data }  = await this.$apollo.mutate({
+          mutation: DELETE_TDESPACHO,
+          variables:{
+           'id_tdespacho': this.editedItem.id,
+         },
+        })
+        this.aux = data
+        this.lista.splice(this.editedIndex, 1)
+        this.closeDelete()
+        console.log("data", data)
+      } catch (error) {
+        console.log("Error",error)
+        this.$toast.error('No se completo esta acción, Este Tipo de Despacho esta siendo Utilizado', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        this.closeDelete()
+      }
+     
     }
       if(this.idMantenedor == 6){
-        console.log("FORMA DE PAGO")
-       const { data }  = await this.$apollo.mutate({
-         mutation: DELETE_CGUNIDAD,
-         variables:{
-           'id_cgunidad': this.editedItem.id,
-         },
-       })
-       this.aux = data
-       console.log("data", data)
+        try {
+          const { data }  = await this.$apollo.mutate({
+            mutation: DELETE_CGUNIDAD,
+            variables:{
+              'id_cgunidad': this.editedItem.id,
+            },
+          })
+          this.aux = data
+          console.log("data", data)
+          this.habilitar = false
+          this.lista.splice(this.editedIndex, 1)
+          this.closeDelete()
+        } catch (error) {
+          console.log("Error",error)
+          this.$toast.error('No se completo esta acción, Esta Unidad de Negocio esta siendo Utilizada', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.closeDelete()
+        }
+       
     }
-      this.habilitar = false
-      this.lista.splice(this.editedIndex, 1)
-      this.closeDelete()
+     
     },
     deleteItem (item) {
       this.editedIndex = this.lista.indexOf(item)
@@ -258,37 +296,67 @@ export default {
     },
 
     async saveMoneda(objeto){
+     
       console.log("id", objeto)
       let activo = objeto.activo == null || objeto.activo == false || objeto.activo == 'null'? false : true
       console.log("ids", activo)
       if(this.idMantenedor == 4){
-        console.log("MONEDA")
-       const { data }  = await this.$apollo.mutate({
-         mutation: UPDATE_MONEDA,
-         variables:{
-           'id_moneda': objeto.id,
-           'activo':  activo
-         },
-         update: (data) => {console.log("aa",data)} 
-       })
-       this.aux = data
-       console.log("data", data)
+        try {
+          console.log("MONEDA")
+          const { data }  = await this.$apollo.mutate({
+            mutation: UPDATE_MONEDA,
+            variables:{
+              'id_moneda': objeto.id,
+              'activo':  activo
+            },
+            update: (data) => {console.log("aa",data)} 
+          })
+          this.aux = data
+          console.log("data", data)
+          this.$toast.success('Se completo con exito esta acción', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+        } catch (error) {
+          console.log('error',error)
+          this.$toast.error('No se completo esta acción', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+        }
       }else{
        console.log("no entre")
       }
       //
       if(this.idMantenedor == 5){
-        console.log("ESTADO PROYECYO")
-       const { data }  = await this.$apollo.mutate({
-         mutation: UPDATE_CGESTADO,
-         variables:{
-          'id_cgestado': objeto.id,
-          'activo':  activo
-          },
-         update: (data) => {console.log("aa",data)} 
-       })
-       this.aux = data
-       console.log("data", data)
+        try {
+          console.log("ESTADO PROYECYO")
+          const { data }  = await this.$apollo.mutate({
+            mutation: UPDATE_CGESTADO,
+            variables:{
+             'id_cgestado': objeto.id,
+             'activo':  activo
+             },
+            update: (data) => {console.log("aa",data)} 
+          })
+          this.aux = data
+          console.log("data", data)
+          this.$toast.success('Se completo con exito esta acción', {
+           tposition: 'top-right',
+           timeout: 5000,
+           pauseOnHover: true
+         })
+        } catch (error) {
+          console.log('error',error) 
+          this.$toast.error('No se completo esta acción', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+        }
+      
       }else{
        console.log("no entre")
       }
@@ -303,64 +371,110 @@ export default {
     },
     async guardarNuevoItem() {
       if(this.idMantenedor == 2){
-        console.log("FORMA DE PAGO")
-        this.habilitar = true
-        console.log("obj MANTENEDOR 2:",this.datosEmpresa.id, this.editedItem.nombre,true)
-       const { data }  = await this.$apollo.mutate({
-         mutation: INSERT_FPAGO,
-         variables:{
-           'id_emp':  this.datosEmpresa.id,
-           'nombre':  this.editedItem.nombre,
-           'activo':  true
-         },
-       })
-       this.aux = data
-       console.log("data", data)
-        this.close();
-        this.lista.push(data.insert_kangusoft_for_pag.returning[0])
-        this.habilitar = false
+        try {
+          console.log("FORMA DE PAGO")
+          this.habilitar = true
+          console.log("obj MANTENEDOR 2:",this.datosEmpresa.id, this.editedItem.nombre,true)
+         const { data }  = await this.$apollo.mutate({
+           mutation: INSERT_FPAGO,
+           variables:{
+             'id_emp':  this.datosEmpresa.id,
+             'nombre':  this.editedItem.nombre,
+             'activo':  true
+           },
+         })
+         this.aux = data
+         console.log("data", data)
+          this.close();
+          this.lista.push(data.insert_kangusoft_for_pag.returning[0])
+          this.habilitar = false
+          this.$toast.success('Se agrego con exito una nueva forma de pago', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+        } catch (error) {
+        console.log('error',error)
+        this.$toast.error('Error al agregar una nueva forma de pago', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        }
+       
       }else{
        console.log("no entre")
       }
      
       if(this.idMantenedor == 3){
-        this.habilitar = true
-        console.log("TIPO DE DESPACHO")
-        console.log("obj MANTENEDOR 3:",this.datosEmpresa.id, this.editedItem.nombre,true)
-       const { data }  = await this.$apollo.mutate({
-         mutation: INSERT_TDESPACHO,
-         variables:{
-          'id_emp':  this.datosEmpresa.id,
-          'nombre':  this.editedItem.nombre,
-          'activo':  true
-         },
-       })
-       this.aux = data
-       console.log("data", data)
-       this.close();
-       this.lista.push(data.insert_kangusoft_des_tip.returning[0])
-        this.habilitar = false
+        try {
+          this.habilitar = true
+          console.log("TIPO DE DESPACHO")
+          console.log("obj MANTENEDOR 3:",this.datosEmpresa.id, this.editedItem.nombre,true)
+         const { data }  = await this.$apollo.mutate({
+           mutation: INSERT_TDESPACHO,
+           variables:{
+            'id_emp':  this.datosEmpresa.id,
+            'nombre':  this.editedItem.nombre,
+            'activo':  true
+           },
+         })
+         this.aux = data
+         console.log("data", data)
+         this.close();
+         this.lista.push(data.insert_kangusoft_des_tip.returning[0])
+          this.habilitar = false
+          this.$toast.success('Se agrego con exito un nuevo tipo de despacho', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+        } catch (error) {
+          console.log('error',error)
+          this.$toast.error('Error al agregar un nuevo tipo de despacho', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.close();
+        }
+      
       }else{
        console.log("no entre")
       }
       if(this.idMantenedor == 6){
-        this.habilitar = true
-        console.log("ESTADO PROYECTO")
-       const { data }  = await this.$apollo.mutate({
-         mutation: INSERT_CGUNIDAD,
-         variables:{
-          'id_emp':  this.datosEmpresa.id,
-          'nombre':  this.editedItem.nombre,
-          'activo': true,
-          'usu_creacion_fk': this.usu_id  ,
-          'fec_creacion': this.fecha
-         },
-       })
-       this.aux = data
-       console.log("data", data)
-       this.close();
-       this.lista.push(data.insert_kangusoft_pro_uni.returning[0])
-       this.habilitar = false
+        try {
+          this.habilitar = true
+          console.log("ESTADO PROYECTO")
+         const { data }  = await this.$apollo.mutate({
+           mutation: INSERT_CGUNIDAD,
+           variables:{
+            'id_emp':  this.datosEmpresa.id,
+            'nombre':  this.editedItem.nombre,
+            'activo': true,
+            'usu_creacion_fk': this.usu_id  ,
+            'fec_creacion': this.fecha
+           },
+         })
+         this.aux = data
+         console.log("data", data)
+         this.close();
+         this.lista.push(data.insert_kangusoft_pro_uni.returning[0])
+         this.habilitar = false
+         this.$toast.success('Se agrego con exito una nueva unidad de negocio', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        } catch (error) {
+          this.$toast.error('Error al agregar una nueva unidad de negocio', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.close();
+        }
+       
       }else{
        console.log("no entre")
       }
@@ -371,63 +485,113 @@ export default {
 
 
       if(this.idMantenedor == 2){
-        console.log("FORMA DE PAGO")
-        console.log("OBJ FORM:",this.editedItem.id,this.editedItem.nombre,this.editedItem.activo)
-       const { data }  = await this.$apollo.mutate({
-         mutation: UPDATE_FPAGO,
-         variables:{
-           'id_fpago':this.editedItem.id,
-           'nombre':  this.editedItem.nombre,
-           'activo':  this.editedItem.activo
-         },
-         update: (data) => {console.log("aa",data)} 
-       })
-       this.aux = data
-       console.log("data", data)
+        try {
+          console.log("FORMA DE PAGO")
+          console.log("OBJ FORM:",this.editedItem.id,this.editedItem.nombre,this.editedItem.activo)
+         const { data }  = await this.$apollo.mutate({
+           mutation: UPDATE_FPAGO,
+           variables:{
+             'id_fpago':this.editedItem.id,
+             'nombre':  this.editedItem.nombre,
+             'activo':  this.editedItem.activo
+           },
+           update: (data) => {console.log("aa",data)} 
+         })
+         this.aux = data
+         console.log("data", data)
+         
+          this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_for_pag.returning[0].nombre);
+          this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_for_pag.returning[0].activo);
+          this.close();
+          this.$toast.success('Se edito con exito la forma de pago seleccionada', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+        } catch (error) {
+          console.log('error',error)
+          this.$toast.error('Error en la edicion de la forma de pago seleccionada', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.close();
+        }
        
-        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_for_pag.returning[0].nombre);
-        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_for_pag.returning[0].activo);
-        this.close();
       }else{
        console.log("no entre")
       }
       if(this.idMantenedor == 3){
-        console.log("TIPO DE DESPACHO")
-        console.log("obj MANTENEDOR 3:",this.editedItem.id, this.editedItem.nombre, this.editedItem.activo)
-       const { data }  = await this.$apollo.mutate({
-         mutation: UPDATE_TDESPACHO,
-         variables:{
-           'id_tdespacho': this.editedItem.id,
-           'nombre':  this.editedItem.nombre,
-           'activo':  this.editedItem.activo
-         },
-         update: (data) => {console.log("aa",data)} 
-       })
-       this.aux = data
-       console.log("data", data)
-       
-        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_des_tip.returning[0].nombre);
-        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_des_tip.returning[0].activo);
+        try {
+          console.log("TIPO DE DESPACHO")
+          console.log("obj MANTENEDOR 3:",this.editedItem.id, this.editedItem.nombre, this.editedItem.activo)
+         const { data }  = await this.$apollo.mutate({
+           mutation: UPDATE_TDESPACHO,
+           variables:{
+             'id_tdespacho': this.editedItem.id,
+             'nombre':  this.editedItem.nombre,
+             'activo':  this.editedItem.activo
+           },
+           update: (data) => {console.log("aa",data)} 
+         })
+         this.aux = data
+         console.log("data", data)
+         
+          this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_des_tip.returning[0].nombre);
+          this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_des_tip.returning[0].activo);
+          this.$toast.success('Se edito con exito el tipo de despacho seleccionado', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.close();
+        } catch (error) {
+          console.log('error',error)
+          this.$toast.error('Error en la edicion del tipo de despacho seleccionado', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.close();
+        }
+      
       }else{
        console.log("no entre")
       }
     
      if(this.idMantenedor == 6){
-      console.log("ESTADO PROYECTO")
-     const { data }  = await this.$apollo.mutate({
-       mutation: UPDATE_CGUNIDAD,
-       variables:{
-         'id_cgunidad': this.editedItem.id,
-         'nombre':  this.editedItem.nombre,
-         'activo':  this.editedItem.activo
-       },
-       update: (data) => {console.log("aa",data)} 
-     })
-     this.aux = data
-     console.log("data", data)
+       try {
+        console.log("ESTADO PROYECTO")
+        const { data }  = await this.$apollo.mutate({
+          mutation: UPDATE_CGUNIDAD,
+          variables:{
+            'id_cgunidad': this.editedItem.id,
+            'nombre':  this.editedItem.nombre,
+            'activo':  this.editedItem.activo
+          },
+          update: (data) => {console.log("aa",data)} 
+        })
+        this.aux = data
+        console.log("data", data)
+        
+         this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_pro_uni.returning[0].nombre);
+         this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_pro_uni.returning[0].activo);
+         this.$toast.success('Se edito con exito la unidad de negocio seleccionada', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        this.close();
+       } catch (error) {
+         console.log('error')
+         this.$toast.error('Error en la edicion de la unidad de negocio seleccionada', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        this.close();
+       }
      
-      this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_pro_uni.returning[0].nombre);
-      this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_pro_uni.returning[0].activo);
     }else{
      console.log("no entre")
     }

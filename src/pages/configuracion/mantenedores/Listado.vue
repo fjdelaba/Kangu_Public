@@ -1,6 +1,6 @@
 <template>
 
-  <v-container>  
+  <v-container>
     
     <div v-if="$store.state.app.permisosUsuario.mantenedores == true">
       <h2>

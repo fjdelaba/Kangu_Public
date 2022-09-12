@@ -27,7 +27,7 @@ query Q_GET_DATOS_OC_CABECERA {
       simbolo
     }
   }
-  kangusoft_fla(where: {activo: {_eq: true}, fla_amb_fk: {_eq: "1"}}) {
+  kangusoft_fla(where: {activo: {_eq: true}, fla_mod_fk: {_eq: "1"}}) {
     nombre
     id
   }

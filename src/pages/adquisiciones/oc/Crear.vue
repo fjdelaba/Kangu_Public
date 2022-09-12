@@ -136,7 +136,7 @@
           :aprobada="flujoModal.length > 0"
           :identificacion="identificacion"
           :vendedor="vendedor.contacto"
-          :idOc="oc_id"
+          :id-oc="oc_id"
           :origen="1"
         ></DialogFinalDocumento>
       </v-dialog>
@@ -150,7 +150,11 @@
     <!-- <CrearDocumento/> -->
     </div>
     <div v-else>
-      <v-card class="text-center w-full error-page pa-4 mx-auto">
+      <v-skeleton-loader
+        v-if="!$store.state.app.permisosUsuario.oc"
+        type="card-avatar, article, actions"
+      ></v-skeleton-loader>
+      <v-card v-if="!skeleton" class="text-center w-full error-page pa-4 mx-auto">
         <v-img src="../../../assets/images/permiso.png" max-height="250" contain />
         <div class="display-2 mt-6">OOPS!!!</div>
         <div class="mt-3 mb-6">No tienes permisos para ver está página. Contacta al administrador de Kangusoft si necesitas tener habilitada esta página</div>
@@ -202,7 +206,8 @@ export default {
       moneda: {},
       datosCabecera: {},
       lineasOC:[],
-      vendedor: '' 
+      vendedor: '' ,
+      skeleton:true
     }
   },
   computed: {
@@ -230,6 +235,9 @@ export default {
   },
   mounted() {
     console.log('MOUNTED CREAR')
+    if (this.$store.state.app.permisosUsuario.oc === false) {
+      this.skeleton = false
+    }
   },
   methods: {
     eliminarOcBorrador() {
