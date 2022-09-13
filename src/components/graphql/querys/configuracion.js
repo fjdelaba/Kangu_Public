@@ -43,6 +43,26 @@ const GETCELULAS = gql`
   }
 }
 `;
+const GETCATEGORIASOC = gql`
+  query {
+  kangusoft_fla(where: {fla_mod_fk: {_eq: "3"}}) {
+    nombre
+    id
+    activo
+    fla_mod_fk
+  }
+}
+`;
+const GETCATEGORIASPRO = gql`
+  query {
+  kangusoft_fla(where: {fla_mod_fk: {_eq: "7"}}) {
+    nombre
+    id
+    activo
+    fla_mod_fk
+  }
+}
+`;
 const GETCGESTADO = gql`
 query {
   kangusoft_pro_est {
@@ -67,4 +87,4 @@ async function getFormaPago() {
 
   return data.data.kangusoft_for_pag
 }
-export { QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO, getFormaPago }
+export { GETCATEGORIASPRO,GETCATEGORIASOC,QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO, getFormaPago }

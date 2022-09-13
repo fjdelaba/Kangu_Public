@@ -1,7 +1,7 @@
 /* eslint-disable */
 import BotonMantenedor from "../../../../components/configuracion/mantenedores/Boton/Boton.vue";
 import TablaMantenedor from "../../../../components/configuracion/mantenedores/Tabla/Tabla.vue";
-import  {QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO,getFormaPago}  from "../../../../components/graphql/querys/configuracion.js"
+import  {GETCATEGORIASPRO,GETCATEGORIASOC,QUERY_FORMA_PAGO,GETBOTONES,GETCGESTADO,GETCELULAS,GETMONEDA,GETDESPACHO,getFormaPago}  from "../../../../components/graphql/querys/configuracion.js"
 import Skeleton from "../../../../components/general/skeleton/skeleton.vue"
 
 export default {
@@ -77,8 +77,24 @@ export default {
           this.listaMantenedor = data3.data.kangusoft_pro_uni;
           console.log(this.listaMantenedor);
           break;
-        default:
-          break;
+          case 7:
+            this.listaMantenedor = []
+            let data4 = await this.$apollo.query({
+              query: GETCATEGORIASPRO,
+            });
+            this.listaMantenedor = data4.data.kangusoft_fla;
+            console.log('mantenedor query',this.listaMantenedor);
+            break;
+        
+          case 8:
+            this.listaMantenedor = []
+            let data5 = await this.$apollo.query({
+              query: GETCATEGORIASOC,
+            });
+            this.listaMantenedor = data5.data.kangusoft_fla;
+       
+            break;
+        
       }
       this.mostrarTablaMantendedor = true
       

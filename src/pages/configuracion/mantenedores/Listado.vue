@@ -1,6 +1,7 @@
 <template>
 
   <v-container>
+    {{ cpxMostrarMantenedor }}
     
     <div v-if="$store.state.app.permisosUsuario.mantenedores == true">
       <h2>
@@ -21,7 +22,9 @@
       ></tabla-mantenedor>
     </div>
     <div v-else>
-      <v-card class="text-center w-full error-page pa-4 mx-auto">
+      <skeleton v-if="skeleton"> 
+      </skeleton>
+      <v-card v-if="!skeleton && $store.state.app.permisosUsuario.mantenedores == false " class="text-center w-full error-page pa-4 mx-auto">
         <v-img src="../../../assets/images/permiso.png" max-height="250" contain />
         <div class="display-2 mt-6">OOPS!!!</div>
         <div class="mt-3 mb-6">No tienes permisos para ver está página. Contacta al administrador de Kangusoft si necesitas tener habilitada esta página</div>

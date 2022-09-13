@@ -42,6 +42,16 @@ mutation update_fpago($id_fpago: bigint!, $nombre: String!, $activo: Boolean!){
     }
   }
 }`
+const UPDATE_CATEGORIAOC= gql `
+mutation update_categoriaoc($id: bigint!, $nombre: String!, $activo: Boolean!){
+  update_kangusoft_fla(where: {id: {_eq: $id}}, _set: {activo: $activo, nombre: $nombre}) {
+    affected_rows
+    returning {
+      nombre
+      activo
+    }
+  }
+}`
 const UPDATE_CGUNIDAD = gql`
 mutation update_cgunidad($id_cgunidad: bigint!, $nombre: String!, $activo: Boolean!){
   update_kangusoft_pro_uni(where: {id: {_eq: $id_cgunidad}}, _set: {activo: $activo, nombre: $nombre}) {
@@ -90,6 +100,20 @@ mutation insert_cgunidad($id_emp: bigint!, $nombre: String!, $activo: Boolean!,$
   }
 }
 `
+const INSERT_CATEGORIAOC= gql`
+mutation insert_categoriaOC($usu_fk: bigint!, $nombre: String!, $activo: Boolean!,$emp_fk: bigint!,$fla_mod_fk: bigint!) {
+  insert_kangusoft_fla(objects: {usu_fk: $usu_fk, nombre: $nombre, fla_mod_fk: $fla_mod_fk, emp_fk: $emp_fk, activo: $activo}) {
+    returning {
+      nombre
+      id
+      fla_mod_fk
+      fec_creacion
+      usu_fk
+      activo
+    }
+  }
+}
+`
 //TODO DELETE
 const DELETE_CGUNIDAD = gql`
 mutation delete_cgunidad($id_cgunidad: bigint!) {
@@ -98,6 +122,18 @@ mutation delete_cgunidad($id_cgunidad: bigint!) {
     returning {
       id
     }
+  }
+}
+`
+const DELETE_CATEGORIAOC = gql`
+mutation delete_categoriaoc($id: bigint!) {
+  delete_kangusoft_fla(where: {id: {_eq: $id}}) {
+    returning {
+      id
+      nombre
+      activo
+    }
+    affected_rows
   }
 }
 `
@@ -133,7 +169,10 @@ export default {
     console.log(this.$auth.isLoading);
     if (this.$auth.isLoading == false) {
       this.datosEmpresa = this.$store.state.app.datosEmpresa;
-      this.usu_id = this.$store.state.app.datosUsuario.user_id
+      this.datosUsuario = this.$store.state.app.datosUsuario
+    }
+    if(this.lista.length == 0){
+      this.lista = []
     }
   },
   props: {
@@ -143,7 +182,7 @@ export default {
   },
   data() {
     return {
-      usu_id:'',
+      datosUsuario:'',
       fecha:"",
       aut0:"",
       usuLogin:"",
@@ -167,7 +206,7 @@ export default {
       },
       aux:"",
       habilitar:false,
-      datosEmpresa:''
+      datosEmpresa:'',
     };
   },
   computed: {
@@ -180,6 +219,7 @@ export default {
       if(this.idMantenedor == 4 || this.idMantenedor == 5){
         return this.headers.filter(header => header.idx < 4)
       }else{
+        
         return this.headers.filter(header => header.idx < 5)
       }
     }
@@ -219,6 +259,11 @@ export default {
        this.aux = data
        this.lista.splice(this.editedIndex, 1)
        this.closeDelete()
+       this.$toast.success('Se completo con exito esta acción', {
+        tposition: 'top-right',
+        timeout: 5000,
+        pauseOnHover: true
+      })
        console.log("data", data)
        
       } catch (error) {
@@ -247,6 +292,11 @@ export default {
         this.lista.splice(this.editedIndex, 1)
         this.closeDelete()
         console.log("data", data)
+        this.$toast.success('Se completo con exito esta acción', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
       } catch (error) {
         console.log("Error",error)
         this.$toast.error('No se completo esta acción, Este Tipo de Despacho esta siendo Utilizado', {
@@ -271,6 +321,11 @@ export default {
           this.habilitar = false
           this.lista.splice(this.editedIndex, 1)
           this.closeDelete()
+          this.$toast.success('Se completo con exito esta acción', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
         } catch (error) {
           console.log("Error",error)
           this.$toast.error('No se completo esta acción, Esta Unidad de Negocio esta siendo Utilizada', {
@@ -282,7 +337,64 @@ export default {
         }
        
     }
+    if(this.idMantenedor == 7){
+      try {
+        const { data }  = await this.$apollo.mutate({
+          mutation: DELETE_CATEGORIAOC,
+          variables:{
+            'id': this.editedItem.id,
+          },
+        })
+        this.aux = data
+        console.log("data", data)
+        this.habilitar = false
+        this.lista.splice(this.editedIndex, 1)
+        this.closeDelete()
+        this.$toast.success('Se completo con exito esta acción', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+      } catch (error) {
+        console.log("Error",error)
+        this.$toast.error('No se completo esta acción, Esta Categoria esta siendo Utilizada', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        this.closeDelete()
+      }
      
+  } 
+    if(this.idMantenedor == 8){
+      try {
+        const { data }  = await this.$apollo.mutate({
+          mutation: DELETE_CATEGORIAOC,
+          variables:{
+            'id': this.editedItem.id,
+          },
+        })
+        this.aux = data
+        console.log("data", data)
+        this.habilitar = false
+        this.lista.splice(this.editedIndex, 1)
+        this.closeDelete()
+        this.$toast.success('Se completo con exito esta acción', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+      } catch (error) {
+        console.log("Error",error)
+        this.$toast.error('No se completo esta acción, Esta Categoria esta siendo Utilizada', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        this.closeDelete()
+      }
+     
+  } 
     },
     deleteItem (item) {
       this.editedIndex = this.lista.indexOf(item)
@@ -452,7 +564,7 @@ export default {
             'id_emp':  this.datosEmpresa.id,
             'nombre':  this.editedItem.nombre,
             'activo': true,
-            'usu_creacion_fk': this.usu_id  ,
+            'usu_creacion_fk': this.datosUsuario.user_id ,
             'fec_creacion': this.fecha
            },
          })
@@ -468,6 +580,80 @@ export default {
         })
         } catch (error) {
           this.$toast.error('Error al agregar una nueva unidad de negocio', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.close();
+        }
+       
+      }else{
+       console.log("no entre")
+      }
+      if(this.idMantenedor == 7){
+        try {
+          this.habilitar = true
+          console.log("CATEGORIA OC")
+         const { data }  = await this.$apollo.mutate({
+           mutation: INSERT_CATEGORIAOC,
+           variables:{
+            'emp_fk':  this.datosEmpresa.id,
+            'nombre':  this.editedItem.nombre,
+            'activo': true,
+            'usu_fk': this.datosUsuario.user_id,
+            'fla_mod_fk': 7
+           },
+         })
+         this.aux = data
+         console.log("data", data)
+         this.close();
+         this.lista.push(data.insert_kangusoft_fla.returning[0])
+         this.habilitar = false
+         this.$toast.success('Se agrego con exito una nueva categoria', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        } catch (error) {
+          console.log('error',error)
+          this.$toast.error('Error al agregar una nueva categoria', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          this.close();
+        }
+       
+      }else{
+       console.log("no entre")
+      }
+      if(this.idMantenedor == 8){
+        try {
+          this.habilitar = true
+          console.log("CATEGORIA OC")
+         const { data }  = await this.$apollo.mutate({
+           mutation: INSERT_CATEGORIAOC,
+           variables:{
+            'emp_fk':  this.datosEmpresa.id,
+            'nombre':  this.editedItem.nombre,
+            'activo': true,
+            'usu_fk': this.datosUsuario.user_id,
+            'fla_mod_fk': 3
+           },
+         })
+         this.aux = data
+         console.log("data", data)
+         this.close();
+         this.lista.push(data.insert_kangusoft_fla.returning[0])
+         this.habilitar = false
+         this.$toast.success('Se agrego con exito una nueva categoria', {
+          tposition: 'top-right',
+          timeout: 5000,
+          pauseOnHover: true
+        })
+        } catch (error) {
+          console.log('error',error)
+          this.$toast.error('Error al agregar una nueva categoria', {
             tposition: 'top-right',
             timeout: 5000,
             pauseOnHover: true
@@ -595,7 +781,79 @@ export default {
     }else{
      console.log("no entre")
     }
-     
+    if(this.idMantenedor == 7){
+      try {
+       console.log("categoria OC")
+       const { data }  = await this.$apollo.mutate({
+         mutation: UPDATE_CATEGORIAOC,
+         variables:{
+           'id': this.editedItem.id,
+           'nombre':  this.editedItem.nombre,
+           'activo':  this.editedItem.activo
+         },
+         update: (data) => {console.log("aa",data)} 
+       })
+       this.aux = data
+       console.log("data", data)
+       
+        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_fla.returning[0].nombre);
+        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_fla.returning[0].activo);
+        this.$toast.success('Se edito con exito la categoria seleccionada', {
+         tposition: 'top-right',
+         timeout: 5000,
+         pauseOnHover: true
+       })
+       this.close();
+      } catch (error) {
+        console.log('error',error)
+        this.$toast.error('Error en la edicion de la categoria seleccionada', {
+         tposition: 'top-right',
+         timeout: 5000,
+         pauseOnHover: true
+       })
+       this.close();
+      }
+    
+   }else{
+    console.log("no entre")
+   }
+    if(this.idMantenedor == 8){
+      try {
+       console.log("categoria OC")
+       const { data }  = await this.$apollo.mutate({
+         mutation: UPDATE_CATEGORIAOC,
+         variables:{
+           'id': this.editedItem.id,
+           'nombre':  this.editedItem.nombre,
+           'activo':  this.editedItem.activo
+         },
+         update: (data) => {console.log("aa",data)} 
+       })
+       this.aux = data
+       console.log("data", data)
+       
+        this.$set(this.lista[this.editedIndex], 'nombre', data.update_kangusoft_fla.returning[0].nombre);
+        this.$set(this.lista[this.editedIndex], 'activo', data.update_kangusoft_fla.returning[0].activo);
+        this.$toast.success('Se edito con exito la categoria seleccionada', {
+         tposition: 'top-right',
+         timeout: 5000,
+         pauseOnHover: true
+       })
+       this.close();
+      } catch (error) {
+        console.log('error',error)
+        this.$toast.error('Error en la edicion de la categoria seleccionada', {
+         tposition: 'top-right',
+         timeout: 5000,
+         pauseOnHover: true
+       })
+       this.close();
+      }
+    
+   }else{
+    console.log("no entre")
+   }
+    
       this.close();
     },
   },
