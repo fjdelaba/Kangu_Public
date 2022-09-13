@@ -17,7 +17,7 @@
       <!-- Navigation menu info -->
       <template v-slot:prepend>
         <div class="pa-2">
-          <div class="title font-weight-bold text-uppercase primary--text"><a :href="cpxReturnDireccionHome">{{ product.name }}</a></div>
+          <div class="title font-weight-bold text-uppercase primary--text"><v-img max-width="200" src="../assets/images/logo_azul.svg" @click="redireccionHome"></v-img></div>
           <div class="overline grey--text">{{ product.version }}</div>
         </div>
       </template>
@@ -183,7 +183,7 @@ export default {
       console.log(`DEFAULT LAYOUT ${newCount} fruits now, yay!. ${oldCount}`)
       // this.cargarDatosUsuario()
       this.cargarPermisos()
-      this.cargarUsuarioLogin()
+
     }
   },
   mounted() {
@@ -192,13 +192,14 @@ export default {
     this.cargarIndicadores()
     if (this.$auth.isLoading === false) {
       this.cargarPermisos()
-      this.cargarUsuarioLogin()
     }
   },
   methods: {
+    redireccionHome() {
+      window.location.href = ('http://localhost:8080/dashboard/analytics')
+    },
     async cargarIndicadores() {
       try {
-        console.log('adasd')
         // const { data } = await this.axios.get('https://mindicador.cl/api')    
         const datos = {
           fecha: this.$moment().format('YYYY-MM-DD')
@@ -269,17 +270,15 @@ export default {
     onKeyup(e) {
       this.$refs.search.focus()
     },
-    async cargarUsuarioLogin() {
-      const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
-
-      console.log('usuarioLogin: ', usuarioLogin.data.kangusoft_usu[0])
-      this.$store.dispatch('app/setUsuario', usuarioLogin.data.kangusoft_usu[0])
-    },  
+   
     async cargarPermisos() {
       // console.log('cargarPermisos DEFAULT LAYOUT')
       // console.log('this.$store.state.app.datosUsuario.user_id: ', this.$store.state.app.datosUsuario.user_id)
       const { data } = await getPermisos(this.$store.state.app.datosUsuario.user_id)
+      const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
 
+      console.log('usuarioLogin: ', usuarioLogin.data.kangusoft_usu[0])
+      this.$store.dispatch('app/setUsuario', usuarioLogin.data.kangusoft_usu[0])
       // store.dispatch('app/setDatosUsuario', this.user['https://kangusoft.cl/jwt/hasura'])   
       // console.log('resp cargarPermisos: ',  data.kangusoft_usu_mod)
       const permisos = {

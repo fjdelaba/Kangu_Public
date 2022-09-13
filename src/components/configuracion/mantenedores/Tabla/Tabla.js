@@ -171,9 +171,7 @@ export default {
       this.datosEmpresa = this.$store.state.app.datosEmpresa;
       this.datosUsuario = this.$store.state.app.datosUsuario
     }
-    if(this.lista.length == 0){
-      this.lista = []
-    }
+   
   },
   props: {
     mantenedores: Array,
@@ -182,6 +180,7 @@ export default {
   },
   data() {
     return {
+
       datosUsuario:'',
       fecha:"",
       aut0:"",

@@ -1,8 +1,6 @@
 <template>
 
   <v-container>
-    {{ cpxMostrarMantenedor }}
-    
     <div v-if="$store.state.app.permisosUsuario.mantenedores == true">
       <h2>
         Listado Mantenedores
@@ -18,7 +16,7 @@
         v-if="cpxMostrarMantenedor"
         ref="tablaMantenedor"
         :id-mantenedor="idMantenedor"
-        :lista="listaMantenedor.length > 0 && listaMantenedor"
+        :lista="listaMantenedor && listaMantenedor"
       ></tabla-mantenedor>
     </div>
     <div v-else>

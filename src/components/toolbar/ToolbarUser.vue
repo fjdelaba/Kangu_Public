@@ -127,7 +127,8 @@ export default {
     iconoLetras(nombre,apellido) {
     console.log("nombres",nombre)
     console.log('apellido', apellido)
-    let inicialNombre = nombre.split(' ')
+    if(nombre != undefined && apellido != undefined){
+ let inicialNombre = nombre.split(' ')
     let inicialApellidos = apellido.split(' ')
   let initials = ''
   let initials2 = ''
@@ -143,6 +144,8 @@ export default {
   }
   this.iniciales = initials + initials2
   return console.log('iniciales',initials,initials2)
+    }
+   
     },
     logout() {
       this.$auth.logout()
