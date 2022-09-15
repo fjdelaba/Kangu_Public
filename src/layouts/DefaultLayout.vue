@@ -1,4 +1,5 @@
 <template>
+
   <div
     v-shortkey="['ctrl', '/']"
     class="d-flex flex-grow-1"
@@ -56,7 +57,6 @@
         </div> -->
       </template>
     </v-navigation-drawer>
-
     <!-- Toolbar -->
     <v-app-bar
       app
@@ -69,17 +69,22 @@
         <div class="d-flex flex-grow-1 align-center">
 
           <!-- search input mobile -->
-          <v-text-field
+          <v-autocomplete
             v-if="showSearch"
+            v-model="model"
             append-icon="mdi-close"
-            placeholder="Search"
+            :items="items"
+            :loading="isLoading"
+            :search-input.sync="search"
+            color="white"
+            :placeholder="'Buscar Orden de Compra por Identificador'"
             prepend-inner-icon="mdi-magnify"
             hide-details
             solo
             flat
             autofocus
             @click:append="showSearch = false"
-          ></v-text-field>
+          ></v-autocomplete>
 
           <div v-else class="d-flex flex-grow-1 align-center">
             <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
@@ -87,16 +92,38 @@
             <v-spacer class="d-none d-lg-block"></v-spacer>
 
             <!-- search input desktop -->
-            <v-text-field
+            <v-autocomplete
               ref="search"
+              v-model="model"
               class="mx-1 hidden-xs-only"
-              :placeholder="$t('menu.search')"
+              :items="items"
+              :loading="isLoading"
+              :search-input.sync="search"
+              item-text="identificacion"
+              item-value="id"
+              label="Mandante"
+              :hide-no-data="!mostrarNoData"
+              hint="Puedes buscar por nombre o por rut"
               prepend-inner-icon="mdi-magnify"
               hide-details
               filled
               rounded
               dense
-            ></v-text-field>
+              @focusout="limpiarAutocompleate()"
+            >
+              <template v-slot:item="{ item }">
+                <v-list-item-content>
+                  <v-list-item-title v-text="`Nombre de la Orden de Compra: ${item.nombre}`"></v-list-item-title>
+                  <v-list-item-subtitle v-text="`Identificador: ${item.identificacion}`"></v-list-item-subtitle>
+                  <v-list-item-subtitle v-text="`Proyecto: ${item.pro.nombre}`"></v-list-item-subtitle>
+                  <div><v-btn
+                    small
+                    @click="abrirDetalle(item)"
+                  > Abrir </v-btn>
+                  </div>
+                </v-list-item-content>
+              </template> 
+            </v-autocomplete>
 
             <v-spacer class="d-block d-sm-none"></v-spacer>
 
@@ -140,6 +167,7 @@
 </template>
 
 <script>
+/* eslint-disable */
 import { mapState } from 'vuex'
 
 // navigation menu configurations
@@ -152,7 +180,7 @@ import ToolbarLanguage from '../components/toolbar/ToolbarLanguage'
 import ToolbarCurrency from '../components/toolbar/ToolbarCurrency'
 import ToolbarNotifications from '../components/toolbar/ToolbarNotifications'
 
-import { getPermisos, getUsuarioLogin } from '../graphql/configuracion'
+import { getOcIdentificador,getPermisos, getUsuarioLogin } from '../graphql/configuracion'
 
 export default {
   components: {
@@ -167,8 +195,12 @@ export default {
     return {
       drawer: null,
       showSearch: false,
-
-      navigation: config.navigation
+      model:'',
+      search: null,
+      navigation: config.navigation,
+      items:[],
+      mostrarNoData: false,
+      isLoading: false,
     }
   },
   computed: {
@@ -184,6 +216,19 @@ export default {
       // this.cargarDatosUsuario()
       this.cargarPermisos()
 
+
+  },
+   async search (val) {
+      // Items have already been loaded
+    //   if (this.items.length > 0) return
+
+      // Items have already been requested
+      if (this.isLoading) return
+      if (!val) return
+      this.isLoading = true
+
+      // Lazily load input items
+      this.fetchEntriesDebounced()
     }
   },
   mounted() {
@@ -195,6 +240,44 @@ export default {
     }
   },
   methods: {
+      abrirDetalle(item){
+      console.log('object: ', item);
+       this.$router.push({
+            path:'/adquisiciones/oc/consultar/detalle',
+            query: { id: Number(item.id),}
+        });
+     },
+       limpiarAutocompleate() {
+      setTimeout(() => {
+        console.log("PASO POR AQUÍ !!!!");
+        this.mostrarNoData = false;
+        this.search = "";
+      }, 500);
+    },
+      fetchEntriesDebounced() {
+      console.log('PASO POR ACÁ !!!!')
+      // cancel pending call
+      clearTimeout(this._timerId)
+    
+      // delay new call 500ms
+      this._timerId = setTimeout(() => {
+        this.busquedaOcIdentificador()
+      }, 1000)
+    },
+    async busquedaOcIdentificador(){
+    const { data } = await getOcIdentificador(`${this.search}`);
+     console.log("data",data)
+     for(let oc of data.kangusoft_oc){
+       this.items.push(oc)
+     }
+      this.isLoading = false;
+      console.log("search data: ", data);
+      if (this.items.length === 0) {
+        this.mostrarNoData = true;
+      }
+     console.log(this.items)
+    },
+
     redireccionHome() {
       window.location.href = ('http://localhost:8080/dashboard/analytics')
     },

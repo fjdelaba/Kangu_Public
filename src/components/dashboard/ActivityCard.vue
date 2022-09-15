@@ -53,8 +53,8 @@ export default {
             this.datosUsuario = this.$store.state.app.datosUsuario
             const {data: { kangusoft_oc } } = await getUltimasOC(this.datosUsuario.user_id);
             console.log("kangusoft_oc:",kangusoft_oc)
-            for(let mat of kangusoft_oc){
-                this.activity.push(mat)
+            for(let oc of kangusoft_oc){
+                this.activity.push(oc)
            
             }
         },
