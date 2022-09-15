@@ -1,4 +1,4 @@
-import { GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
+import { GET_ULTIMAS_OC,GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
   GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA, GET_ACCESO_MODULO, GET_PROYECTOS_USUARIO_APROBADOR, GET_VALORES_FILTROS_CONSULTA, GET_PROYECTOS_USUARIO_CONSULTA  } from './querys/general'
 import { UPDATE_EMPRESA, GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
 import { SUBS_DATOS_USUARIO } from './subscriptions/general'
@@ -65,6 +65,17 @@ export const getContactos = async (idproveedor) => {
     query: GET_CONTACTOS,
     variables: {
       idproveedor
+    },
+    fetchPolicy:'network-only'
+  })
+}
+export const getUltimasOC = async (id) => {
+  console.log('id: ', id)
+
+  return await apolloClient.query({
+    query: GET_ULTIMAS_OC,
+    variables: {
+      id
     },
     fetchPolicy:'network-only'
   })

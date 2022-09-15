@@ -61,14 +61,6 @@
       
           <v-row>
             <v-col class="ml-4" cols="4">
-              <p class="font-weight-black">Fecha</p>
-            </v-col>
-            <v-col cols="4">
-              <p class="font-weight-black">{{ getFechaFormat(date) }}</p>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col class="ml-4" cols="4">
               <h1 class=""> ${{ usd }}  <v-icon v-if="mostrarFlecha" color="red">mdi-arrow-down-thick</v-icon></h1>
               <p class=" font-italic">USD</p>
             </v-col>

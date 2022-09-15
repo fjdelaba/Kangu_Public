@@ -58,32 +58,32 @@
           class="flex-grow-1"
           dense
         >
-        <v-row dense>
-          <template v-slot:item.rut="{ }">
-            <div class="font-weight-bold">
-              <div>{{}}</div>
-            </div>
-          </template>
+          <v-row dense>
+            <template v-slot:item.nombre="{ }">
+              <div class="font-weight-bold">
+                <div>{{}}</div>
+              </div>
+            </template>
 
-          <template v-slot:item.razon_social="{ item }">
-            <div class="font-weight-bold" >
-              <div>{{ item.razon_social }}</div>
-            </div>
-          </template>
-          <template v-slot:item.activo="{ item }" dense>
-            <div>
-              <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
-            </div>
-          </template>
+            <template v-slot:item.razon_social="{ item }">
+              <div class="font-weight-bold" >
+                <div>{{ item.razon_social }}</div>
+              </div>
+            </template>
+            <template v-slot:item.activo="{ item }" dense>
+              <div>
+                <v-checkbox v-model="item.activo" :disabled="true"></v-checkbox>
+              </div>
+            </template>
 
-          <template v-slot:item.fec_creacion="{ item }">
-            <div>{{ item.fec_creacion | formatDate("ll") }}</div>
-          </template>
-            </v-row>
+            <template v-slot:item.fec_creacion="{ item }">
+              <div>{{ item.fec_creacion | formatDate("ll") }}</div>
+            </template>
+          </v-row>
           <template v-slot:item.action="{ item }">
             <div class="actions">
               <v-btn small @click="cargarDetalle(item.id)">
-                 Abrir
+                Abrir
               </v-btn>
             </div>
           </template>

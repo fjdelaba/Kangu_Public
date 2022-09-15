@@ -13,10 +13,10 @@
         @cargarMantenedor="cargarMantenedor"
       ></boton-mantenedor>
       <tabla-mantenedor
-        v-if="cpxMostrarMantenedor"
+   
         ref="tablaMantenedor"
         :id-mantenedor="idMantenedor"
-        :lista="listaMantenedor && listaMantenedor"
+        :lista="listaMantenedor"
       ></tabla-mantenedor>
     </div>
     <div v-else>

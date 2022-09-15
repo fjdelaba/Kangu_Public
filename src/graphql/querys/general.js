@@ -8,6 +8,22 @@ const GET_FORMAS_PAGO = gql`
     }
   }
 `
+const GET_ULTIMAS_OC = gql`
+  query Q_GET_ULTIMAS_OC($id: bigint!) {
+    kangusoft_oc(limit: 5, where: {usu_fk: {_eq: $id}}, order_by: {fec_creacion: desc}) {
+    fec_creacion
+    pro {
+      id
+      nombre
+    }
+    nombre
+    est_doc {
+      nombre
+      id
+    }
+  }
+  }
+`
 
 const GET_TIPOS_DESPACHO = gql`
   query Q_GET_TIPOS_DESPACHO {
@@ -264,5 +280,6 @@ export {
   GET_PROYECTOS_USUARIO_APROBADOR,
   GET_TIPO_DOCUMENTO,
   GET_VALORES_FILTROS_CONSULTA,
-  GET_PROYECTOS_USUARIO_CONSULTA
+  GET_PROYECTOS_USUARIO_CONSULTA,
+  GET_ULTIMAS_OC
 }

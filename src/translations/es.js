@@ -56,7 +56,7 @@ export default {
     'labels': 'Etiquetas'
   },
   'dashboard': {
-    'activity': 'Actividad',
+    'activity': 'Mi Actividad',
     'weeklySales': 'Ventas semanales',
     'sales': 'Ventas',
     'recentOrders': 'órdenes recientes',
