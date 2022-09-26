@@ -1,7 +1,7 @@
 import { GET_ULTIMAS_OC,GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
   GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA, GET_ACCESO_MODULO, GET_PROYECTOS_USUARIO_APROBADOR, GET_VALORES_FILTROS_CONSULTA, GET_PROYECTOS_USUARIO_CONSULTA  } from './querys/general'
 import { UPDATE_EMPRESA, GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
-import { SUBS_DATOS_USUARIO } from './subscriptions/general'
+import { GET_NOTIFICACIONES, SUBS_DATOS_USUARIO } from './subscriptions/general'
 
 import { apolloClient } from '../client'
 
@@ -261,6 +261,15 @@ export const getFiltrosConsultas = async (emp_fk) => {
     query: GET_VALORES_FILTROS_CONSULTA,
     variables: {
       emp_fk
+    }
+  })
+}
+
+export const getNotificaciones = async (usu_fk) => {
+  return apolloClient.subscribe({
+    query: GET_NOTIFICACIONES,
+    variables: {
+      usu_fk
     }
   })
 }

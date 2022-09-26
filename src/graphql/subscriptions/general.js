@@ -16,7 +16,29 @@ const SUBS_DATOS_USUARIO = gql`
   }
 }
 `
+const GET_NOTIFICACIONES = gql`
+subscription S_GET_NOTIFICACIONES($usu_fk: bigint!) {
+  kangusoft_not(where: {usu_receptor_fk: {_eq: $usu_fk}}) {
+    fec_creacion
+    notTipByNotTip {
+      nombre
+    }
+    pro {
+      nombre
+    }
+    texto
+    usu_receptor_fk
+    id
+    mod {
+      nombre
+    }
+    not_tip
+  }
+}
+
+`
 
 export {
-  SUBS_DATOS_USUARIO
+  SUBS_DATOS_USUARIO,
+  GET_NOTIFICACIONES
 }
