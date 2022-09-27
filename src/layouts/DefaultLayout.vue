@@ -101,9 +101,8 @@
               :search-input.sync="search"
               item-text="identificacion"
               item-value="id"
-              label="Mandante"
+              label="Buscar Orden de Compra por Identificador"
               :hide-no-data="!mostrarNoData"
-              hint="Puedes buscar por nombre o por rut"
               prepend-inner-icon="mdi-magnify"
               hide-details
               filled

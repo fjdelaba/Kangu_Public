@@ -240,6 +240,9 @@
                 >Descargar Lineas
                 </download-excel> </v-list-item-title>
               </v-list-item>
+              <v-list-item link @click="descargarOcPDF()"> <!-- v-for="(item, i) in items" :key="i" -->
+                <v-list-item-title> Descargar Factura </v-list-item-title>
+              </v-list-item>
             </v-list>
           </v-menu>
           <v-spacer></v-spacer>

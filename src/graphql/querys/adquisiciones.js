@@ -128,6 +128,60 @@ query Q_GET_APROBADOR_PEDIDO($mod_fk: bigint!, $pro_fk: bigint!) {
   }
 }
 `
+const GET_FACTURA_COMPLETA = gql`
+query Q_GET_FACTURA_COMPLETA ($id: bigint!) {
+  kangusoft_dte_cab(where: {id: {_eq: $id}}) {
+    credito
+    dte_des_tip_fk
+    dte_for_pag_fk
+    dte_tip_fk
+    emi_ciudad
+    emi_comuna
+    emi_correo
+    emi_direccion
+    emi_giro
+    emi_nombre
+    emi_rut
+    emi_telefono
+    emi_vendedor
+    exento
+    fec_creacion
+    fec_emision
+    fec_recepcion_kangu
+    fec_recepcion_sii
+    fec_ven
+    folio
+    id
+    iva_monto
+    iva_tasa
+    neto
+    pro {
+      nombre
+      codigo
+    }
+    dte_dets {
+      cantidad
+      descripcion
+      descuento
+      monto
+      nombre
+      nro_linea
+      precio
+      unidad
+    }
+    dte_refs {
+      dte_cab_fk
+      dte_ref_tip_fk
+      fec_ref
+      folio
+      folio_kangu
+      id
+      nro_linea
+      oc_fk
+    }
+  }
+}
+`
 const GET_PEDIDO = gql`
 query Q_GET_PEDIDO($id: bigint!) {
   kangusoft_ped(where: {emp: {id: {_eq: $id}}}) {
@@ -425,4 +479,4 @@ query Q_GET_MATERIALES($datos: getMaterialesInput!) {
 }
 `
 
-export { GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }
+export { GET_FACTURA_COMPLETA,GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }
