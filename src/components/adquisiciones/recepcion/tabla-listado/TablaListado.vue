@@ -100,26 +100,7 @@
               </v-btn>
             </v-date-picker>
           </v-menu>
-          <v-autocomplete
-            v-model="tipoDocumento"
-            :items="listaTiposDocumentos"
-            outlined
-            label="Tipo Documento"
-            item-text="nombre"
-            item-value="id"
-            dense
-            @change="cargarOcs()"
-          ></v-autocomplete>  
-          <v-autocomplete
-            v-model="moneda"
-            :items="listaMonedas"
-            outlined
-            label="Moneda"
-            item-text="nombre"
-            item-value="id"
-            dense
-            @change="cargarOcs()"
-          ></v-autocomplete> 
+        
           <v-col cols="6" class="d-flex text-right align-center">
             <!-- <v-text-field
               v-model="searchQuery"
@@ -206,8 +187,8 @@
             bottom
             right
           >
-            <template v-slot:activator="{ on, attrs }">
-              <v-btn
+            <!-- <template v-slot:activator="{ on, attrs }">
+             <v-btn
                 class="deep-orange"
                 color="primary"
                 dark
@@ -216,8 +197,8 @@
                 v-on="on"
               >
                 Acciones
-              </v-btn>
-            </template>
+              </v-btn> 
+            </template> -->
 
             <v-list dense>
               <v-list-item link> <!-- v-for="(item, i) in items" :key="i" -->

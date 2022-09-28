@@ -3,17 +3,27 @@
 // import jsPDF from 'jspdf' datos, tablaMateriales, datosEmpresa, resumenTotales, ocCreada, flujo
 // import 'jspdf-autotable'
 import moment from "moment";
-import { getDetalleOC } from "../graphql/adquisiciones";
+import { getFactura } from '../graphql/adquisiciones'
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
 import jsonFile from '../assets/images/pdf/imagenes.json';
 // import fs from 'fs'
 
-async function creaPdfFactura(factura,datosEmpresa, formato) {
-  console.log('factura: ', factura);
+async function creaPdfFactura(id,datosEmpresa, formato) {
+  console.log('factura: ', id);
   console.log('datosEmpresa: ', datosEmpresa);
-  //formato 1 = 'descargar pdf', 2 = datauriString
+
+  const {
+    data: { kangusoft_dte_cab },
+  } = await getFactura(id);
+  console.log(
+    "aaa",
+    kangusoft_dte_cab,
+  );
+ let factura = kangusoft_dte_cab[0]
+  // formato 1 = 'descargar pdf', 2 = datauriString
   // try {
+
   let materialesPDF = factura.dte_dets;
   let referenciasFactura = factura.dte_refs
   let empresa = datosEmpresa;
