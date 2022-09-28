@@ -323,27 +323,10 @@
           <v-data-table
             :headers="dessertHeaders"
             :items="desserts"
-            :single-expand="singleExpand"
-            :expanded.sync="expanded"
             item-key="name"
-            show-expand
             class="elevation-1"
           >
             <template v-slot:top>
-            </template>
-            <template v-slot:expanded-item="{ headers}">
-              <td :colspan="headers.length">
-                <v-data-table
-                  :headers="dessertHeaders2"
-                  :items="desserts2"
-                  item-key="name"
-                  class="elevation-1"
-                  :hide-default-footer="true"
-                >
-                  <template v-slot:item.nombre="{ }">
-                    <nombre-material :nombre="nombre" :unidad="unidad" :observacion="obs" ></nombre-material>
-                  </template>
-                </v-data-table></td>
             </template>
             <template v-slot:item.actions="{ item }">
               <div><v-btn

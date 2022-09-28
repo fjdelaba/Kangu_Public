@@ -42,7 +42,7 @@ export default {
                 { text: 'Nombre OC', value: 'nombre' },
                 { text: 'Comprador', value: 'comprador' },
                 { text: 'Fecha Creación', value: 'fecha' },
-                { text: 'Monto Total', value: 'monto' },
+                { text: 'Saldo por Recibir', value: 'monto' },
                 { text: 'Acción', value: 'actions' },
 
             ],
@@ -81,7 +81,7 @@ export default {
             });
         },
         async detalleFactura() {
-            const { data } = await getFactura(802);
+            const { data } = await getFactura(826);
       
             this.factura = data.kangusoft_dte_cab;
             console.log('factura',this.factura)

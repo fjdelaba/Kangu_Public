@@ -15,8 +15,9 @@ async function creaPdfFactura(factura,datosEmpresa, formato) {
   //formato 1 = 'descargar pdf', 2 = datauriString
   // try {
   let materialesPDF = factura.dte_dets;
+  let referenciasFactura = factura.dte_refs
   let empresa = datosEmpresa;
-  let numeroFolio = factura.dte_refs[0].folio_kangu
+  let numeroFolio = factura.folio
   let cabecera = {};
   let proveedor = {};
   let moneda = {};
@@ -32,13 +33,20 @@ async function creaPdfFactura(factura,datosEmpresa, formato) {
   impuesto.nombre = 'IVA (19%)'
   let total = "";
   total = impuesto.valor + neto
-  let  fechaEmision = ''
+  let  fechaEmision = moment(factura.fec_emision).format("DD/MM/YYYY")
+  let  fechaVencimiento = moment(factura.fec_ven).format("DD/MM/YYYY")
+
   let formatoCL
   let formatoCantidad
   let peso
-
+  let emisor = factura.emi_nombre
+  let emisorRut = factura.emi_rut
+  let emisorDireccion = factura.emi_direccion
+  let emisorGiro = factura.emi_giro
+  let emisorComuna = factura.emi_comuna
+  let emisorFormaPago = ''
   let tipo_documento
-
+  let exento = ''
   var img = new Image();
   img.src = require("../components/general/generadorPDF/assets/img/logo_dlb.png");
   var img2 = new Image();
@@ -49,6 +57,12 @@ async function creaPdfFactura(factura,datosEmpresa, formato) {
   // img2.src = require('../assets/images/pdf/Rechazada.png');
   // let imgEnAprobacion = new Image();
   // img2.src = require('../assets/images/pdf/EnAprobacion.png');
+  if(factura.dte_for_pag_fk == 2){
+    emisorFormaPago = 'Credito'
+  }
+  if(factura.dte_des_tip_fk == null){
+    tipoDespacho = 'Sin Despacho'
+  }
   if(factura.dte_tip_fk == 33){
     tipoDocument = 'FACTURA ELECTRONICA'
   } else if(factura.dte_tip_fk == 52) {
@@ -106,7 +120,9 @@ if(moneda.id == 2){
   //     total = impuesto.valor + neto
   //   impuesto.nombre = "Retencion 12,25%";
   // }
-
+  if(factura.exento == null){
+    exento = 0
+  }
   if (proveedor.direccion == null) proveedor.direccion = "Sin Dirección";
   if (cabecera.identificacion == null || cabecera.est_doc_fk == 1) cabecera.identificacion = "Sin Identificación";
   if (cabecera.comentario == null) cabecera.comentario = "Sin Comentario";
@@ -137,7 +153,7 @@ if(moneda.id == 2){
       },
     },
     business: {
-      name: `R.U.T : 76.816.730-3`,
+      name: `R.U.T : ${emisorRut}`,
       address: `${tipoDocument}`,
       phone: `Nº ${numeroFolio}`,
     },
@@ -145,18 +161,19 @@ if(moneda.id == 2){
       name: "FACTURA",
   },
     contact: {
-      address: `Señor (es)    : CONSTRUCTORA DLB LTDA`,
-      phone: `R.U.T           : 76.816.730-3`,
-      email: `Dirección     : AV. OSSA 760`,
-      otherInfo: `Giro             : CONSTRUCCIÓN`,
-      pago: `Comuna      : LA CISTERNA`,
+      address: `Señor (es)    : ${empresa.nombre}`,
+      phone: `R.U.T           : ${empresa.rut}`,
+      email: `Dirección     : ${empresa.direccion}`,
+      otherInfo: `Giro             : ${empresa.giro}`,
+      comuna: `Comuna      : ${empresa.com.nombre}`,
+      pago: `Ciudad        : ${empresa.com.prov.reg.nombre}`,
 
     },
     contact2: {
-      address: `Fecha de Emision: 26/09/2022`,
-      phone: `Fecha Vencimiento 29/09/2022`,
-      email: `Emisor: CONSTRUCTORA DLB LTDA`,
-      otherInfo: `Documento Referencial: OC-231341-2`,
+      address: `Fecha de Emision: ${fechaEmision}`,
+      phone: `Fecha Vencimiento: ${fechaVencimiento}`,
+      email: `Condición de Pago: ${emisorFormaPago}`,
+      comuna: `Condición de Despacho: ${tipoDespacho}`,
     },
     invoice: {
       label: `Nº Folio 3090682`,
@@ -183,6 +200,19 @@ if(moneda.id == 2){
         { title: "Precio" },
         { title: "SubTotal" },
       ],
+      header2: [
+        {
+          title: "Nº",
+          style: {
+            width: 10,
+          },
+        },
+        {
+          title: "Tipo Documento",
+        },
+        { title: "Folio" },
+        { title: "Fecha" },
+      ],
 
       table: Array.from(materialesPDF, (item, index) => [
         index + 1,
@@ -190,6 +220,13 @@ if(moneda.id == 2){
         formatoCantidad.format(item.cantidad),
         formatoCL.format(item.precio),
         formatoCL.format(item.monto),
+      ]),
+      table2: Array.from(referenciasFactura, (item, index) => [
+        item.nro_linea,
+        item.dte_ref_tip_fk,
+        item.folio,
+        moment(item.fec_ref).format("DD/MM/YYYY")
+
       ]),
       additionalRows: [
         {
@@ -203,6 +240,14 @@ if(moneda.id == 2){
         {
           col1: impuesto.nombre,
           col2: formatoCL.format(Math.abs(impuesto.valor)),
+          col3: peso,
+          style: {
+            fontSize: 10, //optional, default 12
+          },
+        },
+        {
+          col1: 'Exento',
+          col2: formatoCL.format(Math.abs(exento)),
           col3: peso,
           style: {
             fontSize: 10, //optional, default 12
@@ -231,7 +276,7 @@ if(moneda.id == 2){
       },
     },
     footer: {
-      text: `DOCUMENTO GENERADOR POR KANGUSOFT PARA EMPRESA: ${datosEmpresa.nombre}`,
+      text: ``,
     },
     pageEnable: true,
     pageLabel: "Pagina ",
@@ -284,6 +329,7 @@ if(moneda.id == 2){
       email: props.contact?.email || "",
       otherInfo: props.contact?.otherInfo || "",
       pago: props.contact?.pago || "",
+      comuna:props.contact?.comuna || "",
       dcto: props.contact?.dcto || "",
     },
     contact2: {
@@ -292,6 +338,7 @@ if(moneda.id == 2){
       address: props.contact2?.address || "",
       phone: props.contact2?.phone || "",
       email: props.contact2?.email || "",
+      comuna:props.contact2?.comuna || "",
       otherInfo: props.contact2?.otherInfo || "",
       pago: props.contact2?.pago || "",
     },
@@ -303,7 +350,9 @@ if(moneda.id == 2){
       headerBorder: props.invoice?.headerBorder || false,
       tableBodyBorder: props.invoice?.tableBodyBorder || false,
       header: props.invoice?.header || [],
+      header2: props.invoice?.header2 || [],
       table: props.invoice?.table || [],
+      table2: props.invoice?.table2 || [],
       invDescLabel: props.invoice?.invDescLabel || "",
       invDesc: props.invoice?.invDesc || "",
       firma: props.invoice?.firma || "",
@@ -356,6 +405,7 @@ if(moneda.id == 2){
   var colorRojo = "#ff0000"
   //starting at 15mm
   var currentHeight = 15;
+  var currentHeight2 = 25;
   var currentHeightEmpresa = 16;
   var currentHeightEmpresa2 = 40;
   //var startPointRectPanel1 = currentHeight + 6;
@@ -373,47 +423,28 @@ if(moneda.id == 2){
   doc.setFontSize(13);
   // doc.setTextColor(colorEmpresa);
   // console.log("Color", colorEmpresa);
-  doc.setDrawColor(255,0,0)
+  doc.setDrawColor(0)
+  doc.setLineWidth(1)
   doc.setFillColor(255, 255, 255);
   doc.roundedRect(148, 10, 60, 23, 0, 0)
-  doc.setTextColor(255,0,0);
+  doc.setTextColor(0);
   doc.text(docWidth - 33, currentHeightEmpresa, param.business.name, "center");
   doc.text(docWidth - 33, 23, param.business.address, "center");
   doc.text(docWidth - 33, 30, param.business.phone, "center");
 
+  doc.setLineWidth(0)
   doc.setTextColor(0);
   doc.setDrawColor(0);
 
-  if (param.logo.src) {
-    var imageHeader = "";
-    if (typeof window === "undefined") {
-      imageHeader = param.logo.src;
-    } else {
-      imageHeader = new Image();
-      imageHeader.src = param.logo.src;
-    }
-    //doc.text(htmlDoc.sessionDateText, docWidth - (doc.getTextWidth(htmlDoc.sessionDateText) + 10), currentHeight);
-    if (param.logo.type)
-      doc.addImage(
-        imageHeader,
-        param.logo.type,
-        10 + param.logo.margin.left,
-        currentHeight - 5 + param.logo.margin.top,
-        param.logo.width,
-        param.logo.height
-      );
-    else
-      doc.addImage(
-        imageHeader,
-        10 + param.logo.margin.left,
-        currentHeight - 5 + param.logo.margin.top,
-        param.logo.width,
-        param.logo.height
-      );
-  }
+
+  doc.text(8, 28, `${emisor}`, "left");
+  doc.setFontSize(8)
+  doc.text(8, 32, `${emisorGiro}`, "left");
+  doc.text(8, 36, `${emisorDireccion},${emisorComuna}`, "left");
 
   doc.setTextColor(colorGray);
 
+  
   currentHeight += pdfConfig.subLineHeight;
   currentHeight += pdfConfig.subLineHeight;
   // doc.text(docWidth - 12, 20, param.business.address, "right");
@@ -440,7 +471,7 @@ if(moneda.id == 2){
   doc.setFontSize(pdfConfig.fieldTextSize);
   doc.setDrawColor(0)
   doc.setFillColor(255, 255, 255);
-  doc.roundedRect(8, 43, 90, 23, 3, 3, 'FD')
+  doc.roundedRect(8, 43, 200, 27, 3, 3, 'FD')
   currentHeight += pdfConfig.lineHeight;
   if (param.contact.label) {
     doc.text(10, currentHeight, param.contact.label);
@@ -460,9 +491,6 @@ if(moneda.id == 2){
   //Contact part
   doc.setTextColor(colorGray);
   doc.setFontSize(pdfConfig.fieldTextSize);
-  doc.setDrawColor(0)
-  doc.setFillColor(255, 255, 255);
-  doc.roundedRect(100, 43, 108, 23, 3, 3, 'FD')
   currentHeight += pdfConfig.lineHeight;
 
   if (param.contact2.name) doc.text(10, currentHeight, param.contact2.name);
@@ -474,36 +502,40 @@ if(moneda.id == 2){
 
   if (param.contact.address) {
     doc.text(10, currentHeight, param.contact.address);
-    doc.text(docWidth - 10, currentHeight, param.contact2.address, "right");
+    doc.text(120, currentHeight, param.contact2.address, "left");
     currentHeight += pdfConfig.subLineHeight;
   }
 
   if (param.contact.phone) {
     doc.text(10, currentHeight, param.contact.phone);
-    doc.text(docWidth - 10, currentHeight, param.contact2.phone, "right");
+    doc.text(120, currentHeight, param.contact2.phone, "left");
     currentHeight += pdfConfig.subLineHeight;
   }
 
   if (param.contact.email) {
     doc.text(10, currentHeight, param.contact.email);
-    doc.text(docWidth - 10, currentHeight, param.contact2.email, "right");
+    doc.text(120, currentHeight, param.contact2.email, "left");
     currentHeight += pdfConfig.subLineHeight;
   }
-
+  if (param.contact.comuna) {
+    doc.text(10, currentHeight, param.contact.comuna);
+    doc.text(120, currentHeight, param.contact2.comuna, "left");
+    currentHeight += pdfConfig.subLineHeight;
+  }
   if (param.contact.otherInfo) {
     doc.text(10, currentHeight, param.contact.otherInfo);
-    doc.text(docWidth - 10, currentHeight, param.contact2.otherInfo, "right");
+    doc.text(120, currentHeight, param.contact2.otherInfo, "left");
     currentHeight += pdfConfig.subLineHeight;
   }
   if (param.contact.pago) {
     doc.text(10, currentHeight, param.contact.pago);
-    doc.text(docWidth - 10, currentHeight, param.contact2.pago, "right");
+    doc.text(120, currentHeight, param.contact2.pago, "left");
     currentHeight += pdfConfig.subLineHeight;
   }
 
-  doc.setDrawColor(0)
-  doc.setFillColor(255, 255, 255);
-  
+  // doc.setDrawColor(0)
+  // doc.setFillColor(255, 255, 255);
+  // doc.roundedRect(8, 72, 200, 10, 3, 3, 'FD')
   //end contact part
 
   //TABLE PART
@@ -591,11 +623,128 @@ if(moneda.id == 2){
     currentHeight += pdfConfig.subLineHeight - 1;
     doc.setTextColor(colorGray);
   };
-  //#endregion
+  var addTableHeader2 = () => {
+    if (param.invoice.headerBorder) addTableHeaderBorder();
 
+    currentHeight2 += pdfConfig.subLineHeight2;
+    doc.setTextColor(colorBlack);
+    doc.setFontSize(8 - 1);
+    //border color
+    doc.setDrawColor(colorGray);
+    currentHeight2 += 2;
+
+    let startWidth = 0;
+    param.invoice.header2.forEach(function (row, index) {
+      if (index == 0) doc.text(row.title, 11, currentHeight2 + 32);
+      else {
+        const currentTdWidth = row?.style?.width || tdWidth;
+        const previousTdWidth =
+          param.invoice.header2[index - 1]?.style?.width || tdWidth;
+        const widthToUse =
+          currentTdWidth == previousTdWidth ? currentTdWidth : previousTdWidth;
+        startWidth += widthToUse;
+        doc.text(row.title, startWidth + 11, currentHeight2 + 32);
+      }
+    });
+
+    currentHeight2 += pdfConfig.subLineHeight - 1;
+    doc.setTextColor(colorGray);
+  };
+  //#endregio
+  doc.setFillColor(255, 255, 255);
+  let alto = ''
+  if(param.invoice.table2.length == 0) alto = 8
+  else if(param.invoice.table2.length == 1){
+    alto = 12
+  }
+  else if(param.invoice.table2.length == 2){
+    alto = 14
+  }
+  else if(param.invoice.table2.length == 3){
+    alto = 18
+  }
+  doc.roundedRect(8, currentHeight2 + 46, 200, alto , 3, 3, 'FD')
+  addTableHeader2();
+  
+  var tableBodyLength = param.invoice.table2.length;
+  param.invoice.table2.forEach(function (row, index) {
+
+
+    //get nax height for the current row
+    var getRowsHeight = function () {
+      let rowsHeight = [];
+      row.forEach(function (rr, index) {
+        const widthToUse = param.invoice.header2[index]?.style?.width || tdWidth;
+//tamaño padding
+        let item = splitTextAndGetHeight(rr.toString(), 50 - 1); //minus 1, to fix the padding issue between borders
+        rowsHeight.push(item.height);
+      });
+
+      return rowsHeight;
+    };
+
+    var maxHeight = Math.max(...getRowsHeight());
+
+    //body borders
+    if (param.invoice.tableBodyBorder) addTableBodyBorder(maxHeight + 1);
+    let startWidth = 0;
+    row.forEach(function (rr, index) {
+      const widthToUse = param.invoice.header2[index]?.style?.width || tdWidth;
+      let item = splitTextAndGetHeight(rr.toString(), 67 - 1); //minus 1, to fix the padding issue between borders
+      console.log("texto", rr, "index", index);
+      if (index == 0) doc.text(item.text, 11, currentHeight + 8);
+      else {
+        const currentTdWidth = rr?.style?.width || tdWidth;
+        const previousTdWidth =
+          param.invoice.header2[index - 1]?.style?.width || tdWidth;
+        const widthToUse =
+          currentTdWidth == previousTdWidth ? currentTdWidth : previousTdWidth;
+        startWidth += widthToUse;
+        doc.text(item.text, 11 + startWidth, currentHeight + 8);
+      }
+    });
+
+    currentHeight += maxHeight - 4;
+
+    //td border height
+    currentHeight += 6;
+
+    //pre-increase currentHeight to check the height based on next row
+    if (index + 1 < tableBodyLength) currentHeight += maxHeight;
+
+    if (
+      param.orientationLandscape &&
+      (currentHeight > 185 ||
+        (currentHeight > 178 && doc.getNumberOfPages() > 1))
+    ) {
+      doc.addPage();
+      currentHeight = 10;
+      if (index + 1 < tableBodyLength) addTableHeader();
+    }
+
+    if (
+      !param.orientationLandscape &&
+      (currentHeight > 220 ||
+        (currentHeight > 220 && doc.getNumberOfPages() > 1))
+    ) {
+      console.log("TAMAÑO MAT", param.invoice.table2.length);
+      doc.addPage();
+      currentHeight = 10;
+      if (index + 1 < tableBodyLength) addTableHeader();
+      //else
+      //currentHeight += pdfConfig.subLineHeight + 2 + pdfConfig.subLineHeight - 1; //same as in addtableHeader
+    }
+
+    //reset the height that was increased to check the next row
+    if (index + 1 < tableBodyLength && currentHeight > 30)
+      // check if new page
+      currentHeight -= maxHeight;
+  });
   addTableHeader();
 
   //#region TABLE BODY
+  
+  
   var tableBodyLength = param.invoice.table.length;
   param.invoice.table.forEach(function (row, index) {
     doc.line(10, currentHeight, docWidth - 10, currentHeight);
@@ -755,7 +904,7 @@ if(moneda.id == 2){
 
     currentHeightTotal += pdfConfig.lineHeight;
     doc.setFillColor(255, 255, 255);
-    doc.roundedRect(138, currentHeightTotal, 65, 23, 3, 3, 'FD')
+    doc.roundedRect(138, currentHeightTotal, 65, 28, 3, 3, 'FD')
     //#endregion
 
     for (let i = 0; i < param.invoice.additionalRows.length; i++) {
@@ -923,7 +1072,7 @@ if(moneda.id == 2){
     for (let i = 1; i <= totalPages; i++) {
 
       doc.setFontSize(20);
-      doc.text(33, 280, `ESTA ORDEN DE COMPRA NO ES VALIDA`);
+      doc.text(33, 280, ``);
       // doc.setPage(i);
   
       // doc.saveGraphicsState();
