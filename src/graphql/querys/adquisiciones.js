@@ -72,6 +72,52 @@ query Q_GET_DATOS_OC_CONSULTA{
   }
 }
 `
+const GET_OC_RECEPCION = gql`
+query Q_GET_OC_RECEPCION($datos: getOcsInput!){
+  getOcs(datos: $datos) {
+    ocs {
+      doc_tip_fk
+      ent_fk
+      fec_apro
+      fec_creacion
+      identificacion
+      mon_fk
+      neto
+      oc_nombre
+      pro_nombre
+      razon_social
+      usu_apellidos
+      usu_nombre
+      id
+      mon_nombre
+      est_nombre
+      rut
+      comentario
+      des_tip_fk
+      dt_nombre
+      ec_nombre
+      el_nombre
+      ent_con_fk
+      est_doc_fk
+      est_lin_fk
+      fp_nombre
+      for_pag_fk
+      neto_ajustado
+      iva_ajustado
+      impuestos
+      usu_fk
+      pro_fk
+      desp_nombre
+      lineasJson
+      ent_direccion
+      ec_email
+    }
+    success
+    error
+  }
+}
+`
+
 const GET_DATOS_OC_DETALLE_EXCEL = gql`
 query Q_GET_DATOS_OC_DETALLE_EXCEL{
   kangusoft_oc_det  {
@@ -249,6 +295,15 @@ query Q_GET_PEDIDO_CABECERA($_eq: bigint!) {
       apellidos
       nombre
     }
+  }
+}
+`
+
+const GET_TIPO_DOCUMENTO = gql`
+query Q_GET_TIPO_DOCUMENTO {
+  kangusoft_dte_tip {
+    id
+    nombre
   }
 }
 `
@@ -479,4 +534,4 @@ query Q_GET_MATERIALES($datos: getMaterialesInput!) {
 }
 `
 
-export { GET_FACTURA_COMPLETA,GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }
+export { GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }

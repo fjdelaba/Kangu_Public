@@ -16,10 +16,10 @@ export default {
         dessertHeaders: [
             { text: '#', value: 'oc' },
             { text: 'Nombre del Material', align: 'start', sortable: false, value: 'id', },
-            { text: 'Formato', value: 'nombre' },
-            { text: 'Cantidad Recepcionada', value: 'comprador' },
-            { text: 'Cantidad por Recepcionar', value: 'fecha' },
-            { text: 'Cantidad a Recepcionar', value: 'monto' },
+            { text: 'Solicitado', value: 'nombre' },
+            { text: 'Recepcionado', value: 'comprador' },
+            { text: 'por Recepcionar', value: 'fecha' },
+            { text: 'a Recepcionar', value: 'monto' },
             { text: 'Acción', value: 'actions' },
 
         ],
@@ -30,7 +30,7 @@ export default {
         desserts: [
             {
                 id: 'Foco Panel Slim Cuadrado 12w, Smd 2835 170*170*12mm, 3000k, 900lm',
-                nombre: 'Unidad',
+                nombre: '66',
                 comprador: '33',
                 fecha: '33',
                 monto: '0',
