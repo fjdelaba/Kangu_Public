@@ -17,10 +17,10 @@ export default {
         dessertHeaders: [
             { text: '#', value: 'oc' },
             { text: 'Nombre del Material', align: 'start', sortable: false, value: 'id', },
-            { text: 'Formato', value: 'nombre' },
-            { text: 'Cantidad Recepcionada', value: 'comprador' },
-            { text: 'Cantidad por Recepcionar', value: 'fecha' },
-            { text: 'Cantidad a Recepcionar', value: 'monto' },
+            { text: 'Solicitado', value: 'nombre' },
+            { text: 'Recepcionado', value: 'comprador' },
+            { text: 'por Recepcionar', value: 'fecha' },
+            { text: 'a Recepcionar', value: 'monto' },
             { text: 'Acción', value: 'actions' },
 
         ],

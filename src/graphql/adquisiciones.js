@@ -1,5 +1,5 @@
 import { apolloClient } from '../client'
-import { GET_FACTURA_COMPLETA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES, GET_PEDIDO_CABECERA } from './querys/adquisiciones'
+import { GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES, GET_PEDIDO_CABECERA } from './querys/adquisiciones'
 import { INSERT_PED, INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL, INSERT_OC, UPDATE_FINALIZAR_OC } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
@@ -87,6 +87,13 @@ export const getPedidoCabecera = async (id) => {
       id:id
     }
   
+  })
+}
+export const getTipoDocumento = async () => {
+
+  return await apolloClient.query({
+    query: GET_TIPO_DOCUMENTO
+ 
   })
 }
 
@@ -178,7 +185,17 @@ export const getOcConsultas = async (datos) => {
     fetchPolicy:'network-only'
   })
 }
+export const getOcRecepcion = async (datos) => {
+  console.log('datos: ', datos)
 
+  return await apolloClient.query({
+    query: GET_OC_RECEPCION,
+    variables: {
+      datos
+    },
+    fetchPolicy:'network-only'
+  })
+}
 export const getMateriales = async (datos) => {
   console.log('datos: ', datos)
 

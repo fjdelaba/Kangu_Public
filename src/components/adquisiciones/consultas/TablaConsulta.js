@@ -25,7 +25,7 @@ export default {
     }
   },
   mounted() {
-    console.log(this.$auth.isLoading);
+    console.log("this.$$auth.isLoading",this.$auth.isLoading);
     if (this.$auth.isLoading == false) {
       this.datosEmpresa = this.$store.state.app.datosEmpresa;
       this.cargarListaProyecto()
