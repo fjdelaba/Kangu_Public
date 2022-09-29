@@ -407,7 +407,7 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
 `
 
 const GET_OC_CONSULTAS = gql`
-query Q_GET_OC_CONSULTAS($datos: getOcsInput!) {
+query Q_GET_OC_CONSULTAS($datos: getOcsInput!) @cached(ttl: 120){
   getOcs(datos: $datos) {
     ocs {
       doc_tip_fk
