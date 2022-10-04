@@ -151,8 +151,26 @@
           <template v-slot:item.fec_recepcion="{ item }">
             <div class="font-weight-bold">{{ getFechaFormat(item.fec_recepcion) }}</div>
           </template>
-            <template v-slot:item.monto="{ item }">
+          <template v-slot:item.monto="{ item }">
             <div class="font-weight-bold">{{ item.monto | currency }}</div>
+          </template>
+          <template v-slot:item.action="{ item }">
+            <div>
+              <v-row>
+                <v-col cols="3">
+                  <v-btn
+                    small
+                    @click="descargarDte(item)"
+                  > Abrir </v-btn>
+                </v-col>
+                <v-col v-if="item.dte_cab_fk != null" class="pl-4" cols="3">
+                  <v-btn
+                    small
+                    @click="descargarDte(item)"
+                  ><v-icon>mdi-file-pdf-box</v-icon> </v-btn>
+                </v-col>
+              </v-row>
+            </div>
           </template>
         </v-data-table>
       </v-card>

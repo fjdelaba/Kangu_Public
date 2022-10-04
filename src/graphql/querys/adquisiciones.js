@@ -343,6 +343,7 @@ query Q_GET_RECEPCIONES_LISTADO {
       apellidos
       nombre
     }
+    dte_cab_fk
   }
 }
 `

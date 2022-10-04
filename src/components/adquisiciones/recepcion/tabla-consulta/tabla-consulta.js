@@ -2,6 +2,7 @@
 
 import moment from 'moment'
 import {getRecepcionListado} from '../../../../graphql/adquisiciones'
+import {creaPdfFactura} from '../../../../utils/pdf-factura-template'
 
 
 export default {
@@ -13,6 +14,8 @@ export default {
   },
   mounted() {
     this.getListadoRecepcion()
+    this.datosEmpresa = this.$store.state.app.datosEmpresa;
+    console.log('thisdatos empresa',this.$store.state.app.datosEmpresa)
   },
   watch: {
     '$auth.isLoading' (newCount, oldCount) {
@@ -24,6 +27,7 @@ export default {
   },
   data() {
     return {
+      datosEmpresa:'',
       dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
       headers: [
         {
@@ -112,6 +116,9 @@ export default {
       },
     moment() {
       return moment();
+    },
+   async descargarDte(item) {
+      await creaPdfFactura(item.dte_cab_fk, this.datosEmpresa,1);
     },
     abrirDetalle(item){
       console.log('object: ', item);
