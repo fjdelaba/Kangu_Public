@@ -48,6 +48,10 @@ export default {
         this.cerrarDialog()
         this.$router.push('/adquisiciones/pedido/consultar/')
       }
+      if (this.origen === 3){
+        this.cerrarDialog()
+        this.$router.push('/adquisiciones/recepcion/listado')
+      }
       // const doc = new jsPDF()
       // const du = doc.output('datauristring')
       

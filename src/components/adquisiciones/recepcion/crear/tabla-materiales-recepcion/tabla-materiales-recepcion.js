@@ -46,15 +46,16 @@ export default {
       };
     },
     methods: {
+      deleteItem3(item) {
+        this.detalle.splice(item, 1);
+        console.log("item", item);
+      },
       pasarCantidad(item){
         console.log('item',item)
-        item.recepcionar = item.cant_ajustada - item.cant_recepcion
-        this.materiales = this.detalle
-
-      console.log('materiales',this.materiales)
+        item.recepcionar = item.cant_recepcion
       },
       modalAviso(item){
-        if(item.recepcionar > item.cant_ajustada - item.cant_recepcion ){
+        if(item.recepcionar > item.cant_recepcion){
           this.openModal = true
         }
       },

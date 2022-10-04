@@ -3,12 +3,14 @@ import TablaMaterialRecepcion from '../crear/tabla-materiales-recepcion/tabla-ma
 import ModalFinalizar from './modal-finalizar/modal-finalziar.vue';
 import CabeceraRecepcion from './cabecera-recepcion/cabecera-recepcion.vue';
 import { getDetalleOC, insertRecOc } from '../../../../graphql/adquisiciones'
+import DialogFinal from "./../../dialog-final-documento/DialogFinalDocumento.vue"
 
 export default {
     components: {
       TablaMaterialRecepcion,
       ModalFinalizar,
-      CabeceraRecepcion
+      CabeceraRecepcion,
+      DialogFinal
       },
     mounted() {
       this.detalleOc()
@@ -23,7 +25,9 @@ export default {
       return {
        datosUsuario:'',
        datosEmpresa:'',
-       dialogFinal:false,
+       tituloModal:'',
+       textoModal:'',
+       mostrar:false,
         dessertHeaders: [
             { text: '#', value: 'oc' },
             { text: 'Nombre del Material', align: 'start', sortable: false, value: 'id', },
@@ -103,7 +107,9 @@ export default {
          if(existeLinea == true){
           const returnPostDetalle =  await insertRecOc(objeto.oc_fk,1,objeto.usu_fk,objeto.rec_dets,objeto.observacion,objeto.dte_cab_fk,objeto.ref_folio_dte,objeto.ref_tipo_dte_fk,objeto.emp_fk)
           console.log('return',returnPostDetalle)
-          this.dialogFinal = true
+          this.tituloModal = 'Recepción Creada',
+          this.textoModal = 'Tu Recepción ha sido creada con exito',
+          this.mostrar = true
           this.$toast.success('Se completo con exito esta Recepción', {
             tposition: 'top-right',
             timeout: 5000,
@@ -120,6 +126,9 @@ export default {
             pauseOnHover: true
           })
          }
-        }
+        },
+        cerrarDialog(){
+          this.mostrar = true
+        },
     }
 }

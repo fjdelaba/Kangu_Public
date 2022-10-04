@@ -139,18 +139,21 @@
           </v-col>
         </v-row>
         <v-data-table
-          :headers="cpxDinamicHeaders"
-          :items="cpxDatosTabla"
+          :headers="headers"
+          :items="desserts"
           class="flex-grow-1"
           dense
           :loading="loadingTabla"
           loading-text="Buscando ordenes de compra"
           :search="buscarOcs"
-          show-expand
-          :expanded.sync="expanded"
-          :single-expand="singleExpand"
           :items-per-page="25"
         >
+          <template v-slot:item.fec_recepcion="{ item }">
+            <div class="font-weight-bold">{{ getFechaFormat(item.fec_recepcion) }}</div>
+          </template>
+            <template v-slot:item.monto="{ item }">
+            <div class="font-weight-bold">{{ item.monto | currency }}</div>
+          </template>
         </v-data-table>
       </v-card>
       

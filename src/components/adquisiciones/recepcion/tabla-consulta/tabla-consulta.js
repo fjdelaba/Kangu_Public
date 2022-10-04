@@ -25,6 +25,19 @@ export default {
   data() {
     return {
       dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
+      headers: [
+        {
+          text: 'Centro de Gestión',
+          value: 'oc.pro.nombre',
+        },
+        { text: 'ID OC', value: 'oc.identificacion' },
+        { text: 'ID RECEPCIÓN', value: 'identificacion' },
+        { text: 'Proveedor', value: 'oc.ent.razon_social' },
+        { text: 'Creado', value: 'fec_recepcion' },
+        { text: 'Monto', value: 'monto' },
+        { text: 'Acción', value: 'action' },
+      ],
+      desserts:[]
     }
   },
   computed: {
@@ -86,6 +99,16 @@ export default {
     async getListadoRecepcion(){
         const {data: { kangusoft_rec_cab } } = await getRecepcionListado();
         console.log('kangusoft_rec_cab',kangusoft_rec_cab)
+        for(let item of kangusoft_rec_cab){
+            if(item.oc.oc__view_monto_recepciones_obra == null ){
+                item.monto = 0
+            }else{
+                item.monto = item.oc.oc__view_monto_recepciones_obra.monto_recibido
+            }
+            
+            this.desserts.push(item)
+        }
+        console.log(' this.desserts',this.desserts)
       },
     moment() {
       return moment();

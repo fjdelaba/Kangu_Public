@@ -323,7 +323,13 @@ query Q_GET_RECEPCIONES_LISTADO {
     oc_fk
     rec_est_fk
     usu_fk
+    identificacion
+   
     oc {
+      oc__view_monto_recepciones_obra {
+        monto_recibido
+      }
+      identificacion
       ent {
         razon_social
         id
@@ -332,10 +338,10 @@ query Q_GET_RECEPCIONES_LISTADO {
         id
         nombre
       }
-      usu {
-        apellidos
-        nombre
-      }
+    }
+    usu {
+      apellidos
+      nombre
     }
   }
 }

@@ -2,11 +2,16 @@
 
   <v-container>
     <v-card>
-      <v-dialog v-model="dialogFinal" max-width="500px">
-        <v-card>
-          <v-card-title class="text-h5">¡Recepcion Completada!</v-card-title>
-        </v-card>
+      <v-dialog v-model="mostrar" persistent max-width="500px">
+        <dialog-final
+          :titulo="tituloModal"
+          :texto="textoModal"
+          :cerrar-dialog="cerrarDialog"
+          :origen="3"
+          :aprobada="true"
+        ></dialog-final>
       </v-dialog>
+
       <v-row>
         <cabecera-recepcion
           ref="refdatoscabecera"
