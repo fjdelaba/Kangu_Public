@@ -33,6 +33,7 @@ export default {
           console.log(`tabla consultas - We have ${newCount} fruits now, yay!. ${oldCount}`)
           if (newCount === false) {
             console.log('Cargar notificaciones: ', this.$store.state.app.datosUsuario.user_id)
+            this.cargarOcs()
           }
         }
       },
@@ -133,7 +134,7 @@ export default {
         abrirDetalle(item){
             this.$router.push({
                 path: "crear",
-                query: { id: Number(item.oc),}
+                query: { id: Number(item.id),}
             });
         },
 
