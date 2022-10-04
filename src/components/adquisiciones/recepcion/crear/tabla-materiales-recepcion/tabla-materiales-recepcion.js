@@ -7,20 +7,24 @@ export default {
       NombreMaterial
       },
     mounted() {
+
+      this.materiales = this.detalle
+      console.log('materiales',this.materiales)
+    },
+    props:{
+      detalle:{
+        type: Array
+      }
     },
     data() {
       return {
-        nombre:'Foco Panel Slim Cuadrado 12w',
-        unidad:'Unidad',
-        obs:'Luz led porfavor',
         dessertHeaders: [
-            { text: '#', value: 'oc' },
-            { text: 'Nombre del Material', align: 'start', sortable: false, value: 'id', },
-            { text: 'Solicitado', value: 'nombre' },
-            { text: 'Recepcionado', value: 'comprador' },
-            { text: 'por Recepcionar', value: 'fecha' },
-            { text: 'a Recepcionar', value: 'monto' },
-            { text: 'Acción', value: 'actions' },
+            { text: 'Nombre del Material', value: 'mat',width: '10px' },
+            { text: 'Solicitado', value: 'cant_ajustada',},
+            { text: 'Recepcionado', value: 'cant_recepcion',  },
+            { text: 'por Recepcionar', value: 'cant_despacho', },
+            { text: 'a Recepcionar', value: 'recepcionar', },
+            { text: 'Acción', value: 'actions',width: '10px' },
 
         ],
         listaCelulas:[{
@@ -37,8 +41,31 @@ export default {
                 oc:'1'
             }
         ],
-   
+        openModal:false,
+        materiales:[]
       };
     },
-    methods: {}
+    methods: {
+      pasarCantidad(item){
+        console.log('item',item)
+        item.recepcionar = item.cant_ajustada - item.cant_recepcion
+        this.materiales = this.detalle
+
+      console.log('materiales',this.materiales)
+      },
+      modalAviso(item){
+        if(item.recepcionar > item.cant_ajustada - item.cant_recepcion ){
+          this.openModal = true
+        }
+      },
+      calcularSaldo(item){
+        if(item.oc_det__view_recepciones_lista.total_recibido > item.cant_ajustada ){
+         item.saldo = 0
+        }else if(item.oc_det__view_recepciones_lista.total_recibido <= item.cant_ajustada ){
+          item.saldo = item.cant_ajustada - item.oc_det__view_recepciones_lista.total_recibido
+        }
+        console.log('saldo',item.saldo)
+        return item.saldo
+      },
+    }
 }

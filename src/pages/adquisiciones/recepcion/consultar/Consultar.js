@@ -1,5 +1,5 @@
 /* eslint-disable */
-import TablaConsulta from "../../../../components/adquisiciones/consultas/TablaConsulta.vue";
+import TablaConsulta from "../../../../components/adquisiciones/recepcion/tabla-consulta/tabla-consulta.vue";
 
 export default {
     components: {

@@ -72,6 +72,13 @@ query Q_GET_DATOS_OC_CONSULTA{
   }
 }
 `
+const GET_DTE_CABECERA = gql`
+query Q_GET_DTE_CABECERA($ref: smallint!, $folio: String!)  {
+  kangusoft_dte_cab(where: {folio: {_eq: $folio}, dte_tip_fk: {_eq: $ref}}) {
+    id
+  }
+}
+`
 const GET_OC_RECEPCION = gql`
 query Q_GET_OC_RECEPCION($datos: getOcsInput!){
   getOcs(datos: $datos) {
@@ -307,6 +314,32 @@ query Q_GET_TIPO_DOCUMENTO {
   }
 }
 `
+const GET_RECEPCIONES_LISTADO = gql`
+query Q_GET_RECEPCIONES_LISTADO {
+  kangusoft_rec_cab {
+    descuadre
+    fec_recepcion
+    id
+    oc_fk
+    rec_est_fk
+    usu_fk
+    oc {
+      ent {
+        razon_social
+        id
+      }
+      pro {
+        id
+        nombre
+      }
+      usu {
+        apellidos
+        nombre
+      }
+    }
+  }
+}
+`
 const GET_DETALLEPEDIDO = gql`
 query Q_GET_DETALLEPEDIDO($id: bigint!) {
   
@@ -368,7 +401,13 @@ query Q_GET_OC_DETALLE($oc_fk: bigint_comparison_exp!,$_eq: bigint!) {
         nombre
       }
     }
-    cantidad
+      oc_det__view_recepciones_lista {
+        total_recibido
+      }
+      cant_ajustada
+      cant_despacho
+      cant_recepcion
+      cantidad
     id
     mat_fk
     observacion
@@ -534,4 +573,4 @@ query Q_GET_MATERIALES($datos: getMaterialesInput!) {
 }
 `
 
-export { GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }
+export { GET_RECEPCIONES_LISTADO,GET_DTE_CABECERA,GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES }

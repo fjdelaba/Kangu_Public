@@ -2,6 +2,7 @@
 import TablaMaterialRecepcion from '../crear/tabla-materiales-recepcion/tabla-materiales-recepcion.vue'
 import ModalFinalizar from './modal-finalizar/modal-finalziar.vue';
 import CabeceraRecepcion from './cabecera-recepcion/cabecera-recepcion.vue';
+import { getDetalleOC, insertRecOc } from '../../../../graphql/adquisiciones'
 
 export default {
     components: {
@@ -10,10 +11,19 @@ export default {
       CabeceraRecepcion
       },
     mounted() {
+      this.detalleOc()
+      if (this.$auth.isLoading == false) {
+        this.datosEmpresa = this.$store.state.app.datosEmpresa;
+        this.datosUsuario = this.$store.state.app.datosUsuario;
+
+      }
+      console.log("EMPRESA:", this.datosEmpresa, "USUARIO:", this.datosUsuario);
     },
     data() {
       return {
-      
+       datosUsuario:'',
+       datosEmpresa:'',
+       dialogFinal:false,
         dessertHeaders: [
             { text: '#', value: 'oc' },
             { text: 'Nombre del Material', align: 'start', sortable: false, value: 'id', },
@@ -38,8 +48,78 @@ export default {
                 oc:'1'
             }
         ],
-        dialogDelete:false
+        dialogDelete:false,
+        ocCabecera:{},
+        ocDetalle:[]
       };
     },
-    methods: {}
+    methods: {
+      async detalleOc(){
+        const resp = await getDetalleOC(this.$route.query.id)
+       
+        this.ocCabecera = resp.data.kangusoft_oc[0]
+        for(let detalle of resp.data.kangusoft_oc_det){
+          detalle.recepcionar = 0
+          this.ocDetalle.push(detalle)
+        }
+
+        },
+        async crearRecepcion(){
+          let objeto = {}
+          let existeLinea 
+          objeto.oc_fk = this.ocCabecera.id
+          objeto.usu_fk = this.datosUsuario.user_id
+          objeto.rec_est_fk = 1 
+          objeto.observacion = ''
+          objeto.dte_cab_fk = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.dte_cab
+
+          objeto.emp_fk = this.datosEmpresa.id
+          objeto.rec_dets = {
+    
+              data:[]
+          }
+         for(let item of this.$refs.refdatostabla.materiales ){
+          item.descuadre = item.recepcionar > item.saldo ? true : false
+          item.monto = item.recepcionar > item.saldo? item.saldo * item.precio_unitario : item.recepcionar * item.precio_unitario
+          if(item.recepcionar > 0){
+            objeto.rec_dets.data.push({oc_det_fk: item.id,cantidad:Number(item.recepcionar),descuadre:item.descuadre,monto:item.monto})
+          }else if(item.recepcionar <= 0){
+          console.log('no tiene lineas, no se agrega al arreglo')
+          existeLinea = false
+          }
+         }
+         objeto.ref_tipo_dte_fk = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.cabeceraSeleccion
+         objeto.ref_folio_dte = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.cabeceraNumero
+         console.log('reftip',objeto.rec_dets.data)
+         
+         for(let item of objeto.rec_dets.data){
+           if(item.cantidad == 0){
+            existeLinea = false
+           } else if (item.cantidad > 0){
+            existeLinea = true
+           }
+         }
+         console.log('existeLinea',existeLinea)
+         if(existeLinea == true){
+          const returnPostDetalle =  await insertRecOc(objeto.oc_fk,1,objeto.usu_fk,objeto.rec_dets,objeto.observacion,objeto.dte_cab_fk,objeto.ref_folio_dte,objeto.ref_tipo_dte_fk,objeto.emp_fk)
+          console.log('return',returnPostDetalle)
+          this.dialogFinal = true
+          this.$toast.success('Se completo con exito esta Recepción', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+          existeLinea = false
+        //   this.$router.push({
+        //     path:'/adquisiciones/recepcion/listado',
+        // });
+         }else if(existeLinea == false){
+          this.$toast.error('Esta recepcion no tiene lineas por recepcionar, porfavor revise', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+         }
+        }
+    }
 }

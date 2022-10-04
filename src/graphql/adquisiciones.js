@@ -1,10 +1,15 @@
 import { apolloClient } from '../client'
-import { GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES, GET_PEDIDO_CABECERA } from './querys/adquisiciones'
-import { INSERT_PED, INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL, INSERT_OC, UPDATE_FINALIZAR_OC } from './mutations/adquisiciones'
+import { GET_RECEPCIONES_LISTADO,GET_DTE_CABECERA,GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES, GET_PEDIDO_CABECERA } from './querys/adquisiciones'
+import { INSERT_RECEPCION_OC,INSERT_PED, INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL, INSERT_OC, UPDATE_FINALIZAR_OC } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
   return await apolloClient.query({
     query: GET_DATOS_OC_CABECERA
+  })
+}
+export const getRecepcionListado = async() => {
+  return await apolloClient.query({
+    query: GET_RECEPCIONES_LISTADO
   })
 }
 export const getEstadosOc = async() => {
@@ -40,6 +45,43 @@ export const postDetalleOC = async (detalle, detalle_partida) => {
     variables: {
       detalle,
       detalle_partida
+    }
+  })
+}
+export const insertRecOc = async ( oc_fk,
+  rec_est_fk,
+  usu_fk,
+  rec_dets,
+  observacion,
+  dte_cab_fk,
+  ref_folio_dte,
+  ref_tipo_dte_fk,
+  emp_fk) => {
+  // ($oc_fk: bigint!, $rec_est_fk: smallint!, $usu_fk: bigint!, $rec_dets: kangusoft_rec_det_arr_rel_insert_input = {data: {}}, $observacion: String = "", $dte_cab_fk: bigint = "")
+
+  return await apolloClient.mutate({
+    mutation: INSERT_RECEPCION_OC,
+    variables: {
+      oc_fk,
+      rec_est_fk,
+      usu_fk,
+      rec_dets,
+      observacion,
+      dte_cab_fk,
+      ref_folio_dte,
+      ref_tipo_dte_fk,
+      emp_fk
+    }
+  })
+}
+export const getDteCab = async (folio,ref) => {
+  console.log('folio,ref: ', folio,ref)
+
+  return await apolloClient.query({
+    query: GET_DTE_CABECERA,
+    variables: {
+      folio,
+      ref
     }
   })
 }
