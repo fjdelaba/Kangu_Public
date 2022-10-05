@@ -49,6 +49,15 @@ export default {
     this.cargarFacturas()
   },
   methods: {
+    abrirDetalle(item) {
+      console.log('object: ', item)
+      const path = '/finanzas/recepcionar/detalle'
+
+      this.$router.push({
+        path,
+        query: { id: Number(item.id) }
+      })
+    },
     descargarFactura(item) {
       console.log('item.id: ', item.id)
       console.log('datos empresa: ', this.$store.state.app.datosEmpresa)

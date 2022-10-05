@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { getDatosOcConsulta, getEstadosOc, getDetalleOcExcel, getOcConsultas } from "../../../graphql/adquisiciones";
+import { getDatosOcConsulta, getEstadosOc, getDetalleOcExcel, getOcConsultas, getOcsUsuario } from "../../../graphql/adquisiciones";
 import { getDatosGenerales } from '../../../graphql/configuracion'
 import Vue from "vue";
 import JsonExcel from "vue-json-excel";
@@ -109,6 +109,7 @@ export default {
       headers: [
       ],
       ocs: [],
+      oc1: [],
       proyectos: [{ id: 0, nombre: 'Todos los Proyectos' }],
       estadosOc: [{ id: 0, nombre: 'Todos los Estados' }],
       ocsCopy: [],
@@ -158,7 +159,18 @@ export default {
     }
   },
   computed: {
+    cpxListaOc(){
+        return this.items.reduce(function(acc, v) {
+           return [...acc, ...v.lineas]
+        }, [])
+    },
     cpxDatosTabla() {
+
+    //   this.ocs.reduce(function(oc, v) {
+    //     console.log('ov.lineas: ', v.lineas);
+    //     this.oc1.push('asdasd')
+    //     return [...oc, ...v.lineas]
+    //  }, [])
       return this.ocs.filter(oc => {
         let agregar = true;
         console.log('OC: ', oc);
@@ -224,11 +236,11 @@ export default {
         ]
       }else if(this.origen === 2){
           return [
-          { text: "Centro de Gestión", value: "pro_nombre", idx: 1 },
+          { text: "Centro de Gestión", value: "pro.pro_nombre", idx: 1 },
           { text: "ID OC", value: "identificacion", idx: 2 },
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
-          { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
-          { text: "lineas", value: "lineasJson", sortable: true,align: ' d-none', idx: 5},
+          { text: "Proveedor", value: "ent.razon_social", sortable: true, idx: 4 },
+          { text: "lineas", value: "materiales", sortable: true,align: ' d-none', idx: 5},
           // { text: "Comprador", value: "usu_nombre", sortable: true, idx: 6 },
           { text: "Creado", value: "fec_creacion", sortable: true, idx: 7 },
           { text: "Monto", value: "neto", sortable: true, idx: 8 },
@@ -342,7 +354,7 @@ export default {
         console.log("envio a pdf ;",item.id, this.datosEmpresa,1)
          await creaPdfOC2(item.id,this.datosEmpresa, 1) 
       } catch (error) {
-        console.log('error: ', error);
+        console.log('error tablaConsulta: ', error);
       }
     },
     limpiarFiltros(){
@@ -406,19 +418,60 @@ export default {
           for_pag_fk: Number(this.formaPago)
         }
         console.log('datos: ', datos);
-        const {data:{getOcs: {ocs}}} = await getOcConsultas(datos)
-        console.log('ocs: ', ocs);
+        // const {data:{getOcs: {ocs}}} = await getOcConsultas(datos)
+        console.log('this.$store.state.app.datosUsuario.user_id: ', this.$store.state.app.datosUsuario.user_id);
+        const data_ = await getOcsUsuario(this.$store.state.app.datosUsuario.user_id)
+        console.log('new_ocs_ ', data_.data.kangusoft_view_permisos_usuario_mod);
+        const arregloNuevo = [...data_.data.kangusoft_view_permisos_usuario_mod]
+        const nuevaOc = []
+
+        for(const linea of arregloNuevo) {
+          console.log('linea arreglo nuevo: ', linea);
+          for(const ocs_lineas of linea.view_permisos_usuario_mod_oc){
+            console.log('ocs_lineas: ', ocs_lineas);
+            let nombre_material = ''
+            for (const ocs_lineas_mat of ocs_lineas.oc_dets){
+              console.log('ocs_lineas_mat: ', ocs_lineas_mat);
+              nombre_material+=` ${ocs_lineas_mat.mat.nombre}`
+            }
+            ocs_lineas.materiales = nombre_material
+            nuevaOc.push(ocs_lineas)
+          }
+        }
+        // for(const linea of data_.data.kangusoft_view_permisos_usuario_mod){
+        //   console.log('linea: ', linea.view_permisos_usuario_mod_oc);
+        //   // for(const linea_hijo of linea.view_permisos_usuario_mod_oc){
+        //   //   console.log('oc nuevo objeto: ', linea_hijo);
+        //     let nombre_material = ''
+        //     for(const lineaDet of linea.view_permisos_usuario_mod_oc.oc_dets){
+        //       console.log('materiales: ', lineaDet);
+        //       nombre_material+=` ${lineaDet.mat.nombre}`
+        //     }
+        //     linea.view_permisos_usuario_mod_oc.materiales = nombre_material
+        //   // } 
+        //   nuevaOc.push(linea.view_permisos_usuario_mod_oc)
+        // }
+        console.log('flat: ', arregloNuevo.flat(4));
+        // console.log('ocs: ', ocs); 
+        console.log('nuevo arregloNuevo: ', arregloNuevo); 
+        console.log('nueaOc: ', nuevaOc);
+
+
+
         // this.listaOcs = ocs
-        this.ocs= JSON.parse(JSON.stringify(ocs))
-        let monedas = [... new Set(ocs.map(x=> ({nombre: x.mon_nombre, id: x.mon_fk})))];
-        let formasPago = [... new Set(ocs.map(x=> ({nombre: x.fp_nombre, id: x.for_pag_fk})))];
-        let tiposDespacho = [... new Set(ocs.map(x=> ({nombre: x.desp_nombre, id: x.des_tip_fk})))];
-        let tiposDocumento = [... new Set(ocs.map(x=> ({nombre: x.dt_nombre, id: x.doc_tip_fk})))];
-        let estadosDocumento = [... new Set(ocs.map(x=> ({nombre: x.est_nombre, id: x.est_doc_fk})))];
-        let estadosLineas = [... new Set(ocs.map(x=> ({nombre: x.el_nombre, id: x.est_lin_fk})))];
-        let proyectos = [... new Set(ocs.map(x=> ({nombre: x.pro_nombre, id: x.pro_fk})))];
-        let proveedores = [... new Set(ocs.map(x=> ({nombre: x.razon_social, id: x.ent_fk})))];
-        let compradores = [... new Set(ocs.map(x=> ({nombre: `${x.usu_nombre} ${x.usu_apellidos}`, id: x.usu_fk})))];
+        //this.ocs= JSON.parse(JSON.stringify(ocs))
+        this.ocs= JSON.parse(JSON.stringify(nuevaOc))
+
+
+        let monedas = [... new Set(nuevaOc.map(x=> ({nombre: x.mon.mon_nombre, id: x.mon_fk})))];
+        let formasPago = [... new Set(nuevaOc.map(x=> ({nombre: x.for_pag.fp_nombre, id: x.for_pag_fk})))];
+        let tiposDespacho = [... new Set(nuevaOc.map(x=> ({nombre: x.des_tip.desp_nombre, id: x.des_tip_fk})))];
+        let tiposDocumento = [... new Set(nuevaOc.map(x=> ({nombre: x.doc_tip.dt_nombre, id: x.doc_tip_fk})))];
+        let estadosDocumento = [... new Set(nuevaOc.map(x=> ({nombre: x.est_doc.est_nombre, id: x.est_doc_fk})))];
+        let estadosLineas = [... new Set(nuevaOc.map(x=> ({nombre: x.est_lin.el_nombre, id: x.est_lin_fk})))];
+        let proyectos = [... new Set(nuevaOc.map(x=> ({nombre: x.pro.pro_nombre, id: x.pro_fk})))];
+        let proveedores = [... new Set(nuevaOc.map(x=> ({nombre: x.ent.razon_social, id: x.ent_fk})))];
+        let compradores = [... new Set(nuevaOc.map(x=> ({nombre: `${x.usu.usu_nombre} ${x.usu.usu_apellidos}`, id: x.usu_fk})))];
         
         this.valoresFiltros._listaMonedas = [...new Set(monedas.map(JSON.stringify))].map(JSON.parse);
         this.valoresFiltros._listaFormasPago = [...new Set(formasPago.map(JSON.stringify))].map(JSON.parse); 

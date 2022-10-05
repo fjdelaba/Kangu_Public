@@ -3,9 +3,7 @@
     <div v-if="$store.state.app.permisosUsuario.oc">
       <div>
         <h2>Consultar OC</h2>
-        <Keep-alive>
           <tabla-consulta :consulta="consulta" :origen="2"></tabla-consulta>
-        </Keep-alive>
       </div>
     </div>
     <div v-else>

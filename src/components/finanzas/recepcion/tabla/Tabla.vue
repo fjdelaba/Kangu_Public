@@ -56,7 +56,7 @@
           mdi-delete
         </v-icon> -->
         <v-btn x-small> Aprobar </v-btn>
-        <v-btn x-small> Ver Detalle </v-btn>
+        <v-btn x-small @click=" abrirDetalle(item) "> Ver Detalle </v-btn>
       </template>
       <template v-slot:no-data>
         <v-btn color="primary" @click="initialize"> Reset </v-btn>

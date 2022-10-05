@@ -13,7 +13,7 @@
         <!-- <span> <span></span>{{ item.name }} <br> <em>{{ item.observacion }}</em> </span>  -->
         <!-- {{ item.nombre }} -->
         <!-- <span> <span style="font-size: 16px"> {{ item.nombre }} - {{ item.mu_nombre }} </span> <br> <span style="font-size: 10px"> <em>{{ item.observacion }}</em> </span></span>  -->
-        <nombre-obs-tabla :nombre="item.nombre" :observacion="item.observacion" :unidad="item.mu_nombre"></nombre-obs-tabla>
+        <nombre-obs-tabla :nombre="item.mat.nombre" :observacion="item.observacion" :unidad="item.mat.mat_uni.nombre"></nombre-obs-tabla>
         <!-- </div> -->
       </template>
       <template v-slot:item.cant_ajustada="{ item }">

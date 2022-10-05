@@ -328,7 +328,7 @@
                 color="primary"
                 @click="mostrarModalFiltros = true"
               >
-                Filtros
+                Filtross
                 <v-icon dark>
                   mdi-chart-gantt
                 </v-icon>
@@ -356,6 +356,7 @@
           </v-btn> -->
           </v-col>
         </v-row>
+        <!-- {{ origen }} - {{ ocs }} -->
         <v-data-table
           :headers="cpxDinamicHeaders"
           :items="cpxDatosTabla"
@@ -371,7 +372,7 @@
         ><!-- v-model="selectedUsers" -->
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
-              <lineas-oc :lineas="item.lineas" :origen="origen"></lineas-oc>
+              <lineas-oc :lineas="item.oc_dets" :origen="origen"></lineas-oc>
             </td>
           </template>
           <template v-slot:header.pro_nombre="{ header }">

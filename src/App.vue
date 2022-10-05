@@ -2,7 +2,6 @@
   <div>
     <v-app>
       <!-- Layout component -->
-    
       <component :is="currentLayout" v-if="isRouterLoaded">
       
         <notifications group="foo" />

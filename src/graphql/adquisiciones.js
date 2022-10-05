@@ -1,5 +1,5 @@
 import { apolloClient } from '../client'
-import { GET_RECEPCIONES_LISTADO,GET_DTE_CABECERA,GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES, GET_PEDIDO_CABECERA } from './querys/adquisiciones'
+import { GET_RECEPCIONES_LISTADO,GET_DTE_CABECERA,GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA,GET_DATOS_OC_CONSULTA,GET_OC_DETALLE,GET_ESTADO_OC, GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR, GET_OC_CONSULTAS, GET_MATERIALES, GET_PEDIDO_CABECERA, GET_OCS_USUARIO } from './querys/adquisiciones'
 import { INSERT_RECEPCION_OC,INSERT_PED, INSERT_CABECERA_OC, INSERT_DETALLE_OC, UPDATE_CABECERA_OC, DELETE_OC_DETALLE, UPDATE_OC_INFORMACION_GENERAL, INSERT_OC, UPDATE_FINALIZAR_OC } from './mutations/adquisiciones'
 
 export const getDatosFormularioCabecera = async() => {
@@ -288,5 +288,17 @@ export const updateFinalizarOC = async (cabecera, flujoCompra, adjuntos) => {
       flujoCompra,
       adjuntos
     }
+  })
+}
+
+export const getOcsUsuario = async (usu_fk) => {
+  console.log('usu_fk: ', usu_fk)
+
+  return await apolloClient.query({
+    query: GET_OCS_USUARIO,
+    variables: {
+      usu_fk
+    },
+    fetchPolicy:'network-only'
   })
 }

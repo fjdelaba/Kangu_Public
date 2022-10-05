@@ -27,7 +27,6 @@
 
     <v-main>
       <router-view :key="$route.fullPath"></router-view>
-
       <v-footer color="transparent">
         <v-container class="py-5">
           <v-row>

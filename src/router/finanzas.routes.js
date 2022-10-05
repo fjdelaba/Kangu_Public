@@ -11,6 +11,14 @@ export default [
         /* webpackChunkName: "apps-email" */ '@/pages/finanzas/Recepcionar.vue'
       )
 
+  },
+  {
+    path: '/finanzas/recepcionar/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-email" */ '@/pages/finanzas/recepcionar/Detalle.vue'
+      )
+
   }
   //,
   //   {

@@ -33,7 +33,7 @@ export default {
       }else if(this.origen === 2){
           return [
             { text: 'Material', value: 'nombre', sortable: true, idx: 1 },
-            { text: 'Unidad', value: 'mu_nombre', sortable: true, idx: 2 },
+            // { text: 'Unidad', value: 'mu_nombre', sortable: true, idx: 2 },
             { text: 'Cantidad', value: 'cant_ajustada', sortable: true, idx: 3 },
             { text: 'Precio Unitario', value: 'precio_unitario', sortable: true, idx: 4 },
             { text: 'Total', value: 'total', sortable: true, idx: 5 }
