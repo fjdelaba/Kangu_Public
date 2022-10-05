@@ -23,6 +23,7 @@ export default [
   },
   {
     path: '/adquisiciones/oc/consultar/detalle',
+    name: 'componentOcConsultas',
     component: () =>
       import(
         /* webpackChunkName: "apps-chat" */ '@/pages/adquisiciones/oc/consultar/Detalle.vue'

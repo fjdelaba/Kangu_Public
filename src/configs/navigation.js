@@ -1,5 +1,6 @@
 import menuConfiguracion from './menus/configuracion.menu'
 import menuAdquisiciones from './menus/adquisiciones.menu'
+import menuFinanzas from './menus/finanzas.menu'
 import menuPages from './menus/pages.menu'
 
 export default {
@@ -24,5 +25,9 @@ export default {
   {
     text: 'Configuración',
     items: menuConfiguracion
+  },
+  {
+    text: 'Finanzas',
+    items: menuFinanzas
   }]
 }

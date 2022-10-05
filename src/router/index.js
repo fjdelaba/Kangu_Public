@@ -11,6 +11,7 @@ import LandingRoutes from './landing.routes'
 import { authenticationGuard } from '@/auth/authenticationGuard'
 import adquisicionesRoutes from './adquisiciones.routes'
 import configuracionRoutes from './configuracion.routes'
+import finanzasRoutes from './finanzas.routes'
 
 Vue.use(Router)
 
@@ -32,6 +33,7 @@ export const routes = [{
 ...LandingRoutes, 
 ...adquisicionesRoutes,
 ...configuracionRoutes,
+...finanzasRoutes,
 {
   path: '/blank',
   name: 'blank',

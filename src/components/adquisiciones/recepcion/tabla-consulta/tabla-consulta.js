@@ -13,6 +13,7 @@ export default {
   
   },
   mounted() {
+    console.log('LLamar getRecepciones');
     this.getListadoRecepcion()
     this.datosEmpresa = this.$store.state.app.datosEmpresa;
     console.log('thisdatos empresa',this.$store.state.app.datosEmpresa)
