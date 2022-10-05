@@ -60,8 +60,8 @@ export default {
                 { text: '', value: 'data-table-expand' },
                 { text: 'ID OC', align: 'start', sortable: false, value: 'identificacion', },
                 { text: 'Nombre OC', value: 'oc_nombre' },
-                { text: 'Proyecto', value: 'pro_nombre' },
-                { text: 'Proveedor', value: 'razon_social' },
+                { text: 'Proyecto', value: 'pro.pro_nombre' },
+                { text: 'Proveedor', value: 'ent.razon_social' },
                 { text: 'Fecha Creación', value: 'fecha' },
                 { text: 'Saldo por Recibir', value: 'neto' },
                 { text: 'Acción', value: 'actions' },
@@ -139,27 +139,34 @@ export default {
         },
 
         async cargarOcs(){
-          const datos = {
-            est_doc_fk: Number(this.documentoEstado),
-            doc_tip_fk: Number(this.tipoDocumento),
-            fec_ini: this.dates[0],
-            fec_fin: this.dates[1],
-            mon_fk: Number(this.moneda),
-            emp_fk: Number(this.$store.state.app.datosEmpresa.id),
-            origen: Number(this.origen),
-            usu_apro_fk: Number(this.$store.state.app.datosUsuario.user_id),
-            des_tip_fk: Number(this.tipoDespacho),
-            for_pag_fk: Number(this.formaPago)
-          }
-          console.log('datos: ', datos);
-            const {data:{getOcs: {ocs}}} = await getOcRecepcion(datos);
-            for (let oc of ocs){
-              console.log('oc',oc)
-                if(oc.est_lin_fk != 3 && oc.est_lin_fk != null && oc.identificacion != null ) {
-                  console.log('entre')  
-                  this.oc.push(JSON.parse(JSON.stringify(oc)))  
+            console.log('console.log',this.$store.state.app.datosUsuario.user_id)
+            const data = await getOcRecepcion(this.$store.state.app.datosUsuario.user_id)
+            console.log('data',data.data.kangusoft_view_permisos_usuario_mod)
+            const arregloNuevo = [...data.data.kangusoft_view_permisos_usuario_mod]
+            const nuevaOc = []
+            for(const linea of arregloNuevo) {
+              console.log('linea arreglo nuevo: ', linea);
+              for(const ocs_lineas of linea.view_permisos_usuario_mod_oc){
+                console.log('ocs_lineas: ', ocs_lineas);
+                let nombre_material = ''
+                for (const ocs_lineas_mat of ocs_lineas.oc_dets){
+                  console.log('ocs_lineas_mat: ', ocs_lineas_mat);
+                  nombre_material+=` ${ocs_lineas_mat.mat.nombre}`
                 }
+                ocs_lineas.materiales = nombre_material
+                nuevaOc.push(ocs_lineas)
+              }
             }
+            this.oc = nuevaOc
+            // for (let oc of data.data.kangusoft_view_permisos_usuario_mod){
+            //   console.log('oc',oc)
+            //   for(let oc of oc){
+            //     if(oc.est_lin_fk != 3 && oc.est_lin_fk != null && oc.identificacion != null ) {
+            //       console.log('entre')  
+            //       this.oc.push(JSON.parse(JSON.stringify(oc)))  
+            //     }
+            //   }
+            // }
             let proyectos = [... new Set(this.oc.map(x=> ({nombre: x.pro_nombre, id: x.pro_fk})))];
             this.valoresFiltros._listaProyectos = [...new Set(proyectos.map(JSON.stringify))].map(JSON.parse);
             let proveedor = [... new Set(this.oc.map(x=> ({nombre: x.razon_social, id: x.ent_fk})))];

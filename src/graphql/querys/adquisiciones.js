@@ -82,48 +82,89 @@ const GET_DTE_CABECERA = gql`
   }
 `
 const GET_OC_RECEPCION = gql`
-  query Q_GET_OC_RECEPCION($datos: getOcsInput!) {
-    getOcs(datos: $datos) {
-      ocs {
-        doc_tip_fk
-        ent_fk
-        fec_apro
-        fec_creacion
-        identificacion
-        mon_fk
-        neto
-        oc_nombre
-        pro_nombre
-        razon_social
-        usu_apellidos
-        usu_nombre
+  query Q_GET_OC_RECEPCION($usu_fk: bigint!) {
+    kangusoft_view_permisos_usuario_mod(where: {usu_id: {_eq: $usu_fk}, mod_id: {_eq: "3"}}) {
+    view_permisos_usuario_mod_oc(where: {est_lin_fk: {_neq: "3"}, identificacion: {_neq: "NULL"}}) {
+      identificacion
+      id
+      est_doc_fk
+      mon_fk
+      oc_nombre: nombre
+      ent_fk
+      ent_con_fk
+      pro_fk
+      usu_fk
+      fec_creacion
+      des_tip_fk
+      comentario
+      for_pag_fk
+      est_lin_fk
+      impuestos
+      neto
+      doc_tip_fk
+      fec_apro
+      iva_ajustado
+      neto_ajustado
+      pro {
+        pro_nombre: nombre
         id
-        mon_nombre
-        est_nombre
-        rut
-        comentario
-        des_tip_fk
-        dt_nombre
-        ec_nombre
-        el_nombre
-        ent_con_fk
-        est_doc_fk
-        est_lin_fk
-        fp_nombre
-        for_pag_fk
-        neto_ajustado
-        iva_ajustado
-        impuestos
-        usu_fk
-        pro_fk
-        desp_nombre
-        lineasJson
-        ent_direccion
-        ec_email
       }
-      success
-      error
+      ent {
+        razon_social
+        rut
+        ent_direccion: direccion
+        id
+      }
+      mon {
+        mon_nombre: nombre
+        id
+      }
+      est_doc {
+        est_nombre: nombre
+        id
+      }
+      est_lin {
+        el_nombre: nombre
+        id
+      }
+      for_pag {
+        fp_nombre: nombre
+        id
+      }
+      doc_tip {
+        dt_nombre: nombre
+        id
+      }
+      ent_con {
+        ec_nombre: nombre
+        ec_email: email
+        id
+      }
+      des_tip {
+        desp_nombre: nombre
+        id
+      }
+      oc_dets {
+        id
+        total
+        cantidad
+        precio_unitario
+        mat {
+          id
+          nombre
+          mat_uni {
+            nombre
+            id
+          }
+        }
+      }
+      usu {
+        usu_apellidos: apellidos
+        usu_nombre: nombre
+        id
+      }
     }
+  }
   }
 `
 
@@ -178,6 +219,7 @@ query Q_GET_RECEPCIONC($_eq: bigint!) {
     fec_recepcion
     id
     oc_fk
+    observacion
     rec_est_fk
     usu_fk
     dte_cab {

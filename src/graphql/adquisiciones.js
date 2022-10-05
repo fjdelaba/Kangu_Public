@@ -239,13 +239,13 @@ export const getOcConsultas = async (datos) => {
     fetchPolicy:'network-only'
   })
 }
-export const getOcRecepcion = async (datos) => {
-  console.log('datos: ', datos)
+export const getOcRecepcion = async (usu_fk) => {
+  console.log('datos: ', usu_fk)
 
   return await apolloClient.query({
     query: GET_OC_RECEPCION,
     variables: {
-      datos
+      usu_fk
     },
     fetchPolicy:'network-only'
   })

@@ -4,13 +4,15 @@ import ModalFinalizar from './modal-finalizar/modal-finalziar.vue';
 import CabeceraRecepcion from './cabecera-recepcion/cabecera-recepcion.vue';
 import { getDetalleOC, insertRecOc } from '../../../../graphql/adquisiciones'
 import DialogFinal from "./../../dialog-final-documento/DialogFinalDocumento.vue"
+import Comentario from '../../recepcion/crear/comentario/comentario-recepcion.vue'
 
 export default {
     components: {
       TablaMaterialRecepcion,
       ModalFinalizar,
       CabeceraRecepcion,
-      DialogFinal
+      DialogFinal,
+      Comentario
       },
     mounted() {
       this.detalleOc()
@@ -54,7 +56,8 @@ export default {
         ],
         dialogDelete:false,
         ocCabecera:{},
-        ocDetalle:[]
+        ocDetalle:[],
+        comentario:''
       };
     },
     methods: {
@@ -74,7 +77,7 @@ export default {
           objeto.oc_fk = this.ocCabecera.id
           objeto.usu_fk = this.datosUsuario.user_id
           objeto.rec_est_fk = 1 
-          objeto.observacion = ''
+          objeto.observacion = this.comentario == '' ? null : this.comentario
           objeto.dte_cab_fk = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.dte_cab
 
           objeto.emp_fk = this.datosEmpresa.id
@@ -129,6 +132,10 @@ export default {
         },
         cerrarDialog(){
           this.mostrar = true
+        },
+        cargarComentario(comentario){
+          console.log("comentario",comentario)
+           this.comentario = comentario
         },
     }
 }

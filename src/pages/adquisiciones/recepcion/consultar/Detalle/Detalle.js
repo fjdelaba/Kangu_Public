@@ -2,7 +2,6 @@
 import {getRecepcion} from '../../../../../graphql/adquisiciones'
 import moment from 'moment';
 import NombreMaterial from '../../../../../components/general/nombre-obs-tabla/NombreObsTabla.vue'
-
 export default {
     components: {
       NombreMaterial
@@ -18,7 +17,7 @@ export default {
           { text: 'Solicitado', value: 'oc_det.cant_ajustada',},
           { text: 'Recepcionado', value: 'cantidad',  },
       ],
-      detalle:[]
+      detalle:[],
       };
     },
     methods: {
@@ -26,11 +25,13 @@ export default {
             const {data: { kangusoft_rec_cab } } = await getRecepcion(id);
        
             this.recepcion = kangusoft_rec_cab[0]
+            this.recepcion.comentario = kangusoft_rec_cab[0].observacion
             console.log('recepcion', this.recepcion)
             this.detalle = kangusoft_rec_cab[0].rec_dets
         },
         getFechaFormat(fecha){
             return moment(fecha).format("DD/MM/YYYY")
           },
+        
     }
 }

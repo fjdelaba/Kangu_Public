@@ -65,7 +65,7 @@
         </v-row>
         <v-row no-gutters class="pl-3">
           <v-col cols="12" lg="6"><span class="caption">RUT de Proveedor :  {{ cabecera.ent && cabecera.ent.rut }}</span></v-col>
-          <v-col cols="12" lg="6"><span class="caption">Recepcionado por:   Bastian Medina </span></v-col>
+          <v-col cols="12" lg="6"><span class="caption">Recepcionado por:   {{ datosUsuario.nombre }} {{ datosUsuario.apellidos }}</span></v-col>
         </v-row>
         <v-row no-gutters class="pl-3">
           <v-col cols="12" lg="6"><span class="caption"></span></v-col>

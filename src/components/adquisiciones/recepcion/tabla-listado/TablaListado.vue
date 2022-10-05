@@ -29,7 +29,7 @@
               @keyup.enter="searchUser(searchQuery)"
             ></v-text-field>
         
-           <v-menu
+            <v-menu
               ref="menu"
               v-model="menu"
               :close-on-content-click="false"

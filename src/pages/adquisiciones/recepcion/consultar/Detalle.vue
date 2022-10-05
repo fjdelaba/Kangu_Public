@@ -61,6 +61,18 @@
           </template>
         </v-data-table></v-col>
       </v-row>
+      <v-row>
+        <v-col>
+          <v-textarea
+            v-model="recepcion.comentario"
+            outlined
+            label="Comentario de Recepción"
+            counter
+            readonly
+            maxlength="120"
+          ></v-textarea>
+        </v-col>
+      </v-row>
     </v-card>
   </v-container>
 </template>

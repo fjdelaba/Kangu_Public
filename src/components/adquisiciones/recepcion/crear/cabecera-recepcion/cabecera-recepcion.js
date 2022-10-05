@@ -1,5 +1,6 @@
 /* eslint-disable */
 import {getTipoDocumento,getDteCab} from '../../../../../graphql/adquisiciones'
+import {getUsuarioLogin} from '../../../../../graphql/configuracion'
 import moment from 'moment';
 export default {
     components: {
@@ -12,6 +13,7 @@ export default {
       },
     mounted() {
       this.cargaTipoDocumento()
+      this.cargarUsuarioLogin()
     },
     data() {
       return {
@@ -25,6 +27,7 @@ export default {
           v => !!v || 'El Nº de Documento es requerido',
           
         ],
+       datosUsuario:'',
         seleccionDocumento:'',
         listaDocumentos:[{id:1,nombre:"Sin Documento"}],
         numDocumento:'',
@@ -43,6 +46,11 @@ export default {
     methods: {
       getFechaFormat(fecha){
         return moment(fecha).format("DD/MM/YYYY")
+      },
+      async cargarUsuarioLogin() {
+        const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
+        this.datosUsuario = usuarioLogin.data.kangusoft_usu[0]
+  
       },
       async cargaTipoDocumento(){
         const {data: { kangusoft_dte_tip } } = await getTipoDocumento();

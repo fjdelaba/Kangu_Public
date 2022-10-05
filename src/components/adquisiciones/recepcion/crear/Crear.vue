@@ -25,6 +25,9 @@
         ></tabla-material-recepcion>
       </v-row>
       <v-row>
+        <comentario ref="refcomentario" :vista="'crear'" :_comentario="cargarComentario"></comentario>
+      </v-row>
+      <v-row>
         <v-col cols="12">
           <v-btn @click="crearRecepcion()"> Crear Recepción</v-btn>
         </v-col>
