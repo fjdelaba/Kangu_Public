@@ -155,10 +155,9 @@ export default {
             const {data:{getOcs: {ocs}}} = await getOcRecepcion(datos);
             for (let oc of ocs){
               console.log('oc',oc)
-                if(oc.est_lin_fk != 3 && oc.est_lin_fk != null && oc.est_lin_fk != 4 &&  oc.identificacion != null ) {
+                if(oc.est_lin_fk != 3 && oc.est_lin_fk != null && oc.identificacion != null ) {
                   console.log('entre')  
-                  this.oc.push(JSON.parse(JSON.stringify(oc)))
-                   
+                  this.oc.push(JSON.parse(JSON.stringify(oc)))  
                 }
             }
             let proyectos = [... new Set(this.oc.map(x=> ({nombre: x.pro_nombre, id: x.pro_fk})))];

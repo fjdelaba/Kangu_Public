@@ -118,11 +118,11 @@ export default {
       return moment();
     },
    async descargarDte(item) {
-      await creaPdfFactura(item.dte_cab_fk, this.datosEmpresa,1);
+      await creaPdfFactura(item.dte_cab_fk, this.datosEmpresa,1,item.identificacion);
     },
     abrirDetalle(item){
       console.log('object: ', item);
-      const path = this.origen === 1 ? '/adquisiciones/oc/aprobar/detalle/' : '/adquisiciones/oc/consultar/detalle/'
+      const path = '/adquisiciones/recepcion/consultar/detalle' 
       this.$router.push({
             path,
             query: { id: Number(item.id),}

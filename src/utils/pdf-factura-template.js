@@ -9,7 +9,7 @@ import "jspdf-autotable";
 import jsonFile from '../assets/images/pdf/imagenes.json';
 // import fs from 'fs'
 
-async function creaPdfFactura(id,datosEmpresa, formato) {
+async function creaPdfFactura(id,datosEmpresa, formato,idRec) {
   console.log('factura: ', id);
   console.log('datosEmpresa: ', datosEmpresa);
 
@@ -57,6 +57,7 @@ async function creaPdfFactura(id,datosEmpresa, formato) {
   let emisorFormaPago = ''
   let tipo_documento
   let exento = ''
+  let identificacion = idRec
   var img = new Image();
   img.src = require("../components/general/generadorPDF/assets/img/logo_dlb.png");
   var img2 = new Image();
@@ -134,12 +135,12 @@ if(moneda.id == 2){
     exento = 0
   }
   if (proveedor.direccion == null) proveedor.direccion = "Sin Dirección";
-  if (cabecera.identificacion == null || cabecera.est_doc_fk == 1) cabecera.identificacion = "Sin Identificación";
+  if (identificacion == null || cabecera.est_doc_fk == 1) identificacion = "Sin Identificación";
   if (cabecera.comentario == null) cabecera.comentario = "Sin Comentario";
   if (cabecera.comentarioPDF == null) cabecera.comentarioPDF = "Sin Comentario";
   let props = {
     returnJsPDFDocObject: true,
-    fileName: `Factura - ${cabecera.identificacion}.pdf`,
+    fileName: `Factura - ${identificacion}.pdf`,
     orientationLandscape: false,
     compress: true,
     logo: {

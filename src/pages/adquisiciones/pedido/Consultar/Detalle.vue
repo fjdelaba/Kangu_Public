@@ -29,7 +29,7 @@
           </v-sheet>
           <v-row>
             <v-col cols="12">
-              <tabla-pedidos ref="tablapedido" :vista="'detalle'" :materiales-ped="materialesPed" ></tabla-pedidos>
+             
             </v-col>
 
           </v-row>

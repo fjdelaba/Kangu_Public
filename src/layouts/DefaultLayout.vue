@@ -112,13 +112,13 @@
             >
               <template v-slot:item="{ item }">
                 <v-list-item-content>
-                  <v-list-item-title v-text="`Nombre de la Orden de Compra: ${item.nombre}`"></v-list-item-title>
-                  <v-list-item-subtitle v-text="`Identificador: ${item.identificacion}`"></v-list-item-subtitle>
-                  <v-list-item-subtitle v-text="`Proyecto: ${item.pro.nombre}`"></v-list-item-subtitle>
-                  <div><v-btn
+                  <p>Nombre: {{ item.nombre }} / Proyecto: {{ item.pro.nombre }} <v-btn
+                    class="ml-3"
                     small
                     @click="abrirDetalle(item)"
-                  > Abrir </v-btn>
+                  > Abrir </v-btn></p>
+               
+                  <div>
                   </div>
                 </v-list-item-content>
               </template> 

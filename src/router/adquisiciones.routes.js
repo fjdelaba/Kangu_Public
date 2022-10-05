@@ -141,5 +141,13 @@ export default [
         /* webpackChunkName: "apps-todo" */ '@/pages/adquisiciones/recepcion/Consultar.vue'
       ),
     children: [...todoRoutes]
+  },
+  {
+    path: '/adquisiciones/recepcion/consultar/detalle',
+    component: () =>
+      import(
+        /* webpackChunkName: "apps-todo" */ '@/pages/adquisiciones/recepcion/consultar/Detalle.vue'
+      ),
+    children: [...todoRoutes]
   }
 ]

@@ -160,7 +160,7 @@
                 <v-col cols="3">
                   <v-btn
                     small
-                    @click="descargarDte(item)"
+                    @click="abrirDetalle(item)"
                   > Abrir </v-btn>
                 </v-col>
                 <v-col v-if="item.dte_cab_fk != null" class="pl-4" cols="3">
