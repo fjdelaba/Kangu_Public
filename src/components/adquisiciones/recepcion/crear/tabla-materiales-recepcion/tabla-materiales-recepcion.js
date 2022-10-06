@@ -52,7 +52,7 @@ export default {
       },
       pasarCantidad(item){
         console.log('item',item)
-        item.recepcionar = item.cant_recepcion
+        item.recepcionar = item.cantidad
       },
       modalAviso(item){
         if(item.recepcionar > item.cant_recepcion){
@@ -60,6 +60,7 @@ export default {
         }
       },
       calcularSaldo(item){
+        if(item.oc_det__view_recepciones_lista != null){
         if(item.oc_det__view_recepciones_lista.total_recibido > item.cant_ajustada ){
          item.saldo = 0
         }else if(item.oc_det__view_recepciones_lista.total_recibido <= item.cant_ajustada ){
@@ -67,6 +68,9 @@ export default {
         }
         console.log('saldo',item.saldo)
         return item.saldo
-      },
+      }else{
+        return item.cant_ajustada
+      }
+    }
     }
 }

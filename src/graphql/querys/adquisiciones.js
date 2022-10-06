@@ -83,8 +83,8 @@ const GET_DTE_CABECERA = gql`
 `
 const GET_OC_RECEPCION = gql`
   query Q_GET_OC_RECEPCION($usu_fk: bigint!) {
-    kangusoft_view_permisos_usuario_mod(where: {usu_id: {_eq: $usu_fk}, mod_id: {_eq: "3"}}) {
-    view_permisos_usuario_mod_oc(where: {est_lin_fk: {_neq: "3"}, identificacion: {_neq: "NULL"}}) {
+    kangusoft_view_permisos_usuario_mod(where: {usu_id: {_eq: $usu_fk}, mod_id: {_eq: "5"}}) {
+    view_permisos_usuario_mod_oc(where: {identificacion: {_neq: "NULL"}, oc__view_ocs_pendientes_recepcion: {lineas_pendientes: {_neq: "0"}}}) {
       identificacion
       id
       est_doc_fk

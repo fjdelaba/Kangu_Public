@@ -28,7 +28,7 @@
           </template>
           <template v-slot:item.cant_recepcion="{ item }">
      
-            {{ item.oc_det__view_recepciones_lista.total_recibido == null? '0' : item.oc_det__view_recepciones_lista.total_recibido }}
+            {{ item.oc_det__view_recepciones_lista == null? '0' : item.oc_det__view_recepciones_lista.total_recibido }}
           </template>
           <template v-slot:item.cant_despacho="{ item }">
      

@@ -123,7 +123,7 @@ export default {
         //     path:'/adquisiciones/recepcion/listado',
         // });
          }else if(existeLinea == false){
-          this.$toast.error('Esta recepcion no tiene lineas por recepcionar, porfavor revise', {
+          this.$toast.error('Esta recepcion debe tener una linea con valor a recepcionar', {
             tposition: 'top-right',
             timeout: 5000,
             pauseOnHover: true
