@@ -13,6 +13,7 @@
           :headers="dessertHeaders"
           :items="detalle"
           :hide-default-footer="true"
+          :items-per-page="detalle.length"
         >
           <template v-slot:item.mat="{ item }">
             <nombre-material :nombre="item.mat.nombre" :unidad="item.mat.mat_uni.nombre" :observacion="item.observacion" ></nombre-material>
@@ -26,15 +27,9 @@
               mdi-delete
             </v-icon>
           </template>
-          <template v-slot:item.cant_recepcion="{ item }">
-     
-            {{ item.oc_det__view_recepciones_lista == null? '0' : item.oc_det__view_recepciones_lista.total_recibido }}
-          </template>
-          <template v-slot:item.cant_despacho="{ item }">
-     
-            {{ calcularSaldo(item) }}<v-icon class="pl-9" small @click="pasarCantidad(item)" >mdi-arrow-right-bold</v-icon> 
-          </template>
+         
           <template v-slot:item.recepcionar="{ item }">
+            <v-icon class="pl-9" small @click="pasarCantidad(item)" >mdi-arrow-right-bold</v-icon> 
             <v-text-field
               v-model="item.recepcionar"
               class="pt-2"

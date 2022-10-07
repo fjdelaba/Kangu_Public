@@ -17,13 +17,16 @@
           <v-card-text>Tienes una o varias lineas que estan recepcionando mas de lo solicitado, porfavor deja un comentario</v-card-text>
           <v-row>
             <v-col>
-              <v-textarea
-                v-model="comentarioModal"
-                outlined
-                label="Comentario de Recepción"
-                counter
-                maxlength="120"
-              ></v-textarea>
+              <v-form ref="form" v-model="valid">
+                <v-textarea
+                  v-model="comentarioModal"
+                  :rules="comentarioRules"
+                  outlined
+                  label="Comentario de Recepción"
+                  counter
+                  maxlength="120"
+                ></v-textarea>
+              </v-form>
             </v-col>
           
           </v-row>

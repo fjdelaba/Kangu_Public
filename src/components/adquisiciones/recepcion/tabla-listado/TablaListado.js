@@ -39,7 +39,8 @@ export default {
       },
     data() {
         return {
-            datosEmpresa:'',            
+            datosEmpresa:'',   
+            loadingTabla: false,         
             nombre:'Pallet',
             unidad:'Unidad',
             obs:'Porfavor Rapido',
@@ -139,6 +140,7 @@ export default {
         },
 
         async cargarOcs(){
+          this.loadingTabla = true
             console.log('console.log',this.$store.state.app.datosUsuario.user_id)
             const data = await getOcRecepcion(this.$store.state.app.datosUsuario.user_id)
             console.log('data',data.data.kangusoft_view_permisos_usuario_mod)
@@ -171,7 +173,7 @@ export default {
             this.valoresFiltros._listaProyectos = [...new Set(proyectos.map(JSON.stringify))].map(JSON.parse);
             let proveedor = [... new Set(this.oc.map(x=> ({nombre: x.ent.razon_social, id: x.ent.id})))];
             this.valoresFiltros._listaProveedor = [...new Set(proveedor.map(JSON.stringify))].map(JSON.parse);
-       
+            this.loadingTabla = false
         },
        
         async descargarOcPDF() {

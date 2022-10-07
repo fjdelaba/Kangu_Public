@@ -25,6 +25,10 @@ export default {
     },
     data() {
       return {
+        comentarioRules: [
+          v => !!v || 'El Comentario es requerido',
+          
+        ],
        datosUsuario:'',
        datosEmpresa:'',
        tituloModal:'',
@@ -64,12 +68,40 @@ export default {
       };
     },
     methods: {
+      validate() {
+        this.$refs.form.validate()
+      },
+      reset() {
+        this.$refs.form.reset()
+      },
       async detalleOc(){
         const resp = await getDetalleOC(this.$route.query.id)
        
         this.ocCabecera = resp.data.kangusoft_oc[0]
         for(let detalle of resp.data.kangusoft_oc_det){
           detalle.recepcionar = 0
+          console.log('detalle',detalle)
+          //RECEPCIONADO//
+          if(detalle.oc_det__view_recepciones_lista == null){
+            detalle.cant_recepcion = 0 
+            detalle.cant_despacho = detalle.cant_ajustada
+          }else if(detalle.oc_det__view_recepciones_lista != null){
+            detalle.cant_recepcion = detalle.oc_det__view_recepciones_lista.total_recibido 
+             //POR RECEPCIONAR//
+             if(detalle.oc_det__view_recepciones_lista.total_recibido > detalle.cant_ajustada ){
+              detalle.cant_despacho = 0
+             }else if(detalle.oc_det__view_recepciones_lista.total_recibido <= detalle.cant_ajustada ){
+              detalle.cant_despacho = detalle.cant_ajustada - detalle.oc_det__view_recepciones_lista.total_recibido
+             }
+           //POR RECEPCIONAR//
+            
+          }
+          console.log('//RECEPCIONADO//',detalle.cant_recepcion)
+          console.log('//POR RECEPCIONAR//',detalle.cant_despacho)
+          //RECEPCIONADO//
+          //POR RECEPCIONAR//
+          
+           //POR RECEPCIONAR//
           this.ocDetalle.push(detalle)
         }
 
@@ -80,22 +112,31 @@ export default {
         async  confirmacionCrear(){
       
             this.recepcion.comentarioModal = this.comentarioModal
-            this.openModal = false
+           let arreglo = []
             for(let item of this.recepcion.rec_dets.data){
               delete item.por_recepcionar;
+              if(item.cantidad != 0){
+                arreglo.push(item)
+              }
             }
-
+            console.log('this.validate()', this.$refs.form.validate())
             console.log('item',this.recepcion)
-            const returnPostDetalle =  await insertRecOc(  this.recepcion.oc_fk,1,  this.recepcion.usu_fk,  this.recepcion.rec_dets,  this.recepcion.comentarioModal,this.recepcion.dte_cab_fk,this.recepcion.ref_folio_dte,this.recepcion.ref_tipo_dte_fk,this.recepcion.emp_fk)
-            console.log('return',returnPostDetalle)
-            this.tituloModal = 'Recepción Creada',
-            this.textoModal = 'Tu Recepción ha sido creada con exito',
-            this.mostrar = true
-            this.$toast.success('Se completo con exito esta Recepción', {
-              tposition: 'top-right',
-              timeout: 5000,
-              pauseOnHover: true
-            }) 
+            this.recepcion.rec_dets.data = arreglo
+            if( this.$refs.form.validate()){
+              this.openModal = false
+              const returnPostDetalle =  await insertRecOc(  this.recepcion.oc_fk,1,  this.recepcion.usu_fk,  this.recepcion.rec_dets,  this.recepcion.comentarioModal,this.recepcion.dte_cab_fk,this.recepcion.ref_folio_dte,this.recepcion.ref_tipo_dte_fk,this.recepcion.emp_fk,this.recepcion.descuadre)
+              console.log('return',returnPostDetalle)
+              this.tituloModal = 'Recepción Creada',
+              this.textoModal = 'Tu Recepción ha sido creada con exito',
+              this.mostrar = true
+              this.$toast.success('Se completo con exito esta Recepción', {
+                tposition: 'top-right',
+                timeout: 5000,
+                pauseOnHover: true
+              }) 
+           
+            }
+           
           },
         async crearRecepcion(){
           let objeto = {}
@@ -112,30 +153,45 @@ export default {
               data:[]
           }
          for(let item of this.$refs.refdatostabla.materiales ){
-          item.descuadre = item.recepcionar > item.saldo ? true : false
-          item.monto = item.recepcionar > item.saldo? item.saldo * item.precio_unitario : item.recepcionar * item.precio_unitario
+           if(item.cant_despacho != undefined || item.cant_despacho != null){
+          item.descuadre = item.recepcionar > item.cant_despacho ? true : false
+          objeto.descuadre = item.descuadre
+          item.monto = item.recepcionar > item.cant_despacho? item.cant_despacho * item.precio_unitario : item.recepcionar * item.precio_unitario
+         }
+         else if(item.cant_despacho == undefined || item.cant_despacho == null){
+          item.descuadre = item.recepcionar > item.cantidad ? true : false
+          objeto.descuadre = item.descuadre
+          item.monto = item.recepcionar > item.cantidad? item.recepcionar * item.precio_unitario : item.recepcionar * item.precio_unitario
+         }
           console.log('item',item)
-          if(item.recepcionar > 0){
-            objeto.rec_dets.data.push({oc_det_fk: item.id,cantidad:Number(item.recepcionar),descuadre:item.descuadre,monto:item.monto,por_recepcionar:item.saldo})
-          }else if(item.recepcionar <= 0){
+          if(item.recepcionar > 0 && item.cant_despacho != undefined || item.cant_despacho != null ){
+            objeto.rec_dets.data.push({oc_det_fk: item.id,cantidad:Number(item.recepcionar),descuadre:item.descuadre,monto:item.monto,por_recepcionar:item.cant_despacho})
+          } else if(item.recepcionar > 0 && item.cant_despacho == undefined || item.cant_despacho == null){
+            objeto.rec_dets.data.push({oc_det_fk: item.id,cantidad:Number(item.recepcionar),descuadre:item.descuadre,monto:item.monto,por_recepcionar:item.cantidad})
+          }
+          
+          else if(item.recepcionar <= 0){
           console.log('no tiene lineas, no se agrega al arreglo')
           existeLinea = false
           }
          }
          objeto.ref_tipo_dte_fk = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.cabeceraSeleccion
          objeto.ref_folio_dte = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.cabeceraNumero
+         
          console.log('reftip',objeto.rec_dets.data)
          this.recepcion = objeto
          for(let item of objeto.rec_dets.data){
-           if(item.cantidad == 0){
+           console.log('item if linea',item)
+           if(item.cantidad == 0 ){
             existeLinea = false
            } else if (item.cantidad > 0){
             existeLinea = true
+            break; 
            }
          }
+         let cantidad
+         let solicitado
          console.log('existeLinea',existeLinea)
-         console.log('objeto',objeto)
-         
          if(existeLinea == true){
            for(let item of objeto.rec_dets.data){
             console.log('objeto.rec_dets.data',item)
@@ -143,11 +199,39 @@ export default {
               this.openModal = true
               existeLinea = false
               delete item.por_recepcionar;
-              console.log('objeto.rec_dets.data',objeto.rec_dets.data)
-            }else {
-              delete item.por_recepcionar;
-              console.log('objeto.rec_dets.data',objeto.rec_dets.data)
-              const returnPostDetalle =  await insertRecOc(objeto.oc_fk,1,objeto.usu_fk,objeto.rec_dets,objeto.observacion,objeto.dte_cab_fk,objeto.ref_folio_dte,objeto.ref_tipo_dte_fk,objeto.emp_fk)
+              console.log('if')
+            }
+          }
+          if(this.openModal == false) {
+            for(let item of objeto.rec_dets.data){
+              console.log('objeto.rec_dets.data',item)
+              if(item.cantidad > item.por_recepcionar){
+               
+                cantidad = item.cantidad
+                solicitado = item.por_recepcionar
+                delete item.por_recepcionar;
+                console.log('entre',item)
+              }else if(item.cantidad <= item.por_recepcionar){
+                cantidad = item.cantidad
+                solicitado = item.por_recepcionar
+                delete item.por_recepcionar;
+                console.log('entre',item)
+              }
+            }
+            console.log('cantidad',cantidad)
+            console.log('solicitado',solicitado)
+            if( cantidad <= solicitado){
+              let arreglo=[]
+              for(let item of objeto.rec_dets.data){
+                if(item.cantidad != 0){
+                  console.log('item',item)
+                  arreglo.push(item)
+                }
+              }
+              console.log('arreglo',arreglo)
+              objeto.rec_dets.data = arreglo
+              console.log('arregobjeto.rec_dets.data lo',objeto.rec_dets.data )
+              const returnPostDetalle =  await insertRecOc(objeto.oc_fk,1,objeto.usu_fk,objeto.rec_dets,objeto.observacion,objeto.dte_cab_fk,objeto.ref_folio_dte,objeto.ref_tipo_dte_fk,objeto.emp_fk,objeto.descuadre)
               console.log('return',returnPostDetalle)
               this.tituloModal = 'Recepción Creada',
               this.textoModal = 'Tu Recepción ha sido creada con exito',
@@ -158,15 +242,26 @@ export default {
                 pauseOnHover: true
               })
               existeLinea = false
+            }else{
+              console.log('tepasaste wey')
+              this.openModal = true
+            }
             //   this.$router.push({
             //     path:'/adquisiciones/recepcion/listado',
             // });
             }
-           }
+          
            return
          
          }else if(existeLinea == false){
           this.$toast.error('Esta recepcion debe tener una linea con valor a recepcionar', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          })
+         }
+         else if(existeLinea == undefined){
+          this.$toast.error('Esta recepcion no tiene lineas ', {
             tposition: 'top-right',
             timeout: 5000,
             pauseOnHover: true

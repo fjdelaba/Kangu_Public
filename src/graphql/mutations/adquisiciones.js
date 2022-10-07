@@ -11,8 +11,8 @@ mutation M_INSERT_CABECERA_OC($des_tip_fk: bigint!, $doc_tip_fk: bigint!, $emp_f
 }
 `
 const INSERT_RECEPCION_OC = gql`
-mutation M_INSERT_RECEPCION_OC($oc_fk: bigint!, $rec_est_fk: smallint!, $usu_fk: bigint!, $rec_dets: kangusoft_rec_det_arr_rel_insert_input = {data: {}}, $observacion: String = "", $dte_cab_fk: bigint = null,$ref_folio_dte: String = null , $ref_tipo_dte_fk: bigint = null ,$emp_fk: bigint!) {
-  insert_kangusoft_rec_cab(objects: {oc_fk: $oc_fk, usu_fk: $usu_fk, rec_est_fk: $rec_est_fk, observacion: $observacion, dte_cab_fk: $dte_cab_fk, rec_dets: $rec_dets, ref_folio_dte: $ref_folio_dte, ref_tipo_dte_fk: $ref_tipo_dte_fk, emp_fk: $emp_fk}) {
+mutation M_INSERT_RECEPCION_OC($oc_fk: bigint!, $rec_est_fk: smallint!, $usu_fk: bigint!, $rec_dets: kangusoft_rec_det_arr_rel_insert_input = {data: {}}, $observacion: String = "", $dte_cab_fk: bigint = null,$ref_folio_dte: String = null , $ref_tipo_dte_fk: bigint = null ,$emp_fk: bigint!,$descuadre:Boolean! ) {
+  insert_kangusoft_rec_cab(objects: {oc_fk: $oc_fk, usu_fk: $usu_fk, rec_est_fk: $rec_est_fk, observacion: $observacion, dte_cab_fk: $dte_cab_fk, rec_dets: $rec_dets, ref_folio_dte: $ref_folio_dte, ref_tipo_dte_fk: $ref_tipo_dte_fk, emp_fk: $emp_fk,descuadre: $descuadre}) {
     returning {
       id
     }

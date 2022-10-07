@@ -42,17 +42,36 @@ export default {
             }
         ],
         openModal:false,
-        materiales:[]
+        materiales:[],
+        editedIndex:'',
+        editedItem:''
       };
     },
     methods: {
       deleteItem3(item) {
-        this.detalle.splice(item, 1);
-        console.log("item", item);
+        this.editedIndex = this.detalle.indexOf(item)
+        this.editedItem = Object.assign({}, item)
+        this.detalle.splice(this.editedIndex, 1)
+        console.log("editedIndex",  this.editedIndex);
       },
       pasarCantidad(item){
         console.log('item',item)
-        item.recepcionar = item.saldo
+        if(item.cant_despacho != undefined || item.cant_despacho != null){
+          item.recepcionar =  item.cant_despacho
+          this.$toast.success('Se ha copiado con exito la linea', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          }) 
+        }else if(item.cant_despacho == undefined || item.cant_despacho == null){
+          item.recepcionar =  item.cant_ajustada
+          this.$toast.success('Se ha copiado con exito la linea', {
+            tposition: 'top-right',
+            timeout: 5000,
+            pauseOnHover: true
+          }) 
+        }
+        
       },
       modalAviso(item){
         if(item.recepcionar > item.cant_recepcion){
@@ -64,12 +83,12 @@ export default {
         if(item.oc_det__view_recepciones_lista.total_recibido > item.cant_ajustada ){
          item.saldo = 0
         }else if(item.oc_det__view_recepciones_lista.total_recibido <= item.cant_ajustada ){
-          item.saldo = item.cant_ajustada - item.oc_det__view_recepciones_lista.total_recibido
+          item.saldo = Number(item.cant_ajustada - item.oc_det__view_recepciones_lista.total_recibido)
         }
         console.log('saldo',item.saldo)
-        return item.saldo
+        return  Number(item.saldo)
       }else{
-        return item.cant_ajustada
+        return  Number(item.cant_ajustada)
       }
     }
     }

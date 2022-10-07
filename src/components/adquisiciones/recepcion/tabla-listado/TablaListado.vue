@@ -86,6 +86,7 @@
             item-key="name"
             class="elevation-1"
             :search="searchQuery"
+            :loading="loadingTabla"
           >
             <template v-slot:header.pro.pro_nombre="{ header }">
               {{ header.text }}
