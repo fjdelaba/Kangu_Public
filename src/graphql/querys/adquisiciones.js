@@ -163,6 +163,12 @@ const GET_OC_RECEPCION = gql`
         usu_nombre: nombre
         id
       }
+      oc__view_monto_recepciones_obra {
+        cantidad_recepciones
+        monto_recibido
+        identificacion
+        id_oc_fk
+      }
     }
   }
   }

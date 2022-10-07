@@ -155,7 +155,12 @@ export default {
                   console.log('ocs_lineas_mat: ', ocs_lineas_mat);
                   nombre_material+=` ${ocs_lineas_mat.mat.nombre}`
                 }
+                console.log('ocs_lineas.oc__view_monto_recepciones_obra: ', ocs_lineas.oc__view_monto_recepciones_obra)
+                if(ocs_lineas.oc__view_monto_recepciones_obra != null || ocs_lineas.oc__view_monto_recepciones_obra != undefined){
+                  ocs_lineas.neto -=  ocs_lineas.oc__view_monto_recepciones_obra.monto_recibido 
+                }
                 ocs_lineas.materiales = nombre_material
+                
                 nuevaOc.push(ocs_lineas)
               }
             }

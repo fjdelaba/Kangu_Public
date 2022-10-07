@@ -20,19 +20,19 @@
               
           <v-row no-gutters class="pl-3">
             <v-col cols="12" lg="6"><span class="caption">Fecha de Recepción : {{ getFechaFormat(recepcion.fec_recepcion) }} </span></v-col>
-            <v-col cols="12" lg="6"><span class="caption">Proyecto : {{ recepcion && recepcion.oc.pro.nombre }} </span></v-col>
+            <v-col cols="12" lg="6"><span class="caption">Proyecto : {{ recepcion.oc && recepcion.oc.pro.nombre }} </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">
-            <v-col cols="12" lg="6"><span class="caption">Nombre de Proveedor : {{ recepcion && recepcion.oc.ent.razon_social }}</span></v-col>
-            <v-col cols="12" lg="6"><span class="caption">Recepcionado por: {{ recepcion && recepcion.usu.nombre }}  {{ recepcion && recepcion.usu.apellidos }}  </span></v-col>
+            <v-col cols="12" lg="6"><span class="caption">Nombre de Proveedor : {{ recepcion.oc && recepcion.oc.ent.razon_social }}</span></v-col>
+            <v-col cols="12" lg="6"><span class="caption">Recepcionado por: {{ recepcion.usu && recepcion.usu.nombre }}  {{ recepcion.usu && recepcion.usu.apellidos }}  </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">
-            <v-col cols="12" lg="6"><span class="caption">RUT de Proveedor : {{ recepcion && recepcion.oc.ent.rut }}  </span></v-col>
-            <v-col cols="12" lg="4"><span class="caption">Nº de Documento: {{ recepcion && recepcion.dte_cab.folio == null? 'Sin Nº de Documento': recepcion && recepcion.dte_cab.folio }}   </span></v-col>
+            <v-col cols="12" lg="6"><span class="caption">RUT de Proveedor : {{ recepcion.oc && recepcion.oc.ent.rut }}  </span></v-col>
+            <v-col cols="12" lg="4"><span class="caption">Nº de Documento: {{ recepcion.dte_cab && recepcion.dte_cab.folio == null? 'Sin Nº de Documento': recepcion.dte_cab && recepcion.dte_cab.folio }}   </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">
-            <v-col cols="12" lg="6"><span class="caption">Tipo de Referencia:  {{ recepcion && recepcion.dte_cab.dte_tip.nombre == null? 'Sin Referencia': recepcion && recepcion.dte_cab.dte_tip.nombre }}   </span></v-col>
-            <v-col cols="12" lg="4"><span class="caption">Orden de Compra: {{ recepcion && recepcion.oc.identificacion }}   </span></v-col>
+            <v-col cols="12" lg="6"><span class="caption">Tipo de Referencia:  {{ recepcion.dte_cab && recepcion.dte_cab.dte_tip.nombre == null? 'Sin Referencia': recepcion.dte_cab && recepcion.dte_cab.dte_tip.nombre }}   </span></v-col>
+            <v-col cols="12" lg="4"><span class="caption">Orden de Compra: {{ recepcion.oc && recepcion.oc.identificacion }}   </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">
             <v-col cols="12" lg="6"><span class="caption"></span></v-col>

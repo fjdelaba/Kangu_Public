@@ -105,7 +105,8 @@ export default {
         const {data: { kangusoft_rec_cab } } = await getRecepcionListado();
         console.log('kangusoft_rec_cab',kangusoft_rec_cab)
         for(let item of kangusoft_rec_cab){
-            if(item.oc.oc__view_monto_recepciones_obra == null ){
+          console.log('item: ', item);
+            if(item.oc == null || item.oc.oc__view_monto_recepciones_obra == null ){
                 item.monto = 0
             }else{
                 item.monto = item.oc.oc__view_monto_recepciones_obra.monto_recibido
