@@ -102,7 +102,7 @@
     </v-row>
     <v-row justify="center">
       <v-col>
-      <indicador-individual></indicador-individual>
+      <indicador-individual titulo='Total Recepcion Obra' texto='10000'></indicador-individual>
       </v-col>
     </v-row>
     <v-row justify="center">

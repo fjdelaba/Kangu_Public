@@ -1,3 +1,13 @@
 export default {
-  name:'IndicadorIndividual'
+  name:'IndicadorIndividual',
+  props:{
+    titulo: {
+      type: String,
+      default: ''
+    },
+    texto: {
+      type:String,
+      default: ''
+    }
+  }
 }
