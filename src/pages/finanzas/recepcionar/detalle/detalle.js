@@ -1,23 +1,41 @@
+/* eslint-disable no-unreachable */
+import { getDte } from '../../../../graphql/finanzas'
 import { creaPdfFactura } from '../../../../utils/pdf-factura-template'
+import IndicadorIndividual from '../../../../components/general/indicador-individual/IndicadorIndividual.vue'
 
 export default {
   name: 'DetalleRecepcionDte',
+  components: {
+    IndicadorIndividual
+  },
   data() {
     return {
       pdf:'',
       id_recepcion: 0,
-      headers: [
+      datos_dte: {},
+      datos_oc_ref: {},
+      headersRecepcionesObra: [
         {
-          text: 'Dessert (100g serving)',
+          text: 'Identificacion',
+          align: 'start',
+          sortable: false,
+          value: 'identificacion'
+        },
+        { text: 'Fecha', value: 'fec_recepcion' },
+        { text: 'Monto', value: 'monto' },
+        { text: 'Usuario', value: 'usu.nombre' }
+      ],
+      headersRecepcionesDte: [
+        {
+          text: 'Folio',
           align: 'start',
           sortable: false,
           value: 'name'
         },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' }
+        { text: 'Fecha Aceptacion', value: 'calories' },
+        { text: 'Monto', value: 'fat' },
+        { text: 'Usuario', value: 'carbs' },
+        { text: 'Monto Moneda Original', value: 'carbs' }
       ],
       desserts: [
         {
@@ -108,11 +126,23 @@ export default {
     this.id_recepcion = this.$route.query.id
     console.log('this.id_recepcion: ', this.id_recepcion)
     this.muestraFactura()
+    this.cargaDte()
   },
   methods: {
     async muestraFactura() {
       console.log('this.$store.state.app.datosEmpresa: ', this.$store.state.app.datosEmpresa)
       this.pdf = await creaPdfFactura(this.id_recepcion, this.$store.state.app.datosEmpresa, 2)
+    },
+    async cargaDte() {
+      const { data:kangusoft_dte_cab } = await getDte(this.id_recepcion)
+
+      console.log('kangusoft_dte_cab: ', kangusoft_dte_cab.kangusoft_dte_cab[0])
+    
+      this.datos_dte = kangusoft_dte_cab.kangusoft_dte_cab[0]
+      this.datos_oc_ref = kangusoft_dte_cab.kangusoft_dte_cab[0].dte_cab_recs[0].oc
+
+      console.log('this.datos_dte: ', this.datos_dte)
+      console.log('this.datos_oc_ref: ', this.datos_oc_ref)
     }
   },
   computed: {
