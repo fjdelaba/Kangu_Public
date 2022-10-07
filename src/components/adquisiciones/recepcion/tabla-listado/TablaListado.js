@@ -167,9 +167,9 @@ export default {
             //     }
             //   }
             // }
-            let proyectos = [... new Set(this.oc.map(x=> ({nombre: x.pro_nombre, id: x.pro_fk})))];
+            let proyectos = [... new Set(this.oc.map(x=> ({nombre: x.pro.pro_nombre, id: x.pro.id})))];
             this.valoresFiltros._listaProyectos = [...new Set(proyectos.map(JSON.stringify))].map(JSON.parse);
-            let proveedor = [... new Set(this.oc.map(x=> ({nombre: x.razon_social, id: x.ent_fk})))];
+            let proveedor = [... new Set(this.oc.map(x=> ({nombre: x.ent.razon_social, id: x.ent.id})))];
             this.valoresFiltros._listaProveedor = [...new Set(proveedor.map(JSON.stringify))].map(JSON.parse);
        
         },

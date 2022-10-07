@@ -87,7 +87,7 @@
             class="elevation-1"
             :search="searchQuery"
           >
-            <template v-slot:header.pro_nombre="{ header }">
+            <template v-slot:header.pro.pro_nombre="{ header }">
               {{ header.text }}
               <v-menu offset-y :close-on-content-click="false">
                 <template v-slot:activator="{ on, attrs }">
@@ -120,7 +120,7 @@
                 </div>
               </v-menu>
             </template>
-            <template v-slot:header.razon_social="{ header }">
+            <template v-slot:header.ent.razon_social="{ header }">
               {{ header.text }}
               <v-menu offset-y :close-on-content-click="false">
                 <template v-slot:activator="{ on, attrs }">

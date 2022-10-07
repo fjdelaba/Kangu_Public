@@ -52,7 +52,7 @@ export default {
       },
       pasarCantidad(item){
         console.log('item',item)
-        item.recepcionar = item.cantidad
+        item.recepcionar = item.saldo
       },
       modalAviso(item){
         if(item.recepcionar > item.cant_recepcion){

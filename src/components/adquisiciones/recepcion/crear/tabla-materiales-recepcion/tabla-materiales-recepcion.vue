@@ -42,7 +42,6 @@
               dense
               v-bind="attrs"
               v-on="on"
-              @change="modalAviso(item)"
             ></v-text-field>
           </template>
            

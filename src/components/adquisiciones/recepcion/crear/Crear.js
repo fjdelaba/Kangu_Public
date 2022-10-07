@@ -29,6 +29,7 @@ export default {
        datosEmpresa:'',
        tituloModal:'',
        textoModal:'',
+       comentarioModal:'',
        mostrar:false,
         dessertHeaders: [
             { text: '#', value: 'oc' },
@@ -57,7 +58,9 @@ export default {
         dialogDelete:false,
         ocCabecera:{},
         ocDetalle:[],
-        comentario:''
+        comentario:'',
+        openModal:false,
+        recepcion:''
       };
     },
     methods: {
@@ -71,6 +74,29 @@ export default {
         }
 
         },
+        cancelarCrear(){
+          this.openModal = false
+          },
+        async  confirmacionCrear(){
+      
+            this.recepcion.comentarioModal = this.comentarioModal
+            this.openModal = false
+            for(let item of this.recepcion.rec_dets.data){
+              delete item.por_recepcionar;
+            }
+
+            console.log('item',this.recepcion)
+            const returnPostDetalle =  await insertRecOc(  this.recepcion.oc_fk,1,  this.recepcion.usu_fk,  this.recepcion.rec_dets,  this.recepcion.comentarioModal,this.recepcion.dte_cab_fk,this.recepcion.ref_folio_dte,this.recepcion.ref_tipo_dte_fk,this.recepcion.emp_fk)
+            console.log('return',returnPostDetalle)
+            this.tituloModal = 'Recepción Creada',
+            this.textoModal = 'Tu Recepción ha sido creada con exito',
+            this.mostrar = true
+            this.$toast.success('Se completo con exito esta Recepción', {
+              tposition: 'top-right',
+              timeout: 5000,
+              pauseOnHover: true
+            }) 
+          },
         async crearRecepcion(){
           let objeto = {}
           let existeLinea 
@@ -88,8 +114,9 @@ export default {
          for(let item of this.$refs.refdatostabla.materiales ){
           item.descuadre = item.recepcionar > item.saldo ? true : false
           item.monto = item.recepcionar > item.saldo? item.saldo * item.precio_unitario : item.recepcionar * item.precio_unitario
+          console.log('item',item)
           if(item.recepcionar > 0){
-            objeto.rec_dets.data.push({oc_det_fk: item.id,cantidad:Number(item.recepcionar),descuadre:item.descuadre,monto:item.monto})
+            objeto.rec_dets.data.push({oc_det_fk: item.id,cantidad:Number(item.recepcionar),descuadre:item.descuadre,monto:item.monto,por_recepcionar:item.saldo})
           }else if(item.recepcionar <= 0){
           console.log('no tiene lineas, no se agrega al arreglo')
           existeLinea = false
@@ -98,7 +125,7 @@ export default {
          objeto.ref_tipo_dte_fk = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.cabeceraSeleccion
          objeto.ref_folio_dte = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.cabeceraNumero
          console.log('reftip',objeto.rec_dets.data)
-         
+         this.recepcion = objeto
          for(let item of objeto.rec_dets.data){
            if(item.cantidad == 0){
             existeLinea = false
@@ -107,21 +134,37 @@ export default {
            }
          }
          console.log('existeLinea',existeLinea)
+         console.log('objeto',objeto)
+         
          if(existeLinea == true){
-          const returnPostDetalle =  await insertRecOc(objeto.oc_fk,1,objeto.usu_fk,objeto.rec_dets,objeto.observacion,objeto.dte_cab_fk,objeto.ref_folio_dte,objeto.ref_tipo_dte_fk,objeto.emp_fk)
-          console.log('return',returnPostDetalle)
-          this.tituloModal = 'Recepción Creada',
-          this.textoModal = 'Tu Recepción ha sido creada con exito',
-          this.mostrar = true
-          this.$toast.success('Se completo con exito esta Recepción', {
-            tposition: 'top-right',
-            timeout: 5000,
-            pauseOnHover: true
-          })
-          existeLinea = false
-        //   this.$router.push({
-        //     path:'/adquisiciones/recepcion/listado',
-        // });
+           for(let item of objeto.rec_dets.data){
+            console.log('objeto.rec_dets.data',item)
+            if(item.cantidad > item.por_recepcionar){
+              this.openModal = true
+              existeLinea = false
+              delete item.por_recepcionar;
+              console.log('objeto.rec_dets.data',objeto.rec_dets.data)
+            }else {
+              delete item.por_recepcionar;
+              console.log('objeto.rec_dets.data',objeto.rec_dets.data)
+              const returnPostDetalle =  await insertRecOc(objeto.oc_fk,1,objeto.usu_fk,objeto.rec_dets,objeto.observacion,objeto.dte_cab_fk,objeto.ref_folio_dte,objeto.ref_tipo_dte_fk,objeto.emp_fk)
+              console.log('return',returnPostDetalle)
+              this.tituloModal = 'Recepción Creada',
+              this.textoModal = 'Tu Recepción ha sido creada con exito',
+              this.mostrar = true
+              this.$toast.success('Se completo con exito esta Recepción', {
+                tposition: 'top-right',
+                timeout: 5000,
+                pauseOnHover: true
+              })
+              existeLinea = false
+            //   this.$router.push({
+            //     path:'/adquisiciones/recepcion/listado',
+            // });
+            }
+           }
+           return
+         
          }else if(existeLinea == false){
           this.$toast.error('Esta recepcion debe tener una linea con valor a recepcionar', {
             tposition: 'top-right',
