@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- {{ dates }} -->
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center">
         <div>
@@ -375,7 +374,7 @@
               <lineas-oc :lineas="item.oc_dets" :origen="origen"></lineas-oc>
             </td>
           </template>
-          <template v-slot:header.pro_nombre="{ header }">
+          <template v-slot:header.pro.pro_nombre="{ header }">
             {{ header.text }}
             <v-menu offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">
@@ -408,7 +407,7 @@
               </div>
             </v-menu>
           </template>
-          <template v-slot:header.razon_social="{ header }">
+          <template v-slot:header.ent.razon_social="{ header }">
             {{ header.text }}
             <v-menu offset-y :close-on-content-click="false">
               <template v-slot:activator="{ on, attrs }">

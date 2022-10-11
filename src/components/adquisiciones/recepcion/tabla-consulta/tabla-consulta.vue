@@ -97,36 +97,7 @@
                 </v-btn>
               </v-date-picker>
             </v-menu>
-            <v-badge
-              bordered
-              color="error"
-              icon="mdi-check"
-              overlap
-              :value="cpxMostrarBadge"
-            >
-              <v-btn
-                dark
-                small
-                class="mx-1"
-                color="primary"
-              >
-                Filtros
-                <v-icon dark>
-                  mdi-chart-gantt
-                </v-icon>
-              </v-btn>
-            </v-badge>
-            <v-btn
-              dark
-              small
-              class="mx-1"
-              color="primary"
-              @click="limpiarFiltros()"
-            >
-              <v-icon x-small dark>
-                mdi-broom
-              </v-icon>
-            </v-btn>
+          
           <!-- <v-btn
             :loading="isLoading"
             icon
@@ -140,14 +111,80 @@
         </v-row>
         <v-data-table
           :headers="headers"
-          :items="desserts"
+          :items="cpxDatosTabla"
           class="flex-grow-1"
           dense
           :loading="loadingTabla"
-          loading-text="Buscando ordenes de compra"
+          loading-text="Buscando Recepciones"
           :search="buscarOcs"
           :items-per-page="25"
         >
+          <template v-slot:header.oc.pro.nombre="{ header }">
+            {{ header.text }}
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon small :color="filtros.proyectos.length > 0 ? 'red' : ''">
+                    mdi-filter
+                  </v-icon>
+                </v-btn>
+              </template>
+              <div style="background-color: white; width: 280px">
+                <v-autocomplete
+                  v-model="filtros.proyectos"
+                  :items="valoresFiltros._listaProyectos"
+                  outlined
+                  dense
+                  chips
+                  label="Selecciona los proyectos"
+                  small-chips
+                  multiple
+                  item-text="nombre"
+                  item-value="id"
+                ></v-autocomplete>
+                <v-btn
+                  small
+                  text
+                  color="primary"
+                  class="ml-2 mb-2"
+                  @click="dessertName = ''"
+                >Limpiar</v-btn>
+              </div>
+            </v-menu>
+          </template>
+          <template v-slot:header.oc.ent.razon_social="{ header }">
+            {{ header.text }}
+            <v-menu offset-y :close-on-content-click="false">
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn icon v-bind="attrs" v-on="on">
+                  <v-icon small :color="filtros.proveedor.length > 0 ? 'red' : ''">
+                    mdi-filter
+                  </v-icon>
+                </v-btn>
+              </template>
+              <div style="background-color: white; width: 280px">
+                <v-autocomplete
+                  v-model="filtros.proveedor"
+                  :items="valoresFiltros._listaProveedor"
+                  outlined
+                  dense
+                  chips
+                  label="Selecciona los proyectos"
+                  small-chips
+                  multiple
+                  item-text="nombre"
+                  item-value="id"
+                ></v-autocomplete>
+                <v-btn
+                  small
+                  text
+                  color="primary"
+                  class="ml-2 mb-2"
+                  @click="dessertName = ''"
+                >Limpiar</v-btn>
+              </div>
+            </v-menu>
+          </template>
           <template v-slot:item.fec_recepcion="{ item }">
             <div class="font-weight-bold">{{ getFechaFormat(item.fec_recepcion) }}</div>
           </template>

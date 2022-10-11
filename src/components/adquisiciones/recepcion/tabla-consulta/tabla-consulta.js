@@ -29,10 +29,11 @@ export default {
   data() {
     return {
       datosEmpresa:'',
+      loadingTabla:false,
       dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
       headers: [
         {
-          text: 'Centro de Gestión',
+          text: 'Proyecto',
           value: 'oc.pro.nombre',
         },
         { text: 'ID OC', value: 'oc.identificacion' },
@@ -42,49 +43,31 @@ export default {
         { text: 'Monto', value: 'monto' },
         { text: 'Acción', value: 'action' },
       ],
-      desserts:[]
+      desserts:[],
+      filtros:{
+        proyectos: [], 
+        proveedor: [],// Este filtro no viene desde el modal
+      },
+      valoresFiltros: {
+        _listaProyectos: [],
+        _listaProveedor: [], // Este filtro no viene desde el modal
+      },
     }
   },
   computed: {
-    // cpxDatosTabla() {
-    //   return this.ocs.filter(oc => {
-    //     let agregar = true;
-    //     console.log('OC: ', oc);
-    //     if (this.filtros.estados.length > 0) {
-    //       console.log("oc.est_doc_fk.est",oc.est_doc_fk)
-    //       agregar = agregar && this.filtros.estados.includes(oc.est_doc_fk)
-    //     }
-    //     if (this.filtros.monedas.length > 0) {
-    //       agregar = agregar && this.filtros.monedas.includes(oc.mon_fk)
-    //     }
-    //     if (this.filtros.despachos.length > 0) {
-    //       agregar = agregar && this.filtros.despachos.includes(oc.des_tip_fk)
-    //     }
-    //     if (this.filtros.formasPago.length > 0) {
-    //       agregar = agregar && this.filtros.formasPago.includes(oc.for_pag_fk)
-    //     }
-    //     if (this.filtros.estadoLineas.length > 0) {
-    //       agregar = agregar && this.filtros.estadoLineas.includes(oc.est_lin_fk)
-    //     }
-    //     if (this.filtros.tiposDocumento.length > 0) {
-    //       agregar = agregar && this.filtros.tiposDocumento.includes(oc.doc_tip_fk)
-    //     }
-    //     if (this.filtros.proyectos.length > 0) {
-    //       agregar = agregar && this.filtros.proyectos.includes(oc.pro_fk)
-    //     }
-    //     if (this.filtros.proveedores.length > 0) {
-    //       agregar = agregar && this.filtros.proveedores.includes(oc.ent_fk)
-    //     }
-    //     if (this.filtros.compradores.length > 0) {
-    //       agregar = agregar && this.filtros.compradores.includes(oc.usu_fk)
-    //     }
-    //     return agregar;
-    //   });
-    // },
-    // cpxMostrarBadge(){
-    //   return this.filtros.estados.length > 0 || this.filtros.monedas.length > 0 || this.filtros.despachos.length > 0 || this.filtros.formasPago.length > 0
-    //   || this.filtros.estadoLineas.length > 0 || this.filtros.tiposDocumento.length > 0
-    // },
+    cpxDatosTabla() {
+      return this.desserts.filter(oc => {
+        let agregar = true;
+        console.log('OC: ', oc);
+        if (this.filtros.proyectos.length > 0) {
+          agregar = agregar && this.filtros.proyectos.includes(oc.oc.pro.id)
+        }
+        if (this.filtros.proveedor.length > 0) {
+          agregar = agregar && this.filtros.proveedor.includes(oc.oc.ent.id)
+        }
+        return agregar
+      });
+    },
     dateRangeText () {
       const datePivot = []
       console.log('this.dates_ ', this.dates);
@@ -102,6 +85,7 @@ export default {
       return moment(fecha).format("DD/MM/YYYY")
     },
     async getListadoRecepcion(){
+      this.loadingTabla = true
         const {data: { kangusoft_rec_cab } } = await getRecepcionListado();
         console.log('kangusoft_rec_cab',kangusoft_rec_cab)
         for(let item of kangusoft_rec_cab){
@@ -114,6 +98,11 @@ export default {
             
             this.desserts.push(item)
         }
+        let proyectos = [... new Set(this.desserts.map(x=> ({nombre: x.oc.pro.nombre, id: x.oc.pro.id})))];
+        this.valoresFiltros._listaProyectos = [...new Set(proyectos.map(JSON.stringify))].map(JSON.parse);
+        let proveedor = [... new Set(this.desserts.map(x=> ({nombre: x.oc.ent.razon_social, id: x.oc.ent.id})))];
+        this.valoresFiltros._listaProveedor = [...new Set(proveedor.map(JSON.stringify))].map(JSON.parse);
+        this.loadingTabla = false
         console.log(' this.desserts',this.desserts)
       },
     moment() {

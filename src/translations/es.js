@@ -1,3 +1,4 @@
+/* eslint-disable */
 export default {
   'common': {
     'add': 'Añadir',
@@ -56,7 +57,7 @@ export default {
     'labels': 'Etiquetas'
   },
   'dashboard': {
-    'activity': 'Mi Actividad',
+    'activity': "Mis Ultimas OC's",
     'weeklySales': 'Ventas semanales',
     'sales': 'Ventas',
     'recentOrders': 'órdenes recientes',

@@ -10,7 +10,7 @@ const GET_FORMAS_PAGO = gql`
 `
 const GET_ULTIMAS_OC = gql`
   query Q_GET_ULTIMAS_OC($id: bigint!) {
-    kangusoft_oc(limit: 5, where: {usu_fk: {_eq: $id}}, order_by: {fec_creacion: desc}) {
+    kangusoft_oc(limit: 5, where: {usu_fk: {_eq: $id}, est_doc_fk: {_neq: "4"}}, order_by: {fec_creacion: desc}) {
     fec_creacion
     pro {
       id

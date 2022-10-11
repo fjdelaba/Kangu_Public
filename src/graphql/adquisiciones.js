@@ -9,7 +9,8 @@ export const getDatosFormularioCabecera = async() => {
 }
 export const getRecepcionListado = async() => {
   return await apolloClient.query({
-    query: GET_RECEPCIONES_LISTADO
+    query: GET_RECEPCIONES_LISTADO,
+    fetchPolicy:'network-only'
   })
 }
 export const getEstadosOc = async() => {

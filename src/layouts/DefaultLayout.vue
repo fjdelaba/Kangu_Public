@@ -112,7 +112,7 @@
             >
               <template v-slot:item="{ item }">
                 <v-list-item-content>
-                  <p>Nombre: {{ item.nombre }} / Proyecto: {{ item.pro.nombre }} <v-btn
+                  <p>Nombre: {{ item.nombre? 'Sin Nombre' : item.nombre }} / Proyecto: {{ item.pro.nombre }} <v-btn
                     class="ml-3"
                     small
                     @click="abrirDetalle(item)"
@@ -241,16 +241,19 @@ export default {
   methods: {
       abrirDetalle(item){
       console.log('object: ', item);
+     
        this.$router.push({
             path:'/adquisiciones/oc/consultar/detalle',
             query: { id: Number(item.id),}
         });
+        window.location.reload();
      },
        limpiarAutocompleate() {
       setTimeout(() => {
         console.log("PASO POR AQUÍ !!!!");
         this.mostrarNoData = false;
         this.search = "";
+        this.items = []
       }, 500);
     },
       fetchEntriesDebounced() {
