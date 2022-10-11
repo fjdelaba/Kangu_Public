@@ -74,7 +74,7 @@
               :rules="rules.oc_cab.proyecto"
               outlined
               label="Proyectos"
-              item-text="nombre"
+              :item-text="item =>`${item.nombre} - ${item.codigo}`"
               item-value="id"
               hint="Selecciona el proyecto al que asignaras esta OC"
               dense
@@ -208,6 +208,7 @@
               :loading="isLoading"
               :search-input.sync="search"
               item-text="razon_social"
+              
               item-value="id"
               label="Proveedor"
               hint="Puedes buscar por nombre o por rut"
@@ -221,7 +222,7 @@
               <template v-slot:item="{ item }">
                 <v-list-item-content>
                   <v-list-item-title v-text="`${item.razon_social}`"></v-list-item-title>
-                <!-- <v-list-item-subtitle v-text="`codigo: ${item.codigo}`"></v-list-item-subtitle>  -->
+                  <!-- <v-list-item-subtitle v-text="`codigo: ${item.rut}`"></v-list-item-subtitle>   -->
                 </v-list-item-content>
               </template> 
               <template v-slot:no-data >

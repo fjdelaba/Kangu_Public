@@ -190,6 +190,7 @@ export default {
 
       this.isLoading = false
       this.listaProveedores = data.kangusoft_ent
+      console.log('listaProveedores',this.listaProveedores)
 
       if (this.listaProveedores.length === 0) {
         this.mostrarNoData = true
