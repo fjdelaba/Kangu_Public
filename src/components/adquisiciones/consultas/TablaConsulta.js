@@ -222,7 +222,7 @@ export default {
     cpxDinamicHeaders() {
       if(this.origen === 1){
        return [
-          { text: "Centro de Gestión", value: "pro_nombre", idx: 1 },
+          { text: "Proyecto", value: "pro_nombre", idx: 1 },
           { text: "ID OC", value: "identificacion", idx: 2 },
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
           { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
@@ -236,7 +236,7 @@ export default {
         ]
       }else if(this.origen === 2){
           return [
-          { text: "Centro de Gestión", value: "pro.pro_nombre", idx: 1 },
+          { text: "Proyecto", value: "pro.pro_nombre", idx: 1 },
           { text: "ID OC", value: "identificacion", idx: 2 },
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
           { text: "Proveedor", value: "ent.razon_social", sortable: true, idx: 4 },
@@ -251,7 +251,7 @@ export default {
       }
       else if(this.origen === 3){
         return [
-        { text: "Centro de Gestión", value: "pro_nombre", idx: 1 },
+        { text: "Proyecto", value: "pro_nombre", idx: 1 },
         { text: "ID OC", value: "identificacion", idx: 2 },
         { text: "Nombre OC", value: "oc_nombre", idx: 3 },
         { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
@@ -362,6 +362,12 @@ export default {
       this.filtros.proyectos = [] // Este filtro no viene desde el modal
       this.filtros.proveedores = [] // Este filtro no viene desde el modal
       this.filtros.compradores = []
+      this.filtros.estados = []
+      this.filtros.monedas = []
+      this.filtros.despachos = []
+      this.filtros.estadoLineas = []
+      this.filtros.tiposDocumento = []
+      this.filtros.formasPago = []
     },
     cargarListaProyecto(){
       if(this.origen === 1){

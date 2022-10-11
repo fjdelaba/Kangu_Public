@@ -29,15 +29,24 @@
           </template>
          
           <template v-slot:item.recepcionar="{ item }">
-            <v-icon class="pl-9" small @click="pasarCantidad(item)" >mdi-arrow-right-bold</v-icon> 
-            <v-text-field
-              v-model="item.recepcionar"
-              class="pt-2"
-              outlined
-              dense
-              v-bind="attrs"
-              v-on="on"
-            ></v-text-field>
+          
+            <div>
+              <v-row>
+                <v-row>
+                  <v-icon small @click="pasarCantidad(item)" >mdi-arrow-right-bold</v-icon> 
+                </v-row>
+                <v-text-field
+                  v-model="item.recepcionar"
+                  class="pl-3 pt-2 pr-4 "
+                  outlined
+                  dense
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </v-row>
+             
+            </div>
+          
           </template>
            
         </v-data-table>
