@@ -71,7 +71,8 @@
               </v-btn>
             </v-card-actions>
           </v-card-title>
-          <v-simple-table dense>
+          {{ datos_oc_ref }}
+          <v-simple-table v-if="datos_oc_ref != null " dense >
             <template v-slot:default>
               <tbody>
                 <tr>
@@ -97,6 +98,9 @@
               </tbody>
             </template>
           </v-simple-table>
+          <div v-if="datos_oc_ref == null">
+            No existen referencias
+          </div>
         </v-card>
       </v-col>
     </v-row>
@@ -112,7 +116,7 @@
           outlined
           tile
         >
-          {{ datos_dte.dte_cab_recs[0].dte_cab_rec__view_monto_recepciones_obra.monto_recibido }}
+          <!-- {{ datos_dte.dte_cab_recs && datos_dte.dte_cab_recs[0].dte_cab_rec__view_monto_recepciones_obra.monto_recibido }} -->
           <v-card-title>
             Recepciones en Obra
           </v-card-title>

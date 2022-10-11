@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- {{ dates }} -->
+    <!-- {{ cpxDatosTabla }}  -->
     <div class="d-flex flex-column flex-grow-1">
       <div class="d-flex align-center">
         <div>

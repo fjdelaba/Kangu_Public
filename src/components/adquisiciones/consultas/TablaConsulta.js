@@ -70,24 +70,24 @@ export default {
       transition: 'slide-y-reverse-transition',
       headerExcelCabecera: {
        
-        "Nombre Centro Gestion": "pro_nombre",
+        "Nombre Centro Gestion": "pro.pro_nombre",
         "Identificador OC": "identificacion",
         "Nombre OC": "oc_nombre",
-        "Nombre Proveedor": "razon_social",
-        "Rut Proveedor": "rut",
+        "Nombre Proveedor": "ent.razon_social",
+        "Rut Proveedor": "ent.rut",
         "Usuario Comprador": {
             callback: value => {
-                return `${value.usu_nombre} ${value.usu_apellidos}`;
+                return `${value.usu.usu_nombre} ${value.usu.usu_apellidos}`;
             }
         },
-        "Moneda": "mon_nombre",
+        "Moneda": "mon.mon_nombre",
         "Fecha de Creacion": {
           callback: value => {
               return  this.$moment(value.fec_creacion).format('DD/MM/yy').toString();
           }
       },
         "Monto": "neto",
-        "Estado de Oc": "est_nombre", 
+        "Estado de Oc": "est_doc.est_nombre", 
     },
     headerExcelDetalle: {
       "Nombre Centro Gestion": "pro_nombre",
@@ -535,7 +535,7 @@ export default {
       const comprador = `${detalle.usu_nombre} ${detalle.usu_apellidos}`
       const neto = detalle.neto
       const estado = detalle.est_nombre
-      for(let lineaDetalle of detalle.lineas){
+      for(let lineaDetalle of detalle.oc_dets){
         console.log('lineaDetalle: ', lineaDetalle);
         const obj = {
           pro_nombre,
