@@ -544,22 +544,22 @@ export default {
       for(let lineaDetalle of detalle.oc_dets){
         console.log('lineaDetalle: ', lineaDetalle);
         const obj = {
-          pro_nombre,
+          pro_nombre: detalle.pro.pro_nombre,
           identificacion,
           oc_nombre,
-          razon_social,
-          rut,
-          comprador,
+          razon_social: detalle.ent.razon_social,
+          rut: detalle.ent.rut,
+          comprador: `${detalle.usu.usu_nombre} ${detalle.usu.apellidos}`,
           // codigo: lineaDetalle.codigo,
-          material: lineaDetalle.nombre,
+          material: lineaDetalle.mat.nombre,
           cantidad: lineaDetalle.cant_ajustada,
           precio: lineaDetalle.precio_unitario,
           total: (Number(lineaDetalle.cant_ajustada)*Number(lineaDetalle.precio_unitario)),
-          mat_fk: lineaDetalle.mat_fk,
+          mat_fk: lineaDetalle.mat.id,
           impuestos: impuestos,
-          mon_nombre,
+          mon_nombre: detalle.mon.mon_nombre,
           neto,
-          estado
+          estado: detalle.est_doc.est_nombre
         }
         detalles.push(obj)
         // console.log('obj_ ', obj);
