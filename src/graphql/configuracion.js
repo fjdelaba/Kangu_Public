@@ -257,7 +257,7 @@ export const getOcIdentificador = async (_similar) => {
   return await apolloClient.query({
     query: GET_OC_IDENTIFICADOR,
     variables: {
-      _similar
+      _similar:'%' + _similar + '%'
     }
   })
 }

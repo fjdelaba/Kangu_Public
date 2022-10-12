@@ -155,7 +155,7 @@ query Q_GET_APROBADORES_PROYECTO($id: bigint) {
 `
 const GET_OC_IDENTIFICADOR = gql`
 query Q_GET_OC_IDENTIFICADOR($_similar: String!) {
-  kangusoft_oc(where: {identificacion: {_similar: $_similar}}) {
+  kangusoft_oc(where: {identificacion: {_like: $_similar}}, limit: 10) {
     fec_creacion
     est_doc {
       nombre

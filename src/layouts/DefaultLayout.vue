@@ -112,15 +112,17 @@
             >
               <template v-slot:item="{ item }">
                 <v-list-item-content>
-                  <p>Nombre: {{ item.nombre? 'Sin Nombre' : item.nombre }} / Proyecto: {{ item.pro.nombre }} <v-btn
-                    class="ml-3"
+                  <v-list-item-title >Nombre: {{ item.nombre == ''? 'Sin Nombre' : item.nombre }}  </v-list-item-title>
+                  <v-list-item-subtitle >Proyecto: {{ item.pro.nombre }} <v-btn
+                    class="ml-7"
                     small
                     @click="abrirDetalle(item)"
-                  > Abrir </v-btn></p>
-               
+                  > Abrir </v-btn> </v-list-item-subtitle>  
+                  <v-list-item-subtitle >Identificador: {{ item.identificacion }}</v-list-item-subtitle>  
                   <div>
                   </div>
                 </v-list-item-content>
+                 
               </template> 
             </v-autocomplete>
 

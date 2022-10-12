@@ -222,7 +222,7 @@
               <template v-slot:item="{ item }">
                 <v-list-item-content>
                   <v-list-item-title v-text="`${item.razon_social}`"></v-list-item-title>
-                  <!-- <v-list-item-subtitle v-text="`codigo: ${item.rut}`"></v-list-item-subtitle>   -->
+                  <v-list-item-subtitle v-text="`codigo: ${item.rut}`"></v-list-item-subtitle>  
                 </v-list-item-content>
               </template> 
               <template v-slot:no-data >
