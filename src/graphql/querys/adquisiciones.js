@@ -800,4 +800,96 @@ const GET_OCS_USUARIO = gql`
   }
 `
 
-export { GET_RECEPCION,GET_RECEPCIONES_LISTADO,GET_DTE_CABECERA,GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES, GET_OCS_USUARIO }
+const GET_OCS_USUARIO_APROBAR = gql`
+ query Q_GET_OCS_USUARIO_APROBAR($usu_fk: bigint!, $est_doc_fk: bigint!, $usu_apr_fk: bigint!) {
+  kangusoft_view_permisos_usuario_mod(where: {usu_id: {_eq: $usu_fk}, mod_id: {_eq: "3"}}) {
+    view_permisos_usuario_mod_oc(where: {est_doc: {id: {_neq: "4"}}, est_doc_fk: {_eq: $est_doc_fk}, apr_pros: {apr: {usu_apro_fk: {_eq: $usu_apr_fk}}}}) {
+      identificacion
+      id
+      est_doc_fk
+      mon_fk
+      oc_nombre: nombre
+      ent_fk
+      ent_con_fk
+      pro_fk
+      usu_fk
+      fec_creacion
+      des_tip_fk
+      comentario
+      for_pag_fk
+      est_lin_fk
+      impuestos
+      neto
+      doc_tip_fk
+      fec_apro
+      iva_ajustado
+      neto_ajustado
+      pro {
+        pro_nombre: nombre
+        id
+      }
+      ent {
+        razon_social
+        rut
+        ent_direccion: direccion
+        id
+      }
+      mon {
+        mon_nombre: nombre
+        id
+      }
+      est_doc {
+        est_nombre: nombre
+        id
+      }
+      est_lin {
+        el_nombre: nombre
+        id
+      }
+      for_pag {
+        fp_nombre: nombre
+        id
+      }
+      doc_tip {
+        dt_nombre: nombre
+        id
+      }
+      ent_con {
+        ec_nombre: nombre
+        ec_email: email
+        id
+      }
+      des_tip {
+        desp_nombre: nombre
+        id
+      }
+      oc_dets {
+        id
+        total
+        cantidad
+        precio_unitario
+        mat {
+          id
+          nombre
+          mat_uni {
+            nombre
+            id
+          }
+        }
+      }
+      usu {
+        usu_apellidos: apellidos
+        usu_nombre: nombre
+        id
+      }
+      apr_pros(where: {}) {
+        apr {
+          usu_apro_fk
+        }
+      }
+    }
+  }
+}
+`
+
+export { GET_RECEPCION,GET_RECEPCIONES_LISTADO,GET_DTE_CABECERA,GET_TIPO_DOCUMENTO,GET_OC_RECEPCION,GET_FACTURA_COMPLETA,GET_PEDIDO_CABECERA,GET_DETALLEPEDIDO,GET_PEDIDO,GET_APROBADOR_PEDIDO,GET_DATOS_OC_CABECERA, GET_DATOS_OC_CONSULTA, GET_OC_DETALLE,GET_ESTADO_OC,GET_DATOS_OC_DETALLE_EXCEL, GET_MONTO_COMPRADOR,GET_OC_CONSULTAS, GET_MATERIALES, GET_OCS_USUARIO,GET_OCS_USUARIO_APROBAR }

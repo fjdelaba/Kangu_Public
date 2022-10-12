@@ -10,7 +10,7 @@
         <v-spacer></v-spacer>
         <!-- {{ filtros }} -->
       </div>
-      <!-- {{ocs}} -->
+      <!-- {{origen}} -->
      
       <v-dialog v-if="verPdf" v-model="verPdf"> <pdf
         ref="refpdf"

@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { getDatosOcConsulta, getEstadosOc, getDetalleOcExcel, getOcConsultas, getOcsUsuario } from "../../../graphql/adquisiciones";
+import { getDatosOcConsulta, getEstadosOc, getDetalleOcExcel, getOcConsultas, getOcsUsuario, getOcsUsuarioAprobar } from "../../../graphql/adquisiciones";
 import { getDatosGenerales } from '../../../graphql/configuracion'
 import Vue from "vue";
 import JsonExcel from "vue-json-excel";
@@ -425,8 +425,18 @@ export default {
         }
         console.log('datos: ', datos);
         // const {data:{getOcs: {ocs}}} = await getOcConsultas(datos)
+
+
         console.log('this.$store.state.app.datosUsuario.user_id: ', this.$store.state.app.datosUsuario.user_id);
-        const data_ = await getOcsUsuario(this.$store.state.app.datosUsuario.user_id)
+        let data_= null
+        if(this.origen === 1){
+          data_ = await getOcsUsuarioAprobar(this.$store.state.app.datosUsuario.user_id,1,this.$store.state.app.datosUsuario.user_id)
+        }else if(this.origen === 2){
+          data_ = await getOcsUsuario(this.$store.state.app.datosUsuario.user_id)
+        }
+        
+
+
         console.log('new_ocs_ ', data_.data.kangusoft_view_permisos_usuario_mod);
         const arregloNuevo = [...data_.data.kangusoft_view_permisos_usuario_mod]
         const nuevaOc = []
