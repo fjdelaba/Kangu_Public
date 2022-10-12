@@ -14,6 +14,7 @@
           :items="detalle"
           :hide-default-footer="true"
           :items-per-page="detalle.length"
+          :item-class="itemRowBackground"
         >
           <template v-slot:item.mat="{ item }">
             <nombre-material :nombre="item.mat.nombre" :unidad="item.mat.mat_uni.nombre" :observacion="item.observacion" ></nombre-material>
@@ -29,7 +30,6 @@
           </template>
          
           <template v-slot:item.recepcionar="{ item }">
-          
             <div>
               <v-row>
                 <v-row>

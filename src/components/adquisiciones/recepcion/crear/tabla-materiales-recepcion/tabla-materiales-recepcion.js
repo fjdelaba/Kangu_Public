@@ -50,6 +50,9 @@ export default {
           v => v > -1 || 'Ingrese solo numeros positivos',
         ],
       };
+    }, 
+    computed: {
+    
     },
     methods: {
       deleteItem3(item) {
@@ -58,6 +61,9 @@ export default {
         this.detalle.splice(this.editedIndex, 1)
         console.log("editedIndex",  this.editedIndex);
       },
+      itemRowBackground: function (item) {
+        return item.recepcionar > item.cant_despacho ? 'style-2' : 'style-1'
+     },
       validate() {
         this.$refs.positivo.validate()
       },
@@ -77,6 +83,7 @@ export default {
           this.openModal = true
         }
       },
+     
       calcularSaldo(item){
         if(item.oc_det__view_recepciones_lista != null){
         if(item.oc_det__view_recepciones_lista.total_recibido > item.cant_ajustada ){
