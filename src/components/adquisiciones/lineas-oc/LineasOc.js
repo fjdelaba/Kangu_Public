@@ -34,11 +34,20 @@ export default {
           return [
             { text: 'Material', value: 'nombre', sortable: true, idx: 1 },
             // { text: 'Unidad', value: 'mu_nombre', sortable: true, idx: 2 },
-            { text: 'Cantidad', value: 'cant_ajustada', sortable: true, idx: 3 },
+            { text: 'Cantidad', value: 'cantidad', sortable: true, idx: 3 },
             { text: 'Precio Unitario', value: 'precio_unitario', sortable: true, idx: 4 },
             { text: 'Total', value: 'total', sortable: true, idx: 5 }
         ]
       }
+      else if(this.origen === 1){
+        return [
+          { text: 'Material', value: 'nombre', sortable: true, idx: 1 },
+          // { text: 'Unidad', value: 'mu_nombre', sortable: true, idx: 2 },
+          { text: 'Cantidad', value: 'cantidad', sortable: true, idx: 3 },
+          { text: 'Precio Unitario', value: 'precio_unitario', sortable: true, idx: 4 },
+          { text: 'Total', value: 'total', sortable: true, idx: 5 }
+      ]
+    }
      
       return this.cabecera;
     },

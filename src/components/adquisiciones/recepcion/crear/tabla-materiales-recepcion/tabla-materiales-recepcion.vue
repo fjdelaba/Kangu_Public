@@ -37,6 +37,7 @@
                 </v-row>
                 <v-text-field
                   v-model="item.recepcionar"
+                  :rules="nameRules"
                   class="pl-3 pt-2 pr-4 "
                   outlined
                   dense

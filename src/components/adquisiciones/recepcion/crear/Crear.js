@@ -145,7 +145,13 @@ export default {
           objeto.usu_fk = this.datosUsuario.user_id
           objeto.rec_est_fk = 1 
           objeto.observacion = this.comentario == '' ? null : this.comentario
-          objeto.dte_cab_fk = this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ? null : this.$refs.refdatoscabecera.dte_cab
+          if(this.$refs.refdatoscabecera.cabeceraSeleccion == 1 ){
+            objeto.dte_cab_fk = null
+          }else if (this.$refs.refdatoscabecera.cabeceraSeleccion != 1 && this.$refs.refdatoscabecera.dte_cab != ''){
+            objeto.dte_cab_fk = this.$refs.refdatoscabecera.dte_cab
+          }else if(this.$refs.refdatoscabecera.cabeceraSeleccion != 1 && this.$refs.refdatoscabecera.dte_cab == ''){
+            objeto.dte_cab_fk = null
+          }
 
           objeto.emp_fk = this.datosEmpresa.id
           objeto.rec_dets = {
@@ -181,11 +187,14 @@ export default {
          console.log('reftip',objeto.rec_dets.data)
          this.recepcion = objeto
          for(let item of objeto.rec_dets.data){
-           console.log('item if linea',item)
-           if(item.cantidad == 0 ){
+
+           if(item.cantidad <= 0 || item.cantidad == '' ){
             existeLinea = false
+            console.log('item if linea',item)
+            console.log('existeLinea',existeLinea)
            } else if (item.cantidad > 0){
             existeLinea = true
+            console.log('existeLinea',existeLinea)
             break; 
            }
          }
@@ -230,7 +239,8 @@ export default {
               }
               console.log('arreglo',arreglo)
               objeto.rec_dets.data = arreglo
-              console.log('arregobjeto.rec_dets.data lo',objeto.rec_dets.data )
+              console.log('objeto.dte_cab_fk',objeto.dte_cab_fk)
+          
               const returnPostDetalle =  await insertRecOc(objeto.oc_fk,1,objeto.usu_fk,objeto.rec_dets,objeto.observacion,objeto.dte_cab_fk,objeto.ref_folio_dte,objeto.ref_tipo_dte_fk,objeto.emp_fk,objeto.descuadre)
               console.log('return',returnPostDetalle)
               this.tituloModal = 'Recepción Creada',

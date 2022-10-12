@@ -222,10 +222,10 @@ export default {
     cpxDinamicHeaders() {
       if(this.origen === 1){
        return [
-          { text: "Proyecto", value: "pro_nombre", idx: 1 },
+          { text: "Proyecto", value: "pro.pro_nombre", idx: 1 },
           { text: "ID OC", value: "identificacion", idx: 2 },
           { text: "Nombre OC", value: "oc_nombre", idx: 3 },
-          { text: "Proveedor", value: "razon_social", sortable: true, idx: 4 },
+          { text: "Proveedor", value: "ent.razon_social", sortable: true, idx: 4 },
           { text: "lineas", value: "lineasJson", sortable: true, align: ' d-none', idx: 8},
           // { text: "Comprador", value: "usu_nombre", sortable: true, idx: 5 },
           { text: "Creado", value: "fec_creacion", sortable: true, idx: 6 },

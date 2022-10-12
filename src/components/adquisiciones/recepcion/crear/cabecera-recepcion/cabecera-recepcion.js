@@ -73,6 +73,9 @@ export default {
       if(resp.length > 0){
         this.dte_cab = resp[0].id
       }
+      else{
+        this.dte_cab =''
+      }
         if(this.$refs.form.validate()){
           if(this.seleccionDocumento != 1){
               if(this.$refs.form.validate()){

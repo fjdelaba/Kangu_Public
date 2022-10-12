@@ -44,7 +44,11 @@ export default {
         openModal:false,
         materiales:[],
         editedIndex:'',
-        editedItem:''
+        editedItem:'',
+        valid: false,
+        nameRules: [
+          v => v > -1 || 'Ingrese solo numeros positivos',
+        ],
       };
     },
     methods: {
@@ -54,22 +58,17 @@ export default {
         this.detalle.splice(this.editedIndex, 1)
         console.log("editedIndex",  this.editedIndex);
       },
+      validate() {
+        this.$refs.positivo.validate()
+      },
       pasarCantidad(item){
         console.log('item',item)
         if(item.cant_despacho != undefined || item.cant_despacho != null){
           item.recepcionar =  item.cant_despacho
-          this.$toast.success('Se ha copiado con exito la linea', {
-            tposition: 'top-right',
-            timeout: 5000,
-            pauseOnHover: true
-          }) 
+          
         }else if(item.cant_despacho == undefined || item.cant_despacho == null){
           item.recepcionar =  item.cant_ajustada
-          this.$toast.success('Se ha copiado con exito la linea', {
-            tposition: 'top-right',
-            timeout: 5000,
-            pauseOnHover: true
-          }) 
+           
         }
         
       },

@@ -59,7 +59,15 @@ export const insertRecOc = async ( oc_fk,
   ref_tipo_dte_fk,
   emp_fk,
   descuadre) => {
-  console.log('descuadre',descuadre)
+  console.log('OBJETO',rec_est_fk,
+    usu_fk,
+    rec_dets,
+    observacion,
+    dte_cab_fk,
+    ref_folio_dte,
+    ref_tipo_dte_fk,
+    emp_fk,
+    descuadre)
   // ($oc_fk: bigint!, $rec_est_fk: smallint!, $usu_fk: bigint!, $rec_dets: kangusoft_rec_det_arr_rel_insert_input = {data: {}}, $observacion: String = "", $dte_cab_fk: bigint = "")
 
   return await apolloClient.mutate({

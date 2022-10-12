@@ -91,7 +91,7 @@
                 v-on="on"
                 @click="edicionCabecera()"
               >
-                Editar
+                Editar Referencia
               </v-btn>
             </template>
 
