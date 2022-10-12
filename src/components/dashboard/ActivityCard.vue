@@ -14,6 +14,7 @@
             <div>Proyecto: {{ item.pro.nombre }}</div>
             <div>Fecha de Creacion: {{ getFechaFormat(item.fec_creacion) }}</div>
             <div>Estado: {{ item.est_doc.nombre }}</div>
+            <div>Identificador: <a @click="redireccionHome(item)">{{ item.identificacion }}</a></div>
           </div>
         </v-timeline-item>
       </v-timeline>
@@ -61,6 +62,12 @@ export default {
            getFechaFormat(fecha){
       return moment(fecha).format("DD/MM/YYYY")
     },
+    redireccionHome(item){
+       this.$router.push({
+            path:'/adquisiciones/oc/consultar/detalle/',
+            query: { id: Number(item.id),}
+        });
+    }
   }
 }
 </script>
