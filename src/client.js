@@ -22,12 +22,13 @@ const authLink = setContext((_, { headers }) => {
   
 // const httpLink = createHttpLink({ uri: 'https://darling-glider-87.hasura.app/v1/graphql' })
 // const httpLink = createHttpLink({ uri: 'https://rapid-reptile-58.hasura.app/v1/graphql' })
-const httpLink = createHttpLink({ uri: 'https://above-stag-34.hasura.app/v1/graphql' })
+// const httpLink = createHttpLink({ uri: 'https://above-stag-34.hasura.app/v1/graphql' })
+const httpLink = createHttpLink({ uri: 'https://more-terrapin-42.hasura.app/v1/graphql' })
 const wsLink = new WebSocketLink(
   { 
     // uri: 'wss://darling-glider-87.hasura.app/v1/graphql',
     // uri: 'wss://above-stag-34.hasura.app/v1/graphql',
-    uri: 'wss://above-stag-34.hasura.app/v1/graphql',
+    uri: 'wss://more-terrapin-42.hasura.app/v1/graphql',
     options: {
       reconnect: true,
       connectionParams: {
