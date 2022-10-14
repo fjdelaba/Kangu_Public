@@ -28,10 +28,10 @@
           </v-row>
           <v-row no-gutters class="pl-3">
             <v-col cols="12" lg="6"><span class="caption">RUT de Proveedor : {{ recepcion.oc && recepcion.oc.ent.rut }}  </span></v-col>
-            <v-col cols="12" lg="4"><span class="caption">Nº de Documento: {{ recepcion.dte_cab && recepcion.dte_cab.folio == null? 'Sin Nº de Documento': recepcion.dte_cab && recepcion.dte_cab.folio }}   </span></v-col>
+            <v-col cols="12" lg="4"><span class="caption">Nº de Documento: {{ recepcion.dte_cab == null? 'Sin Nº de Documento': recepcion.dte_cab && recepcion.dte_cab.folio }}   </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">
-            <v-col cols="12" lg="6"><span class="caption">Tipo de Referencia:  {{ recepcion.dte_cab && recepcion.dte_cab.dte_tip.nombre == null? 'Sin Referencia': recepcion.dte_cab && recepcion.dte_cab.dte_tip.nombre }}   </span></v-col>
+            <v-col cols="12" lg="6"><span class="caption">Tipo de Referencia:  {{ recepcion.dte_cab == null? 'Sin Referencia': recepcion.dte_cab && recepcion.dte_cab.dte_tip.nombre }}   </span></v-col>
             <v-col cols="12" lg="4"><span class="caption">Orden de Compra: {{ recepcion.oc && recepcion.oc.identificacion }}   </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">
@@ -58,6 +58,12 @@
         >
           <template v-slot:item.oc_det.mat="{ item }">
             <nombre-material :nombre="item.oc_det.mat.nombre" :unidad="item.oc_det.mat.mat_uni.nombre" :observacion="item.observacion" ></nombre-material>
+          </template>
+           <template v-slot:item.oc_det.cant_ajustada="{ item }">
+            <div >{{ item.oc_det.cant_ajustada | currency_2 }}</div>
+          </template>
+             <template v-slot:item.cantidad="{ item }">
+            <div >{{ item.cantidad | currency_2 }}</div>
           </template>
         </v-data-table></v-col>
       </v-row>

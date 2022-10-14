@@ -40,16 +40,16 @@ export default [
       }
     ]
   },
-  {
-    icon: 'mdi-truck-check',
-    key: 'menu.despacho',
-    text: 'Despacho',
-    link: '/apps/board',
-    items: [
-      { key: 'menu.despachar', text: 'Despachar', link: '/adquisiciones/despacho/crear' },
-      { key: 'menu.consultas', text: 'Consultar', link: '/adquisiciones/despacho/consultar' }
-    ]
-  },
+  // {
+  //   icon: 'mdi-truck-check',
+  //   key: 'menu.despacho',
+  //   text: 'Despacho',
+  //   link: '/apps/board',
+  //   items: [
+  //     { key: 'menu.despachar', text: 'Despachar', link: '/adquisiciones/despacho/crear' },
+  //     { key: 'menu.consultas', text: 'Consultar', link: '/adquisiciones/despacho/consultar' }
+  //   ]
+  // },
   {
     icon: 'mdi-warehouse',
     key: 'menu.recepcion',

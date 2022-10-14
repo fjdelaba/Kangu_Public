@@ -18,6 +18,15 @@
           :item-class="row_classes"
           class="elevation-0"
         >
+          <template v-slot:item.cant_ajustada="{ item }">
+            <div >{{ item.cant_ajustada | currency_2 }}</div>
+          </template>
+          <template v-slot:item.cant_recepcion="{ item }">
+            <div >{{ item.cant_recepcion | currency_2 }}</div>
+          </template>
+          <template v-slot:item.cant_despacho="{ item }">
+            <div >{{ item.cant_despacho | currency_2 }}</div>
+          </template>
           <template v-slot:item.mat="{ item }">
             <nombre-material :nombre="item.mat.nombre" :unidad="item.mat.mat_uni.nombre" :observacion="item.observacion" ></nombre-material>
           </template>

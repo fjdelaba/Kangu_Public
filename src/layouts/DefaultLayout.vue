@@ -251,14 +251,15 @@ export default {
         window.location.reload();
      },
        limpiarAutocompleate() {
-      setTimeout(() => {
+      this.items = []
         console.log("PASO POR AQUÍ !!!!");
         this.mostrarNoData = false;
         this.search = "";
-        this.items = []
-      }, 500);
+      
+      
     },
       fetchEntriesDebounced() {
+        
       console.log('PASO POR ACÁ !!!!')
       // cancel pending call
       clearTimeout(this._timerId)
@@ -269,6 +270,11 @@ export default {
       }, 1000)
     },
     async busquedaOcIdentificador(){
+    this.items = []
+    if(this.search.length < 3){
+      this.isLoading = false
+      return 
+    }
     const { data } = await getOcIdentificador(`${this.search}`);
      console.log("data",data)
      for(let oc of data.kangusoft_oc){

@@ -234,6 +234,7 @@ query Q_GET_RECEPCIONC($_eq: bigint!) {
         id
       }
       folio
+      id
     }
     oc {
       ent {
@@ -249,10 +250,12 @@ query Q_GET_RECEPCIONC($_eq: bigint!) {
       oc__view_monto_recepciones_obra {
         monto_recibido
       }
+      id
     }
     usu {
       apellidos
       nombre
+      id
     }
     dte_cab_fk
     identificacion
@@ -274,12 +277,15 @@ query Q_GET_RECEPCIONC($_eq: bigint!) {
           id
           mat_uni {
             nombre
+            id
           }
         }
+        id
       }
     }
   }
 }
+
 `
 const GET_APROBADOR_PEDIDO = gql`
   query Q_GET_APROBADOR_PEDIDO($mod_fk: bigint!, $pro_fk: bigint!) {
@@ -433,36 +439,38 @@ const GET_TIPO_DOCUMENTO = gql`
 `
 const GET_RECEPCIONES_LISTADO = gql`
   query Q_GET_RECEPCIONES_LISTADO {
-    kangusoft_rec_cab {
-      descuadre
-      fec_recepcion
-      id
-      oc_fk
-      rec_est_fk
-      usu_fk
-      identificacion
-
-      oc {
-        oc__view_monto_recepciones_obra {
-          monto_recibido
-        }
-        identificacion
-        ent {
-          razon_social
-          id
-        }
-        pro {
-          id
-          nombre
-        }
+  kangusoft_rec_cab {
+    descuadre
+    fec_recepcion
+    id
+    oc_fk
+    rec_est_fk
+    usu_fk
+    identificacion
+    oc {
+      oc__view_monto_recepciones_obra {
+        monto_recibido
+        id_oc_fk
       }
-      usu {
-        apellidos
+      identificacion
+      ent {
+        razon_social
+        id
+      }
+      pro {
+        id
         nombre
       }
-      dte_cab_fk
+      id
     }
+    usu {
+      apellidos
+      nombre
+      id
+    }
+    dte_cab_fk
   }
+}
 `
 const GET_DETALLEPEDIDO = gql`
   query Q_GET_DETALLEPEDIDO($id: bigint!) {
