@@ -164,11 +164,9 @@
               </div>
             </template> 
             <template v-slot:item.neto="{ item }">
-              <div class="font-weight-bold">{{ item.neto | currency }}</div>
+              <div class="font-weight-bold">{{ item.oc__view_monto_recepciones_obra != null? item.neto - item.oc__view_monto_recepciones_obra.monto_recibido : item.neto | currency }}</div>
             </template>
-            <template v-slot:item.fecha="{ item }">
-              <div class="font-weight-bold">{{ getFechaFormat(item.fec_creacion) }}</div>
-            </template>
+           
           </v-data-table>
         </template></v-card>
     </div></div></template>

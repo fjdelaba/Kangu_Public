@@ -13,7 +13,6 @@
           <div class="caption">
             <div>Proyecto: {{ item.pro.nombre }}</div>
             <div>Fecha de Creacion: {{ getFechaFormat(item.fec_creacion) }}</div>
-            <div>Estado: {{ item.est_doc.nombre }}</div>
             <div>Identificador: <a @click="redireccionHome(item)">{{ item.identificacion }}</a></div>
           </div>
         </v-timeline-item>

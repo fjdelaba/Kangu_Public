@@ -8,11 +8,12 @@ export default {
         NombreMaterial
     },
     mounted() {
+      this.oc = []
       console.log('this.$$auth.isLoading',this.$auth.isLoading,this.$store.state.app.datosEmpresa)
         if (this.$auth.isLoading == false) {
             this.datosEmpresa = this.$store.state.app.datosEmpresa;
             console.log('thisdatos empresa',this.$store.state.app.datosEmpresa)
-      
+            this.oc = []
             this.cargarOcs()
           }
  
@@ -29,6 +30,7 @@ export default {
        
     //   },
       watch: {
+
         '$auth.isLoading' (newCount, oldCount) {
           console.log(`tabla consultas - We have ${newCount} fruits now, yay!. ${oldCount}`)
           if (newCount === false) {
@@ -63,7 +65,7 @@ export default {
                 { text: 'Nombre OC', value: 'oc_nombre' },
                 { text: 'Proyecto', value: 'pro.pro_nombre' },
                 { text: 'Proveedor', value: 'ent.razon_social' },
-                { text: 'Fecha Creación', value: 'fecha' },
+                { text: 'Fecha Creación', value: 'fec_creacion' },
                 { text: 'Saldo por Recibir', value: 'neto' },
                 { text: 'Acción', value: 'actions' },
 
@@ -141,48 +143,39 @@ export default {
 
         async cargarOcs(){
           this.loadingTabla = true
+          this.oc = []
             console.log('console.log',this.$store.state.app.datosUsuario.user_id)
-            const data = await getOcRecepcion(this.$store.state.app.datosUsuario.user_id)
+            let data = await getOcRecepcion(this.$store.state.app.datosUsuario.user_id)
             console.log('data',data.data.kangusoft_view_permisos_usuario_mod)
-            const arregloNuevo = [...data.data.kangusoft_view_permisos_usuario_mod]
-            const nuevaOc = []
+            let arregloNuevo = data.data.kangusoft_view_permisos_usuario_mod
+            let nuevaOc = []
             for(const linea of arregloNuevo) {
               console.log('linea arreglo nuevo: ', linea);
               for(const ocs_lineas of linea.view_permisos_usuario_mod_oc){
+                ocs_lineas.fec_creacion =  moment( ocs_lineas.fec_creacion ).format("DD/MM/YYYY")
                 console.log('ocs_lineas: ', ocs_lineas);
                 let nombre_material = ''
                 for (const ocs_lineas_mat of ocs_lineas.oc_dets){
                   console.log('ocs_lineas_mat: ', ocs_lineas_mat);
                   nombre_material+=` ${ocs_lineas_mat.mat.nombre}`
                 }
-                console.log('ocs_lineas.oc__view_monto_recepciones_obra: ', ocs_lineas.oc__view_monto_recepciones_obra)
+                console.log('ocs_lineas.neto 2: ', ocs_lineas.oc__view_monto_recepciones_obra)
                 if(ocs_lineas.oc__view_monto_recepciones_obra != null || ocs_lineas.oc__view_monto_recepciones_obra != undefined){
-                  ocs_lineas.neto -=  ocs_lineas.oc__view_monto_recepciones_obra.monto_recibido 
+              
+                  console.log(' ocs_lineas.neto',  ocs_lineas.neto)
                 }
                 ocs_lineas.materiales = nombre_material
                 
                 nuevaOc.push(ocs_lineas)
+                console.log('nuevaOc',nuevaOc)
               }
             }
             this.oc = nuevaOc
-            // for (let oc of data.data.kangusoft_view_permisos_usuario_mod){
-            //   console.log('oc',oc)
-            //   for(let oc of oc){
-            //     if(oc.est_lin_fk != 3 && oc.est_lin_fk != null && oc.identificacion != null ) {
-            //       console.log('entre')  
-            //       this.oc.push(JSON.parse(JSON.stringify(oc)))  
-            //     }
-            //   }
-            // }
             let proyectos = [... new Set(this.oc.map(x=> ({nombre: x.pro.pro_nombre, id: x.pro.id})))];
             this.valoresFiltros._listaProyectos = [...new Set(proyectos.map(JSON.stringify))].map(JSON.parse);
             let proveedor = [... new Set(this.oc.map(x=> ({nombre: x.ent.razon_social, id: x.ent.id})))];
             this.valoresFiltros._listaProveedor = [...new Set(proveedor.map(JSON.stringify))].map(JSON.parse);
             this.loadingTabla = false
         },
-       
-        async descargarOcPDF() {
-            await creaPdfFactura(826, this.datosEmpresa,1);
-          },
     }
 }

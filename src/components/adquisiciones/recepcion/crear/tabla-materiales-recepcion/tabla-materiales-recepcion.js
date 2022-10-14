@@ -49,6 +49,7 @@ export default {
         nameRules: [
           v => v > -1 || 'Ingrese solo numeros positivos',
         ],
+        selected: [],
       };
     }, 
     computed: {
@@ -61,9 +62,15 @@ export default {
         this.detalle.splice(this.editedIndex, 1)
         console.log("editedIndex",  this.editedIndex);
       },
-      itemRowBackground: function (item) {
-        return item.recepcionar > item.cant_despacho ? 'style-2' : 'style-1'
-     },
+      row_classes(item) {
+        if (item.recepcionar > item.cant_despacho ) {
+          return "style-2";
+        } 
+    },
+    
+    //   itemRowBackground: function (item) {
+    //     return item.recepcionar > item.cant_despacho ? 'style-2' : 'style-1'
+    //  },
       validate() {
         this.$refs.positivo.validate()
       },

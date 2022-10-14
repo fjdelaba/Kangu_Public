@@ -10,11 +10,13 @@
       </v-dialog>
       <v-col >
         <v-data-table
+          v-model="selected"
           :headers="dessertHeaders"
           :items="detalle"
           :hide-default-footer="true"
           :items-per-page="detalle.length"
-          :item-class="itemRowBackground"
+          :item-class="row_classes"
+          class="elevation-0"
         >
           <template v-slot:item.mat="{ item }">
             <nombre-material :nombre="item.mat.nombre" :unidad="item.mat.mat_uni.nombre" :observacion="item.observacion" ></nombre-material>
@@ -41,8 +43,6 @@
                   class="pl-3 pt-2 pr-4 "
                   outlined
                   dense
-                  v-bind="attrs"
-                  v-on="on"
                 ></v-text-field>
               </v-row>
              
