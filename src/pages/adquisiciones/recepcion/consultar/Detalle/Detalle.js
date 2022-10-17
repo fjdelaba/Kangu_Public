@@ -12,6 +12,7 @@ export default {
     data() {
       return {
         recepcion:'',
+        skeleton:true,
         dessertHeaders: [
           { text: 'Nombre del Material', value: 'oc_det.mat',width: '10px' },
           { text: 'Solicitado', value: 'oc_det.cant_ajustada',},
@@ -28,6 +29,7 @@ export default {
             this.recepcion.comentario = kangusoft_rec_cab[0].observacion
             console.log('recepcion', this.recepcion)
             this.detalle = kangusoft_rec_cab[0].rec_dets
+            this.skeleton = false
         },
         getFechaFormat(fecha){
             return moment(fecha).format("DD/MM/YYYY")

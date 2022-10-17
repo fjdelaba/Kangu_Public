@@ -61,11 +61,12 @@ export default {
             searchQuery:'',
             dessertHeaders: [
                 { text: '', value: 'data-table-expand' },
-                { text: 'ID OC', align: 'start', sortable: false, value: 'identificacion', },
+                { text: 'ID OC', align: 'start', value: 'identificacion', },
                 { text: 'Nombre OC', value: 'oc_nombre' },
                 { text: 'Proyecto', value: 'pro.pro_nombre' },
                 { text: 'Proveedor', value: 'ent.razon_social' },
-                { text: 'Fecha Creación', value: 'fec_creacion' },
+                { text: 'Fecha Creación', value: 'fec_creacion'},
+                { text: 'Fecha', value: 'fecha'  },
                 { text: 'Saldo por Recibir', value: 'neto' },
                 { text: 'Acción', value: 'actions' },
 
@@ -152,7 +153,23 @@ export default {
             for(const linea of arregloNuevo) {
               console.log('linea arreglo nuevo: ', linea);
               for(const ocs_lineas of linea.view_permisos_usuario_mod_oc){
-                ocs_lineas.fec_creacion =  moment( ocs_lineas.fec_creacion ).format("DD/MM/YYYY")
+                const fecha = moment( ocs_lineas.fec_creacion ).format("DD/MM/YYYY")
+                ocs_lineas.fecha = fecha
+                // if(moment(fecha).isValid() == true){
+                //   console.log('fecha if',fecha)
+                //   ocs_lineas.fec_creacion =  fecha
+                // }else if(moment(fecha).isValid() == false){
+                //   const newFecha =  new Date(ocs_lineas.fec_creacion)
+                //   const year = newFecha.toLocaleString("default", { year: "numeric" });
+                //   const month = newFecha.toLocaleString("default", { month: "2-digit" });
+                //   const day = newFecha.toLocaleString("default", { day: "2-digit" });
+                //   const formattedDate = day + "/" + month + "/" + year;
+                //   console.log(formattedDate);  // Prints: 04-05-2022
+                //   console.log('fecha else',formattedDate)
+                //   ocs_lineas.fec_creacion =  formattedDate
+                // }
+                console.log(' ocs_lineas.fec_creacion ', ocs_lineas.fec_creacion )
+                // 
                 console.log('ocs_lineas: ', ocs_lineas);
                 let nombre_material = ''
                 for (const ocs_lineas_mat of ocs_lineas.oc_dets){

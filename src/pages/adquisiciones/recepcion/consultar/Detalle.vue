@@ -4,7 +4,13 @@
     <h2>
       Detalle Consultas 
     </h2>
-    <v-card outlined color="white">
+    <div v-if="skeleton">
+    
+      <v-skeleton-loader
+        type="card-avatar, article, actions"
+      ></v-skeleton-loader>
+    </div>
+    <v-card v-if="!skeleton" outlined color="white">
       <v-row>
         <v-col cols="12">
        
@@ -28,10 +34,10 @@
           </v-row>
           <v-row no-gutters class="pl-3">
             <v-col cols="12" lg="6"><span class="caption">RUT de Proveedor : {{ recepcion.oc && recepcion.oc.ent.rut }}  </span></v-col>
-            <v-col cols="12" lg="4"><span class="caption">Nº de Documento: {{ recepcion.dte_cab == null? 'Sin Nº de Documento': recepcion.dte_cab && recepcion.dte_cab.folio }}   </span></v-col>
+            <v-col cols="12" lg="4"><span class="caption">Nº de Documento: {{ recepcion && recepcion.dte_cab_fk == null? 'Sin Nº de Documento': recepcion.dte_cab && recepcion.dte_cab.folio }}   </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">
-            <v-col cols="12" lg="6"><span class="caption">Tipo de Referencia:  {{ recepcion.dte_cab == null? 'Sin Referencia': recepcion.dte_cab && recepcion.dte_cab.dte_tip.nombre }}   </span></v-col>
+            <v-col cols="12" lg="6"><span class="caption">Tipo de Referencia:  {{ recepcion && recepcion.dte_cab_fk == null? 'Sin Referencia': recepcion.dte_cab && recepcion.dte_cab.dte_tip.nombre }}   </span></v-col>
             <v-col cols="12" lg="4"><span class="caption">Orden de Compra: {{ recepcion.oc && recepcion.oc.identificacion }}   </span></v-col>
           </v-row>
           <v-row no-gutters class="pl-3">

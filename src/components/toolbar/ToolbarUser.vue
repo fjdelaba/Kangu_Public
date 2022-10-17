@@ -92,13 +92,15 @@ import config from '../../configs'
 */
 
 import { subsDatosUsuario } from '../../graphql/general'
-import { getPermisos } from '../../graphql/configuracion'
+import { getUsuarioLogin} from '../../graphql/configuracion'
+import { unix } from 'moment'
 
 export default {
   data() {
     return {
       menu: config.toolbar.user,
-      iniciales:''
+      iniciales:'',
+      id_usuario:''
     }
   },
   computed: {
@@ -110,21 +112,24 @@ export default {
     '$auth.isLoading' (newCount, oldCount) {
       // Our fancy notification (2).
       console.log(`We have ${newCount} fruits now, yay!. ${oldCount}`)
-    
-      this.cargarDatosUsuario()
+     setTimeout(() => {
+      // this.cargarDatosUsuario()
+      // this.cargarPermisos()
+      this.iconoLetras(this.$store.state.app.usuario.nombre ,this.$store.state.app.usuario.apellidos)
+    }, 2000)
     }
   },
   mounted() {
      
     // console.log('mounted Toolbar')
     setTimeout(() => {
-      this.cargarDatosUsuario()
+      // this.cargarDatosUsuario()
       // this.cargarPermisos()
       this.iconoLetras(this.$store.state.app.usuario.nombre ,this.$store.state.app.usuario.apellidos)
-    }, 3000)
+    }, 2000)
   },
   methods: {
-    iconoLetras(nombre,apellido) {
+  async  iconoLetras(nombre,apellido) {
     console.log("nombres",nombre)
     console.log('apellido', apellido)
     if(nombre != undefined && apellido != undefined){
@@ -144,36 +149,62 @@ export default {
   }
   this.iniciales = initials + initials2
   return console.log('iniciales',initials,initials2)
+    }else if (nombre == undefined && apellido == undefined){
+        
+       const resp = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
+       setTimeout(() => {
+       console.log('resp',resp)
+       let nombre = resp.data.kangusoft_usu[0].nombre
+       let apellido = resp.data.kangusoft_usu[0].apellidos
+         console.log("nombres",nombre)
+    console.log('apellido', apellido)
+       let inicialNombre = nombre.split(' ')
+    let inicialApellidos = apellido.split(' ')
+  let initials = ''
+  let initials2 = ''
+  for (var i = 0; i < inicialNombre.length; i++) {
+    if (inicialNombre[i].length > 0 && inicialNombre[i] !== '') {
+      initials += inicialNombre[i][0]
     }
-   
+  }
+   for (var i = 0; i < inicialApellidos.length; i++) {
+    if (inicialApellidos[i].length > 0 && inicialApellidos[i] !== '') {
+      initials2 += inicialApellidos[i][0]
+    }
+  }
+  
+  this.iniciales = initials + initials2
+    }, 1000)
+    }
     },
     logout() {
       this.$auth.logout()
       // this.$router.push({ path: '/landing' })
     },
-    async cargarDatosUsuario() {
-      console.log('cargarDatosUsuario Toolbar: ', this.$store.state.app.datosUsuario.user_id)
-      try {
-        console.log('try subscription')
-        const resp = await subsDatosUsuario(this.$store.state.app.datosUsuario.user_id)
+    // async cargarDatosUsuario() {
+    //   console.log('cargarDatosUsuario Toolbar: ', this.$store.state.app.datosUsuario.user_id)
+    //   try {
+    //     console.log('try subscription')
+    //     const resp = await subsDatosUsuario(this.$store.state.app.datosUsuario.user_id)
 
-        resp.subscribe({
-          next (data) {
-            console.log('suscribe datausuario_ ', data.data.kangusoft_usu[0].activo)
-            console.log('data.data.kangusoft_usu[0].activo: ', data.data.kangusoft_usu[0].activo)
-            if (data.data.kangusoft_usu[0].activo === false) {
-              console.log('object')
-            }
-          },
-          error (error) {
-            console.error(error)
-          } 
-        })
-      } catch (error) {
-        console.log('error: ', error)
-      }
+    //     resp.subscribe({
+    //       next (data) {
+    //         this.id_usuario = data.data.kangusoft_usu[0].id
+    //         console.log('suscribe datausuario_ ', data.data.kangusoft_usu[0].activo)
+    //         console.log('data.data.kangusoft_usu[0].activo: ', data.data.kangusoft_usu[0].activo)
+    //         if (data.data.kangusoft_usu[0].activo === false) {
+    //           console.log('object')
+    //         }
+    //       },
+    //       error (error) {
+    //         console.error(error)
+    //       } 
+    //     })
+    //   } catch (error) {
+    //     console.log('error: ', error)
+    //   }
 
-    }
+    // }
   }
 }
 </script>

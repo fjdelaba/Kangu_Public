@@ -49,6 +49,27 @@
               <template v-slot:append="{ item }">
                 {{ item.nombre }} {{ item.mu_nombre }}<v-btn v-if="cpxRefDrawerPartida" x-small @click="agregarMaterial(item)">Agregar</v-btn>
               </template>
+              <template v-if="noMat" >
+              
+                <v-btn
+                  class="ma-2"
+                  outlined
+                  color="indigo"
+                  @click="mostrarDialog()"
+                >
+                  No existe el material, crealo acá
+                </v-btn>
+                 
+              </template>
+              <template v-else-if="permitido === false && !noMat" >
+                <v-btn
+                  class="mt-2"
+                  outlined
+                  color="indigo"
+                >
+                  Este material no existe, si lo necesita, contacte al Administrador
+                </v-btn>
+              </template>
             </v-treeview>
           </v-card-text>
         </v-expansion-panel-content>
@@ -60,7 +81,16 @@
       
     </div>
     <v-divider></v-divider>
-    
+    <v-row justify="center">
+      <v-dialog
+
+        v-model="mostrarDialogMateriales"
+        persistent
+        max-width="600px"
+      >
+        <crear-material v-if="mostrarDialogMateriales" :material="busquedaMaterial" :cerrar-dialog="cerrarDialog"></crear-material>
+      </v-dialog>
+    </v-row>
   </div>
 </template>
 

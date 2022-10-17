@@ -1,6 +1,8 @@
 import { v4 as uuidv4 } from 'uuid'
 import DrawerPartida from './drawer-partidas/DrawerPartida.vue'
 import { getMateriales } from '../../../graphql/adquisiciones'
+import { getUsuarioLogin } from '../../../graphql/configuracion'
+import CrearMaterial from '../../../components/general/crear-material/crear-material.vue'
 
 export default {
   name: 'DrawerSeleccionMaterialPartida',
@@ -13,18 +15,22 @@ export default {
     }
   },
   components: {
-    DrawerPartida
+    DrawerPartida,
+    CrearMaterial
   },
   data() {
     return {
       busquedaMaterial: null,
       listaMateriales: [],
+      
       open: [1, 2],
       panel:[0],
       partida:{},
       disabledPanelMaterial: true,
       textoPanelPartida:'',
       listaPartidas: [],
+      mostrarDialogMateriales: false,
+      noMat:'',
       items: [
         {
           'children': [
@@ -368,7 +374,9 @@ export default {
           'par_id': 0,
           '__depth': 0
         }
-      ]
+      ],
+      datosUsuario:'',
+      permitido:''
     }
   },
   mounted() {
@@ -387,6 +395,12 @@ export default {
     }
   },
   methods: {
+    mostrarDialog() {
+      this.mostrarDialogMateriales = true
+    },
+    cerrarDialog() {
+      this.mostrarDialogMateriales = false
+    },
     selectActivePage(node) {
       for (const child of node) {
         console.log('child: ', child)
@@ -438,7 +452,24 @@ export default {
         const { data:{ getMateriales:{ materiales } } } = await getMateriales(datos)
 
         console.log('materiales: ', materiales)
+        
+        const usuarioLogin = await getUsuarioLogin(this.$store.state.app.datosUsuario.user_id)
+
+        this.datosUsuario = usuarioLogin.data.kangusoft_usu[0]
+        console.log('this.datosUsuario',this.datosUsuario)
         this.listaMateriales = [...materiales]
+        for (const mod of this.datosUsuario.usu_mods) {
+          if (mod.mod_fk === 8 && mod.activo === true) {
+            this.permitido = true
+          } else {
+            this.permitido = false
+          }
+        }
+        if (this.listaMateriales.length === 0 && this.permitido === true) {
+          this.noMat = true
+        } else {
+          this.permitido = false
+        }
       }
     },
     limpiarMaterial() {

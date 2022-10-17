@@ -243,12 +243,17 @@ export default {
   methods: {
       abrirDetalle(item){
       console.log('object: ', item);
-     
        this.$router.push({
             path:'/adquisiciones/oc/consultar/detalle',
             query: { id: Number(item.id),}
         });
-        window.location.reload();
+        let url = window.location.href
+        console.log('url2',url)
+        
+        if(url.includes("adquisiciones/oc/consultar/detalle")){
+            window.location.reload()
+        }
+       
      },
        limpiarAutocompleate() {
       this.items = []

@@ -46,6 +46,7 @@
               dense
               clearable
               placeholder="Buscar"
+              @keyup.enter="searchUser(buscarOcs)"
             ></v-text-field><!--@keyup.enter="searchUser(searchQuery)"-->
             <v-menu
               ref="menu"

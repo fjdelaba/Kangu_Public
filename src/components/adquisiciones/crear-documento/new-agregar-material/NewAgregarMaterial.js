@@ -2,6 +2,7 @@ import TablaAgregarMaterial from './tabla-agregar-material/TablaAgregarMaterial.
 import DrawerSeleccionMaterialPartida from '../../drawer-seleccion-material-partida/DrawerSeleccionMaterialPartida.vue'
 import CuadroResumen from '../../../general/cuadro-resumen/CuadroResumen.vue'
 import NewCuadroResumen from '../../../general/new-cuadro-resumen/NewCuadroResumen.vue'
+import CrearMaterial from '../../../general/crear-material/crear-material.vue'
 
 export default {
   name: 'NewAgregarMaterial',
@@ -9,7 +10,8 @@ export default {
     TablaAgregarMaterial,
     DrawerSeleccionMaterialPartida,
     CuadroResumen,
-    NewCuadroResumen
+    NewCuadroResumen,
+    CrearMaterial
   },
   props:{
     tipo_documento:{
@@ -26,10 +28,17 @@ export default {
       files: [],
       respFiles: [],
       nombreArchivos: [],
-      mostrarDetallePartida: false
+      mostrarDetallePartida: false,
+      mostrarDialogMateriales: false
     }
   },
   methods: {
+    mostrarDialog() {
+      this.mostrarDialogMateriales = true
+    },
+    cerrarDialog() {
+      this.mostrarDialogMateriales = false
+    },
     validarAgregarMaterial() {
       let materialEdicion = false
 

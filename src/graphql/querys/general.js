@@ -26,6 +26,23 @@ const GET_ULTIMAS_OC = gql`
   }
   }
 `
+const GET_DATOS_NUEVO_MATERIAL = gql`
+ query Q_GET_DATOS_NUEVO_MATERIAL($emp: bigint = "1") {
+  kangusoft_mat_fam(where: {emp_fk: {_eq: $emp}, activo: {_eq: true}}) {
+    activo
+    emp_fk
+    id
+    nombre
+  }
+  kangusoft_mat_uni(where: {emp_fk: {_eq: $emp}, activo: {_eq: true}}) {
+    emp_fk
+    activo
+    id
+    nombre
+  }
+}
+
+`
 
 const GET_TIPOS_DESPACHO = gql`
   query Q_GET_TIPOS_DESPACHO {
@@ -265,6 +282,7 @@ query Q_GET_VALORES_FILTROS_CONSULTA($emp_fk: bigint!) {
 // }
 // `
 export {
+  GET_DATOS_NUEVO_MATERIAL,
   GET_FORMAS_PAGO,
   GET_TIPOS_DESPACHO,
   GET_MONEDAS,

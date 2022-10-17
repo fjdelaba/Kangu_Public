@@ -1,6 +1,6 @@
 import { GET_ULTIMAS_OC,GET_FORMAS_PAGO, GET_TIPOS_DESPACHO, GET_MONEDAS, GET_ESTADOS_PROYECTO, GET_FLAGS, GET_UNIDADES_NEGOCIO, GET_TIEMPO_APROBACION,
-  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA, GET_ACCESO_MODULO, GET_PROYECTOS_USUARIO_APROBADOR, GET_VALORES_FILTROS_CONSULTA, GET_PROYECTOS_USUARIO_CONSULTA  } from './querys/general'
-import { UPDATE_EMPRESA, GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL } from './mutations/general'
+  GET_PROVEEDORES, GET_CONTACTOS,GET_COMUNAS,GET_PROYECTOS_POR_USUARIO, GET_MATERIAL, GET_EMPRESA, GET_ACCESO_MODULO, GET_PROYECTOS_USUARIO_APROBADOR, GET_VALORES_FILTROS_CONSULTA, GET_PROYECTOS_USUARIO_CONSULTA,GET_DATOS_NUEVO_MATERIAL  } from './querys/general'
+import { UPDATE_EMPRESA, GET_PARTIDAS, UPDATE_CONTACTO, INSERT_CONTACTO, INSERT_ENT_MODAL,INSERT_NUEVO_MAT } from './mutations/general'
 import { GET_NOTIFICACIONES, SUBS_DATOS_USUARIO } from './subscriptions/general'
 
 import { apolloClient } from '../client'
@@ -182,6 +182,16 @@ export const insertContactos = async (ent_con) => {
     update: (data) => {console.log('update data updateContactos: ',data)} 
   })
 }
+export const insertMaterial = async (emp_fk, mat_fam_fk,mat_uni_fk,tipo_creacion,nombre,usu_fk) => {
+  console.log('objeto: ', emp_fk, mat_fam_fk,mat_uni_fk,tipo_creacion,nombre,usu_fk)
+  
+  return await apolloClient.mutate({
+    mutation: INSERT_NUEVO_MAT,
+    variables:{
+      emp_fk, mat_fam_fk,mat_uni_fk,tipo_creacion,nombre,usu_fk
+    }
+  })
+}
 
 export const insertEntModal = async (ent,ent_con) => {
   console.log('ent: ', ent_con, ' - ent_con: ', ent_con)
@@ -209,6 +219,16 @@ export const getEmpresa = async (emp_id) => {
     query: GET_EMPRESA,
     variables: {
       emp_id
+    }
+  })
+}
+export const getDatosMateriales = async (emp_id) => {
+  // console.log('emp_id: ', emp_id)
+  
+  return await apolloClient.query({
+    query: GET_DATOS_NUEVO_MATERIAL,
+    variables: {
+      emp: emp_id
     }
   })
 }

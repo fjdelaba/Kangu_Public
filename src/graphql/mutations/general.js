@@ -60,11 +60,27 @@ mutation M_INSERT_ENT_MODAL($ent: EntInput!, $ent_con: EntConInput!) {
   }
 }
 `
+const INSERT_NUEVO_MAT = gql`
+mutation INSERT_NUEVO_MAT($emp_fk: bigint!, $mat_fam_fk: bigint!,$mat_uni_fk:bigint!,$nombre:String!,$usu_fk:bigint!,$tipo_creacion: bpchar!) {
+  insert_kangusoft_mat(objects: {activo: true, emp_fk: $emp_fk, mat_fam_fk:$mat_fam_fk, mat_uni_fk: $mat_uni_fk, nombre: $nombre, usu_fk: $usu_fk, tipo_creacion: $tipo_creacion}) {
+    affected_rows
+    returning {
+      activo
+      id
+      nombre
+      mat_fam_fk
+      mat_uni_fk
+    }
+  }
+}
+
+`
 
 export {
   UPDATE_EMPRESA,
   UPDATE_CONTACTO,
   GET_PARTIDAS,
   INSERT_CONTACTO,
-  INSERT_ENT_MODAL
+  INSERT_ENT_MODAL,
+  INSERT_NUEVO_MAT
 }

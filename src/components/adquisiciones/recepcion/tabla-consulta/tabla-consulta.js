@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       datosEmpresa:'',
+      buscarOcs:'',
       loadingTabla:false,
       dates: [ this.$moment(new Date()).subtract(30, "days").format('yy-MM-DD').toString(), this.$moment(new Date()).add(1, 'days').format('yy-MM-DD').toString()],
       headers: [
