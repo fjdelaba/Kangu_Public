@@ -6,7 +6,9 @@
       
         <notifications group="foo" />
         <transition name="fade" mode="out-in">
-          <router-view />
+          <KeepAlive>
+            <router-view />
+          </KeepAlive>
         </transition>
       </component>
 
